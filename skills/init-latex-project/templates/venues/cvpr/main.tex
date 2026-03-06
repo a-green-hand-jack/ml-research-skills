@@ -1,0 +1,87 @@
+\pdfoutput=1
+% ── CVPR Two-Column Format ───────────────────────────────────────────────────
+% Download author kit: https://github.com/cvpr-org/author-kit
+% Place cvpr.sty and ieeenat_fullname.bst in project root.
+% For camera-ready: remove the [review] option below.
+\documentclass[times,10pt,twocolumn,letterpaper]{article}
+\usepackage[review]{cvpr}
+
+% ── Math ─────────────────────────────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\numberwithin{equation}{section}
+
+% ── Graphics & Layout ────────────────────────────────────────────────────────
+% NOTE: graphicx, xcolor, hyperref are already loaded by cvpr.sty.
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% Two-column tcolorbox theorem environments may break — use plain amsthm instead if needed.
+\usepackage[most]{tcolorbox}
+\usepackage{xspace}
+
+% ── Our Macro Library ────────────────────────────────────────────────────────
+% Loaded LAST to override conflicting definitions.
+% WARNING (two-column): tcolorbox theorem environments may span column boundaries.
+%   Use \begin{theorem*} or avoid boxed theorems in two-column mode.
+\input{macros.tex}
+\graphicspath{{figures/}}
+
+\setlist[itemize]{leftmargin=1em, itemsep=0.1em}
+\setlist[enumerate]{leftmargin=1.4em, itemsep=0.1em}
+
+\begin{document}
+
+\title{\input{sections/title}}
+
+\author{%
+  Author One\textsuperscript{*,1} \quad Author Two\textsuperscript{*,1} \quad Author Three\textsuperscript{1} \\
+  \textsuperscript{1}Institution Name \\
+  {\tt\small author1@institution.edu}
+}
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Method}
+\label{sec:method}
+\input{sections/method}
+
+\section{Experimental Studies}
+\label{sec:exp}
+\input{sections/exp}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% Two-column note: use \begin{figure*} and \begin{table*} for full-width floats.
+
+{\small
+\bibliographystyle{ieeenat_fullname}
+\bibliography{bib/refs}
+}
+
+% Appendix (in CVPR, supplementary is typically a separate PDF)
+% \appendix
+% \input{sections/appendix}
+
+\end{document}

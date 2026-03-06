@@ -1,0 +1,109 @@
+\pdfoutput=1
+\documentclass{article}
+
+% ── ICML Style ───────────────────────────────────────────────────────────────
+% Download: https://icml.cc/Downloads/2026
+% Place icml2026.sty and icml2026.bst in project root.
+% Submission (default): prints "under review" header.
+% Camera-ready: \usepackage[accepted]{icml2026}
+\usepackage{icml2026}
+
+% ── Math ─────────────────────────────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\usepackage{slashed}
+\numberwithin{equation}{section}
+
+% ── Graphics & Layout ────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xspace}
+\usepackage{pifont}
+
+% ── Our Macro Library ────────────────────────────────────────────────────────
+% Loaded LAST to override any conflicting definitions from venue packages.
+\input{macros.tex}
+\graphicspath{{figures/}}
+
+\setlist[itemize]{leftmargin=1em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+\setlist[enumerate]{leftmargin=1.4em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+
+\newcommand\blfootnote[1]{%
+  \begingroup\renewcommand\thefootnote{}\footnote{#1}\addtocounter{footnote}{-1}\endgroup
+}
+
+% ICML uses its own author macros — define them here for submission.
+% Uncomment and fill in for camera-ready.
+% \icmltitlerunning{Short Paper Title}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{\input{sections/title}}
+
+% For camera-ready, use \icmlauthor and \icmlaffiliation.
+% For submission, leave blank (anonymous).
+% \begin{icmlauthorlist}
+% \icmlauthor{Author One}{inst1}
+% \icmlauthor{Author Two}{inst1}
+% \icmlauthor{Author Three}{inst1}
+% \end{icmlauthorlist}
+% \icmlaffiliation{inst1}{Department of CS, University Name, City, Country}
+% \icmlcorrespondingauthor{Author One}{author1@university.edu}
+% \icmlkeywords{keyword1, keyword2}
+
+\vskip 0.3in
+]
+
+\printAffiliationsAndNotice{}  % leave blank for submission; use \icmlEqualContribution for equal contribution
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Method}
+\label{sec:method}
+\input{sections/method}
+
+\section{Experimental Studies}
+\label{sec:exp}
+\input{sections/exp}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% ── Broader Impact Statement (MANDATORY for ICML) ────────────────────────────
+% Does NOT count toward the page limit.
+\section*{Impact Statement}
+\input{sections/impact}
+
+\section*{Acknowledgments}
+\input{sections/acknowledgement}
+
+\bibliography{bib/refs}
+\bibliographystyle{icml2026}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

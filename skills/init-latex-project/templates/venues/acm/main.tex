@@ -1,0 +1,112 @@
+% ── ACM SIGCONF Format ───────────────────────────────────────────────────────
+% acmart.cls is included in most TeX distributions (TeX Live / MiKTeX).
+% If missing, download: https://www.acm.org/publications/proceedings-template
+%
+% Common document class options:
+%   sigconf          — ACM proceedings (KDD, MM, SIGIR, CHI, etc.)
+%   manuscript       — double-spaced manuscript review format
+%   review           — adds line numbers for review
+%   anonymous        — removes author info for blind review
+%
+% Submission: [sigconf,review,anonymous]
+% Camera-ready: [sigconf]
+\documentclass[sigconf,review,anonymous]{acmart}
+
+% ── ACM Metadata (required for camera-ready) ─────────────────────────────────
+% \acmConference[CONF'26]{Conference Name}{Month Year}{City, Country}
+% \acmDOI{10.1145/...}
+% \acmISBN{978-...}
+% \setcopyright{acmlicensed}
+
+% ── Packages ─────────────────────────────────────────────────────────────────
+% NOTE: acmart already loads: amsmath, amssymb, graphicx, hyperref, natbib,
+%       booktabs, caption, xcolor, geometry. Do NOT re-load these.
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{multirow}
+\usepackage{adjustbox}
+% tcolorbox theorem envs — may conflict with acmart's float handling.
+% Use carefully; wrap with \begin{strip}...\end{strip} if needed in two-column.
+\usepackage[most]{tcolorbox}
+
+% ── Our Macro Library ────────────────────────────────────────────────────────
+% WARNING: acmart redefines \P (paragraph symbol). Our macros.tex redefines
+%   \P as \mathbb{P}. This WILL override acmart's \P — verify this is intended.
+%   Also: acmart uses its own \cite format; macros.tex does \let\cite\citep
+%   which may conflict. Comment out \let\cite\citep in macros.tex if needed.
+\input{macros.tex}
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\title{\input{sections/title}}
+
+% Each author gets separate \author, \affiliation, \email blocks.
+\author{Author One}
+\authornote{Equal contribution.}
+\affiliation{%
+  \institution{Institution Name}
+  \city{City}
+  \country{Country}
+}
+\email{author1@institution.edu}
+
+\author{Author Two}
+\authornotemark[1]
+\affiliation{%
+  \institution{Institution Name}
+  \city{City}
+  \country{Country}
+}
+\email{author2@institution.edu}
+
+% ACM CCS Concepts (required for camera-ready)
+% \begin{CCSXML}
+% <ccs2012>
+%   <concept><concept_id>10010147.10010257</concept_id><concept_desc>Computing methodologies~Machine learning</concept_desc><concept_significance>500</concept_significance></concept>
+% </ccs2012>
+% \end{CCSXML}
+% \ccsdesc[500]{Computing methodologies~Machine learning}
+
+\keywords{keyword1, keyword2, keyword3}
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Method}
+\label{sec:method}
+\input{sections/method}
+
+\section{Experimental Studies}
+\label{sec:exp}
+\input{sections/exp}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+\begin{acks}
+\input{sections/acknowledgement}
+\end{acks}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{bib/refs}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

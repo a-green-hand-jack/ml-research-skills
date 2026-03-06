@@ -1,0 +1,531 @@
+% \usepackage{cite}
+
+% Prevent accidental double-loading (avoids "already defined" errors)
+\makeatletter
+\@ifundefined{PRISM@MACROS@LOADED}{\gdef\PRISM@MACROS@LOADED{}}{\endinput}
+\makeatother
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{xcolor}
+\usepackage{natbib}
+\usepackage{mdframed}
+\usepackage{nicefrac}
+\usepackage{booktabs}
+\usepackage{lipsum}
+\usepackage{titlesec}
+\usepackage{wrapfig,lipsum,booktabs}
+% \usepackage{authblk}
+\usepackage{blindtext}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{titletoc}
+\usepackage{todonotes}
+% \usepackage{authblk}
+\usepackage{titletoc}
+\usepackage{setspace}
+\usepackage{dsfont}
+\usepackage{adjustbox}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{longtable, lscape}
+
+%%% Section Notation %%%
+\usepackage[capitalize,noabbrev]{cleveref}
+% \crefformat{section}{\S#2#1#3} % see manual of cleveref, section 8.2.1
+% \crefformat{subsection}{\S#2#1#3}
+% \crefformat{subsubsection}{\S#2#1#3}
+% \crefformat{appendix}{\S #2#1#3}
+% use: See \cref{sec:section}, \cref{sec:subsection} or \cref{sec:subsubsection}
+%%% Section Notation %%%
+
+%%% Chinese ###
+\usepackage{CJK}
+\newcommand{\zh}[1]{\begin{CJK}{UTF8}{bsmi}\normalfont\small #1\end{CJK}} % 繁體中文
+\newcommand{\zhs}[1]{\begin{CJK}{UTF8}{gbsn}\normalfont \small#1\end{CJK}}% 簡體中文 
+%%%% \begin{CJK}{UTF8}{bsmi}\normalfont 中文\end{CJK} when word missing %%%
+
+%%%Claim%%%
+\newenvironment{claim}{  \begin{mdframed}[linecolor=black!0,backgroundcolor=black!10]\noindent%\itshape
+		\ignorespaces}{\end{mdframed}}
+
+\let\originalfigure=\figure
+\let\endoriginalfigure=\endfigure
+
+% \renewenvironment{figure}[1][]{
+%   \begin{originalfigure}[#1]
+%     \begin{mdframed}[linecolor=black!0,backgroundcolor=black!1]
+% }{
+%     \end{mdframed}
+%   \end{originalfigure}
+% }
+%%%Claim%%%
+
+%%%% skip line in table %%%
+\usepackage{array}
+\usepackage{makecell}
+
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[0pt]}
+%%%% skip line in table %%%
+
+%% Comment%%
+% \newcommand{\comment}[1]{\textcolor{red}{[#1]}}
+\newcommand{\jerry}[1]{\textcolor{firebrick}{[JH: #1]}}
+\newcommand{\wwm}[1]{\textcolor{blue}{[WM: #1]}}
+\newcommand{\jennifer}[1]{\textcolor{magenta}{[Jen: #1]}}
+
+\newcommand{\ali}[1]{\textcolor{red}{[Ali: #1]}}
+\newcommand{\ray}[1]{\textcolor{purple}{[Ray: #1]}}
+\newcommand{\yibo}[1]{\textcolor{orange}{[Yibo: #1]}}
+\newcommand{\jieke}[1]{\textcolor{teal}{[Jieke: #1]}}
+
+%%Comment%%
+%%%theorem%%%
+% \newenvironment{theorem}{  \begin{mdframed}[linecolor=black]\noindent\ignorespaces}{\end{mdframed}}
+%%%theorem%%%
+
+\def\half{{\frac{1}{2}}}
+
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+% \newcommand{\be}{\begin{equation}}
+% \newcommand{\ee}{\end{equation}}
+% \newcommand{\ba}{\begin{align}}
+% \newcommand{\ea}{\end{align}}
+
+\newcommand{\g}{\gamma} 
+\newcommand{\G}{\Gamma}
+\newcommand{\m}{\mu}
+%\newcommand{\n}{\nu}
+% \newcommand{\a}{\alpha}
+% \newcommand{\b}{\beta}
+\newcommand{\oG}{\omega}
+\newcommand{\OG}{\Omega}
+\newcommand{\SG}{\Sigma}
+\newcommand{\sG}{\sigma}
+\newcommand{\LG}{\Lambda}
+\newcommand{\lG}{\lambda}
+\newcommand{\tG}{\theta}
+\newcommand{\TG}{\Theta}
+
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\newcommand{\pa}{\partial}
+
+\newcommand{\hcite}[1]{$\text{ }$\cite{#1}}
+\usepackage{slashed}
+
+\def\({\left(}
+\def\){\right)}
+\def\[{\left[}
+\def\]{\right]}
+%
+
+\usepackage{dashbox}
+\usepackage{xcolor}
+\usepackage{colortbl}
+% \usepackage{arydshln}
+\definecolor{lightyellow}{rgb}{1.0, 0.95, 0.7}
+% \definecolor{Blue}{rgb}{0, 0.18, 0.65}
+\definecolor{Blue}{rgb}{0, 0, 0.8}
+\definecolor{blue}{rgb}{0,0,1}
+% \definecolor{darkgreen}{rgb}{0.01,0.50,0.2}
+\definecolor{darkgreen}{rgb}{0,0.40,0}
+\definecolor{firebrick}{rgb}{0.698,0.133,0.133}
+\newcommand*{\red}[1]{\textcolor{red}{#1}}
+\newcommand*{\Red}[1]{\textcolor{firebrick}{#1}}
+\newcommand*{\Blue}[1]{\textcolor{Blue}{#1}}
+\newcommand*{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand*{\green}[1]{\textcolor{darkgreen}{#1}}
+\newcommand*{\black}[1]{\textcolor{black}{#1}}
+
+\definecolor{colorA}{rgb}{1,0,0}
+\definecolor{colorB}{rgb}{0,0.3,1}
+\definecolor{colorC}{rgb}{0.9,0.8,0.2}
+\definecolor{colorD}{rgb}{0,0.65,0}
+\definecolor{lesslightgray}{rgb}{0.5,0.5,0.5}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\footnotesize\texttt{#1}}}
+\newcommand*{\grey}[1]{\textcolor{black!50}{#1}}
+\newcommand*{\colorA}[1]{\textcolor{colorA}{#1}}
+\newcommand*{\colorB}[1]{\textcolor{colorB}{#1}}
+\newcommand*{\colorC}[1]{\textcolor{colorC}{#1}}
+\newcommand*{\colorD}[1]{\textcolor{colorD}{#1}}
+
+
+% \let\tilde\widetilde
+% \let\hat\widehat
+
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calI}{\mathcal{I}}
+\newcommand{\calJ}{\mathcal{J}}
+\newcommand{\calK}{\mathcal{K}}
+\newcommand{\calL}{\mathcal{L}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calO}{\mathcal{O}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calQ}{\mathcal{Q}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calW}{\mathcal{W}}
+\newcommand{\calX}{\mathcal{X}}
+\newcommand{\calY}{\mathcal{Y}}
+\newcommand{\calZ}{\mathcal{Z}}
+
+
+
+
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bF}{\mathbf{F}}
+\newcommand{\bG}{\mathbf{G}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bI}{\mathbf{I}}
+\newcommand{\bJ}{\mathbf{J}}
+\newcommand{\bK}{\mathbf{K}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\bM}{\mathbf{M}}
+\newcommand{\bN}{\mathbf{N}}
+\newcommand{\bO}{\mathbf{O}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\bU}{\mathbf{U}}
+\newcommand{\bV}{\mathbf{V}}
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\bX}{\mathbf{X}}
+\newcommand{\bY}{\mathbf{Y}}
+\newcommand{\bZ}{\mathbf{Z}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bd}{\mathbf{d}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bmf}{\mathbf{f}}
+\newcommand{\bu}{\mathbf{u}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bs}{\mathbf{s}}
+\newcommand{\bg}{\mathbf{g}}
+\newcommand{\bh}{\mathbf{h}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bz}{\mathbf{z}}
+\newcommand{\bxi}{{\bm{\xi}}}
+\newcommand{\diag}{\mathop{\rm{diag}}}
+\newcommand{\Max}{\mathop{\rm Max}}
+\newcommand{\Min}{\mathop{\rm Min}}
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}  
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}  
+\newcommand{\Var}{\mathop{\mathrm{Var}}}
+\newcommand{\Sigmoid}{\mathop{\rm{Sigmoid}}}
+\newcommand{\Softmax}{\mathop{\rm{Softmax}}}
+\newcommand{\Sparsemax}{\mathop{\rm{Sparsemax}}}
+\newcommand{\Sign}{\mathop{\rm{Sign}}}
+\newcommand{\lse}{\mathop{\rm{lse}}}
+
+
+\newcommand{\sA}{\mathsf{A}}
+\newcommand{\sB}{\mathsf{B}}
+\newcommand{\sC}{\mathsf{C}}
+\newcommand{\sD}{\mathsf{D}}
+\newcommand{\sE}{\mathsf{E}}
+
+\newcommand{\sH}{\mathsf{H}}
+\newcommand{\sT}{ \mathsf{T} }
+
+\newcommand{\sR}{\mathsf{R}}
+\newcommand{\sQ}{\mathsf{Q}}
+\newcommand{\sY}{\mathsf{Y}}
+\newcommand{\sX}{\mathsf{X}}
+
+\newcommand{\sumN}{\sum_{i=1}^N}
+\newcommand{\sumK}{\sum_{k=1}^K}
+\newcommand{\sumq}{\sum_{k=1}^q}
+\newcommand{\summ}{\sum_{i=1}^m}
+\newcommand{\sumM}{\sum_{\mu=1}^M}
+\newcommand{\sumn}{\sum_{i=1}^n}
+\newcommand{\sumd}{\sum_{i=1}^d}
+\newcommand{\sumT}{\sum_{t=1}^T}
+
+\def\P{\mathbb{P}}
+\def\R{\mathbb{R}}
+\def\B{\mathbb{B}}
+\def\E{\mathbb{E}}
+\def\I{\mathcal{I}}
+\def\p{\partial }
+\let\cite\citep 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % \usepackage{algorithm2e}
+% \usepackage[linesnumbered,ruled]{algorithm2e}
+% \usepackage{algorithmic}
+% \SetKwRepeat{Do}{do}{while}%
+% \SetKwInput{kwInit}{Initialization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% amsthm defines \openbox; avoid clashes if another package defined it earlier
+\let\openbox\relax
+\usepackage{amsthm}
+%%% make remark better %%%
+\makeatletter
+\def\th@remark{%
+  \thm@headfont{\bfseries}%
+  \normalfont % body font
+  \thm@preskip\topsep \divide\thm@preskip\tw@
+  \thm@postskip\thm@preskip
+}
+\makeatother
+% 
+% \usepackage[standard,hyperref,amsmath]{ntheorem}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\tcolorboxenvironment{theorem}{
+  breakable,
+  colback=black!10,
+  colframe=white,%
+  width=\dimexpr\linewidth+10pt\relax,%  
+  enlarge left by=-5pt,%                  
+  enlarge right by=-5pt,%                 
+  boxsep=5pt,%            
+  boxrule=0pt,
+  left=0pt,right=0pt,top=0pt,bottom=0pt,
+  % oversize=2pt,
+  sharp corners,
+  before skip=\topsep,
+  after skip=\topsep
+}
+\newtheorem{lemma}{Lemma}[section]
+\tcolorboxenvironment{lemma}{
+  breakable,
+  colback=black!10,
+  colframe=white,%
+  width=\dimexpr\linewidth+10pt\relax,%  
+  enlarge left by=-5pt,%                  
+  enlarge right by=-5pt,%                 
+  boxsep=5pt,%            
+  boxrule=0pt,
+  left=0pt,right=0pt,top=0pt,bottom=0pt,
+  % oversize=2pt,
+  sharp corners,
+  before skip=\topsep,
+  after skip=\topsep
+}
+\newtheorem{corollary}{Corollary}[theorem]
+\tcolorboxenvironment{corollary}{
+  breakable,
+  colback=black!10,
+  colframe=white,%
+  width=\dimexpr\linewidth+10pt\relax,%  
+  enlarge left by=-5pt,%                  
+  enlarge right by=-5pt,%                 
+  boxsep=5pt,%            
+  boxrule=0pt,
+  left=0pt,right=0pt,top=0pt,bottom=0pt,
+  % oversize=2pt,
+  sharp corners,
+  before skip=\topsep,
+  after skip=\topsep
+}
+\newtheorem{proposition}{Proposition}[section]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\tcolorboxenvironment{definition}{
+  breakable,
+  colback=black!10,
+  colframe=white,%
+  width=\dimexpr\linewidth+10pt\relax,%  
+  enlarge left by=-5pt,%                  
+  enlarge right by=-5pt,%                 
+  boxsep=5pt,%            
+  boxrule=0pt,
+  left=0pt,right=0pt,top=0pt,bottom=0pt,
+  % oversize=2pt,
+  sharp corners,
+  before skip=\topsep,
+  after skip=\topsep
+}
+% \theoremstyle{definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{assumption}{Assumption}[section]
+\tcolorboxenvironment{assumption}{
+  breakable,
+  colback=black!10,
+  colframe=white,%
+  width=\dimexpr\linewidth+10pt\relax,%  
+  enlarge left by=-5pt,%                  
+  enlarge right by=-5pt,%                 
+  boxsep=5pt,%            
+  boxrule=0pt,
+  left=0pt,right=0pt,top=0pt,bottom=0pt,
+  % oversize=2pt,
+  sharp corners,
+  before skip=\topsep,
+  after skip=\topsep
+}
+\newtheorem{problem}{Problem}
+\tcolorboxenvironment{problem}{
+  breakable,
+  colback=black!10,
+  colframe=white,%
+  width=\dimexpr\linewidth+10pt\relax,%  
+  enlarge left by=-5pt,%                  
+  enlarge right by=-5pt,%                 
+  boxsep=5pt,%            
+  boxrule=0pt,
+  left=0pt,right=0pt,top=0pt,bottom=0pt,
+  % oversize=2pt,
+  sharp corners,
+  before skip=\topsep,
+  after skip=\topsep
+}
+\newtheorem{proc}{Procedure}
+\newtheorem{property}{Property}
+
+\crefname{theorem}{Theorem}{Theorems}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{definition}{Definition}{Definitions}
+\crefname{assumption}{Assumption}{Assumptions}
+\crefname{remark}{Remark}{Remarks}
+\crefname{problem}{Problem}{Problems}
+\crefname{property}{Property}{property}
+
+
+\numberwithin{equation}{section}
+\numberwithin{theorem}{section}
+\numberwithin{proposition}{section}
+\numberwithin{definition}{section}
+\numberwithin{lemma}{section}
+\numberwithin{assumption}{section}
+\numberwithin{remark}{section}
+
+%=== footnote without marker ===
+% \blfootnote[]{}
+\usepackage{lipsum}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+%=== footnote without marker ===
+%%% derivation step description
+\newcommand*{\annot}[1]{\tag*{\footnotesize{\textcolor{black!50}{\big(#1\big)}}}}
+
+%%% Better Bar Notation%%%
+\makeatletter
+% Only define these macros if they are not already provided by another package
+\@ifundefined{widebar}{%
+\let\save@mathaccent\mathaccent
+\newcommand*\if@single[3]{%
+    \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
+    \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
+    \ifdim\ht0=\ht2 #3\else #2\fi
+}
+%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+%If there's a superscript following the bar, then no negative kern may follow the bar;
+%an additional {} makes sure that the superscript is high enough in this case:
+\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+%Use a separate algorithm for single symbols:
+\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+\newcommand*\wide@bar@[3]{%
+    \begingroup
+    \def\mathaccent##1##2{%
+        %Enable nesting of accents:
+        \let\mathaccent\save@mathaccent
+        %If there's more than a single symbol, use the first character instead (see below):
+        \if#32 \let\macc@nucleus\first@char \fi
+        %Determine the italic correction:
+        \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+        \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+        \dimen@\wd\tw@
+        \advance\dimen@-\wd\z@
+        %Now \dimen@ is the italic correction of the symbol.
+        \divide\dimen@ 3
+        \@tempdima\wd\tw@
+        \advance\@tempdima-\scriptspace
+        %Now \@tempdima is the width of the symbol.
+        \divide\@tempdima 10
+        \advance\dimen@-\@tempdima
+        %Now \dimen@ = (italic correction / 3) - (Breite / 10)
+        \ifdim\dimen@>\z@ \dimen@0pt\fi
+        %The bar will be shortened in the case \dimen@<0 !
+        \rel@kern{0.6}\kern-\dimen@
+        \if#31
+        \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+        \advance\dimen@0.4\dimexpr\macc@kerna
+        %Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+        \let\final@kern#2%
+        \ifdim\dimen@<\z@ \let\final@kern1\fi
+        \if\final@kern1 \kern-\dimen@\fi
+        \else
+        \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+        \fi
+    }%
+    \macc@depth\@ne
+    \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
+    \mathsurround\z@ \frozen@everymath{\mathgroup\macc@group\relax}%
+    \macc@set@skewchar\relax
+    \let\mathaccentV\macc@nested@a
+    %The following initialises \macc@kerna and calls \mathaccent:
+    \if#31
+    \macc@nested@a\relax111{#1}%
+    \else
+    %If the argument consists of more than one symbol, and if the first token is
+    %a letter, use that letter for the computations:
+    \def\gobble@till@marker##1\endmarker{}%
+    \futurelet\first@char\gobble@till@marker#1\endmarker
+    \ifcat\noexpand\first@char A\else
+    \def\first@char{}%
+    \fi
+    \macc@nested@a\relax111{\first@char}%
+    \fi
+    \endgroup
+    }
+}{}
+\makeatother
+
+
+%%% sin, cos parentheses %%% 
+\makeatletter
+\newcommand*{\redefinesymbolwitharg}[1]{%
+  \expandafter\let\csname ltx#1\expandafter\endcsname\csname #1\endcsname
+  \@namedef{#1}{\@ifnextchar{^}{\@nameuse{#1@}}{\@nameuse{#1@}^{}}}%
+  \expandafter\def\csname #1@\endcsname^##1##2{%
+     \csname ltx#1\endcsname\ifx!##1!\else^{##1}\fi\mathopen{}\mathclose\bgroup\left(##2\aftergroup\egroup\right)
+     }%
+}
+\makeatother
+\redefinesymbolwitharg{sin}
+\redefinesymbolwitharg{cos}
+%%% sin, cos parentheses %%% 

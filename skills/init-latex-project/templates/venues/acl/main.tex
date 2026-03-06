@@ -1,0 +1,109 @@
+\pdfoutput=1
+\documentclass[11pt]{article}
+
+% ── ACL Style ────────────────────────────────────────────────────────────────
+% Download: https://github.com/acl-org/acl-style-files
+% Place acl.sty and acl_natbib.bst in project root.
+% Covers: ACL, EMNLP, NAACL, EACL, COLING, and other *ACL venues.
+% For camera-ready: change \usepackage[review]{acl} to \usepackage{acl}
+\usepackage[review]{acl}
+
+% Typography
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+
+% ── Math ─────────────────────────────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\numberwithin{equation}{section}
+
+% ── Graphics & Layout ────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xspace}
+\usepackage{pifont}
+
+% ── Our Macro Library ────────────────────────────────────────────────────────
+% Loaded LAST to override any conflicting definitions.
+% ACL uses natbib; macros.tex does \let\cite\citep which is compatible.
+% Use \citet{} for in-text citations: "Author et al. (2024) show..."
+% Use \cite{} (= \citep{}) for parenthetical: "(Author et al., 2024)"
+\input{macros.tex}
+\graphicspath{{figures/}}
+
+\setlist[itemize]{leftmargin=1em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+\setlist[enumerate]{leftmargin=1.4em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+
+\newcommand\blfootnote[1]{%
+  \begingroup\renewcommand\thefootnote{}\footnote{#1}\addtocounter{footnote}{-1}\endgroup
+}
+
+\title{\input{sections/title}}
+
+% For camera-ready, replace with actual authors.
+% For submission, leave as anonymous (acl.sty handles this with [review] option).
+\author{
+  Author One\textsuperscript{*} \quad Author Two\textsuperscript{*} \quad Author Three \\
+  Institution Name \\
+  \texttt{\{author1, author2, author3\}@institution.edu}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Method}
+\label{sec:method}
+\input{sections/method}
+
+\section{Experimental Studies}
+\label{sec:exp}
+\input{sections/exp}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% ── Limitations (check if required by your specific venue) ───────────────────
+\section*{Limitations}
+\input{sections/limitations}
+
+% ── Ethics Statement (check if required by your specific venue) ──────────────
+\section*{Ethics Statement}
+\input{sections/ethics}
+
+\section*{Acknowledgments}
+\input{sections/acknowledgement}
+
+\bibliography{bib/refs}
+\bibliographystyle{acl_natbib}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

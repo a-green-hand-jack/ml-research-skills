@@ -1,0 +1,154 @@
+\pdfoutput=1
+\RequirePackage[T1]{fontenc}
+\documentclass[11pt]{article}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\sloppy
+\pdfobjcompresslevel=0
+
+% Page geometry — override this with your venue's .cls if needed
+\usepackage[height=8.85in,width=6.45in]{geometry}
+\renewcommand{\baselinestretch}{1.08}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\numberwithin{equation}{section}
+\usepackage{slashed}
+\usepackage{braket}
+\usepackage{enumitem}
+
+% Typography
+\usepackage{newtxtext,newtxmath}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{xspace}
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{ragged2e}
+
+\usepackage[svgnames]{xcolor}
+\usepackage[colorlinks,citecolor=DarkGreen,linkcolor=FireBrick,urlcolor=FireBrick,linktocpage,unicode]{hyperref}
+\usepackage{nicematrix}
+\usepackage{nicefrac}
+\urlstyle{rm}
+\usepackage[bottom]{footmisc}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{longtable, lscape}
+
+\input{macros.tex}
+\graphicspath{{figures/}}
+
+\usepackage{tocloft}
+\usepackage{pifont}
+
+% TOC spacing
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\setlength{\cftbeforesubsubsecskip}{0pt}
+
+\newcommand*{\email}[1]{\footnote{\href{mailto:#1}{\texttt{#1}}}}
+
+% List spacing
+\setlist[itemize]{leftmargin=1em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+\setlist[enumerate]{leftmargin=1.4em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+
+% Revision highlight toggle
+\newif\ifrevision
+\revisiontrue
+\newcommand{\revise}[1]{%
+  \ifrevision
+    {\color{black}#1}%
+  \else
+    #1%
+  \fi
+}
+
+\usepackage{multirow}
+\newcommand*\rot{\rotatebox{90}}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+\noindent\begin{tcolorbox}[
+  enhanced,
+  frame hidden,
+  colback=Lavender!50,
+  colframe=Lavender!50,
+  arc=12pt,
+  left=16pt,right=16pt,top=16pt,bottom=16pt,
+  width=\textwidth
+]
+\raggedright
+
+{\LARGE\sffamily\bfseries\input{sections/title}\par}
+
+\vspace{0.8em}
+
+{\normalsize\sffamily
+\textbf{Author One}$^{*,1}$,
+\textbf{Author Two}$^{*,1}$,
+\textbf{Author Three}$^{\dagger,1}$\\
+\par}
+
+\vspace{0.35em}
+
+{\normalsize
+$^{1}$Institution Name\par}
+
+\vspace{1.0em}
+
+\textbf{Keywords:} \textit{keyword1, keyword2, keyword3}\par
+\end{tcolorbox}
+
+\begingroup
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}\setcounter{footnote}{0}
+\footnotetext[1]{\textit{Equal contribution.}}
+\footnotetext[2]{Correspondence: \texttt{author@institution.edu}.}
+\endgroup
+
+\setcounter{footnote}{0}
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Method}
+\label{sec:method}
+\input{sections/method}
+
+\section{Experimental Studies}
+\label{sec:exp}
+\input{sections/exp}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+\section*{Acknowledgments}
+\input{sections/acknowledgement}
+
+\bibliographystyle{plainnat}
+\bibliography{bib/refs}
+
+\clearpage
+\appendix
+\part*{Appendix}
+\input{sections/appendix}
+
+\end{document}
