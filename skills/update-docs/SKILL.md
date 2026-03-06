@@ -1,5 +1,7 @@
 ---
-description: Analyse code changes since the last docs update and refresh the project's documentation files.
+name: update-docs
+description: Analyse code changes since the last docs update and refresh the project's documentation files. Use when code has changed and documentation needs to be updated, after implementing new features, or before a milestone commit.
+allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
 # Update Docs Workflow

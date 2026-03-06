@@ -1,5 +1,7 @@
 ---
-description: Initialize a new research project with aligned paper and code repositories under a shared parent folder.
+name: project-init
+description: Initialize a new ML research project with aligned paper (LaTeX) and code (Python) repositories under a shared parent folder. Use when starting a new research project, setting up a paper+code workspace, or initializing a new ML research environment.
+allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
 # Project Init Workflow
@@ -83,11 +85,11 @@ git -C <parent-dir>/<ProjectName>/paper push -u origin main
 
 ## Step 4 — Initialize the Code Repo
 
-Invoke the `init-python-project` command. Tell the user:
+Invoke the `init-python-project` skill. Tell the user:
 
-> "Now let's set up the code repo. I'll run `/init-python-project` for the `code/` directory."
+> "Now let's set up the code repo. I'll run the `init-python-project` skill for the `code/` directory."
 
-Use the `/init-python-project` command with the following context already established:
+Use the `init-python-project` skill with the following context already established:
 - **Target directory**: `<parent-dir>/<ProjectName>/code/`
 - **Project type**: `new`, ML project
 - **GitHub URL**: from Step 1 (if provided)
@@ -130,8 +132,8 @@ Write `<parent-dir>/<ProjectName>/PROJECT.md` with the following content (fill i
 
 - **Design changes** (method, datasets, metrics): update `paper/sections/method.tex` first, then implement in `code/`
 - **Experiment results**: record in `code/experiments/`, then sync to `paper/sections/daily_experiments.tex`
-- **Milestones**: use `add-git-tag` workflow in each repo separately
-- **Code docs**: use `update-docs` workflow in `code/`
+- **Milestones**: use `add-git-tag` skill in each repo separately
+- **Code docs**: use `update-docs` skill in `code/`
 
 ## Key Files
 
@@ -154,14 +156,14 @@ Project initialized: <ProjectName>
 paper/  → <paper-github-url or "local only">
 code/   → <code-github-url or "local only">
 
-Key workflows for this project:
-  - /project-sync   → sync experiment results from code to paper
-  - add-git-tag     → mark milestones in either repo
-  - update-docs     → refresh code documentation
+Key skills for this project:
+  - project-sync   → sync experiment results from code to paper
+  - add-git-tag    → mark milestones in either repo
+  - update-docs    → refresh code documentation
 
 Next steps:
   1. Fill in paper/sections/method.tex with your method details
   2. Fill in paper/sections/exp.tex with planned experiments
   3. Start implementing in code/src/
-  4. When you have results, run /project-sync to log them in paper
+  4. When you have results, use the project-sync skill to log them in paper
 ```

@@ -1,3 +1,9 @@
+---
+name: new-workspace
+description: Create a new Git branch or worktree for experiments or features. Use when starting a new experiment branch, creating an isolated workspace, or setting up a feature branch with worktree support and UV environment sync.
+allowed-tools: Read, Write, Bash, Glob
+---
+
 # Create New Git Workspace (Branch or Worktree)
 
 You are helping the user create a new Git branch or worktree for experiments or features.
@@ -192,48 +198,9 @@ If `.worktree-links` doesn't exist in the project, you can offer to create it wi
 # configs/production.yaml
 ```
 
-## Best Practices
-
-1. **Always show a summary** of what will be created before executing
-2. **Validate branch names** (no spaces, special characters except `-` and `_`)
-3. **Check disk space** before creating worktree (optional, for large repos)
-4. **Clean up on failure**: If worktree creation fails midway, remove partial worktree
-5. **Preserve user context**: After creating worktree, suggest next steps (cd to worktree, open in editor, etc.)
-
 ## Important Notes
 
 - **Worktree isolation**: Each worktree has its own working directory but shares the same Git object database
 - **UV environment**: Each worktree gets its own `.venv/` (not symlinked) to avoid conflicts
 - **Symlinks are absolute paths**: Use absolute paths in symlinks to ensure they work from the worktree location
 - **Branch tracking**: New branches are created as local branches (not tracking remote)
-
-## Security Considerations
-
-- Validate all user inputs (branch names, paths)
-- Don't execute arbitrary commands from config files
-- Ensure symlinks point within expected directories
-- Warn if symlink targets are outside project root
-
-## Troubleshooting
-
-**Issue: "uv sync fails in new worktree"**
-- Check if symlinked files/dirs are causing issues
-- Ensure `pyproject.toml` and `uv.lock` are not symlinked
-- Try running `uv sync --reinstall`
-
-**Issue: "Symlinks not working"**
-- Verify source paths exist in original location
-- Check file permissions
-- Ensure proper path resolution
-
-**Issue: "Git worktree add fails"**
-- Check if branch name conflicts with existing branches
-- Verify worktree path is valid and accessible
-- Ensure no existing worktree at that location
-
-## Example Interaction Flow
-
-**Example 1: Creating a worktree for a new feature**
-
-```
-User: /new-workspace

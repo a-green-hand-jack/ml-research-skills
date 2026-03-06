@@ -1,5 +1,7 @@
 ---
-description: Manually sync experiment results from the code repo into the paper's daily experiments log.
+name: project-sync
+description: Sync experiment results from the code repo into the paper's daily experiments log (daily_experiments.tex). Use when you have new experiment results to record, want to update the paper with latest numbers, or log experimental findings from an ML research project.
+allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
 # Project Sync Workflow
