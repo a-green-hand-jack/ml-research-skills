@@ -103,8 +103,9 @@ The script prints a file tree and venue-specific setup notes. Make sure the user
 - **Document class**: `\documentclass{article}` + `\usepackage{neurips_2025}`
 - **Bibliography**: `abbrvnat` (natbib, loaded by neurips_2025.sty)
 - **MANDATORY**: `sections/impact.tex` — Broader Impact Statement, does NOT count toward page limit
-- **MANDATORY**: `sections/checklist.tex` — Author Checklist, does NOT count toward page limit
+- **MANDATORY**: `sections/checklist.tex` — Full 15-item Author Checklist (pre-filled where possible), does NOT count toward page limit
 - **Submission modes**: plain (anonymous) / `[preprint]` (arXiv) / `[final]` (camera-ready)
+- **Algorithm package**: Uses `algpseudocode` (provides `\State`, `\Require`, `\Ensure`, `\For`, `\EndFor`, `\Comment`). Do NOT use the older `algorithmic` package which requires ALL-CAPS commands (`\STATE`, `\REQUIRE`, etc.).
 - **Style files**: https://neurips.cc/Conferences/2025/PaperInformation/StyleFiles
 
 ### ACL / *ACL Venues (EMNLP, NAACL, EACL, COLING)
@@ -159,3 +160,4 @@ The `macros.tex` library is loaded **last** in all venue templates (after venue 
 | ACM | `acmart` has its own `\cite` | `\let\cite\citep` in macros.tex may interfere — comment it out if needed |
 | CVPR | Two-column layout | `tcolorbox` theorem envs may span columns — switch to plain `amsthm` if needed |
 | ICML | Uses its own `hyperref` setup | Load macros.tex after `icml2026` to avoid double-load errors |
+| NeurIPS | `algorithmic` vs `algpseudocode` | Always use `algpseudocode` (lowercase `\State`, `\Require`, etc.). The older `algorithmic` package uses ALL-CAPS commands and is incompatible with modern algorithm code. |
