@@ -7,6 +7,7 @@
 % Submission (anonymous):  \usepackage{neurips_2025}
 % Preprint / arXiv:        \usepackage[preprint]{neurips_2025}
 % Camera-ready:            \usepackage[final]{neurips_2025}
+\PassOptionsToPackage{numbers,compress}{natbib}
 \usepackage{neurips_2025}
 
 % ── Math ─────────────────────────────────────────────────────────────────────
@@ -32,9 +33,22 @@
 \usepackage{algpseudocode}   % provides \State \Require \Ensure \For \EndFor \Comment
 \usepackage{xspace}
 \usepackage{pifont}
+\usepackage{url}
+
+% ── Hyperlinks (load AFTER all other packages, BEFORE macros.tex) ─────────────
+\usepackage[
+  colorlinks = true,
+  linkcolor  = blue!70!black,
+  citecolor  = green!50!black,
+  urlcolor   = cyan!60!black,
+  bookmarks  = true,
+  pdfusetitle,
+]{hyperref}
+\usepackage[capitalise, noabbrev]{cleveref}   % must come AFTER hyperref
 
 % ── Our Macro Library ────────────────────────────────────────────────────────
 % Loaded LAST to override any conflicting definitions from venue packages.
+% NOTE: cleveref is already loaded above — macros.tex must NOT load it again.
 \input{macros.tex}
 \graphicspath{{figures/}}
 
@@ -52,7 +66,7 @@
 
 % Anonymous submission: comment out author block below for submission.
 % Uncomment and fill in for preprint / camera-ready.
-% \author{
+% \author{%
 %   % ── Author names (all on one line, separated by \quad) ─────────────────
 %   Author One\textsuperscript{*,1} \quad
 %   Author Two\textsuperscript{*,1} \quad
@@ -88,11 +102,12 @@
 \label{sec:conclusion}
 \input{sections/conclusion}
 
-\section*{Acknowledgments}
+\begin{ack}
 \input{sections/acknowledgement}
+\end{ack}
 
+\bibliographystyle{unsrtnat}
 \bibliography{bib/refs}
-\bibliographystyle{abbrvnat}
 
 % ── Broader Impact Statement (MANDATORY for NeurIPS) ─────────────────────────
 % Does NOT count toward the page limit.

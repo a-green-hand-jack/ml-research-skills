@@ -101,7 +101,9 @@ The script prints a file tree and venue-specific setup notes. Make sure the user
 ### NeurIPS
 - **Layout**: Single-column
 - **Document class**: `\documentclass{article}` + `\usepackage{neurips_2025}`
-- **Bibliography**: `abbrvnat` (natbib, loaded by neurips_2025.sty)
+- **Citation format**: Numeric `[1]` — use `\PassOptionsToPackage{numbers,compress}{natbib}` **before** `\usepackage{neurips_2025}`
+- **Bibliography**: `unsrtnat` (按出现顺序排列，数字格式)
+- **Acknowledgments**: Use the `{ack}` environment (not `\section*{Acknowledgments}`) — it auto-hides in anonymous submission mode
 - **MANDATORY**: `sections/impact.tex` — Broader Impact Statement, does NOT count toward page limit
 - **MANDATORY**: `sections/checklist.tex` — Full 15-item Author Checklist (pre-filled where possible), does NOT count toward page limit
 - **Submission modes**: plain (anonymous) / `[preprint]` (arXiv) / `[final]` (camera-ready)
@@ -161,5 +163,6 @@ The `macros.tex` library is loaded **last** in all venue templates (after venue 
 | CVPR | Two-column layout | `tcolorbox` theorem envs may span columns — switch to plain `amsthm` if needed |
 | ICML | Uses its own `hyperref` setup | Load macros.tex after `icml2026` to avoid double-load errors |
 | NeurIPS | `algorithmic` vs `algpseudocode` | Always use `algpseudocode` (lowercase `\State`, `\Require`, etc.). The older `algorithmic` package uses ALL-CAPS commands and is incompatible with modern algorithm code. |
+| **NeurIPS** | **`cleveref` Option Clash** | **`cleveref` must be loaded ONCE, in `main.tex`, AFTER `hyperref`. The macros.tex template also contains `\usepackage[capitalize,noabbrev]{cleveref}` — this causes an Option Clash (`capitalise` vs `capitalize`) when both files are compiled together. Fix: remove or comment out the `cleveref` line from `macros.tex` in NeurIPS projects. The NeurIPS venue template already does this correctly.** |
 | **ALL** | **`\def\(`, `\def\)`, `\def\[`, `\def\]` in macros.tex** | **PERMANENTLY DISABLED. These four lines redefined LaTeX's built-in math-mode delimiters (`\( \)` = inline math; `\[ \]` = display math), which broke ALL math environments (`$...$`, `\begin{equation}`, `algorithmic` states, etc.) with cascading "Missing $" and "Extra )" errors. Never re-enable. Use `\left( ... \right)` explicitly instead.** |
 | **ALL** | **`\usepackage{algorithm}` + `\usepackage{algorithmic}` in macros.tex** | **PERMANENTLY DISABLED. Loading both `algorithm`/`algorithmic` alongside `algpseudocode` (required by NeurIPS, ICML, ICLR) causes "Command \algorithmicindent already defined" and similar errors. The `algorithm` float wrapper should be loaded once in `main.tex` together with exactly one of `algpseudocode` (modern, recommended) or `algorithmic` (legacy).** |
