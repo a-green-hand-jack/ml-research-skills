@@ -17,14 +17,14 @@ while [[ $# -gt 0 ]]; do
       INIT_GIT=true
       shift ;;
     --venue)
-      VENUE="${2:?--venue requires an argument: iclr|cvpr|icml|acm|acl}"
+      VENUE="${2:?--venue requires an argument: iclr|cvpr|icml|acm|acl|neurips}"
       shift 2 ;;
     --venue=*)
       VENUE="${1#*=}"
       shift ;;
     -*)
       echo "ERROR: Unknown flag: $1" >&2
-      echo "Usage: init.sh <project-name> [target-dir] [--venue <iclr|cvpr|icml|acm|acl>] [--git]" >&2
+      echo "Usage: init.sh <project-name> [target-dir] [--venue <iclr|cvpr|icml|acm|acl|neurips>] [--git]" >&2
       exit 1 ;;
     *)
       if [[ -z "$PROJECT_NAME" ]]; then
@@ -38,14 +38,14 @@ done
 
 # ── Validate ──────────────────────────────────────────────────────────────────
 if [[ -z "$PROJECT_NAME" ]]; then
-  echo "Usage: init.sh <project-name> [target-dir] [--venue <iclr|cvpr|icml|acm|acl>] [--git]" >&2
+  echo "Usage: init.sh <project-name> [target-dir] [--venue <iclr|cvpr|icml|acm|acl|neurips>] [--git]" >&2
   exit 1
 fi
 
 # Normalize venue to lowercase
 VENUE="${VENUE,,}"
 
-SUPPORTED_VENUES="iclr cvpr icml acm acl"
+SUPPORTED_VENUES="iclr cvpr icml acm acl neurips"
 if [[ -n "$VENUE" && ! " $SUPPORTED_VENUES " =~ " $VENUE " ]]; then
   echo "ERROR: Unsupported venue '$VENUE'. Choose from: $SUPPORTED_VENUES" >&2
   exit 1
@@ -132,6 +132,43 @@ EOF
 
 # ── Venue-Specific Section Files ──────────────────────────────────────────────
 case "$VENUE" in
+  neurips)
+    cat > "$DEST/sections/impact.tex" <<'EOF'
+TODO: Describe the broader societal impact of this work.
+
+% NeurIPS REQUIREMENT: This section is MANDATORY and does NOT count toward the page limit.
+% Minimal text (if impacts are well-established):
+% "This paper presents work whose goal is to advance the field of machine learning.
+%  There are many potential societal consequences of our work, none of which we feel
+%  must be specifically highlighted here."
+EOF
+    cat > "$DEST/sections/checklist.tex" <<'EOF'
+% NeurIPS Paper Checklist
+% This checklist is MANDATORY and does NOT count toward the page limit.
+% See: https://neurips.cc/public/guides/PaperChecklist
+
+\begin{enumerate}
+
+\item {\bf Claims}
+\item[] Question: Do the main claims made in the abstract and introduction accurately reflect the paper's contributions and scope?
+\item[] Answer: \answerYes{}
+\item[] Justification: TODO
+\item[] Guidelines: ...
+
+\item {\bf Limitations}
+\item[] Question: Does the paper discuss the limitations of the work performed by the authors?
+\item[] Answer: \answerYes{}
+\item[] Justification: TODO
+\item[] Guidelines: ...
+
+% Add remaining checklist items from the official NeurIPS checklist template.
+
+\end{enumerate}
+EOF
+    echo "  + sections/impact.tex    (MANDATORY for NeurIPS — does not count toward page limit)"
+    echo "  + sections/checklist.tex (MANDATORY for NeurIPS — does not count toward page limit)"
+    ;;
+
   icml)
     cat > "$DEST/sections/impact.tex" <<'EOF'
 TODO: Describe the broader societal impact of this work.
@@ -234,6 +271,17 @@ print_venue_notes() {
       echo "  2. Place acl.sty and acl_natbib.bst in project root"
       echo "  3. Camera-ready: change \\usepackage[review]{acl} to \\usepackage{acl}"
       echo "  NOTE: Use \\citet{} for in-text citations, \\cite{} for parenthetical"
+      ;;
+    neurips)
+      echo ""
+      echo "NeurIPS setup:"
+      echo "  1. Download: https://neurips.cc/Conferences/2025/PaperInformation/StyleFiles"
+      echo "  2. Place neurips_2025.sty in project root"
+      echo "  3. Submission (anonymous): \\usepackage{neurips_2025}"
+      echo "     Preprint / arXiv:       \\usepackage[preprint]{neurips_2025}"
+      echo "     Camera-ready:           \\usepackage[final]{neurips_2025}"
+      echo "  REQUIRED: sections/impact.tex   (Broader Impact, does not count toward page limit)"
+      echo "  REQUIRED: sections/checklist.tex (Author Checklist, does not count toward page limit)"
       ;;
   esac
 }

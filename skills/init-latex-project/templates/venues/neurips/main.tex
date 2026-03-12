@@ -1,0 +1,106 @@
+\pdfoutput=1
+\documentclass{article}
+
+% ── NeurIPS Style ─────────────────────────────────────────────────────────────
+% Download: https://neurips.cc/Conferences/2025/PaperInformation/StyleFiles
+% Place neurips_2025.sty in project root.
+% Submission (anonymous):  \usepackage{neurips_2025}
+% Preprint / arXiv:        \usepackage[preprint]{neurips_2025}
+% Camera-ready:            \usepackage[final]{neurips_2025}
+\usepackage{neurips_2025}
+
+% ── Math ─────────────────────────────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\usepackage{slashed}
+\numberwithin{equation}{section}
+
+% ── Graphics & Layout ────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[most]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xspace}
+\usepackage{pifont}
+
+% ── Our Macro Library ────────────────────────────────────────────────────────
+% Loaded LAST to override any conflicting definitions from venue packages.
+\input{macros.tex}
+\graphicspath{{figures/}}
+
+% ── List spacing ─────────────────────────────────────────────────────────────
+\setlist[itemize]{leftmargin=1em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+\setlist[enumerate]{leftmargin=1.4em, before=\vspace{-0.4em}, after=\vspace{-0.4em}, itemsep=0.1em}
+
+\newcommand\blfootnote[1]{%
+  \begingroup\renewcommand\thefootnote{}\footnote{#1}\addtocounter{footnote}{-1}\endgroup
+}
+
+\begin{document}
+
+\title{\input{sections/title}}
+
+% Anonymous submission: remove author block; uncomment for camera-ready.
+% \author{
+%   Author One\textsuperscript{*,1} \And Author Two\textsuperscript{*,1} \And Author Three\textsuperscript{1} \\
+%   \textsuperscript{1}Department of Computer Science, University Name \\
+%   \texttt{\{author1, author2, author3\}@university.edu}
+% }
+
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Method}
+\label{sec:method}
+\input{sections/method}
+
+\section{Experimental Studies}
+\label{sec:exp}
+\input{sections/exp}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+\section*{Acknowledgments}
+\input{sections/acknowledgement}
+
+\bibliography{bib/refs}
+\bibliographystyle{abbrvnat}
+
+% ── Broader Impact Statement (MANDATORY for NeurIPS) ─────────────────────────
+% Does NOT count toward the page limit.
+\newpage
+\section*{Broader Impact}
+\input{sections/impact}
+
+% ── NeurIPS Author Checklist (MANDATORY) ─────────────────────────────────────
+% Does NOT count toward the page limit.
+\newpage
+\input{sections/checklist}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

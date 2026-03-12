@@ -1,7 +1,7 @@
 ---
 name: init-latex-project
 description: Initialize LaTeX Academic Project with standard structure, macros, and writing guide. Use when user wants to create a new LaTeX paper project for any conference or journal.
-argument-hint: <project-name> [target-dir] [--venue <iclr|cvpr|icml|acm|acl>] [--git]
+argument-hint: <project-name> [target-dir] [--venue <iclr|cvpr|icml|acm|acl|neurips>] [--git]
 allowed-tools: Read, Write, Bash, Glob
 ---
 
@@ -23,7 +23,8 @@ Set up a complete LaTeX academic paper project from the standard template.
 │       ├── cvpr/main.tex           # CVPR two-column template
 │       ├── icml/main.tex           # ICML two-column template
 │       ├── acm/main.tex            # ACM SIGCONF template
-│       └── acl/main.tex            # ACL/*ACL single-column template
+│       ├── acl/main.tex            # ACL/*ACL single-column template
+│       └── neurips/main.tex        # NeurIPS single-column template
 └── scripts/
     └── init.sh                     # Shell script that builds the project
 ```
@@ -41,7 +42,7 @@ Set up a complete LaTeX academic paper project from the standard template.
 | `--venue <name>` | Conference venue | No |
 | `--git` | Initialize git repo | No |
 
-Supported venues: `iclr`, `cvpr`, `icml`, `acm`, `acl`
+Supported venues: `iclr`, `cvpr`, `icml`, `acm`, `acl`, `neurips`
 
 ### 2. Run the init script
 
@@ -97,6 +98,15 @@ The script prints a file tree and venue-specific setup notes. Make sure the user
 - **Warning**: `acmart` conflicts with some packages — see comments in main.tex
 - **Style files**: Usually pre-installed in TeX Live / MiKTeX
 
+### NeurIPS
+- **Layout**: Single-column
+- **Document class**: `\documentclass{article}` + `\usepackage{neurips_2025}`
+- **Bibliography**: `abbrvnat` (natbib, loaded by neurips_2025.sty)
+- **MANDATORY**: `sections/impact.tex` — Broader Impact Statement, does NOT count toward page limit
+- **MANDATORY**: `sections/checklist.tex` — Author Checklist, does NOT count toward page limit
+- **Submission modes**: plain (anonymous) / `[preprint]` (arXiv) / `[final]` (camera-ready)
+- **Style files**: https://neurips.cc/Conferences/2025/PaperInformation/StyleFiles
+
 ### ACL / *ACL Venues (EMNLP, NAACL, EACL, COLING)
 - **Layout**: Single-column
 - **Document class**: `\documentclass[11pt]{article}` + `\usepackage[review]{acl}`
@@ -134,6 +144,7 @@ The script prints a file tree and venue-specific setup notes. Make sure the user
 /init-latex-project my-icml-paper . --venue icml --git
 /init-latex-project my-acm-paper . --venue acm
 /init-latex-project my-acl-paper ~/Papers --venue acl
+/init-latex-project my-neurips-paper . --venue neurips --git
 ```
 
 ---
