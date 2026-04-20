@@ -15,66 +15,76 @@ This command supports two scenarios:
 1. **New Project**: Create a new Python project from scratch
 2. **Fork/Enhancement**: Clone an existing project and enhance it with missing components
 
-## Standard Project Structure
+## Standard Project Structure (ML Research)
+
+The ML project layout follows a **four-layer architecture** with strict one-way dependencies:
+`infra` → `experiments/eval` → `src`. Lower layers never import from higher layers.
 
 ```
 <project-name>/
 ├── src/
-│   └── <package_name>/
+│   └── <package_name>/          # Layer 1: Algorithm core (pure, portable)
 │       ├── __init__.py
-│       ├── models/
-│       ├── data/
-│       ├── utils/
-│       └── ...
-├── tests/
+│       ├── models/              # Core model/algorithm definitions
+│       ├── data/                # Core data abstractions (no hardcoded paths)
+│       └── utils/               # Shared utilities
+├── experiments/                 # Layer 2: Experiment logic ("what to run")
+│   ├── configs/                 # Experiment configs (yaml)
+│   │   └── base.yaml
+│   ├── config.py                # Loads infra/envs/<ENV>.yaml + configs/
+│   ├── train.py                 # Training entry point
+│   ├── evaluate.py              # Evaluation entry point
+│   └── README.md
+├── eval/                        # Layer 3: Evaluation & baselines
+│   ├── benchmarks/              # Benchmark datasets & scoring scripts
+│   ├── baselines/               # Baseline implementations
+│   │   └── reproduced/          # Self-reproduced baselines (your code)
+│   └── metrics.py               # Shared evaluation metrics
+├── infra/                       # Layer 4: Platform configs ("how to run")
+│   ├── envs/                    # One yaml per compute environment
+│   │   ├── local.yaml           # Local dev machine
+│   │   └── <cluster>.yaml       # HPC cluster (add one per new cluster)
+│   ├── submit/                  # Job submission scripts
+│   │   └── slurm/
+│   └── README.md
+├── tests/                       # Unit tests for src/ only
 │   ├── __init__.py
-│   ├── data/              # Test-specific data (isolated)
-│   ├── outputs/           # Test outputs (isolated)
-│   ├── conftest.py        # pytest configuration
-│   ├── models/
-│   │   └── test_layers.py
-│   └── ...                # Mirror src/ structure
+│   ├── data/                    # Test-specific data (isolated)
+│   ├── outputs/                 # Test outputs (isolated)
+│   ├── conftest.py
+│   └── ...                      # Mirror src/ structure
 ├── docs/
-│   ├── README.md
-│   ├── outlines/          # Project roadmap and progress
+│   ├── outlines/
 │   │   ├── project_plan.md
-│   │   ├── milestones.md
 │   │   └── progress.md
-│   ├── dev/               # Feature development tracking
-│   │   ├── feature_template.md
-│   │   └── features/
-│   └── src/               # Module documentation (mirrors src/)
-│       ├── models.md
-│       ├── data.md
-│       └── dependencies.md
-├── data/                  # Project data
-│   ├── raw/
-│   ├── processed/
-│   └── README.md
-├── outputs/               # Model outputs, results
-│   ├── models/
-│   ├── predictions/
-│   └── logs/
-├── scripts/               # Executable scripts
-│   ├── train.py
-│   ├── predict.py
-│   ├── download_data.py
-│   └── download_weights.py
-├── experiments/           # Experiment tracking
-│   └── README.md
-├── .vscode/              # VSCode settings
+│   └── dev/
+│       ├── feature_template.md
+│       └── features/
+├── .gitmodules                  # Baseline git submodules (if any)
+├── .vscode/
 │   └── settings.json
-├── .cursor/              # Cursor settings
+├── .cursor/
 │   └── settings.json
-├── .claude/              # Claude Code settings
+├── .claude/
 │   └── commands/
-├── .env                  # Environment variables (not committed)
-├── .env.example          # Example environment variables
+├── .env                         # Not committed — fill from .env.example
+├── .env.example
 ├── .gitignore
-├── pyproject.toml        # UV project configuration
+├── pyproject.toml
 ├── README.md
-└── CLAUDE.md             # Instructions for Claude Code
+└── CLAUDE.md
 ```
+
+### Layer rules
+
+| Layer | What lives here | May import from |
+|---|---|---|
+| `src/<pkg>/` | Core algorithm, pure Python | nothing in this repo |
+| `experiments/` | Training / eval entry points | `src/<pkg>/` |
+| `eval/` | Benchmarks, baselines | `src/<pkg>/` |
+| `infra/` | Cluster configs, submit scripts | nothing |
+
+Migrating to a new HPC = add one yaml to `infra/envs/`. Zero science code changes.
 
 ## Workflow
 
@@ -124,25 +134,25 @@ touch src/<package_name>/utils/__init__.py
 #### 2A.2: Create Directory Structure
 
 ```bash
-# Tests with isolated data/outputs
+# Layer 2 — experiments
+mkdir -p experiments/configs
+touch experiments/README.md
+
+# Layer 3 — eval & baselines
+mkdir -p eval/{benchmarks,baselines/reproduced}
+touch eval/metrics.py
+
+# Layer 4 — infra
+mkdir -p infra/envs infra/submit/slurm
+touch infra/README.md
+
+# Tests (src/ only)
 mkdir -p tests/{data,outputs,models,data_tests,utils}
 touch tests/__init__.py
 touch tests/conftest.py
 
-# Documentation structure
-mkdir -p docs/{outlines,dev/features,src}
-
-# Data directories
-mkdir -p data/{raw,processed}
-
-# Output directories
-mkdir -p outputs/{models,predictions,logs}
-
-# Scripts
-mkdir scripts
-
-# Experiments
-mkdir experiments
+# Docs
+mkdir -p docs/{outlines,dev/features}
 
 # IDE configurations
 mkdir -p .vscode .cursor .claude/commands
@@ -214,9 +224,109 @@ warn_unused_configs = true
 disallow_untyped_defs = true
 ```
 
-#### 2A.4: Install Package in Editable Mode
+#### 2A.4: Create Infra Environment Configs
+
+Create `infra/envs/local.yaml` (template — user fills actual paths):
+
+```yaml
+# Platform: local development machine
+data_root: ~/data
+checkpoint_root: ~/checkpoints
+output_root: ~/outputs
+n_gpus: 1
+```
+
+Create `infra/envs/cluster.yaml.example` (rename and fill per HPC):
+
+```yaml
+# Platform: <cluster name>
+# Usage: ENV=<cluster> uv run python experiments/train.py
+data_root: /path/to/shared/datasets
+checkpoint_root: /path/to/user/checkpoints
+output_root: /path/to/user/outputs
+n_gpus: 8
+partition: gpu
+```
+
+Create `experiments/config.py`:
+
+```python
+import os, yaml
+from pathlib import Path
+
+def load_config(experiment_config: str = "base") -> dict:
+    """Load merged config: infra env + experiment yaml.
+
+    Usage: ENV=kaust uv run python experiments/train.py
+    """
+    root = Path(__file__).parent.parent
+    env = os.getenv("ENV", "local")
+
+    env_cfg_path = root / "infra" / "envs" / f"{env}.yaml"
+    if not env_cfg_path.exists():
+        raise FileNotFoundError(
+            f"No infra config for ENV={env!r}. "
+            f"Create {env_cfg_path} from cluster.yaml.example."
+        )
+    with open(env_cfg_path) as f:
+        cfg = yaml.safe_load(f)
+
+    exp_cfg_path = root / "experiments" / "configs" / f"{experiment_config}.yaml"
+    if exp_cfg_path.exists():
+        with open(exp_cfg_path) as f:
+            cfg.update(yaml.safe_load(f) or {})
+
+    return cfg
+```
+
+Create `experiments/configs/base.yaml`:
+
+```yaml
+# Base experiment config (platform-agnostic)
+seed: 42
+batch_size: 32
+max_epochs: 100
+learning_rate: 1.0e-4
+```
+
+Create `infra/README.md`:
+
+```markdown
+# Infrastructure
+
+## Adding a new compute environment
+
+1. Copy `envs/cluster.yaml.example` → `envs/<cluster-name>.yaml`
+2. Fill in the actual paths for that cluster
+3. Run experiments with: `ENV=<cluster-name> uv run python experiments/train.py`
+
+Never hardcode paths in `src/` or `experiments/`. All paths come from `infra/envs/`.
+```
+
+#### 2A.5: Create Baseline Submodule Placeholders
+
+Create `eval/baselines/README.md`:
+
+```markdown
+# Baselines
+
+## External baselines (git submodules)
+Add published baselines as submodules:
+```bash
+git submodule add https://github.com/<author>/<repo> eval/baselines/<name>
+git submodule update --init --recursive
+```
+
+## Reproduced baselines
+Self-reproduced code goes in `eval/baselines/reproduced/<name>/`.
+```
+
+#### 2A.6: Install Package in Editable Mode
 
 ```bash
+# Add pyyaml for config loading
+uv add pyyaml
+
 # Install package in editable mode with dev dependencies
 uv pip install -e ".[dev]"
 
@@ -343,17 +453,16 @@ htmlcov/
 .tox/
 .hypothesis/
 
-# Data and outputs (optional - adjust based on needs)
-data/raw/*
-!data/raw/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
-outputs/*
-!outputs/.gitkeep
+# Experiment outputs (large, machine-specific)
+experiments/outputs/
+experiments/runs/
+experiments/wandb/
 
-# Experiments
-experiments/*
-!experiments/README.md
+# Infra secrets (actual env yamls with real paths)
+# Track only *.yaml.example; actual yamls are local
+infra/envs/*.yaml
+!infra/envs/local.yaml       # keep local.yaml as reference
+!infra/envs/*.yaml.example
 
 # Logs
 *.log
@@ -366,33 +475,24 @@ Thumbs.db
 # Environment variables
 .env
 
-# Model checkpoints (optional)
+# Model checkpoints
 *.pth
 *.ckpt
 *.pt
-outputs/models/*
 ```
 
 #### 3.2: .env.example
 
 ```bash
-# HuggingFace
-HF_HOME=/path/to/huggingface/cache
+# --- Compute environment selector ---
+# Set to the filename (without .yaml) in infra/envs/ for your current machine.
+# Example: ENV=local  or  ENV=kaust  or  ENV=lambda
+ENV=local
+
+# --- API keys (never hardcode these in source) ---
 HF_TOKEN=your_hf_token_here
-
-# OpenAI (if needed)
-OPENAI_API_KEY=your_openai_key_here
-
-# Weights & Biases (if needed)
 WANDB_API_KEY=your_wandb_key_here
-
-# Project specific
-PROJECT_ROOT=/path/to/project
-DATA_DIR=${PROJECT_ROOT}/data
-OUTPUTS_DIR=${PROJECT_ROOT}/outputs
-
-# Model paths
-PRETRAINED_MODEL_PATH=/path/to/pretrained/models
+OPENAI_API_KEY=your_openai_key_here   # if needed
 ```
 
 #### 3.3: .env (create empty, user will fill)
@@ -527,65 +627,52 @@ See `docs/` for detailed documentation:
 
 <Brief description of the project>
 
+## Four-Layer Architecture
+
+This project uses a strict layered structure. **Dependencies flow one way only** — lower layers never import from higher layers.
+
+| Layer | Directory | Role |
+|---|---|---|
+| 1 | `src/<pkg>/` | Algorithm core — pure, portable, no paths |
+| 2 | `experiments/` | Entry points — what to run |
+| 3 | `eval/` | Benchmarks and baselines |
+| 4 | `infra/` | Platform configs — how to run |
+
+### Rules you must follow
+
+- **NEVER hardcode file paths** in `src/` or `experiments/`. All paths come from `infra/envs/<ENV>.yaml` via `experiments/config.py`.
+- **Run experiments** with `ENV=<name> uv run python experiments/train.py`. The `ENV` var selects the cluster config.
+- **Adding a new baseline**: if it's a published repo, add it as a git submodule under `eval/baselines/`; if self-reproduced, put it in `eval/baselines/reproduced/`.
+- **Adding a new cluster**: copy `infra/envs/cluster.yaml.example` → `infra/envs/<cluster>.yaml`, fill in paths. No other files change.
+
 ## Development Principles
 
 1. **Test-Driven Development**
-   - Every module in `src/` must have corresponding tests in `tests/`
-   - Tests use isolated `tests/data/` and `tests/outputs/` directories
+   - Unit tests cover `src/` only — use isolated `tests/data/` and `tests/outputs/`
    - Run tests before committing: `pytest`
 
-2. **Documentation-First**
-   - Document new features in `docs/dev/features/`
-   - Update module docs in `docs/src/` when changing code
-   - Track dependencies between modules
-
-3. **Code Quality**
-   - Format code with `black` before committing
-   - Check with `ruff` for linting
-   - Use type hints and check with `mypy`
-
-4. **Environment Management**
-   - All dependencies via `pyproject.toml`
-   - Package installed in editable mode (`uv pip install -e .`)
-   - Use absolute imports (e.g., `from <package_name>.models import ...`)
+2. **Code Quality**
+   - Format with `black`, lint with `ruff`, type-check with `mypy`
+   - All dependencies via `pyproject.toml`; editable install via `uv pip install -e .`
 
 ## Project Structure Rules
 
-### Source Code (`src/`)
-- Organized by functionality (models, data, utils)
-- Each module has clear responsibility
-- Document in corresponding `docs/src/<module>.md`
+### `src/<pkg>/` — Algorithm core
+- Pure Python, minimal dependencies, no hardcoded paths
+- Every module has corresponding tests in `tests/` (mirror structure)
 
-### Tests (`tests/`)
-- **IMPORTANT**: Mirror `src/` structure exactly
-- Example: `src/<package_name>/models/layers.py` → `tests/models/test_layers.py`
-- Use isolated `tests/data/` and `tests/outputs/`
-- Never share data/outputs with main project
+### `experiments/` — What to run
+- Entry points load config via `experiments/config.py`
+- Platform-agnostic: runs identically on any machine given the right `ENV=`
 
-### Documentation (`docs/`)
+### `eval/` — Evaluation
+- Benchmark scripts and metrics in `eval/benchmarks/` and `eval/metrics.py`
+- External baselines as git submodules; reproduced baselines in `eval/baselines/reproduced/`
 
-#### `docs/outlines/`
-- Project planning and roadmap
-- Milestones and progress tracking
-- High-level architecture decisions
-
-#### `docs/dev/`
-- Feature development tracking
-- Each feature has its own markdown file
-- Track: design, implementation, testing, status
-
-#### `docs/src/`
-- **IMPORTANT**: Mirror `src/` structure
-- Document each module's:
-  - Purpose and functionality
-  - Dependencies on other modules
-  - Public API
-  - Usage examples
-
-### Scripts (`scripts/`)
-- Executable scripts for common tasks
-- Use absolute imports from installed package
-- Load environment variables from `.env`
+### `infra/` — How to run
+- One yaml per compute environment in `infra/envs/`
+- Slurm/LSF submit scripts in `infra/submit/`
+- Actual cluster yamls with real paths are gitignored (sensitive); share `.yaml.example` instead
 
 ## When Adding New Features
 
@@ -1034,23 +1121,24 @@ if __name__ == "__main__":
 # Initialize git
 git init
 
-# Create .gitkeep files for empty directories
-touch data/raw/.gitkeep
-touch data/processed/.gitkeep
-touch outputs/.gitkeep
-touch experiments/.gitkeep
+# Placeholder files so empty dirs are tracked
+touch experiments/configs/.gitkeep
+touch eval/benchmarks/.gitkeep
+touch eval/baselines/reproduced/.gitkeep
+touch infra/submit/slurm/.gitkeep
+touch tests/data/.gitkeep
+touch tests/outputs/.gitkeep
 
 # Add all files
 git add .
 
 # Create initial commit
-git commit -m "Initial Python project structure
+git commit -m "Initial ML research project structure
 
-- Set up src, tests, docs, scripts structure
-- Configure uv and pyproject.toml
-- Add development tooling (pytest, black, ruff, mypy)
-- Create documentation templates
-- Set up environment configuration"
+- Four-layer architecture: src / experiments / eval / infra
+- Platform-portable: cluster switching via ENV= + infra/envs/*.yaml
+- src/<pkg> installable as editable package (uv)
+- Development tooling: pytest, black, ruff, mypy"
 ```
 
 ### Step 5: Link to GitHub Repository
@@ -1103,19 +1191,14 @@ pytest tests/
 Show a complete summary:
 
 ```
-✓ Python project initialized: <project-name>
-✓ Directory structure created
-✓ UV environment configured
-✓ Package installed in editable mode: <package_name>
-✓ Development tools configured:
-  - pytest (testing)
-  - black (formatting)
-  - ruff (linting)
-  - mypy (type checking)
-✓ Documentation structure created:
-  - docs/outlines/ (project planning)
-  - docs/dev/ (feature tracking)
-  - docs/src/ (module documentation)
+✓ ML research project initialized: <project-name>
+✓ Four-layer structure created:
+  - src/<package_name>/  (algorithm core, editable install)
+  - experiments/         (entry points + configs)
+  - eval/                (benchmarks + baselines)
+  - infra/envs/          (cluster configs)
+✓ UV environment configured; package installed in editable mode
+✓ Development tools: pytest, black, ruff, mypy
 ✓ Git repository initialized
 ✓ GitHub remote configured: <url>
 
@@ -1123,43 +1206,18 @@ Project location: <full-path>
 
 Next steps:
 1. cd <project-name>
-2. Edit .env with your environment variables (copy from .env.example)
-3. Start developing in src/<package_name>/
-4. Write tests in tests/ (mirror src/ structure)
-5. Document modules in docs/src/
-6. Track features in docs/dev/
+2. cp .env.example .env  — set ENV=local (or your cluster name)
+3. Fill in infra/envs/local.yaml with your actual data paths
+4. Start implementing in src/<package_name>/
+5. Write tests in tests/ (mirror src/ structure)
+6. Run experiments: ENV=local uv run python experiments/train.py
 
-Quick commands:
-  # Run tests
-  pytest
+Adding a new cluster:
+  cp infra/envs/cluster.yaml.example infra/envs/<cluster>.yaml
+  # fill in paths, then: ENV=<cluster> uv run python experiments/train.py
 
-  # Run tests with coverage
-  pytest --cov=src/<package_name>
-
-  # Format code
-  black src/ tests/
-
-  # Lint code
-  ruff check src/ tests/
-
-  # Type check
-  mypy src/
-
-  # Install new package
-  uv add <package-name>
-
-Documentation:
-  - Project plan: docs/outlines/project_plan.md
-  - Progress tracking: docs/outlines/progress.md
-  - Feature template: docs/dev/feature_template.md
-  - Module dependencies: docs/src/dependencies.md
-
-Remember:
-  ✓ Every src/ module needs corresponding tests in tests/
-  ✓ Tests use isolated tests/data/ and tests/outputs/
-  ✓ Document modules in docs/src/
-  ✓ Track features in docs/dev/
-  ✓ Use absolute imports (package installed in editable mode)
+Adding a baseline:
+  git submodule add https://github.com/<author>/<repo> eval/baselines/<name>
 ```
 
 ## Enhancement Mode (Fork/Existing Project)

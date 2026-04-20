@@ -121,6 +121,22 @@ Write `<parent-dir>/<ProjectName>/PROJECT.md` with the following content (fill i
 | paper | `./paper/` | LaTeX paper (<venue or arXiv>) |
 | code  | `./code/`  | Python implementation (uv)     |
 
+## Code Layout (Four-Layer Architecture)
+
+```
+code/
+├── src/<pkg>/       # Layer 1: Algorithm core — pure, portable, no paths
+├── experiments/     # Layer 2: Training/eval entry points ("what to run")
+│   ├── configs/     #   Experiment hyperparameters (yaml)
+│   └── config.py    #   Loads infra/envs/<ENV>.yaml
+├── eval/            # Layer 3: Benchmarks and baselines
+│   └── baselines/   #   Git submodules for external; reproduced/ for own
+└── infra/           # Layer 4: Platform configs ("how to run")
+    └── envs/        #   One yaml per cluster — zero science code changes
+```
+
+Switching clusters: `ENV=<cluster> uv run python experiments/train.py`
+
 ## GitHub Remotes
 
 | Repo | URL |
@@ -130,8 +146,10 @@ Write `<parent-dir>/<ProjectName>/PROJECT.md` with the following content (fill i
 
 ## Workflow
 
-- **Design changes** (method, datasets, metrics): update `paper/sections/method.tex` first, then implement in `code/`
-- **Experiment results**: record in `code/experiments/`, then sync to `paper/sections/daily_experiments.tex`
+- **Design changes** (method, datasets, metrics): update `paper/sections/method.tex` first, then implement in `code/src/`
+- **Experiment results**: run via `ENV=<cluster> uv run python experiments/train.py`, then sync to `paper/sections/daily_experiments.tex`
+- **New cluster**: add `code/infra/envs/<cluster>.yaml` — no other files change
+- **New baseline**: `git submodule add <url> eval/baselines/<name>` or implement in `eval/baselines/reproduced/`
 - **Milestones**: use `add-git-tag` skill in each repo separately
 - **Code docs**: use `update-docs` skill in `code/`
 
@@ -140,8 +158,10 @@ Write `<parent-dir>/<ProjectName>/PROJECT.md` with the following content (fill i
 - `paper/sections/method.tex` — canonical method description
 - `paper/sections/exp.tex` — main experiments section
 - `paper/sections/daily_experiments.tex` — running experiment log
-- `code/docs/outlines/project_plan.md` — implementation roadmap
-- `code/experiments/` — raw experiment outputs and logs
+- `code/src/<pkg>/` — algorithm core (the science)
+- `code/experiments/configs/` — experiment hyperparameters
+- `code/infra/envs/` — per-cluster path configs
+- `code/eval/baselines/` — baseline implementations
 ```
 
 ---
