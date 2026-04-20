@@ -48,6 +48,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
 | `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, optional compilation |
+| `run-experiment` | Submit an ML experiment to any compute environment (local, SLURM HPC, RunAI/Kubernetes); generates reproducible job scripts in `jobs/` |
 
 ## Key Design Patterns
 

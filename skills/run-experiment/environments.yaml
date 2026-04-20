@@ -1,0 +1,133 @@
+# Compute environment profiles for run-experiment skill
+# Verified / maintained by the user — update as environments change.
+#
+# type: slurm   → generates an #SBATCH job script, submit with `sbatch`
+# type: runai   → generates a `runai submit` command / YAML manifest
+# type: local   → runs in a tmux session or with nohup on the current machine
+#
+# Variables expanded at generation time:
+#   {user}        current unix username
+#   {project}     project name (from PROJECT.md or directory name)
+#   {date}        YYYY-MM-DD
+#   {commit}      short git SHA
+
+# ── Local ─────────────────────────────────────────────────────────────────────
+
+local:
+  type: local
+  notes: |
+    Runs directly on this machine.
+    Jobs are wrapped in a tmux session (preferred) or nohup for detached execution.
+    No GPU reservation — uses whatever is visible via CUDA_VISIBLE_DEVICES.
+
+# ── KAUST — Ibex ──────────────────────────────────────────────────────────────
+
+ibex:
+  type: slurm
+  display_name: "KAUST Ibex"
+  login_node: "ilogin.ibex.kaust.edu.sa"
+  ssh_alias: ibex                    # short alias if configured in ~/.ssh/config
+  scheduler: slurm
+  partitions:
+    gpu:
+      name: gpu
+      flag: "--partition=gpu"
+      gpu_flag: "--gres=gpu:{count}"
+      gpu_types: [v100, a100, h100]  # specify with --gres=gpu:v100:1
+      max_gpus_per_job: 8
+      notes: "Default GPU partition. Prefer a100 for large models."
+    batch:
+      name: batch
+      flag: "--partition=batch"
+      notes: "CPU-only jobs."
+    himem:
+      name: himem
+      flag: "--partition=himem"
+      notes: "High-memory CPU nodes (up to 3TB RAM)."
+  defaults:
+    partition: gpu
+    gpus: 1
+    cpus_per_task: 8
+    mem: "64G"
+    walltime: "24:00:00"
+    max_walltime: "72:00:00"
+  storage:
+    home: "/home/{user}"
+    scratch: "/ibex/scratch/{user}"   # fast parallel FS — use for large data/checkpoints
+    # Note: scratch is NOT backed up. Copy important outputs to home or project storage.
+  module_system: lmod
+  common_modules:
+    - "cuda/12.1"
+    - "anaconda3"
+  job_array_flag: "--array=0-{N}%{max_concurrent}"
+  notes: |
+    - Always activate your conda env inside the job script (conda activate <env>)
+    - Set TMPDIR to scratch for large temp files: export TMPDIR=/ibex/scratch/{user}/tmp
+    - Interactive GPU session: srun --partition=gpu --gres=gpu:1 --pty bash
+    - Check quota: quota -s; ibex_quota (custom command)
+    - Monitor jobs: squeue -u {user}; sacct -j <jobid> --format=JobID,State,Elapsed
+
+# ── UW — (fill in cluster name) ───────────────────────────────────────────────
+
+uw:
+  type: slurm
+  display_name: "UW HPC"         # update with actual cluster name (Hyak/Lolo/etc.)
+  login_node: "FILL_IN.uw.edu"   # update with actual login node
+  ssh_alias: uw_hpc
+  scheduler: slurm
+  partitions:
+    gpu:
+      name: gpu                  # update with actual partition name
+      flag: "--partition=gpu"
+      gpu_flag: "--gres=gpu:{count}"
+      max_gpus_per_job: 4
+    cpu:
+      name: compute              # update with actual partition name
+      flag: "--partition=compute"
+  defaults:
+    partition: gpu
+    gpus: 1
+    cpus_per_task: 4
+    mem: "32G"
+    walltime: "12:00:00"
+    max_walltime: "24:00:00"    # update with actual limit
+  storage:
+    home: "/home/{user}"
+    scratch: "/gscratch/{user}" # update with actual scratch path
+  module_system: lmod
+  common_modules: []             # fill in (e.g., cuda/12.1, python/3.11)
+  notes: |
+    PLACEHOLDER — update login_node, partition names, scratch path, and modules.
+    Contact system admins or check: https://uw.edu/hpc (update URL)
+
+# ── EPFL — RunAI ──────────────────────────────────────────────────────────────
+
+runai:
+  type: runai
+  display_name: "EPFL RunAI (Kubernetes)"
+  # RunAI is Kubernetes-based; jobs are containers, not shell scripts on bare metal.
+  # Prereq: `runai login` and `runai config project <project>` already done.
+  project: "FILL_IN_PROJECT"          # runai project (ask your lab admin)
+  default_image: "FILL_IN_IMAGE"      # Docker image (e.g., registry.rcp.epfl.ch/lab/myenv:latest)
+  registry: "registry.rcp.epfl.ch"   # EPFL container registry
+  storage:
+    scratch: "/scratch/{user}"         # mounted PVC path inside container (update)
+    home: "/home/{user}"
+  defaults:
+    gpus: 1
+    cpu: 4
+    memory: "32Gi"
+    # RunAI does not enforce walltimes by default; jobs run until completion or manual stop
+  pvc_mounts:
+    # Persistent Volume Claims to mount — update with your lab's PVCs
+    # Format: <claim-name>:<mount-path-in-container>
+    - "scratch-pvc:/scratch/{user}"
+    # - "datasets-pvc:/datasets"      # uncomment if your lab has a shared dataset PVC
+  notes: |
+    - Submit: runai submit <job-name> --image <image> --gpu <N> -- python train.py
+    - Logs:   runai logs <job-name>
+    - Shell:  runai bash <job-name>   (attach to running job)
+    - List:   runai list
+    - Delete: runai delete <job-name>
+    - Always use --command / -- separator to pass args to the container entrypoint.
+    PLACEHOLDER — update project, default_image, registry, and pvc_mounts.
