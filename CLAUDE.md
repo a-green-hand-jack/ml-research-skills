@@ -47,6 +47,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `new-workspace` | Create a git branch or worktree with UV sync and IDE config copying |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
+| `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, optional compilation |
 
 ## Key Design Patterns
 
