@@ -49,6 +49,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
 | `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, optional compilation |
 | `run-experiment` | Submit an ML experiment to local, SLURM, or RunAI environments with reproducible job scripts in `jobs/` |
+| `release-code` | Prepare and publish a research code repository for public release: security audit, generate README/LICENSE/CITATION.cff, tag version, create GitHub release |
 
 ## Key Design Patterns
 

@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "{TITLE}"
+authors:
+{AUTHORS_LIST}
+  # Format each author as:
+  # - family-names: "Last"
+  #   given-names: "First"
+  #   affiliation: "University Name"
+  #   orcid: "https://orcid.org/0000-0000-0000-0000"  # optional
+year: {YEAR}
+license: {LICENSE_SPDX}
+repository-code: "https://{GITHUB_REPO}"
+url: "{PROJECT_PAGE_URL}"
+doi: "{DOI}"  # optional — fill in if published with DOI
+date-released: "{DATE_RELEASED}"
+preferred-citation:
+  type: conference-paper
+  title: "{TITLE}"
+  authors:
+{AUTHORS_LIST}
+  collection-title: "{VENUE_FULL}"
+  year: {YEAR}
+  url: "{PAPER_URL}"
+  # arxiv-id or doi can be added here:
+  # identifiers:
+  #   - type: doi
+  #     value: "10.xxxx/xxxxx"
+  #   - type: url
+  #     value: "https://arxiv.org/abs/{ARXIV_ID}"
+  #     description: "The arXiv preprint"
