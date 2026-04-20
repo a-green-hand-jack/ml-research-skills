@@ -17,7 +17,7 @@
 \usepackage{booktabs}
 \usepackage{lipsum}
 \usepackage{titlesec}
-\usepackage{wrapfig,lipsum,booktabs}
+\usepackage{wrapfig}
 % \usepackage{authblk}
 \usepackage{blindtext}
 % algorithm + algorithmic are DISABLED: they conflict with algpseudocode
@@ -38,7 +38,9 @@
 \usepackage{longtable, lscape}
 
 %%% Section Notation %%%
-\usepackage[capitalize,noabbrev]{cleveref}
+\makeatletter
+\@ifpackageloaded{cleveref}{}{\usepackage[capitalize,noabbrev]{cleveref}}
+\makeatother
 % \crefformat{section}{\S#2#1#3} % see manual of cleveref, section 8.2.1
 % \crefformat{subsection}{\S#2#1#3}
 % \crefformat{subsubsection}{\S#2#1#3}
@@ -135,7 +137,6 @@
 %
 
 \usepackage{dashbox}
-\usepackage{xcolor}
 \usepackage{colortbl}
 % \usepackage{arydshln}
 \definecolor{lightyellow}{rgb}{1.0, 0.95, 0.7}
@@ -280,13 +281,17 @@
 \newcommand{\sumd}{\sum_{i=1}^d}
 \newcommand{\sumT}{\sum_{t=1}^T}
 
-\def\P{\mathbb{P}}
-\def\R{\mathbb{R}}
-\def\B{\mathbb{B}}
-\def\E{\mathbb{E}}
-\def\I{\mathcal{I}}
-\def\p{\partial }
-\let\cite\citep 
+\providecommand{\bbP}{\mathbb{P}}
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\B}{\mathbb{B}}
+\providecommand{\E}{\mathbb{E}}
+\providecommand{\I}{\mathcal{I}}
+\providecommand{\p}{\partial}
+\makeatletter
+\@ifclassloaded{acmart}{}{%
+  \@ifpackageloaded{natbib}{\let\cite\citep}{}%
+}
+\makeatother
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % % \usepackage{algorithm2e}
 % \usepackage[linesnumbered,ruled]{algorithm2e}
@@ -298,7 +303,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % amsthm defines \openbox; avoid clashes if another package defined it earlier
 \let\openbox\relax
-\usepackage{amsthm}
+\makeatletter
+\@ifpackageloaded{amsthm}{}{\usepackage{amsthm}}
+\makeatother
 %%% make remark better %%%
 \makeatletter
 \def\th@remark{%
@@ -310,134 +317,73 @@
 \makeatother
 % 
 % \usepackage[standard,hyperref,amsmath]{ntheorem}
+\makeatletter
+\newcommand{\prismmaybeboxenvironment}[1]{%
+  \@ifundefined{#1}{}{%
+    \@ifpackageloaded{tcolorbox}{%
+      \tcolorboxenvironment{#1}{
+        breakable,
+        colback=black!10,
+        colframe=white,%
+        width=\dimexpr\linewidth+10pt\relax,%
+        enlarge left by=-5pt,%
+        enlarge right by=-5pt,%
+        boxsep=5pt,%
+        boxrule=0pt,
+        left=0pt,right=0pt,top=0pt,bottom=0pt,
+        sharp corners,
+        before skip=\topsep,
+        after skip=\topsep
+      }%
+    }{}%
+  }%
+}
+\newcommand{\prismmaybecrefname}[3]{%
+  \@ifpackageloaded{cleveref}{\crefname{#1}{#2}{#3}}{}%
+}
+\makeatother
 \theoremstyle{definition}
-\newtheorem{theorem}{Theorem}[section]
-\tcolorboxenvironment{theorem}{
-  breakable,
-  colback=black!10,
-  colframe=white,%
-  width=\dimexpr\linewidth+10pt\relax,%  
-  enlarge left by=-5pt,%                  
-  enlarge right by=-5pt,%                 
-  boxsep=5pt,%            
-  boxrule=0pt,
-  left=0pt,right=0pt,top=0pt,bottom=0pt,
-  % oversize=2pt,
-  sharp corners,
-  before skip=\topsep,
-  after skip=\topsep
-}
-\newtheorem{lemma}{Lemma}[section]
-\tcolorboxenvironment{lemma}{
-  breakable,
-  colback=black!10,
-  colframe=white,%
-  width=\dimexpr\linewidth+10pt\relax,%  
-  enlarge left by=-5pt,%                  
-  enlarge right by=-5pt,%                 
-  boxsep=5pt,%            
-  boxrule=0pt,
-  left=0pt,right=0pt,top=0pt,bottom=0pt,
-  % oversize=2pt,
-  sharp corners,
-  before skip=\topsep,
-  after skip=\topsep
-}
-\newtheorem{corollary}{Corollary}[theorem]
-\tcolorboxenvironment{corollary}{
-  breakable,
-  colback=black!10,
-  colframe=white,%
-  width=\dimexpr\linewidth+10pt\relax,%  
-  enlarge left by=-5pt,%                  
-  enlarge right by=-5pt,%                 
-  boxsep=5pt,%            
-  boxrule=0pt,
-  left=0pt,right=0pt,top=0pt,bottom=0pt,
-  % oversize=2pt,
-  sharp corners,
-  before skip=\topsep,
-  after skip=\topsep
-}
-\newtheorem{proposition}{Proposition}[section]
+\makeatletter
+\@ifundefined{theorem}{\newtheorem{theorem}{Theorem}[section]}{}
+\@ifundefined{lemma}{\newtheorem{lemma}{Lemma}[section]}{}
+\@ifundefined{corollary}{\newtheorem{corollary}{Corollary}[theorem]}{}
+\@ifundefined{proposition}{\newtheorem{proposition}{Proposition}[section]}{}
+\makeatother
+\prismmaybeboxenvironment{theorem}
+\prismmaybeboxenvironment{lemma}
+\prismmaybeboxenvironment{corollary}
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\tcolorboxenvironment{definition}{
-  breakable,
-  colback=black!10,
-  colframe=white,%
-  width=\dimexpr\linewidth+10pt\relax,%  
-  enlarge left by=-5pt,%                  
-  enlarge right by=-5pt,%                 
-  boxsep=5pt,%            
-  boxrule=0pt,
-  left=0pt,right=0pt,top=0pt,bottom=0pt,
-  % oversize=2pt,
-  sharp corners,
-  before skip=\topsep,
-  after skip=\topsep
-}
+\makeatletter
+\@ifundefined{definition}{\newtheorem{definition}{Definition}[section]}{}
+\makeatother
+\prismmaybeboxenvironment{definition}
 % \theoremstyle{definition}
 \theoremstyle{remark}
-\newtheorem{remark}{Remark}[section]
-\newtheorem{assumption}{Assumption}[section]
-\tcolorboxenvironment{assumption}{
-  breakable,
-  colback=black!10,
-  colframe=white,%
-  width=\dimexpr\linewidth+10pt\relax,%  
-  enlarge left by=-5pt,%                  
-  enlarge right by=-5pt,%                 
-  boxsep=5pt,%            
-  boxrule=0pt,
-  left=0pt,right=0pt,top=0pt,bottom=0pt,
-  % oversize=2pt,
-  sharp corners,
-  before skip=\topsep,
-  after skip=\topsep
-}
-\newtheorem{problem}{Problem}
-\tcolorboxenvironment{problem}{
-  breakable,
-  colback=black!10,
-  colframe=white,%
-  width=\dimexpr\linewidth+10pt\relax,%  
-  enlarge left by=-5pt,%                  
-  enlarge right by=-5pt,%                 
-  boxsep=5pt,%            
-  boxrule=0pt,
-  left=0pt,right=0pt,top=0pt,bottom=0pt,
-  % oversize=2pt,
-  sharp corners,
-  before skip=\topsep,
-  after skip=\topsep
-}
-\newtheorem{proc}{Procedure}
-\newtheorem{property}{Property}
+\makeatletter
+\@ifundefined{remark}{\newtheorem{remark}{Remark}[section]}{}
+\@ifundefined{assumption}{\newtheorem{assumption}{Assumption}[section]}{}
+\@ifundefined{problem}{\newtheorem{problem}{Problem}}{}
+\@ifundefined{proc}{\newtheorem{proc}{Procedure}}{}
+\@ifundefined{property}{\newtheorem{property}{Property}}{}
+\makeatother
+\prismmaybeboxenvironment{assumption}
+\prismmaybeboxenvironment{problem}
 
-\crefname{theorem}{Theorem}{Theorems}
-\crefname{proposition}{Proposition}{Propositions}
-\crefname{lemma}{Lemma}{Lemmas}
-\crefname{corollary}{Corollary}{Corollaries}
-\crefname{definition}{Definition}{Definitions}
-\crefname{assumption}{Assumption}{Assumptions}
-\crefname{remark}{Remark}{Remarks}
-\crefname{problem}{Problem}{Problems}
-\crefname{property}{Property}{property}
+\prismmaybecrefname{theorem}{Theorem}{Theorems}
+\prismmaybecrefname{proposition}{Proposition}{Propositions}
+\prismmaybecrefname{lemma}{Lemma}{Lemmas}
+\prismmaybecrefname{corollary}{Corollary}{Corollaries}
+\prismmaybecrefname{definition}{Definition}{Definitions}
+\prismmaybecrefname{assumption}{Assumption}{Assumptions}
+\prismmaybecrefname{remark}{Remark}{Remarks}
+\prismmaybecrefname{problem}{Problem}{Problems}
+\prismmaybecrefname{property}{Property}{Properties}
 
 
 \numberwithin{equation}{section}
-\numberwithin{theorem}{section}
-\numberwithin{proposition}{section}
-\numberwithin{definition}{section}
-\numberwithin{lemma}{section}
-\numberwithin{assumption}{section}
-\numberwithin{remark}{section}
 
 %=== footnote without marker ===
 % \blfootnote[]{}
-\usepackage{lipsum}
-
 \newcommand\blfootnote[1]{%
   \begingroup
   \renewcommand\thefootnote{}\footnote{#1}%
@@ -533,6 +479,10 @@
      }%
 }
 \makeatother
-\redefinesymbolwitharg{sin}
-\redefinesymbolwitharg{cos}
+\newcommand{\sinp}[1]{\sin\left(#1\right)}
+\newcommand{\cosp}[1]{\cos\left(#1\right)}
+% Automatic \sin/\cos rewriting is disabled by default. It changes LaTeX's
+% standard operator behavior and is hard to reason about across venues.
+% \redefinesymbolwitharg{sin}
+% \redefinesymbolwitharg{cos}
 %%% sin, cos parentheses %%% 

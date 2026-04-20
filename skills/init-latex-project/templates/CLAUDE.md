@@ -15,6 +15,7 @@ Examples of **required** macro usage:
 | ------------------ | ----------------------- |
 | `\mathbb{R}`       | `\R`                    |
 | `\mathbb{E}`       | `\E`                    |
+| `\mathbb{P}`       | `\bbP`                  |
 | `\mathcal{L}`      | `\calL`                 |
 | `\mathbf{x}`       | `\bx`                   |
 | `\mathbf{A}`       | `\bA`                   |
@@ -65,7 +66,8 @@ Every sentence you write **must** follow all five rules simultaneously:
 
 > [!IMPORTANT]
 > - Do **not** use `\ref{}` — always use `\cref{}`.
-> - `\cite` is remapped to `\citep` in `macros.tex`.
+> - In natbib-based templates, `\cite` is remapped to `\citep` in `macros.tex`.
+> - In ACM templates, `\cite` keeps the class-native behavior.
 
 ---
 
@@ -90,7 +92,7 @@ Every sentence you write **must** follow all five rules simultaneously:
 | ------------------------------- | ----------------------------------------------------- |
 | **Calligraphic** `\calA`–`\calZ` | `\calL` → ℒ, `\calX` → 𝒳                             |
 | **Bold** `\bA`–`\bZ`, `\ba`–`\bz` | `\bA` → **A**, `\bx` → **x**                       |
-| **Blackboard bold**             | `\R` → ℝ, `\E` → 𝔼, `\P` → ℙ                        |
+| **Blackboard bold**             | `\R` → ℝ, `\E` → 𝔼, `\bbP` → ℙ                     |
 | **Operators**                   | `\argmin`, `\argmax`, `\Var`, `\Softmax`, `\Sigmoid` |
 | **Sums**                        | `\sumN`, `\sumK`, `\sumM`, `\sumT`, `\sumd`          |
 | **Greek shortcuts**             | `\g` → γ, `\sG` → σ, `\lG` → λ, `\tG` → θ           |
