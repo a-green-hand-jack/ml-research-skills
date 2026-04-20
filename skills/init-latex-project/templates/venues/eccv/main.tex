@@ -1,0 +1,100 @@
+% ── ECCV — Springer LNCS Format ──────────────────────────────────────────────
+% ECCV is biennial (even years: 2024, 2026, …).
+% IMPORTANT: ECCV uses \documentclass{llncs} (Springer LNCS), NOT article.
+% Style files are downloaded automatically by init-latex-project (init.sh).
+% To switch submission mode, edit venue_preamble.tex.
+\documentclass[runningheads]{llncs}
+\input{venue_preamble}   % provides \usepackage{eccv} \usepackage{eccvabbrv}
+
+% ── Typography ────────────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{microtype}
+
+% ── Math ─────────────────────────────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{nicefrac}
+\usepackage{amsthm}   % use plain amsthm (tcolorbox may conflict with llncs)
+
+% ── Graphics & Layout ────────────────────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xspace}
+
+% ── Hyperlinks ────────────────────────────────────────────────────────────────
+\usepackage[
+  colorlinks = true,
+  linkcolor  = blue,
+  citecolor  = blue,
+  urlcolor   = blue,
+  pdfusetitle
+]{hyperref}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+% ── Our Macro Library ────────────────────────────────────────────────────────
+% NOTE: tcolorbox theorem envs disabled — llncs defines its own theorem-like envs.
+% Use \begin{theorem}, \begin{lemma}, etc. from llncs directly, or redefine in macros.tex.
+\input{macros.tex}
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\title{\input{sections/title}}
+
+% ECCV author format (LNCS style)
+\author{%
+  Author One\inst{1}\orcidlink{0000-0000-0000-0000} \and
+  Author Two\inst{1} \and
+  Author Three\inst{2}%
+}
+\authorrunning{A. One et al.}
+\institute{%
+  Institution One, City, Country \email{author1@institution.edu} \and
+  Institution Two, City, Country%
+}
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\keywords{keyword one \and keyword two \and keyword three}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+\input{sections/intro}
+
+\section{Related Work}
+\label{sec:related}
+\input{sections/related}
+
+\section{Method}
+\label{sec:method}
+\input{sections/method}
+
+\section{Experimental Studies}
+\label{sec:exp}
+\input{sections/exp}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+% ── Bibliography ─────────────────────────────────────────────────────────────
+\bibliographystyle{splncs04}
+\bibliography{bib/refs}
+
+% ── Appendix ─────────────────────────────────────────────────────────────────
+\appendix
+\input{sections/appendix}
+
+\end{document}

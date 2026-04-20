@@ -2,10 +2,11 @@
 \documentclass{article}
 
 % ── ICLR Style ───────────────────────────────────────────────────────────────
-% Download: https://github.com/ICLR/Master-Template
-% Place iclr2026_conference.sty and iclr2026.bst in project root.
-% For camera-ready submission: change [submitted] to [accepted].
-\usepackage[submitted]{iclr2026_conference}
+% Style files are downloaded automatically by init-latex-project (init.sh).
+% To switch submission mode, edit venue_preamble.tex:
+%   Submission:   \usepackage[submitted]{iclr{YEAR}_conference}
+%   Camera-ready: \usepackage[accepted]{iclr{YEAR}_conference}
+\input{venue_preamble}
 \usepackage{times}
 
 % ── Math ─────────────────────────────────────────────────────────────────────

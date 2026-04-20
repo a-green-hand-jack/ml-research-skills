@@ -1,0 +1,186 @@
+# Official style-file sources for init-latex-project
+# Verified: 2026-04
+#
+# Each venue entry drives two things in init.sh:
+#   1. Where to download .sty / .bst / .cls files
+#   2. What to write into venue_preamble.tex
+#
+# year_in_name: true  → package filename contains the year (neurips_2025.sty)
+#               false → package filename is stable  (cvpr.sty, acl.sty)
+
+# ── ML ────────────────────────────────────────────────────────────────────────
+
+icml:
+  deadline_month: Jan
+  year_in_name: true
+  type: direct_zip
+  # ICML{YEAR} (uppercase) in path; icml{year} (lowercase) in filename
+  url: "https://media.icml.cc/Conferences/ICML{YEAR}/Styles/icml{year}.zip"
+  # Example: https://media.icml.cc/Conferences/ICML2026/Styles/icml2026.zip
+  author_instructions: "https://icml.cc/Conferences/{YEAR}/AuthorInstructions"
+  detect_sty: "icml*.sty"
+  preamble_template: |
+    % ICML {YEAR} — fetched from icml.cc on {DATE}
+    % Camera-ready: \usepackage[accepted]{{icml{year}}}
+    \usepackage{{icml{year}}}
+  bibtex_style: "icml{year}"   # matches icml{year}.bst
+  layout: two-column
+  notes: "Uses ICML-specific author macros (\\icmltitle, \\icmlauthor, etc.)"
+
+neurips:
+  deadline_month: May
+  year_in_name: true
+  type: direct_zip
+  url: "https://media.nips.cc/Conferences/{YEAR}/Styles/neurips_{year}.zip"
+  # Example: https://media.nips.cc/Conferences/2025/Styles/neurips_2025.zip
+  author_instructions: "https://neurips.cc/Conferences/{YEAR}/PaperInformation/StyleFiles"
+  detect_sty: "neurips_*.sty"
+  preamble_template: |
+    % NeurIPS {YEAR} — fetched from neurips.cc on {DATE}
+    % Submission (anon): \usepackage{{neurips_{year}}}
+    % Preprint/arXiv:    \usepackage[preprint]{{neurips_{year}}}
+    % Camera-ready:      \usepackage[final]{{neurips_{year}}}
+    \PassOptionsToPackage{{numbers,compress}}{{natbib}}
+    \usepackage{{neurips_{year}}}
+  bibtex_style: "unsrtnat"
+  layout: single-column
+  notes: |
+    Use {ack} environment for acknowledgments (auto-hides in anonymous mode).
+    MANDATORY: sections/impact.tex (Broader Impact, no page limit).
+    MANDATORY: sections/checklist.tex (Author Checklist, no page limit).
+    cleveref must be loaded ONCE in main.tex AFTER hyperref; remove it from macros.tex.
+
+iclr:
+  deadline_month: Sep
+  year_in_name: true
+  type: github_zip
+  repo: "https://github.com/ICLR/Master-Template"
+  url: "https://github.com/ICLR/Master-Template/raw/master/iclr{year}.zip"
+  # Example: https://github.com/ICLR/Master-Template/raw/master/iclr2026.zip
+  # Contains: iclr{year}_conference.sty, iclr{year}_conference.bst, fancyhdr.sty, natbib.sty
+  author_instructions: "https://iclr.cc/Conferences/{YEAR}/AuthorGuide"
+  detect_sty: "iclr*_conference.sty"
+  preamble_template: |
+    % ICLR {YEAR} — fetched from github.com/ICLR/Master-Template on {DATE}
+    % Camera-ready: \usepackage[accepted]{{iclr{year}_conference}}
+    \usepackage[submitted]{{iclr{year}_conference}}
+  bibtex_style: "iclr{year}_conference"
+  layout: single-column
+
+# ── NLP (*ACL family — all share the same acl.sty) ───────────────────────────
+
+acl:
+  deadline_month: Feb
+  year_in_name: false
+  type: github_zip
+  repo: "https://github.com/acl-org/acl-style-files"
+  url: "https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip"
+  detect_sty: "acl.sty"
+  author_instructions: "https://2026.aclweb.org/calls/main_conference_papers/"
+  preamble_template: |
+    % ACL (*ACL family) — fetched from github.com/acl-org/acl-style-files on {DATE}
+    % Covers: ACL, EMNLP, NAACL, EACL, COLING
+    % Camera-ready: \usepackage{{acl}}
+    \usepackage[review]{{acl}}
+  bibtex_style: "acl_natbib"
+  layout: single-column
+  notes: |
+    Use \citet{} for in-text citations; \cite{}/\citep{} for parenthetical.
+    MANDATORY: sections/limitations.tex (Limitations, no page limit).
+    sections/ethics.tex required if human subjects / sensitive data.
+
+emnlp:
+  deadline_month: May
+  inherits: acl
+  author_instructions: "https://2025.emnlp.org/calls/main_conference_papers/"
+
+naacl:
+  deadline_month: Dec
+  inherits: acl
+  author_instructions: "https://2025.naacl.org/calls/papers/"
+
+# ── CV ────────────────────────────────────────────────────────────────────────
+
+cvpr:
+  deadline_month: Nov
+  year_in_name: false
+  type: github_release
+  repo: "https://github.com/cvpr-org/author-kit"
+  # Tagged releases: CVPR{YEAR}-v1(latex) — try this first, fall back to main branch
+  url: "https://github.com/cvpr-org/author-kit/archive/refs/tags/CVPR{YEAR}-v1(latex).zip"
+  url_fallback: "https://github.com/cvpr-org/author-kit/archive/refs/heads/main.zip"
+  detect_sty: "cvpr.sty"
+  author_instructions: "https://cvpr.thecvf.com"
+  preamble_template: |
+    % CVPR — fetched from github.com/cvpr-org/author-kit on {DATE}
+    % Camera-ready: \usepackage{{cvpr}}
+    % arXiv preprint: \usepackage[pagenumbers]{{cvpr}}
+    \usepackage[review]{{cvpr}}
+  bibtex_style: "ieeenat_fullname"
+  layout: two-column
+  notes: "Use figure*/table* for full-width floats in two-column layout."
+
+iccv:
+  deadline_month: Mar
+  year_in_name: false    # iccv.sty (no year in name, unlike CVPR having cvpr.sty)
+  type: direct_zip
+  # ICCV is biennial (odd years: 2025, 2027, …).
+  # The file is hosted on media.eventhosts.cc (CVF event host), not GitHub.
+  url: "https://media.eventhosts.cc/Conferences/ICCV{YEAR}/ICCV{YEAR}-Author-Kit-Feb.zip"
+  # Example: https://media.eventhosts.cc/Conferences/ICCV2025/ICCV2025-Author-Kit-Feb.zip
+  detect_sty: "iccv.sty"
+  author_instructions: "https://iccv.thecvf.com/Conferences/{YEAR}/AuthorGuidelines"
+  preamble_template: |
+    % ICCV {YEAR} — fetched from CVF (iccv.thecvf.com) on {DATE}
+    % Camera-ready: \usepackage{{iccv}}
+    \usepackage[review]{{iccv}}
+  bibtex_style: "ieeenat_fullname"
+  layout: two-column
+  biennial: odd          # held in odd years only
+  notes: |
+    ICCV is biennial (odd years: 2025, 2027, …).
+    Same two-column CVF format as CVPR. Use figure*/table* for full-width floats.
+
+eccv:
+  deadline_month: Mar
+  year_in_name: false
+  type: github_tag
+  # Official ECCV 2026 template by organizer Paolo Favaro, linked from eccv.ecva.net
+  repo: "https://github.com/paolo-favaro/paper-template"
+  url: "https://github.com/paolo-favaro/paper-template/archive/refs/tags/Latest.zip"
+  detect_sty: "eccv.sty"
+  author_instructions: "https://eccv.ecva.net/Conferences/{YEAR}/SubmissionPolicies"
+  preamble_template: |
+    % ECCV — fetched from github.com/paolo-favaro/paper-template on {DATE}
+    % Uses Springer LNCS (llncs.cls) — see \documentclass{llncs} in main.tex
+    \usepackage{{eccv}}
+    \usepackage{{eccvabbrv}}
+  bibtex_style: "splncs04"
+  layout: single-column
+  docclass: "llncs"      # ← different from all others (article)
+  biennial: even         # held in even years only
+  notes: |
+    ECCV uses Springer LNCS (llncs.cls), NOT \documentclass{article}.
+    14-page limit including figures; references uncapped.
+    No mandatory extra sections (broader impact encouraged but not required).
+
+# ── Other ─────────────────────────────────────────────────────────────────────
+
+acm:
+  deadline_month: varies
+  year_in_name: false
+  type: ctan
+  package: acmart
+  # Pre-installed in TeX Live / MiKTeX. No download URL needed.
+  install_cmd: "tlmgr install acmart"
+  detect_sty: "acmart.cls"
+  author_instructions: "https://www.acm.org/publications/proceedings-template"
+  preamble_template: |
+    % ACM — acmart class (pre-installed via CTAN/TeX Live)
+    % \documentclass options handled in main.tex (sigconf, review, anonymous)
+  bibtex_style: "ACM-Reference-Format"
+  layout: single-column
+  notes: |
+    acmart redefines \P — macros.tex \P = \mathbb{P} intentionally overrides it.
+    \cite remapped to \citep in macros.tex; comment out if conflict arises.
+    Camera-ready: remove [review,anonymous]; add \acmConference, \acmDOI, \setcopyright.

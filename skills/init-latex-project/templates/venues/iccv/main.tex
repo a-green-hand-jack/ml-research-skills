@@ -1,10 +1,10 @@
 \pdfoutput=1
-% ── CVPR Two-Column Format ───────────────────────────────────────────────────
+% ── ICCV Two-Column Format ────────────────────────────────────────────────────
+% ICCV is biennial (odd years: 2025, 2027, …).
 % Style files are downloaded automatically by init-latex-project (init.sh).
 % To switch submission mode, edit venue_preamble.tex:
-%   Submission:   \usepackage[review]{cvpr}
-%   Camera-ready: \usepackage{cvpr}
-%   arXiv:        \usepackage[pagenumbers]{cvpr}
+%   Submission:   \usepackage[review]{iccv}
+%   Camera-ready: \usepackage{iccv}
 \documentclass[times,10pt,twocolumn,letterpaper]{article}
 \input{venue_preamble}
 
@@ -16,7 +16,7 @@
 \numberwithin{equation}{section}
 
 % ── Graphics & Layout ────────────────────────────────────────────────────────
-% NOTE: graphicx, xcolor, hyperref are already loaded by cvpr.sty.
+% NOTE: graphicx, xcolor, hyperref are already loaded by iccv.sty.
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{booktabs}
@@ -26,14 +26,10 @@
 \usepackage{enumitem}
 \usepackage{algorithm}
 \usepackage{algpseudocode}   % provides \State \Require \Ensure \For \EndFor \Comment
-% Two-column tcolorbox theorem environments may break — use plain amsthm instead if needed.
 \usepackage[most]{tcolorbox}
 \usepackage{xspace}
 
 % ── Our Macro Library ────────────────────────────────────────────────────────
-% Loaded LAST to override conflicting definitions.
-% WARNING (two-column): tcolorbox theorem environments may span column boundaries.
-%   Use \begin{theorem*} or avoid boxed theorems in two-column mode.
 \input{macros.tex}
 \graphicspath{{figures/}}
 
@@ -75,14 +71,14 @@
 \label{sec:conclusion}
 \input{sections/conclusion}
 
-% Two-column note: use \begin{figure*} and \begin{table*} for full-width floats.
+% Two-column: use figure* / table* for full-width floats.
 
 {\small
 \bibliographystyle{ieeenat_fullname}
 \bibliography{bib/refs}
 }
 
-% Appendix (in CVPR, supplementary is typically a separate PDF)
+% Appendix (ICCV supplementary is typically a separate PDF)
 % \appendix
 % \input{sections/appendix}
 

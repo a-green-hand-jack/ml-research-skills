@@ -2,13 +2,12 @@
 \documentclass{article}
 
 % ── NeurIPS Style ─────────────────────────────────────────────────────────────
-% Download: https://neurips.cc/Conferences/2025/PaperInformation/StyleFiles
-% Place neurips_2025.sty in project root.
-% Submission (anonymous):  \usepackage{neurips_2025}
-% Preprint / arXiv:        \usepackage[preprint]{neurips_2025}
-% Camera-ready:            \usepackage[final]{neurips_2025}
-\PassOptionsToPackage{numbers,compress}{natbib}
-\usepackage{neurips_2025}
+% Style files are downloaded automatically by init-latex-project (init.sh).
+% To switch submission mode, edit venue_preamble.tex:
+%   Anonymous submission: \usepackage{neurips_YEAR}
+%   Preprint / arXiv:     \usepackage[preprint]{neurips_YEAR}
+%   Camera-ready:         \usepackage[final]{neurips_YEAR}
+\input{venue_preamble}
 
 % ── Math ─────────────────────────────────────────────────────────────────────
 \usepackage{amsmath}
