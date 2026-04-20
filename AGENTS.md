@@ -4,25 +4,66 @@ Guidance for AI coding agents working in this repository.
 
 ## Repository Overview
 
-This repo is **ml-research-skills** — a collection of Claude Code skills for ML researchers, installable via `npx skills add`. Each file is an instruction document for an AI agent, not executable code.
+This repo is **ml-research-skills** — a collection of Claude Code skills for ML researchers. Each skill lives under `skills/<skill-name>/` as an instruction bundle centered on `SKILL.md`, with optional `scripts/` and `templates/` directories.
 
-## Directory Structure
+Skills in this repo are installed with:
 
+```bash
+npx skills add a-green-hand-jack/ml-research-skills
 ```
+
+These files are primarily agent instructions and templates, not an application with automated runtime tests.
+
+## Current Repository Structure
+
+```text
 ml-research-skills/
-└── skills/    # → ~/.claude/skills/   (one subdirectory per skill)
-    ├── init-latex-project/
-    ├── init-python-project/
-    ├── project-init/
-    ├── project-sync/
-    ├── new-workspace/
+├── README.md
+├── CLAUDE.md
+├── AGENTS.md
+└── skills/
     ├── add-git-tag/
+    │   └── SKILL.md
+    ├── init-latex-project/
+    │   ├── SKILL.md
+    │   ├── scripts/
+    │   └── templates/
+    ├── init-python-project/
+    │   └── SKILL.md
+    ├── new-workspace/
+    │   └── SKILL.md
+    ├── project-init/
+    │   └── SKILL.md
+    ├── project-sync/
+    │   └── SKILL.md
+    ├── run-experiment/
+    │   ├── SKILL.md
+    │   ├── environments.yaml
+    │   └── templates/
+    ├── submit-paper/
+    │   ├── SKILL.md
+    │   └── scripts/
     └── update-docs/
+        └── SKILL.md
 ```
 
-## Adding a New Skill
+## Current Skill Set
 
-Skills live in `skills/<skill-name>/` and require a `SKILL.md` with YAML frontmatter:
+| Skill | Purpose |
+|---|---|
+| `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
+| `init-python-project` | Create or enhance a production-ready Python/ML project using `uv` |
+| `project-init` | Create a parent research workspace with aligned `paper/` and `code/` repos |
+| `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
+| `new-workspace` | Create a Git branch or worktree for features and experiments |
+| `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
+| `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project |
+| `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
+| `update-docs` | Detect code changes since the last docs update and refresh affected documentation |
+
+## Adding or Updating a Skill
+
+Skills live in `skills/<skill-name>/` and must include a `SKILL.md` with YAML frontmatter:
 
 ```markdown
 ---
@@ -42,24 +83,25 @@ Brief description.
 ...
 ```
 
-**Guidelines:**
-- The directory name must exactly match the `name` field
-- `name` must be lowercase letters, numbers, and hyphens only
-- Keep `SKILL.md` under 500 lines; move reference material to separate linked files
-- Use `scripts/` for shell automation (scripts don't consume context, only their output does)
-- Use `templates/` for file templates the skill writes out
-- Write the `description` as a routing rule, not a title — agents use it to decide when to activate the skill
+Guidelines:
+- The directory name must exactly match the `name` field.
+- `name` must use lowercase letters, numbers, and hyphens only.
+- Keep `SKILL.md` under 500 lines; move large references into linked files.
+- Use `scripts/` for shell automation so the agent can run commands without embedding large shell blocks inline.
+- Use `templates/` for files the skill writes into user projects.
+- Write the `description` as a routing rule, not a title. Agents use it to decide when to activate the skill.
+- Keep examples and venue/tooling references aligned with the actual templates and scripts shipped in the same skill directory.
 
-## Testing
+## Validation
+
+There are no automated tests in this repository. Validate changes by exercising the skill in Claude Code:
 
 1. Copy the skill directory to `~/.claude/skills/`
-2. Invoke in Claude Code by describing the task
-3. Verify output and iterate
+2. Invoke it by describing a matching task
+3. Check that the generated instructions, scripts, and templates behave as intended
 
-No automated tests — correctness is validated by running the skill.
+## Notes for Agents
 
-## Installation (for users)
-
-```bash
-npx skills add <owner>/ml-research-skills
-```
+- Prefer updating the minimum set of files needed when a skill changes.
+- If you change a skill's behavior, also check whether `README.md` and `CLAUDE.md` now need corresponding updates.
+- Treat `SKILL.md`, helper scripts, and templates as a single unit; avoid documenting behavior that the shipped assets do not actually support.

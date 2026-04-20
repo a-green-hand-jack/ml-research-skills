@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **ml-research-skills** — a collection of Claude Code skills for the full lifecycle of ML research projects, installable via:
 
 ```bash
-npx skills add <owner>/ml-research-skills
+npx skills add a-green-hand-jack/ml-research-skills
 ```
 
 All files are instruction documents for AI agents — not executable code. Skills are deployed by copying to `~/.claude/skills/`.
@@ -40,7 +40,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 | Skill | Purpose |
 |---|---|
-| `init-latex-project` | Scaffold a LaTeX academic paper project; supports iclr, cvpr, icml, acm, acl venues |
+| `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates and official style files |
 | `init-python-project` | Create a production-ready Python/ML project with uv, pytest, black, ruff, mypy |
 | `project-init` | Initialize a full research project: parent folder with `paper/` (LaTeX) + `code/` (Python) + `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
@@ -48,7 +48,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
 | `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, optional compilation |
-| `run-experiment` | Submit an ML experiment to any compute environment (local, SLURM HPC, RunAI/Kubernetes); generates reproducible job scripts in `jobs/` |
+| `run-experiment` | Submit an ML experiment to local, SLURM, or RunAI environments with reproducible job scripts in `jobs/` |
 
 ## Key Design Patterns
 
