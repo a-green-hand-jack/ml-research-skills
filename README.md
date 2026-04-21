@@ -19,7 +19,19 @@ npx skills add a-green-hand-jack/ml-research-skills --skill remote-project-contr
 npx skills add a-green-hand-jack/ml-research-skills --skill submit-paper
 ```
 
-Installed skills are copied into the target agent's global skill home, for example `~/.claude/skills/` for Claude Code or `~/.agents/skills/` for Codex.
+Install globally for both Codex and Claude Code:
+
+```bash
+npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -y
+```
+
+Install one specific skill globally for both agents:
+
+```bash
+npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -s remote-project-control -y
+```
+
+With the default local setup used in this repo, Codex installs under `~/.agents/skills/` and Claude Code reads from `~/.claude/skills/`, often via symlinks created by `npx skills`.
 
 ## Skills
 
@@ -117,7 +129,7 @@ python3 -m unittest -v tests.test_init_python_project_scaffold
 
 To validate a skill end-to-end:
 
-1. Copy the skill directory to the target agent's skill home (for example `~/.claude/skills/<skill-name>/` or `~/.agents/skills/<skill-name>/`)
+1. Install the skill into the target agent runtime with `npx skills add`, for example `npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -s <skill-name> -y`
 2. Invoke it in the corresponding agent with a matching request
 3. Inspect the generated files, commands, or instructions and iterate
 
