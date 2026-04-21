@@ -39,6 +39,23 @@ cp .env.example .env
 - `docs/` - documentation and planning
 - `scripts/` - executable scripts
 - `experiments/` - experiment tracking
+- `infra/remote-projects.yaml` - shared local/remote project mapping and execution policy
+- `docs/ops/current-status.md` - cross-session working memory for ongoing remote work
+
+## Remote Workflow Bootstrap
+
+If this project is developed locally but runs on a remote server, fill in these files early:
+
+- `infra/remote-projects.yaml`
+- `docs/ops/current-status.md`
+- `docs/ops/decision-log.md`
+- `.agent/local-overrides.yaml` for private machine-specific values
+
+Recommended workflow:
+
+1. Update `infra/remote-projects.yaml` with the real SSH alias, remote repo path, and scheduler.
+2. Keep `docs/ops/current-status.md` current so new coding-agent sessions can recover context quickly.
+3. Use the `remote-project-control` skill before remote-heavy work such as sync, submit, monitor, or artifact lookup.
 
 ## Usage
 

@@ -21,6 +21,9 @@ This project uses a strict layered structure. Dependencies flow one way only.
 - Run experiments with `ENV=<name> uv run python experiments/train.py`.
 - Add published baselines as submodules under `eval/baselines/`.
 - Add new cluster configs in `infra/envs/`; do not fork science code per cluster.
+- Keep `infra/remote-projects.yaml` updated if this project is controlled locally but executed remotely.
+- Treat `docs/ops/current-status.md` as working memory, not execution truth; re-check volatile remote state before acting.
+- Put private SSH aliases or machine-specific overrides in `.agent/local-overrides.yaml`, not in shared repo files.
 
 ## Development Principles
 
@@ -28,3 +31,4 @@ This project uses a strict layered structure. Dependencies flow one way only.
 2. Format with `black`, lint with `ruff`, type-check with `mypy`.
 3. Prefer editable installs and absolute imports.
 4. Update docs when structure or behavior changes.
+5. Use the `remote-project-control` skill before sync, remote submission, monitoring, or artifact inspection workflows.

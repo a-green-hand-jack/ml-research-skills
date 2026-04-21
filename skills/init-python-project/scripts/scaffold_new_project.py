@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import date
 import json
 import subprocess
 import sys
@@ -153,6 +154,15 @@ def main() -> int:
         "AUTHOR_NAME": args.author_name,
         "AUTHOR_EMAIL": args.author_email,
         "REPO_URL": args.repo_url,
+        "LOCAL_REPO_ROOT": str(target_dir),
+        "DEFAULT_BRANCH": "main",
+        "DEFAULT_SERVER_NAME": "cluster-a",
+        "DEFAULT_SSH_ALIAS": "cluster-a",
+        "DEFAULT_REMOTE_REPO_ROOT": f"/path/to/{args.project_name}",
+        "DEFAULT_SCHEDULER": "slurm",
+        "DEFAULT_LAUNCH_MODE": "sbatch",
+        "DEFAULT_ENV_ACTIVATION": "source .venv/bin/activate",
+        "DATE": date.today().isoformat(),
     }
 
     copy_template_groups(

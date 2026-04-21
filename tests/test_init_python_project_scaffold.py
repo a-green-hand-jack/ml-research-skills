@@ -59,6 +59,10 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
             self.assertFalse((target_dir / "pyproject.toml.tmpl").exists())
             self.assertTrue((target_dir / "experiments" / "config.py").is_file())
             self.assertTrue((target_dir / "infra" / "envs" / "local.yaml").is_file())
+            self.assertTrue((target_dir / "infra" / "remote-projects.yaml").is_file())
+            self.assertTrue((target_dir / "docs" / "ops" / "current-status.md").is_file())
+            self.assertTrue((target_dir / "docs" / "ops" / "decision-log.md").is_file())
+            self.assertTrue((target_dir / ".agent" / "local-overrides.yaml").is_file())
             self.assertTrue((target_dir / "scripts" / "train.py").is_file())
             self.assertTrue((target_dir / "tests" / "conftest.py").is_file())
             self.assertTrue((target_dir / ".vscode" / "settings.json").is_file())
@@ -68,14 +72,36 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
             claude = (target_dir / "CLAUDE.md").read_text(encoding="utf-8")
             pyproject = (target_dir / "pyproject.toml").read_text(encoding="utf-8")
             train_script = (target_dir / "scripts" / "train.py").read_text(encoding="utf-8")
+            remote_manifest = (target_dir / "infra" / "remote-projects.yaml").read_text(
+                encoding="utf-8"
+            )
+            current_status = (target_dir / "docs" / "ops" / "current-status.md").read_text(
+                encoding="utf-8"
+            )
+            local_overrides = (target_dir / ".agent" / "local-overrides.yaml").read_text(
+                encoding="utf-8"
+            )
+            gitignore = (target_dir / ".gitignore").read_text(encoding="utf-8")
 
-            for text in (readme, claude, pyproject, train_script):
+            for text in (
+                readme,
+                claude,
+                pyproject,
+                train_script,
+                remote_manifest,
+                current_status,
+                local_overrides,
+            ):
                 self.assertNotIn("{{PROJECT_NAME}}", text)
                 self.assertNotIn("{{PACKAGE_NAME}}", text)
 
             self.assertIn("demo-ml", readme)
             self.assertIn("demo_ml", pyproject)
             self.assertIn("from demo_ml.data import load_data", train_script)
+            self.assertIn(str(target_dir), remote_manifest)
+            self.assertIn("/path/to/demo-ml", remote_manifest)
+            self.assertIn("cluster-a", current_status)
+            self.assertIn(".agent/", gitignore)
 
     def test_scaffold_rejects_non_empty_target_directory(self) -> None:
         with tempfile.TemporaryDirectory(prefix="init-python-project-") as tmp:

@@ -38,6 +38,7 @@ venv.bak/
 *.swo
 *~
 .cursor/
+.agent/
 
 # Testing
 .pytest_cache/

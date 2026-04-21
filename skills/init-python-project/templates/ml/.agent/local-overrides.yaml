@@ -1,0 +1,13 @@
+# Private machine-specific overrides for local-to-remote project control.
+# Keep user-specific SSH aliases, usernames, and private paths here.
+
+servers:
+  - name: {{DEFAULT_SERVER_NAME}}
+    ssh_alias: {{DEFAULT_SSH_ALIAS}}
+    username: your-user
+    remote_repo_root: {{DEFAULT_REMOTE_REPO_ROOT}}
+    env_activation: {{DEFAULT_ENV_ACTIVATION}}
+    scratch_root: /private/scratch/path
+
+notes:
+  - Keep private values here instead of shared repo files

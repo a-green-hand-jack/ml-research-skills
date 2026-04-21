@@ -26,7 +26,7 @@ Installed skills are copied into the target agent's global skill home, for examp
 | Skill | What it does |
 |---|---|
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
-| `init-python-project` | Create or enhance a production-ready Python/ML project using `uv`, pytest, black, ruff, and mypy |
+| `init-python-project` | Create or enhance a production-ready Python/ML project using `uv`, pytest, black, ruff, and mypy, with remote-workflow memory scaffolding |
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
@@ -64,6 +64,7 @@ Installed skills are copied into the target agent's global skill home, for examp
 - `uv`-based Python project setup with editable installs
 - Development tooling: pytest, black, ruff, and mypy
 - Project docs scaffolding under `docs/`
+- Remote workflow bootstrap files under `infra/remote-projects.yaml`, `docs/ops/`, and `.agent/`
 - Editor configuration for Claude Code / Cursor / VS Code
 
 ## What `remote-project-control` Provides

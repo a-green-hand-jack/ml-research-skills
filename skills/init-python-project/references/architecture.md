@@ -32,6 +32,7 @@ Lower layers never import from higher layers.
 │   ├── envs/
 │   │   ├── local.yaml
 │   │   └── <cluster>.yaml
+│   ├── remote-projects.yaml     # Shared local/remote execution memory
 │   ├── submit/
 │   │   └── slurm/
 │   └── README.md
@@ -45,9 +46,14 @@ Lower layers never import from higher layers.
 │   ├── outlines/
 │   │   ├── project_plan.md
 │   │   └── progress.md
+│   ├── ops/
+│   │   ├── current-status.md
+│   │   └── decision-log.md
 │   └── dev/
 │       ├── feature_template.md
 │       └── features/
+├── .agent/
+│   └── local-overrides.yaml
 ├── .gitmodules
 ├── .vscode/
 │   └── settings.json
@@ -73,3 +79,5 @@ Lower layers never import from higher layers.
 | `infra/` | Cluster configs, submit scripts | nothing |
 
 Migrating to a new HPC should only require adding one YAML file to `infra/envs/`. Science code should not change.
+
+For projects that are developed locally but run remotely, store stable mapping and policy in `infra/remote-projects.yaml`, keep cross-session working memory in `docs/ops/`, and keep private machine-specific overrides in `.agent/local-overrides.yaml`.

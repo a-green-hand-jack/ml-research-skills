@@ -1,0 +1,35 @@
+# Stable shared memory for local-to-remote project control.
+# Update this file when the project mapping or remote workflow policy changes.
+
+project:
+  name: {{PROJECT_NAME}}
+  local_repo_root: {{LOCAL_REPO_ROOT}}
+
+git_sync:
+  remote_name: origin
+  default_branch: {{DEFAULT_BRANCH}}
+  strategy: github
+
+servers:
+  - name: {{DEFAULT_SERVER_NAME}}
+    ssh_alias: {{DEFAULT_SSH_ALIAS}}
+    remote_repo_root: {{DEFAULT_REMOTE_REPO_ROOT}}
+    scheduler: {{DEFAULT_SCHEDULER}}
+    launch_modes:
+      - {{DEFAULT_LAUNCH_MODE}}
+    env_activation: {{DEFAULT_ENV_ACTIVATION}}
+    default_env: cluster
+    data_root: /path/to/data
+    checkpoint_root: /path/to/checkpoints
+    scratch_root: /path/to/scratch
+    logs_root: {{DEFAULT_REMOTE_REPO_ROOT}}/outputs/logs
+    notes:
+      - Replace placeholder remote paths before relying on this manifest
+
+policies:
+  code_runs_remote_only: true
+  data_remote_only: true
+  checkpoints_remote_only: true
+  require_clean_git_before_sync: true
+  require_git_sync_before_remote_run: true
+  forbid_destructive_git_on_remote_without_confirmation: true

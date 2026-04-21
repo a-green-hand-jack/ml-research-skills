@@ -32,6 +32,8 @@ Help the user create a production-ready Python project or upgrade an existing on
     │   ├── tests/
     │   └── docs/
     └── ml/
+        ├── .agent/
+        ├── docs/
         ├── experiments/
         ├── infra/
         ├── eval/
@@ -111,6 +113,7 @@ The script handles:
 - copying templates from `templates/common/` and `templates/ml/`
 - placeholder replacement
 - creating `.env`
+- bootstrapping remote-project memory files for local-to-remote workflows
 - writing `.gitkeep` files
 
 After it completes, continue with install, verification, and git setup in Steps 2A.6 and 2A.7.
@@ -169,7 +172,11 @@ For `ml` projects, also write:
 - `experiments/configs/base.yaml`
 - `infra/envs/local.yaml`
 - `infra/envs/cluster.yaml.example`
+- `infra/remote-projects.yaml`
 - `infra/README.md`
+- `docs/ops/current-status.md`
+- `docs/ops/decision-log.md`
+- `.agent/local-overrides.yaml`
 - `eval/baselines/README.md`
 - `scripts/train.py`
 - `scripts/download_data.py`

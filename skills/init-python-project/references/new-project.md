@@ -43,7 +43,11 @@ Use `template_manifest.json` as the source of truth for which templates belong t
   - `templates/ml/experiments/configs/base.yaml`
   - `templates/ml/infra/envs/local.yaml`
   - `templates/ml/infra/envs/cluster.yaml.example`
+  - `templates/ml/infra/remote-projects.yaml`
   - `templates/ml/infra/README.md`
+  - `templates/ml/docs/ops/current-status.md`
+  - `templates/ml/docs/ops/decision-log.md`
+  - `templates/ml/.agent/local-overrides.yaml`
   - `templates/ml/eval/baselines/README.md`
   - `templates/ml/scripts/train.py`
   - `templates/ml/scripts/download_data.py`
@@ -59,5 +63,14 @@ Replace these placeholders when materializing templates:
 - `{{AUTHOR_NAME}}`
 - `{{AUTHOR_EMAIL}}`
 - `{{REPO_URL}}`
+- `{{LOCAL_REPO_ROOT}}`
+- `{{DEFAULT_BRANCH}}`
+- `{{DEFAULT_SERVER_NAME}}`
+- `{{DEFAULT_SSH_ALIAS}}`
+- `{{DEFAULT_REMOTE_REPO_ROOT}}`
+- `{{DEFAULT_SCHEDULER}}`
+- `{{DEFAULT_LAUNCH_MODE}}`
+- `{{DEFAULT_ENV_ACTIVATION}}`
+- `{{DATE}}`
 
 If the user did not provide a value such as `REPO_URL`, leave a clear `TBD` marker instead of fabricating one.
