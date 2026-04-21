@@ -15,6 +15,7 @@ Or install a specific skill:
 ```bash
 npx skills add a-green-hand-jack/ml-research-skills --skill init-latex-project
 npx skills add a-green-hand-jack/ml-research-skills --skill run-experiment
+npx skills add a-green-hand-jack/ml-research-skills --skill remote-project-control
 npx skills add a-green-hand-jack/ml-research-skills --skill submit-paper
 ```
 
@@ -29,6 +30,7 @@ Installed skills are copied into the target agent's global skill home, for examp
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
+| `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, and optional compile checks |
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
@@ -40,12 +42,13 @@ Installed skills are copied into the target agent's global skill home, for examp
 ```text
 1. project-init       -> create a parent workspace with paper/ and code/
 2. new-workspace      -> isolate a feature or experiment branch
-3. run-experiment     -> launch locally or on SLURM / RunAI
-4. project-sync       -> record results in paper/sections/daily_experiments.tex
-5. update-docs        -> refresh docs after meaningful code changes
-6. submit-paper       -> run a readiness check before a deadline
-7. release-code       -> prepare the public code release when needed
-8. add-git-tag        -> mark a milestone
+3. remote-project-control -> recover project memory and align local vs remote state
+4. run-experiment     -> launch locally or on SLURM / RunAI
+5. project-sync       -> record results in paper/sections/daily_experiments.tex
+6. update-docs        -> refresh docs after meaningful code changes
+7. submit-paper       -> run a readiness check before a deadline
+8. release-code       -> prepare the public code release when needed
+9. add-git-tag        -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -62,6 +65,13 @@ Installed skills are copied into the target agent's global skill home, for examp
 - Development tooling: pytest, black, ruff, and mypy
 - Project docs scaffolding under `docs/`
 - Editor configuration for Claude Code / Cursor / VS Code
+
+## What `remote-project-control` Provides
+
+- A repo-native memory model for projects developed locally but executed remotely over SSH
+- Shared and private memory files for server mappings, working status, and local overrides
+- Safe orchestration for inspect, sync, remote job submission, monitoring, and artifact lookup
+- A clean handoff layer between project memory and `run-experiment`
 
 ## What `run-experiment` Provides
 

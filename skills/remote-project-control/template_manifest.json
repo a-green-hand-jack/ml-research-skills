@@ -1,0 +1,32 @@
+{
+  "placeholders": [
+    "PROJECT_NAME",
+    "LOCAL_REPO_ROOT",
+    "DEFAULT_SERVER_NAME",
+    "DEFAULT_SSH_ALIAS",
+    "DEFAULT_REMOTE_REPO_ROOT",
+    "DEFAULT_BRANCH",
+    "DEFAULT_SCHEDULER",
+    "DEFAULT_LAUNCH_MODE",
+    "DEFAULT_ENV_ACTIVATION",
+    "DATE"
+  ],
+  "template_groups": {
+    "shared_memory": [
+      "templates/infra/remote-projects.yaml",
+      "templates/docs/ops/current-status.md",
+      "templates/docs/ops/decision-log.md"
+    ],
+    "private_memory": [
+      "templates/agent/local-overrides.yaml"
+    ]
+  },
+  "project_types": {
+    "default": {
+      "template_groups": [
+        "shared_memory",
+        "private_memory"
+      ]
+    }
+  }
+}

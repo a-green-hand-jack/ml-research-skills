@@ -58,6 +58,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `project-init` | Initialize a full research project: parent folder with `paper/` (LaTeX) + `code/` (Python) + `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
 | `new-workspace` | Create a git branch or worktree with UV sync and IDE config copying |
+| `remote-project-control` | Recover project memory and coordinate safe local/remote SSH workflows for a research repo |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
 | `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, optional compilation |
@@ -68,4 +69,5 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 - **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates `paper/` and `code/` sibling repos under a shared parent; `project-sync` keeps `daily_experiments.tex` updated with new results.
 - **`new-workspace`**: Worktrees go to `<project-root>/../worktrees/<branch-type>-<branch-name>/`. IDE config dirs (`.vscode`, `.cursor`, `.claude`) are copied (not symlinked). Large shared assets declared in `.worktree-links` are symlinked.
+- **`remote-project-control`**: Use this before remote-heavy work when a repo is edited locally but run on SSH servers. It establishes repo-native project memory and keeps local/remote state explicit across sessions.
 - **`init-latex-project`**: Invoked by `project-init` via `scripts/init.sh`. Always expand `~` to the actual home path when calling the script.

@@ -1,0 +1,14 @@
+# Private machine-specific overrides for remote project control.
+# This file usually belongs at <project-root>/.agent/local-overrides.yaml
+# and should often be gitignored.
+
+servers:
+  - name: {{DEFAULT_SERVER_NAME}}
+    ssh_alias: {{DEFAULT_SSH_ALIAS}}
+    username: your-user
+    remote_repo_root: {{DEFAULT_REMOTE_REPO_ROOT}}
+    env_activation: {{DEFAULT_ENV_ACTIVATION}}
+    scratch_root: /private/scratch/path
+
+notes:
+  - Add user-specific overrides here instead of polluting infra/remote-projects.yaml
