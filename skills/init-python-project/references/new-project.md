@@ -24,7 +24,7 @@ For `web`, `lib`, and `general`, keep the common project files but trim ML-speci
 
 ## Template Sources of Truth
 
-Use the files under `templates/` instead of copying long blocks from `SKILL.md`.
+Use `template_manifest.json` as the source of truth for which templates belong to the scaffold. The files still live under `templates/`, but the manifest defines the groups and placeholder set.
 
 - Common templates:
   - `templates/common/.gitignore`

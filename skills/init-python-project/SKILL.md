@@ -21,6 +21,7 @@ Help the user create a production-ready Python project or upgrade an existing on
 │   └── best-practices.md
 ├── scripts/
 │   └── scaffold_new_project.py
+├── template_manifest.json
 └── templates/
     ├── common/
     │   ├── .gitignore
@@ -47,6 +48,7 @@ Read only the references needed for the current path:
 - If you need policy, tradeoff, or failure-handling guidance, read `references/best-practices.md`
 
 Use `templates/` as the source of truth for file contents instead of reproducing long inline snippets.
+Use `template_manifest.json` as the source of truth for which template groups and placeholders the scaffold supports.
 
 ## Step 1 — Gather Project Information
 

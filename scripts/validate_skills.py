@@ -42,6 +42,7 @@ DOC_SKILL_TABLES = (
     REPO_ROOT / "AGENTS.md",
     REPO_ROOT / "CLAUDE.md",
 )
+MANIFEST_FILE_NAME = "template_manifest.json"
 TEXT_TEMPLATE_SUFFIXES = {
     ".md",
     ".txt",
@@ -253,6 +254,68 @@ def validate_templates(skill_dir: Path) -> list[Issue]:
     return issues
 
 
+def validate_template_manifest(skill_dir: Path) -> list[Issue]:
+    issues: list[Issue] = []
+    manifest_path = skill_dir / MANIFEST_FILE_NAME
+    if not manifest_path.exists():
+        return issues
+
+    rel = manifest_path.relative_to(REPO_ROOT)
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        return [Issue(rel, f"invalid manifest JSON: {exc}")]
+
+    if not isinstance(manifest, dict):
+        return [Issue(rel, "manifest must be a JSON object")]
+
+    placeholders = manifest.get("placeholders", [])
+    if not isinstance(placeholders, list) or not all(isinstance(item, str) for item in placeholders):
+        issues.append(Issue(rel, "`placeholders` must be a list of strings"))
+    else:
+        for placeholder in placeholders:
+            if not VALID_PLACEHOLDER_RE.fullmatch(placeholder):
+                issues.append(Issue(rel, f"invalid manifest placeholder `{placeholder}`"))
+
+    groups = manifest.get("template_groups", {})
+    if not isinstance(groups, dict):
+        issues.append(Issue(rel, "`template_groups` must be an object"))
+        groups = {}
+
+    for group_name, entries in groups.items():
+        if not isinstance(entries, list) or not all(isinstance(item, str) for item in entries):
+            issues.append(Issue(rel, f"`template_groups.{group_name}` must be a list of strings"))
+            continue
+        for entry in entries:
+            entry_path = skill_dir / entry
+            if not entry_path.exists():
+                issues.append(Issue(rel, f"manifest references missing template file `{entry}`"))
+
+    project_types = manifest.get("project_types", {})
+    if not isinstance(project_types, dict):
+        issues.append(Issue(rel, "`project_types` must be an object"))
+        project_types = {}
+
+    for project_type, cfg in project_types.items():
+        if not isinstance(cfg, dict):
+            issues.append(Issue(rel, f"`project_types.{project_type}` must be an object"))
+            continue
+        group_names = cfg.get("template_groups", [])
+        if not isinstance(group_names, list) or not all(isinstance(item, str) for item in group_names):
+            issues.append(Issue(rel, f"`project_types.{project_type}.template_groups` must be a list of strings"))
+        else:
+            for group_name in group_names:
+                if group_name not in groups:
+                    issues.append(
+                        Issue(
+                            rel,
+                            f"`project_types.{project_type}.template_groups` references unknown group `{group_name}`",
+                        )
+                    )
+
+    return issues
+
+
 def validate_doc_skill_tables(skill_names: set[str]) -> list[Issue]:
     issues: list[Issue] = []
     for doc_path in DOC_SKILL_TABLES:
@@ -322,6 +385,7 @@ def main() -> int:
     for skill_dir in skill_dirs:
         all_issues.extend(validate_skill(skill_dir))
         all_issues.extend(validate_templates(skill_dir))
+        all_issues.extend(validate_template_manifest(skill_dir))
     all_issues.extend(validate_doc_skill_tables(skill_names))
     all_issues.extend(validate_script_syntax())
 
