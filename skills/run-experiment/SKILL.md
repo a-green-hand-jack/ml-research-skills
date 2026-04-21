@@ -1,7 +1,7 @@
 ---
 name: run-experiment
 description: Submit or run an ML experiment on a compute environment (local, SLURM HPC, RunAI/Kubernetes). Use when the user wants to launch a training run, submit a job, run ablations, or execute an experiment script on any compute cluster.
-argument-hint: [--env <local|ibex|uw|runai|...>] [--script <path>] [--name <job-name>] [--gpus <N>]
+argument-hint: "[--env <local|ibex|uw|runai|...>] [--script <path>] [--name <job-name>] [--gpus <N>]"
 allowed-tools: Read, Write, Bash, Glob
 ---
 
