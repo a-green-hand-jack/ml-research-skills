@@ -44,13 +44,13 @@ mkdir -p <parent-dir>/<ProjectName>
 
 ## Step 3 — Initialize the Paper Repo
 
-Run the `init-latex-project` skill:
+Locate the installed `init-latex-project` skill directory for the current agent, then run its `init.sh` script by absolute path:
 
 ```bash
-bash ~/.claude/skills/init-latex-project/scripts/init.sh <ProjectName>-paper <parent-dir>/<ProjectName>/paper [--venue <venue>] --git
+bash <init-latex-project-skill-dir>/scripts/init.sh <ProjectName>-paper <parent-dir>/<ProjectName>/paper [--venue <venue>] --git
 ```
 
-> **Note**: Expand `~` to the actual home directory (e.g. `/Users/jieke`). Use `--venue` only if a venue was specified; omit for generic arXiv.
+> **Note**: Do not assume `~/.claude/skills/`. Resolve the skill directory for the current agent install first. Use `--venue` only if a venue was specified; omit for generic arXiv.
 
 After the script runs:
 
@@ -78,7 +78,7 @@ After the script runs:
 3. If GitHub SSH URL was provided for paper:
 ```bash
 git -C <parent-dir>/<ProjectName>/paper remote add origin <paper-github-url>
-git -C <parent-dir>/<ProjectName>/paper push -u origin main
+git -C <parent-dir>/<ProjectName>/paper push -u origin "$(git -C <parent-dir>/<ProjectName>/paper branch --show-current)"
 ```
 
 ---

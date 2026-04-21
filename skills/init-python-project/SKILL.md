@@ -1154,8 +1154,8 @@ git remote -v
 
 # Ask user if they want to push
 # If yes:
-git branch -M main
-git push -u origin main
+CURRENT_BRANCH="$(git branch --show-current)"
+git push -u origin "$CURRENT_BRANCH"
 ```
 
 If forked project:
@@ -1182,7 +1182,10 @@ uv pip install -e ".[dev]"
 pytest tests/ -v
 
 # If no tests yet, create a placeholder
-echo "def test_placeholder():\n    assert True" > tests/test_placeholder.py
+cat > tests/test_placeholder.py <<'EOF'
+def test_placeholder():
+    assert True
+EOF
 pytest tests/
 ```
 

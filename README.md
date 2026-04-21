@@ -1,6 +1,6 @@
 # ml-research-skills
 
-Claude Code skills for the full ML research workflow: initializing paper and code repos, running experiments, syncing results, updating docs, checking paper readiness, and tagging milestones.
+Agent skills for the full ML research workflow: initializing paper and code repos, running experiments, syncing results, updating docs, checking paper readiness, preparing releases, and tagging milestones.
 
 ## Install
 
@@ -18,7 +18,7 @@ npx skills add a-green-hand-jack/ml-research-skills --skill run-experiment
 npx skills add a-green-hand-jack/ml-research-skills --skill submit-paper
 ```
 
-Installed skills are copied into `~/.claude/skills/`.
+Installed skills are copied into the target agent's global skill home, for example `~/.claude/skills/` for Claude Code or `~/.agents/skills/` for Codex.
 
 ## Skills
 
@@ -31,6 +31,7 @@ Installed skills are copied into `~/.claude/skills/`.
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, and optional compile checks |
+| `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |
 
@@ -43,7 +44,8 @@ Installed skills are copied into `~/.claude/skills/`.
 4. project-sync       -> record results in paper/sections/daily_experiments.tex
 5. update-docs        -> refresh docs after meaningful code changes
 6. submit-paper       -> run a readiness check before a deadline
-7. add-git-tag        -> mark a milestone
+7. release-code       -> prepare the public code release when needed
+8. add-git-tag        -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -79,17 +81,32 @@ Installed skills are copied into `~/.claude/skills/`.
 - Basic anonymity issues for blind review
 - Optional compile checks and page-count sanity checks
 
+## What `release-code` Provides
+
+- A release audit for secrets, large files, and missing repo hygiene
+- Templates for `README.md` and `CITATION.cff`
+- License generation guidance
+- A structured tagging and publishing flow for public code releases
+
 ## Validation
 
-There are no automated tests in this repository. To validate a skill:
+There are no automated tests in this repository. For a quick repository sanity check, run:
 
-1. Copy the skill directory to `~/.claude/skills/<skill-name>/`
-2. Invoke it in Claude Code with a matching request
+```bash
+python3 scripts/validate_skills.py
+```
+
+This validator checks frontmatter parsing, skill-directory name alignment, helper-file references, and hardcoded Claude-only skill paths.
+
+To validate a skill end-to-end:
+
+1. Copy the skill directory to the target agent's skill home (for example `~/.claude/skills/<skill-name>/` or `~/.agents/skills/<skill-name>/`)
+2. Invoke it in the corresponding agent with a matching request
 3. Inspect the generated files, commands, or instructions and iterate
 
 ## Requirements
 
-- [Claude Code](https://claude.ai/code)
+- [Claude Code](https://claude.ai/code) or another compatible agent runtime
 - [npx skills](https://github.com/vercel-labs/skills)
 - For Python-related skills: [uv](https://docs.astral.sh/uv/)
 - For LaTeX-related skills: a TeX distribution such as TeX Live or MiKTeX

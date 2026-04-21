@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository.
 
 ## Repository Overview
 
-This repo is **ml-research-skills** — a collection of Claude Code skills for ML researchers. Each skill lives under `skills/<skill-name>/` as an instruction bundle centered on `SKILL.md`, with optional `scripts/` and `templates/` directories.
+This repo is **ml-research-skills** — a collection of agent skills for ML researchers. Each skill lives under `skills/<skill-name>/` as an instruction bundle centered on `SKILL.md`, with optional `scripts/` and `templates/` directories.
 
 Skills in this repo are installed with:
 
@@ -36,6 +36,10 @@ ml-research-skills/
     │   └── SKILL.md
     ├── project-sync/
     │   └── SKILL.md
+    ├── release-code/
+    │   ├── SKILL.md
+    │   ├── checklist.md
+    │   └── templates/
     ├── run-experiment/
     │   ├── SKILL.md
     │   ├── environments.yaml
@@ -58,6 +62,7 @@ ml-research-skills/
 | `new-workspace` | Create a Git branch or worktree for features and experiments |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project |
+| `release-code` | Prepare and publish a research code repository for public release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs update and refresh affected documentation |
 
@@ -94,9 +99,15 @@ Guidelines:
 
 ## Validation
 
-There are no automated tests in this repository. Validate changes by exercising the skill in Claude Code:
+There are no automated tests in this repository. Before manual validation, run the local repository sanity check:
 
-1. Copy the skill directory to `~/.claude/skills/`
+```bash
+python3 scripts/validate_skills.py
+```
+
+Then validate changes by exercising the skill in the target agent runtime:
+
+1. Copy the skill directory to the target agent's skill home, such as `~/.claude/skills/` or `~/.agents/skills/`
 2. Invoke it by describing a matching task
 3. Check that the generated instructions, scripts, and templates behave as intended
 

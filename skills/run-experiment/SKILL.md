@@ -14,7 +14,7 @@ Generates a **reproducible job script** in `jobs/` that is committed alongside t
 ## Skill Directory Layout
 
 ```
-~/.claude/skills/run-experiment/
+<installed-skill-dir>/
 ├── SKILL.md
 ├── environments.yaml        # Environment profiles (extend for new clusters)
 └── templates/
@@ -29,7 +29,7 @@ Generates a **reproducible job script** in `jobs/` that is committed alongside t
 
 ### 1. Read the environment registry
 
-Read `~/.claude/skills/run-experiment/environments.yaml` (expand `~` to actual home path).
+Resolve `<installed-skill-dir>` as the directory containing this `SKILL.md`, then read `<installed-skill-dir>/environments.yaml`.
 
 List the available environments to the user with a one-line description each.
 
@@ -65,7 +65,7 @@ Based on the environment type:
 
 #### type: slurm (ibex, uw, or any SLURM cluster)
 
-Read the SLURM template from `~/.claude/skills/run-experiment/templates/slurm_job.sh`.
+Read the SLURM template from `<installed-skill-dir>/templates/slurm_job.sh`.
 
 Fill in all `{PLACEHOLDER}` variables:
 
@@ -98,7 +98,7 @@ If scratch path is in the env profile, uncomment the TMPDIR block.
 
 #### type: runai (runai profile)
 
-Read the RunAI template from `~/.claude/skills/run-experiment/templates/runai_job.sh`.
+Read the RunAI template from `<installed-skill-dir>/templates/runai_job.sh`.
 
 Fill in placeholders:
 
@@ -121,7 +121,7 @@ Fill in placeholders:
 
 #### type: local
 
-Read the local template from `~/.claude/skills/run-experiment/templates/local_run.sh`.
+Read the local template from `<installed-skill-dir>/templates/local_run.sh`.
 
 Fill in placeholders similarly. Uncomment conda/venv activation as appropriate.
 
@@ -138,9 +138,11 @@ If the user specifies an environment not in `environments.yaml`:
 
 ### 5. Write the job script and preview
 
-Create `jobs/` directory if it doesn't exist:
+Create the job script directory, log directory, and output directory before previewing or submitting:
 ```bash
 mkdir -p <project-root>/jobs
+mkdir -p <project-root>/outputs/logs/<job-name>
+mkdir -p <output-dir>
 ```
 
 Write the filled-in script to `jobs/<job-name>.sh` (or `-runai.sh` / `-local.sh`).
@@ -159,7 +161,7 @@ sbatch jobs/<job-name>.sh
 
 # If submitting from your laptop (requires ssh access):
 scp jobs/<job-name>.sh <ssh-alias>:<project-root>/jobs/
-ssh <ssh-alias> "cd <project-root> && sbatch jobs/<job-name>.sh"
+ssh <ssh-alias> "cd <project-root> && mkdir -p outputs/logs/<job-name> <output-dir> jobs && sbatch jobs/<job-name>.sh"
 
 # Monitor:
 squeue -u $USER
@@ -219,7 +221,7 @@ All environments are defined in `environments.yaml`. The current known environme
 
 ### Adding a New Environment
 
-Edit `~/.claude/skills/run-experiment/environments.yaml` and add a block:
+Edit `<installed-skill-dir>/environments.yaml` and add a block:
 
 ```yaml
 my-cluster:

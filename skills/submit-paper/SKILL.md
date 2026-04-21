@@ -51,10 +51,10 @@ Wait for the answer before proceeding.
 // turbo
 
 ```bash
-bash ~/.claude/skills/submit-paper/scripts/check.sh "$PAPER_DIR" [--compile]
+bash <submit-paper-skill-dir>/scripts/check.sh "$PAPER_DIR" [--compile]
 ```
 
-**Important**: Use the absolute path to `check.sh`. Expand `~` to the actual home directory.
+**Important**: Resolve `<submit-paper-skill-dir>` as the installed directory for this skill and use the absolute path to `check.sh`.
 
 The script performs:
 | Check | What it looks for |
@@ -78,9 +78,9 @@ After reading the script output, check `venue_preamble.tex` and verify the `\use
 
 | Submission type | venue_preamble.tex should contain |
 |---|---|
-| Initial / anonymous | `\usepackage{neurips_2026}` or `\usepackage[review]{cvpr}` |
-| arXiv / preprint | `\usepackage[preprint]{neurips_2026}` |
-| Camera-ready | `\usepackage[final]{neurips_2026}` or `\usepackage{cvpr}` |
+| Initial / anonymous | e.g. `\usepackage{neurips_<year>}`, `\usepackage[review]{cvpr}`, or `\usepackage[review]{iccv}` |
+| arXiv / preprint | e.g. `\usepackage[preprint]{neurips_<year>}` |
+| Camera-ready | e.g. `\usepackage[final]{neurips_<year>}`, `\usepackage{cvpr}`, or `\usepackage{iccv}` |
 
 Ask "Should I update `venue_preamble.tex` to `[mode]` mode?" — then edit if confirmed.
 
@@ -148,30 +148,37 @@ Do **not** auto-fix without confirmation.
 ### NeurIPS
 ```latex
 % Anonymous submission (default):
-\usepackage{neurips_2026}
+\usepackage{neurips_<year>}
 % arXiv preprint:
-\usepackage[preprint]{neurips_2026}
+\usepackage[preprint]{neurips_<year>}
 % Camera-ready:
-\usepackage[final]{neurips_2026}
+\usepackage[final]{neurips_<year>}
 ```
 
 ### ICML
 ```latex
-\usepackage{icml2026}           % anonymous
-\usepackage[accepted]{icml2026} % camera-ready
+\usepackage{icml<year>}           % anonymous
+\usepackage[accepted]{icml<year>} % camera-ready
 ```
 
 ### ICLR
 ```latex
-\usepackage[submitted]{iclr2026_conference}  % anonymous
-\usepackage[accepted]{iclr2026_conference}   % camera-ready
+\usepackage[submitted]{iclr<year>_conference}  % anonymous
+\usepackage[accepted]{iclr<year>_conference}   % camera-ready
 ```
 
-### CVPR / ICCV
+### CVPR
 ```latex
 \usepackage[review]{cvpr}   % anonymous
 \usepackage{cvpr}           % camera-ready
 \usepackage[pagenumbers]{cvpr}  % arXiv (shows page numbers)
+```
+
+### ICCV
+```latex
+\usepackage[review]{iccv}   % anonymous
+\usepackage{iccv}           % camera-ready
+\usepackage[pagenumbers]{iccv}  % arXiv (shows page numbers)
 ```
 
 ### ACL / EMNLP / NAACL

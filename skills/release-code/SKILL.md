@@ -11,7 +11,7 @@ Prepare a research code repository for public release: audit for security issues
 ## Skill Directory Layout
 
 ```
-~/.claude/skills/release-code/
+<installed-skill-dir>/
 ├── SKILL.md
 ├── checklist.md                      # Detailed item-by-item checklist reference
 └── templates/
@@ -105,7 +105,7 @@ Write to `{PROJECT_ROOT}/LICENSE`.
 
 #### CITATION.cff
 
-Read the template from `~/.claude/skills/release-code/templates/CITATION.cff`.
+Read the template from `<installed-skill-dir>/templates/CITATION.cff`.
 
 Fill in placeholders:
 | Placeholder | Value |
@@ -124,7 +124,7 @@ Write to `{PROJECT_ROOT}/CITATION.cff`.
 
 If README is missing or skeletal (< 50 lines):
 
-Read the template from `~/.claude/skills/release-code/templates/README_ml_paper.md`.
+Read the template from `<installed-skill-dir>/templates/README_ml_paper.md`.
 
 Fill in all placeholders. Leave `[TODO: ...]` markers where the user must provide content (e.g., exact performance numbers, dataset download links).
 
@@ -173,7 +173,7 @@ credentials.json
 
 ### 4. Pre-release checklist review
 
-Read `~/.claude/skills/release-code/checklist.md` for the full item list.
+Read `<installed-skill-dir>/checklist.md` for the full item list.
 
 Present the user with a condensed checklist grouped by category. For each item, report status (✅ done / ⚠️ needs attention / ❌ missing):
 
@@ -234,7 +234,8 @@ EOF
 Ask: **"Push commit and tag to origin?"**
 
 ```bash
-git -C "$ROOT" push origin main
+CURRENT_BRANCH="$(git -C "$ROOT" branch --show-current)"
+git -C "$ROOT" push origin "$CURRENT_BRANCH"
 git -C "$ROOT" push origin "{VERSION}"
 ```
 

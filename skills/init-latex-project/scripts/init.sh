@@ -66,6 +66,16 @@ fi
 YEAR=$(date +%Y)
 TODAY=$(date +%Y-%m-%d)
 
+first_match_basename() {
+  local root="$1"
+  shift
+  local path=""
+  path=$(find "$root" -maxdepth 1 "$@" 2>/dev/null | head -1 || true)
+  if [[ -n "$path" ]]; then
+    basename "$path"
+  fi
+}
+
 # Download a zip from $1, extract all .sty/.bst/.cls files flat into $2.
 fetch_zip() {
   local url="$1" dest="$2" tmpdir
@@ -111,7 +121,7 @@ download_styles() {
       for y in "$YEAR" "$((YEAR-1))"; do
         url="https://media.icml.cc/Conferences/ICML${y}/Styles/icml${y,,}.zip"
         if fetch_zip "$url" "$dest"; then
-          sty=$(find "$dest" -maxdepth 1 -name "icml*.sty" -printf "%f\n" 2>/dev/null | head -1)
+          sty=$(first_match_basename "$dest" -name "icml*.sty")
           if [[ -n "$sty" ]]; then
             pkg="${sty%.sty}"
             cat > "$dest/venue_preamble.tex" <<EOF
@@ -129,7 +139,7 @@ EOF
       for y in "$YEAR" "$((YEAR-1))"; do
         url="https://media.nips.cc/Conferences/${y}/Styles/neurips_${y}.zip"
         if fetch_zip "$url" "$dest"; then
-          sty=$(find "$dest" -maxdepth 1 -name "neurips_*.sty" -printf "%f\n" 2>/dev/null | head -1)
+          sty=$(first_match_basename "$dest" -name "neurips_*.sty")
           if [[ -n "$sty" ]]; then
             pkg="${sty%.sty}"
             cat > "$dest/venue_preamble.tex" <<EOF
@@ -149,7 +159,7 @@ EOF
       for y in "$YEAR" "$((YEAR-1))"; do
         url="https://github.com/ICLR/Master-Template/raw/master/iclr${y}.zip"
         if fetch_zip "$url" "$dest"; then
-          sty=$(find "$dest" -maxdepth 1 -name "iclr*_conference.sty" -printf "%f\n" 2>/dev/null | head -1)
+          sty=$(first_match_basename "$dest" -name "iclr*_conference.sty")
           if [[ -n "$sty" ]]; then
             pkg="${sty%.sty}"
             cat > "$dest/venue_preamble.tex" <<EOF
@@ -184,8 +194,7 @@ EOF
       for y in "$YEAR" "$((YEAR-1))" "$((YEAR+1))"; do
         url="https://media.eventhosts.cc/Conferences/ICCV${y}/ICCV${y}-Author-Kit-Feb.zip"
         if fetch_zip "$url" "$dest"; then
-          sty=$(find "$dest" -maxdepth 1 \( -name "iccv*.sty" -o -name "cvpr.sty" \) \
-                  -printf "%f\n" 2>/dev/null | head -1)
+          sty=$(first_match_basename "$dest" \( -name "iccv*.sty" -o -name "cvpr.sty" \))
           if [[ -n "$sty" ]]; then
             pkg="${sty%.sty}"
             cat > "$dest/venue_preamble.tex" <<EOF

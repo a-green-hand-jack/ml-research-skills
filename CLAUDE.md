@@ -10,13 +10,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npx skills add a-green-hand-jack/ml-research-skills
 ```
 
-All files are instruction documents for AI agents — not executable code. Skills are deployed by copying to `~/.claude/skills/`.
+All files are instruction documents for AI agents — not executable code. Skills are deployed by copying to the target agent's skill home.
 
 ## Testing Changes
 
 No automated tests. To validate a change:
-1. Copy the skill directory to `~/.claude/skills/<skill-name>/`
-2. Invoke in Claude Code by describing the task
+
+```bash
+python3 scripts/validate_skills.py
+```
+
+1. Copy the skill directory to the target agent's skill home, such as `~/.claude/skills/<skill-name>/` or `~/.agents/skills/<skill-name>/`
+2. Invoke in the corresponding agent by describing the task
 3. Verify the output and iterate
 
 ## Adding a New Skill

@@ -8,6 +8,7 @@
 # Submit:   sbatch {SCRIPT_NAME}
 # Monitor:  squeue -u $USER
 # Logs:     tail -f {LOG_DIR}/slurm-%j.out
+# Important: create {LOG_DIR} before calling sbatch.
 
 # ── SLURM directives ──────────────────────────────────────────────────────────
 #SBATCH --job-name={JOB_NAME}
