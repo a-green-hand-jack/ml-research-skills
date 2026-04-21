@@ -12,3 +12,6 @@ The validator checks:
 - `name` matches the skill directory
 - common helper-file references in `SKILL.md` exist
 - `SKILL.md` does not hardcode Claude-only install paths
+- text template placeholders use the expected format
+- `README.md`, `AGENTS.md`, and `CLAUDE.md` list the current skill inventory correctly
+- repository Python and shell helper scripts pass a basic syntax check

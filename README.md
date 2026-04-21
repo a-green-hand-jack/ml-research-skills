@@ -96,7 +96,7 @@ There are no automated tests in this repository. For a quick repository sanity c
 python3 scripts/validate_skills.py
 ```
 
-This validator checks frontmatter parsing, skill-directory name alignment, helper-file references, and hardcoded Claude-only skill paths.
+This validator checks frontmatter parsing, skill-directory name alignment, helper-file references, hardcoded Claude-only skill paths, text-template placeholder format, skill inventory consistency in the top-level docs, and basic Python/shell syntax for helper scripts.
 
 For the `init-python-project` scaffold smoke test, run:
 

@@ -33,6 +33,8 @@ def render_text(text: str, replacements: dict[str, str]) -> str:
 def copy_templates(src_root: Path, dest_root: Path, replacements: dict[str, str]) -> None:
     def walk(current: Path) -> None:
         for src in sorted(current.iterdir()):
+            if src.name == "__pycache__" or src.suffix == ".pyc":
+                continue
             rel = src.relative_to(src_root)
             if rel.name.endswith(".tmpl"):
                 rel = rel.with_name(rel.name[:-5])

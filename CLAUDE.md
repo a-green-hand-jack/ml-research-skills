@@ -20,6 +20,8 @@ No automated tests. To validate a change:
 python3 scripts/validate_skills.py
 ```
 
+This covers frontmatter, helper references, top-level skill inventory consistency, template placeholder format, and basic Python/shell syntax.
+
 For the `init-python-project` scaffold smoke test:
 
 ```bash

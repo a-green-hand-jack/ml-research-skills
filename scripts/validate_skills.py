@@ -1,16 +1,21 @@
 #!/usr/bin/env python3
-"""Minimal validator for ml-research-skills.
+"""Repository validator for ml-research-skills.
 
 Checks:
 1. Every skill has a parseable YAML frontmatter block.
 2. The frontmatter `name` matches the skill directory name.
 3. Common helper-file references in `SKILL.md` exist.
 4. Skill instructions do not hardcode Claude-only install paths.
+5. Template placeholders are well-formed.
+6. Top-level docs list the current skill inventory correctly.
+7. Python and shell helper scripts pass a basic syntax check.
 """
 
 from __future__ import annotations
 
 import json
+import os
+import py_compile
 import re
 import subprocess
 import sys
@@ -29,6 +34,30 @@ RELATIVE_SUPPORT_PATH_RE = re.compile(
 SKILL_DIR_PLACEHOLDER_RE = re.compile(r"<([a-z0-9-]+)-skill-dir>/(.+)")
 CLAUDE_ONLY_PATH_RE = re.compile(r"~/.claude/skills/")
 COMMON_SUPPORT_FILES = ("sources.yaml", "environments.yaml", "checklist.md")
+PLACEHOLDER_RE = re.compile(r"\{\{([A-Za-z0-9_]+)\}\}")
+VALID_PLACEHOLDER_RE = re.compile(r"^[A-Z][A-Z0-9_]*$")
+SKILL_TABLE_ENTRY_RE = re.compile(r"^\|\s*`([a-z0-9-]+)`\s*\|")
+DOC_SKILL_TABLES = (
+    REPO_ROOT / "README.md",
+    REPO_ROOT / "AGENTS.md",
+    REPO_ROOT / "CLAUDE.md",
+)
+TEXT_TEMPLATE_SUFFIXES = {
+    ".md",
+    ".txt",
+    ".py",
+    ".sh",
+    ".tex",
+    ".yaml",
+    ".yml",
+    ".json",
+    ".toml",
+    ".cfg",
+    ".ini",
+    ".rst",
+    ".bib",
+    ".cff",
+}
 
 
 @dataclass(frozen=True)
@@ -192,6 +221,96 @@ def validate_skill(skill_dir: Path) -> list[Issue]:
     return issues
 
 
+def validate_templates(skill_dir: Path) -> list[Issue]:
+    issues: list[Issue] = []
+    templates_root = skill_dir / "templates"
+    if not templates_root.exists():
+        return issues
+
+    for template_file in sorted(path for path in templates_root.rglob("*") if path.is_file()):
+        rel = template_file.relative_to(REPO_ROOT)
+        if template_file.suffix not in TEXT_TEMPLATE_SUFFIXES and template_file.name not in {
+            ".gitignore",
+            ".env.example",
+            "Dockerfile",
+            "Makefile",
+        }:
+            continue
+        try:
+            text = template_file.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            issues.append(Issue(rel, "template looks like a text file but is not valid UTF-8"))
+            continue
+        placeholders = sorted(set(PLACEHOLDER_RE.findall(text)))
+        for placeholder in placeholders:
+            if not VALID_PLACEHOLDER_RE.fullmatch(placeholder):
+                issues.append(
+                    Issue(
+                        rel,
+                        f"invalid template placeholder `{{{{{placeholder}}}}}`; use upper-case snake case",
+                    )
+                )
+    return issues
+
+
+def validate_doc_skill_tables(skill_names: set[str]) -> list[Issue]:
+    issues: list[Issue] = []
+    for doc_path in DOC_SKILL_TABLES:
+        found: list[str] = []
+        for line in doc_path.read_text(encoding="utf-8").splitlines():
+            match = SKILL_TABLE_ENTRY_RE.match(line.strip())
+            if match:
+                found.append(match.group(1))
+
+        found_set = set(found)
+        missing = sorted(skill_names - found_set)
+        extra = sorted(found_set - skill_names)
+        duplicates = sorted({name for name in found if found.count(name) > 1})
+        rel = doc_path.relative_to(REPO_ROOT)
+
+        if missing:
+            issues.append(Issue(rel, f"skill table missing entries: {', '.join(missing)}"))
+        if extra:
+            issues.append(Issue(rel, f"skill table contains unknown entries: {', '.join(extra)}"))
+        if duplicates:
+            issues.append(Issue(rel, f"skill table contains duplicate entries: {', '.join(duplicates)}"))
+
+    return issues
+
+
+def validate_script_syntax() -> list[Issue]:
+    issues: list[Issue] = []
+
+    for py_file in sorted(REPO_ROOT.rglob("*.py")):
+        if any(part in {".git", "__pycache__"} for part in py_file.parts):
+            continue
+        rel = py_file.relative_to(REPO_ROOT)
+        text = py_file.read_text(encoding="utf-8")
+        if PLACEHOLDER_RE.search(text):
+            continue
+        try:
+            compile(text, str(py_file), "exec")
+        except SyntaxError as exc:
+            issues.append(Issue(rel, f"python syntax check failed: {exc.msg}"))
+
+    for sh_file in sorted(REPO_ROOT.rglob("*.sh")):
+        if any(part == ".git" for part in sh_file.parts):
+            continue
+        rel = sh_file.relative_to(REPO_ROOT)
+        proc = subprocess.run(
+            ["bash", "-n", str(sh_file)],
+            text=True,
+            capture_output=True,
+            check=False,
+            env={**os.environ, "BASH_ENV": ""},
+        )
+        if proc.returncode != 0:
+            detail = proc.stderr.strip() or proc.stdout.strip() or "unknown shell syntax error"
+            issues.append(Issue(rel, f"shell syntax check failed: {detail}"))
+
+    return issues
+
+
 def main() -> int:
     if not SKILLS_ROOT.exists():
         print(f"skills directory not found: {SKILLS_ROOT}", file=sys.stderr)
@@ -199,8 +318,12 @@ def main() -> int:
 
     skill_dirs = sorted(path for path in SKILLS_ROOT.iterdir() if path.is_dir())
     all_issues: list[Issue] = []
+    skill_names = {path.name for path in skill_dirs}
     for skill_dir in skill_dirs:
         all_issues.extend(validate_skill(skill_dir))
+        all_issues.extend(validate_templates(skill_dir))
+    all_issues.extend(validate_doc_skill_tables(skill_names))
+    all_issues.extend(validate_script_syntax())
 
     if all_issues:
         for issue in all_issues:
