@@ -19,6 +19,8 @@ Help the user create a production-ready Python project or upgrade an existing on
 │   ├── new-project.md
 │   ├── fork-enhancement.md
 │   └── best-practices.md
+├── scripts/
+│   └── scaffold_new_project.py
 └── templates/
     ├── common/
     │   ├── .gitignore
@@ -84,7 +86,36 @@ uv init --name <package_name> --python <version>
 
 If the directory already exists, stop and ask whether to choose a new name or reuse it.
 
-#### 2A.2 Create the directory layout
+#### 2A.2 Preferred path for `new + ml`
+
+For a new ML project, prefer the bundled scaffold script:
+
+```bash
+python3 <installed-skill-dir>/scripts/scaffold_new_project.py \
+  <target-dir> \
+  --project-name <project-name> \
+  --package-name <package-name> \
+  --description "<short-description>" \
+  --python-version <version> \
+  --author-name "<author-name>" \
+  --author-email "<author-email>" \
+  --repo-url "<repo-url-or-TBD>"
+```
+
+The script handles:
+
+- `uv init`
+- source/test/docs directory creation
+- copying templates from `templates/common/` and `templates/ml/`
+- placeholder replacement
+- creating `.env`
+- writing `.gitkeep` files
+
+After it completes, continue with install, verification, and git setup in Steps 2A.6 and 2A.7.
+
+If the user wants a non-ML layout or the script is not suitable, fall back to the manual path below.
+
+#### 2A.3 Manual fallback: create the directory layout
 
 For `ml` projects, create the full four-layer structure from `references/architecture.md`.
 
@@ -104,7 +135,7 @@ touch tests/__init__.py
 
 For non-ML projects, keep the common project files but only create ML-specific directories if the user explicitly wants them.
 
-#### 2A.3 Materialize templates
+#### 2A.4 Materialize templates
 
 Use the templates under `templates/` and replace placeholders:
 
@@ -143,7 +174,7 @@ For `ml` projects, also write:
 
 Create `.env` as an empty file with a short comment header if it does not exist.
 
-#### 2A.4 Add placeholder files for empty directories
+#### 2A.5 Add placeholder files for empty directories
 
 Use `.gitkeep` where needed so empty directories are tracked:
 
@@ -158,7 +189,7 @@ touch tests/outputs/.gitkeep
 
 Only create placeholders for directories that actually exist in the chosen project type.
 
-#### 2A.5 Install and verify
+#### 2A.6 Install and verify
 
 For ML projects:
 
@@ -188,10 +219,10 @@ EOF
 pytest tests/
 ```
 
-#### 2A.6 Initialize git and optional remote
+#### 2A.7 Initialize git and optional remote
 
 ```bash
-git init
+git rev-parse --git-dir >/dev/null 2>&1 || git init
 git add .
 git commit -m "Initial Python project structure"
 ```

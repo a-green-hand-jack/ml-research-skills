@@ -18,6 +18,8 @@ Ask for:
 
 For `ml` projects, create the full four-layer layout from `references/architecture.md`.
 
+For the standard `new + ml` path, prefer `scripts/scaffold_new_project.py` so directory creation, template copying, and placeholder replacement stay deterministic.
+
 For `web`, `lib`, and `general`, keep the common project files but trim ML-specific directories if they are not justified. Do not force `experiments/`, `eval/`, or `infra/` into projects that clearly do not need them.
 
 ## Template Sources of Truth
