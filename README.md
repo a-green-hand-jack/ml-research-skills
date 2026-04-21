@@ -98,6 +98,12 @@ python3 scripts/validate_skills.py
 
 This validator checks frontmatter parsing, skill-directory name alignment, helper-file references, and hardcoded Claude-only skill paths.
 
+For the `init-python-project` scaffold smoke test, run:
+
+```bash
+python3 -m unittest -v tests.test_init_python_project_scaffold
+```
+
 To validate a skill end-to-end:
 
 1. Copy the skill directory to the target agent's skill home (for example `~/.claude/skills/<skill-name>/` or `~/.agents/skills/<skill-name>/`)

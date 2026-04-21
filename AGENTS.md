@@ -105,6 +105,12 @@ There are no automated tests in this repository. Before manual validation, run t
 python3 scripts/validate_skills.py
 ```
 
+For the `init-python-project` scaffold smoke test, run:
+
+```bash
+python3 -m unittest -v tests.test_init_python_project_scaffold
+```
+
 Then validate changes by exercising the skill in the target agent runtime:
 
 1. Copy the skill directory to the target agent's skill home, such as `~/.claude/skills/` or `~/.agents/skills/`

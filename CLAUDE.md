@@ -20,6 +20,12 @@ No automated tests. To validate a change:
 python3 scripts/validate_skills.py
 ```
 
+For the `init-python-project` scaffold smoke test:
+
+```bash
+python3 -m unittest -v tests.test_init_python_project_scaffold
+```
+
 1. Copy the skill directory to the target agent's skill home, such as `~/.claude/skills/<skill-name>/` or `~/.agents/skills/<skill-name>/`
 2. Invoke in the corresponding agent by describing the task
 3. Verify the output and iterate
