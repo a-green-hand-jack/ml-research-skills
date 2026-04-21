@@ -1,0 +1,7 @@
+# Platform: <cluster name>
+# Usage: ENV=<cluster> uv run python experiments/train.py
+data_root: /path/to/shared/datasets
+checkpoint_root: /path/to/user/checkpoints
+output_root: /path/to/user/outputs
+n_gpus: 8
+partition: gpu

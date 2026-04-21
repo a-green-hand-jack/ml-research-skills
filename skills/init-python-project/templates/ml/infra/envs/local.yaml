@@ -1,0 +1,5 @@
+# Platform: local development machine
+data_root: ~/data
+checkpoint_root: ~/checkpoints
+output_root: ~/outputs
+n_gpus: 1
