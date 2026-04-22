@@ -48,6 +48,9 @@ ml-research-skills/
     │   └── SKILL.md
     ├── project-sync/
     │   └── SKILL.md
+    ├── safe-git-ops/
+    │   ├── SKILL.md
+    │   └── references/
     ├── remote-project-control/
     │   ├── SKILL.md
     │   ├── references/
@@ -77,6 +80,7 @@ ml-research-skills/
 | `project-init` | Create a parent research workspace with aligned `paper/` and `code/` repos |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or worktree for features and experiments |
+| `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project |

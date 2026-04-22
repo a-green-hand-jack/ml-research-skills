@@ -42,6 +42,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
+| `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, and optional compile checks |
