@@ -1,0 +1,23 @@
+{
+  "skill_name": "safe-git-ops",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "我在一个 git worktree 里让 agent 跑 `git cherry-pick 8abc123`，它回我说可能有代码冲突，但报错其实是 `operation not permitted`，还提到了 `.git/worktrees/feature-a/index.lock`。请解释这是什么情况，下一步应该怎么做。",
+      "expected_output": "The response should classify the failure as a sandbox or permission restriction rather than a merge conflict, mention shared worktree metadata, and recommend rerunning with elevated permissions.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "帮我在这个仓库里 cherry-pick 一个提交到当前分支。这个 repo 用了 git worktree。你开始之前先确认应该检查什么，避免把权限问题误判成冲突。",
+      "expected_output": "The response should trigger the Git skill proactively, inspect repo root, git dir, common git dir, worktree state, and explain the preflight before attempting the write.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "agent 说 merge 失败了，但我看到的报错是 `Your local changes to the following files would be overwritten by merge`。这到底是冲突、权限问题，还是别的？",
+      "expected_output": "The response should classify the issue as a repository state problem rather than a content conflict or sandbox failure, and explain the safe next options such as commit, stash, or discard with confirmation.",
+      "files": []
+    }
+  ]
+}

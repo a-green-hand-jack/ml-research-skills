@@ -1,6 +1,6 @@
 ---
 name: safe-git-ops
-description: Perform common Git operations safely with sandbox-aware failure handling. Use whenever the user wants to inspect or modify git state, especially for cherry-pick, merge, rebase, commit, branch, stash, or worktree workflows. Always use this skill when git errors might be confused with code conflicts, when the repo uses worktrees, or when a sandboxed agent needs to decide whether to request permission escalation.
+description: "Perform common Git operations safely with sandbox-aware failure handling. Use whenever the user wants to inspect or modify git state, especially for cherry-pick, merge, rebase, commit, branch, stash, or worktree workflows. Always use this skill when the user mentions a Git failure, conflict, cherry-pick, merge issue, worktree, branch checkout problem, lock file, permission denied, operation not permitted, or any case where a sandboxed agent might confuse an environment restriction with a real code conflict. Be proactive: if the task smells like Git state or Git write behavior, use this skill even if the user did not explicitly ask for a 'Git' workflow."
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
@@ -31,6 +31,34 @@ Help the user perform common Git operations without confusing sandbox failures, 
 - Ask before destructive operations such as `reset --hard`, `checkout --`, deleting branches, or dropping stashes
 - Prefer non-interactive Git commands
 - When a write operation is blocked by the sandbox, explain that clearly and request escalation instead of guessing about conflicts
+- Bias toward early activation: if the user reports a Git failure in vague language, assume this skill should own the diagnosis before any state-changing command runs
+
+## Trigger Heuristics
+
+Use this skill immediately when any of these show up:
+
+- the user asks to run `git cherry-pick`, `merge`, `rebase`, `commit`, `stash`, `switch`, `checkout`, `branch`, or `worktree`
+- the user says "Git failed", "merge broke", "cherry-pick is blocked", "there is a conflict", or "why did this repo get into this state"
+- the agent sees error text involving:
+  - `CONFLICT`
+  - `index.lock`
+  - `operation not permitted`
+  - `permission denied`
+  - `.git/worktrees/`
+  - `ORIG_HEAD`
+  - `CHERRY_PICK_HEAD`
+  - `branch is already checked out`
+
+Do not wait until after a failed write to load this skill if the task is obviously Git-heavy.
+
+## Misdiagnoses To Avoid
+
+Never say any of the following unless Git actually proved it:
+
+- "this is a merge conflict" when the error is really permission-related
+- "this is just local to the current worktree" when the common git dir may be involved
+- "Git is broken" when the real issue is dirty state, detached HEAD, or an in-progress operation
+- "just rerun it" without saying whether the block is conflict, repo state, or sandbox
 
 ## Step 1 — Orient the Repository
 
@@ -97,6 +125,8 @@ git rev-parse --git-common-dir
 
 If the command will likely write to shared Git metadata outside the sandboxed writable root, tell the user this before running it and be ready to request escalation.
 
+If the user specifically asked for a worktree-scoped write operation such as `cherry-pick`, `merge`, or `commit`, explicitly mention before running it that worktrees may require writes under the common git dir rather than only the visible worktree path.
+
 ## Step 4 — Execute and Interpret Failures Correctly
 
 When a Git write fails, classify the failure before telling the user what happened.
@@ -154,6 +184,20 @@ Good example:
 Bad example:
 
 > cherry-pick failed, probably a conflict
+
+## Preferred Output Shape
+
+When the user asked "what happened?" or "why did this fail?", report in this structure:
+
+```text
+Operation: <git command>
+Classification: success | content conflict | sandbox restriction | repository state problem
+Evidence: <the key git message or state observation>
+Why it happened: <short explanation>
+Next step: <single concrete next action>
+```
+
+Keep the classification line explicit. That is the main protection against sloppy Git diagnoses.
 
 ## Commands This Skill Should Handle Well
 
