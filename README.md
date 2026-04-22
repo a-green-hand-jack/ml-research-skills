@@ -112,6 +112,12 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 - License generation guidance
 - A structured tagging and publishing flow for public code releases
 
+## Contributors
+
+- Jieke
+- Claude Code
+- Codex
+
 ## Validation
 
 There are no automated tests in this repository. For a quick repository sanity check, run:
