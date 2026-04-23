@@ -42,6 +42,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
+| `work-timeline-planner` | Build a Markdown work timeline from git history, docs, and notes, with Mermaid Gantt charts for retrospective review or next-phase planning |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
@@ -58,10 +59,11 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 3. remote-project-control -> recover project memory and align local vs remote state
 4. run-experiment     -> launch locally or on SLURM / RunAI
 5. project-sync       -> record results in paper/sections/daily_experiments.tex
-6. update-docs        -> refresh docs after meaningful code changes
-7. submit-paper       -> run a readiness check before a deadline
-8. release-code       -> prepare the public code release when needed
-9. add-git-tag        -> mark a milestone
+6. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+7. update-docs        -> refresh docs after meaningful code changes
+8. submit-paper       -> run a readiness check before a deadline
+9. release-code       -> prepare the public code release when needed
+10. add-git-tag       -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -86,6 +88,13 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 - Shared and private memory files for server mappings, working status, and local overrides
 - Safe orchestration for inspect, sync, remote job submission, monitoring, and artifact lookup
 - A clean handoff layer between project memory and `run-experiment`
+
+## What `work-timeline-planner` Provides
+
+- Evidence-based timeline synthesis from git commits, docs, notes, and user-provided chat excerpts
+- Markdown reports that can be kept privately or shared upward
+- Mermaid Gantt charts for retrospective reviews, mentor updates, and next-phase planning
+- A clean split between observed work blocks and inferred or planned work
 
 ## What `run-experiment` Provides
 
