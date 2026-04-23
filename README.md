@@ -42,7 +42,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
-| `work-timeline-planner` | Build a Markdown work timeline from git history, docs, and notes, with Mermaid Gantt charts for retrospective review or next-phase planning |
+| `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
@@ -92,8 +92,8 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 ## What `work-timeline-planner` Provides
 
 - Evidence-based timeline synthesis from git commits, docs, notes, and user-provided chat excerpts
-- Markdown reports that can be kept privately or shared upward
-- Mermaid Gantt charts for retrospective reviews, mentor updates, and next-phase planning
+- Markdown and/or standalone HTML reports that can be kept privately or shared upward
+- Mermaid Gantt charts for lightweight repo-native reports and richer HTML timelines when needed
 - A clean split between observed work blocks and inferred or planned work
 
 ## What `run-experiment` Provides

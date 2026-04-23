@@ -84,7 +84,7 @@ ml-research-skills/
 | `project-init` | Create a parent research workspace with aligned `paper/` and `code/` repos |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or worktree for features and experiments |
-| `work-timeline-planner` | Build Markdown timeline reports with Mermaid Gantt charts from git history, docs, notes, and user context |
+| `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
 | `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |

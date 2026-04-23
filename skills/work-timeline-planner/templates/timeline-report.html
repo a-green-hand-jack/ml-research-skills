@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><Report Title></title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.css"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f2e8;
+        --panel: #fffdf8;
+        --ink: #1f2a2a;
+        --muted: #5d6a6a;
+        --accent: #206a5d;
+        --border: #d9d1c3;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+        background: linear-gradient(180deg, #efe8db 0%, var(--bg) 100%);
+        color: var(--ink);
+      }
+
+      main {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 24px 64px;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 12px 30px rgba(54, 44, 27, 0.08);
+      }
+
+      h1, h2 {
+        margin-top: 0;
+        font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .meta div {
+        padding: 12px 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fffaf2;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      #gantt {
+        overflow-x: auto;
+        margin: 24px 0;
+      }
+
+      ul {
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="panel">
+        <h1><Report Title></h1>
+        <div class="meta">
+          <div><strong>Mode</strong><br /><span class="muted"><Mode></span></div>
+          <div><strong>Time Window</strong><br /><span class="muted"><Time Window></span></div>
+          <div><strong>Project Scope</strong><br /><span class="muted"><Project Scope></span></div>
+          <div><strong>Audience</strong><br /><span class="muted"><Audience></span></div>
+        </div>
+
+        <h2>Evidence Used</h2>
+        <ul>
+          <li><Git Evidence></li>
+          <li><Docs Evidence></li>
+          <li><User Context Evidence></li>
+        </ul>
+
+        <h2>Timeline</h2>
+        <div id="gantt"></div>
+
+        <h2>Summary</h2>
+        <ul>
+          <li><Summary Point 1></li>
+          <li><Summary Point 2></li>
+          <li><Summary Point 3></li>
+        </ul>
+
+        <h2>Notes On Interpretation</h2>
+        <ul>
+          <li><Interpretation Note 1></li>
+          <li><Interpretation Note 2></li>
+        </ul>
+
+        <h2>Next Phase</h2>
+        <ul>
+          <li><Next Phase 1></li>
+          <li><Next Phase 2></li>
+          <li><Next Phase 3></li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.umd.js"></script>
+    <script>
+      const tasks = [
+        {
+          id: "t1",
+          name: "<Task 1>",
+          start: "<Task 1 Start>",
+          end: "<Task 1 End>",
+          progress: 100,
+          custom_class: "done"
+        },
+        {
+          id: "t2",
+          name: "<Task 2>",
+          start: "<Task 2 Start>",
+          end: "<Task 2 End>",
+          progress: 100,
+          custom_class: "done"
+        },
+        {
+          id: "t3",
+          name: "<Task 3>",
+          start: "<Task 3 Start>",
+          end: "<Task 3 End>",
+          progress: 35,
+          custom_class: "active"
+        }
+      ];
+
+      new Gantt("#gantt", tasks, {
+        view_mode: "Day",
+        language: "en",
+        popup: ({ task }) => `
+          <div style="padding:12px 14px;">
+            <strong>${task.name}</strong><br />
+            <span>${task.start} -> ${task.end}</span>
+          </div>
+        `
+      });
+    </script>
+  </body>
+</html>

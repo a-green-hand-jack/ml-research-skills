@@ -70,7 +70,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `project-init` | Initialize a full research project: parent folder with `paper/` (LaTeX) + `code/` (Python) + `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
 | `new-workspace` | Create a git branch or worktree with UV sync and IDE config copying |
-| `work-timeline-planner` | Build Markdown timeline reports with Mermaid Gantt charts from git history, docs, and notes for retrospective review or planning |
+| `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
 | `safe-git-ops` | Perform common Git operations safely, especially around worktrees, sandboxed writes, and failure diagnosis |
 | `remote-project-control` | Recover project memory and coordinate safe local/remote SSH workflows for a research repo |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |

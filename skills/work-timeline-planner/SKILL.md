@@ -1,12 +1,12 @@
 ---
 name: work-timeline-planner
-description: Build a retrospective or forward-looking work timeline from git commits, project docs, user notes, or chat records, then output a Markdown report with a Mermaid Gantt chart. Use when the user wants to review past work across one or more projects, explain time allocation to a mentor, summarize what was done in a period, or plan the next phase with a timeline.
+description: Build a retrospective or forward-looking work timeline from git commits, project docs, user notes, or chat records, then output a Markdown and/or HTML report with a Gantt chart or timeline visualization. Use when the user wants to review past work across one or more projects, explain time allocation to a mentor, summarize what was done in a period, or plan the next phase with a timeline.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
 # Work Timeline Planner
 
-Turn evidence such as git history, project documents, user descriptions, and chat notes into a readable Markdown timeline report with a Mermaid Gantt chart.
+Turn evidence such as git history, project documents, user descriptions, and chat notes into a readable timeline report. The output can be Markdown, standalone HTML, or both.
 
 Use this skill for two main cases:
 
@@ -20,8 +20,10 @@ Use this skill for two main cases:
 ├── SKILL.md
 ├── references/
 │   ├── evidence-model.md
+│   ├── output-formats.md
 │   └── report-modes.md
 └── templates/
+    ├── timeline-report.html
     └── timeline-report.md
 ```
 
@@ -29,7 +31,8 @@ Use this skill for two main cases:
 
 - Always read `references/evidence-model.md`
 - Read `references/report-modes.md` when choosing between personal review, mentor report, planning report, or a hybrid
-- Use `templates/timeline-report.md` as the output skeleton when writing the final Markdown
+- Read `references/output-formats.md` when choosing between Markdown, HTML, or both, or when deciding between Mermaid, Frappe Gantt, and Plotly
+- Use `templates/timeline-report.md` and `templates/timeline-report.html` as the output skeletons
 
 ## Core Principles
 
@@ -39,6 +42,7 @@ Use this skill for two main cases:
 - Distinguish observed facts from inferred date ranges
 - Keep audience in mind: personal multi-project review is broader; mentor-facing single-project reports should be tighter and more explanatory
 - For planning, separate committed work from optional or stretch work
+- Choose the lightest chart technology that still fits the user's use case
 
 ## Step 1 — Classify the Request
 
@@ -55,8 +59,16 @@ Also identify:
 - project scope
 - audience
 - desired level of granularity
+- output format: `markdown`, `html`, or `both`
+- chart engine: `mermaid`, `frappe-gantt`, or `plotly`
 
 If the user did not specify a time window, infer a reasonable one from context and state it explicitly in the report.
+
+Default output policy:
+
+- `markdown` + `mermaid` for shareable repo-native reports
+- `html` + `frappe-gantt` for richer interactive review
+- `both` when the user wants an archiveable report plus a better local visualization
 
 ## Step 2 — Gather Evidence
 
@@ -117,15 +129,25 @@ The final output should usually contain:
 
 - a short scope summary
 - an evidence note
-- a Mermaid Gantt chart
+- a chart or timeline visualization
 - a concise narrative summary of the key blocks
 - optional next-phase actions
 
-## Step 5 — Write the Markdown Report
+## Step 5 — Write the Output Report(s)
 
-Use `templates/timeline-report.md` as the base structure.
+Follow `references/output-formats.md`.
 
-The Gantt chart should usually be Mermaid:
+For Markdown output, use `templates/timeline-report.md` as the base structure.
+
+For HTML output, use `templates/timeline-report.html` as the base structure.
+
+The chart engine should usually be chosen like this:
+
+- `mermaid`: default for lightweight Markdown reports kept in a repo or shared in chat
+- `frappe-gantt`: default for standalone HTML that the user wants to inspect locally with a better UI
+- `plotly`: use only when you already have clean structured task data and want an interactive timeline, especially from Python-driven workflows
+
+For Markdown, the default Gantt should be Mermaid:
 
 ```markdown
 ```mermaid
@@ -147,6 +169,7 @@ Guidelines:
 - prefer readable blocks over exact but cluttered detail
 - mark completed retrospective work with `done` when useful
 - mark current or planned work with `active` or plain future tasks only when the timing is justified
+- for HTML output, prefer one self-contained file over a many-file mini app unless the user explicitly wants a larger artifact
 
 ## Step 6 — Add Planning When Needed
 
@@ -173,16 +196,18 @@ Before presenting the report, check:
 - multi-project reports do not blur project ownership
 - mentor-facing reports explain outcomes, not just activity
 - planned work is not mixed with already completed work
-- the Mermaid Gantt syntax is structurally valid
+- the chosen chart syntax or embedded data is structurally valid
 
 ## Output Expectations
 
-The final output should usually be a Markdown document the user can keep or share.
+The final output should usually be a document the user can keep or share.
 
 If asked to save it into a repo, use a path that matches the user's purpose, for example:
 
 - `docs/reports/work_timeline_YYYY_MM.md`
 - `docs/reports/mentor_update_YYYY_MM.md`
 - `docs/plans/next_phase_timeline.md`
+- `docs/reports/work_timeline_YYYY_MM.html`
+- `docs/reports/mentor_update_YYYY_MM.html`
 
-If the user only wants a draft in chat, still structure it as if it could be saved directly to a Markdown file.
+If the user only wants a draft in chat, still structure it as if it could be saved directly to a file.
