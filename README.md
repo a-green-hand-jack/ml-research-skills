@@ -42,6 +42,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
+| `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows for research repos |
@@ -59,11 +60,12 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 3. remote-project-control -> recover project memory and align local vs remote state
 4. run-experiment     -> launch locally or on SLURM / RunAI
 5. project-sync       -> record results in paper/sections/daily_experiments.tex
-6. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-7. update-docs        -> refresh docs after meaningful code changes
-8. submit-paper       -> run a readiness check before a deadline
-9. release-code       -> prepare the public code release when needed
-10. add-git-tag       -> mark a milestone
+6. experiment-report-writer -> turn experiment evidence into a structured report
+7. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+8. update-docs        -> refresh docs after meaningful code changes
+9. submit-paper       -> run a readiness check before a deadline
+10. release-code      -> prepare the public code release when needed
+11. add-git-tag       -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -95,6 +97,13 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 - Markdown and/or standalone HTML reports that can be kept privately or shared upward
 - Mermaid Gantt charts for lightweight repo-native reports and richer HTML timelines when needed
 - A clean split between observed work blocks and inferred or planned work
+
+## What `experiment-report-writer` Provides
+
+- A structured report format for experiment motivation, setup, methods, metrics, results, interpretation, conclusions, limitations, and next steps
+- Guidance for explaining figures and tables, including axes, legends, units, scales, and error bars
+- Evidence-first writing that distinguishes measured results from interpretation and marks missing reproducibility details
+- Audience-aware output for lab notes, mentor updates, paper sections, or presentation-ready summaries
 
 ## What `run-experiment` Provides
 

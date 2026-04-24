@@ -70,6 +70,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `project-init` | Initialize a full research project: parent folder with `paper/` (LaTeX) + `code/` (Python) + `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
 | `new-workspace` | Create a git branch or worktree with UV sync and IDE config copying |
+| `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
 | `safe-git-ops` | Perform common Git operations safely, especially around worktrees, sandboxed writes, and failure diagnosis |
 | `remote-project-control` | Recover project memory and coordinate safe local/remote SSH workflows for a research repo |
@@ -82,6 +83,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 ## Key Design Patterns
 
 - **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates `paper/` and `code/` sibling repos under a shared parent; `project-sync` keeps `daily_experiments.tex` updated with new results.
+- **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
 - **`new-workspace`**: Worktrees go to `<project-root>/../worktrees/<branch-type>-<branch-name>/`. IDE config dirs (`.vscode`, `.cursor`, `.claude`) are copied (not symlinked). Large shared assets declared in `.worktree-links` are symlinked.
 - **`safe-git-ops`**: Use this for general Git work, especially when an agent might confuse sandbox failures with merge conflicts or when shared worktree metadata makes write paths non-obvious.
 - **`remote-project-control`**: Use this before remote-heavy work when a repo is edited locally but run on SSH servers. It establishes repo-native project memory and keeps local/remote state explicit across sessions.

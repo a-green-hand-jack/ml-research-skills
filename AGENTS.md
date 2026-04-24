@@ -44,6 +44,9 @@ ml-research-skills/
     │   └── SKILL.md
     ├── new-workspace/
     │   └── SKILL.md
+    ├── experiment-report-writer/
+    │   ├── SKILL.md
+    │   └── templates/
     ├── work-timeline-planner/
     │   ├── SKILL.md
     │   ├── references/
@@ -84,6 +87,7 @@ ml-research-skills/
 | `project-init` | Create a parent research workspace with aligned `paper/` and `code/` repos |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or worktree for features and experiments |
+| `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
 | `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows |
