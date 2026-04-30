@@ -43,6 +43,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
+| `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows for research repos |
@@ -61,11 +62,12 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 4. run-experiment     -> launch locally or on SLURM / RunAI
 5. project-sync       -> record results in paper/sections/daily_experiments.tex
 6. experiment-report-writer -> turn experiment evidence into a structured report
-7. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-8. update-docs        -> refresh docs after meaningful code changes
-9. submit-paper       -> run a readiness check before a deadline
-10. release-code      -> prepare the public code release when needed
-11. add-git-tag       -> mark a milestone
+7. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+8. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+9. update-docs        -> refresh docs after meaningful code changes
+10. submit-paper      -> run a readiness check before a deadline
+11. release-code      -> prepare the public code release when needed
+12. add-git-tag       -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -104,6 +106,14 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 - Guidance for explaining figures and tables, including axes, legends, units, scales, and error bars
 - Evidence-first writing that distinguishes measured results from interpretation and marks missing reproducibility details
 - Audience-aware output for lab notes, mentor updates, paper sections, or presentation-ready summaries
+
+## What `conference-writing-adapter` Provides
+
+- Conference-aware paper restructuring for venues such as NeurIPS, ICML, ICLR, CVPR, ACL, and EMNLP
+- A workflow for learning from accepted, oral, spotlight, or best-paper exemplars without copying their text
+- Paper archetype diagnosis for method, empirical study, benchmark, theory, systems, analysis, and application papers
+- Section-level and paragraph-level rewrite blueprints that assign each paragraph a reviewer-facing function
+- Project-local writing memory under `.agent/conference-writing/` for venue patterns, exemplar notes, and current-paper style decisions
 
 ## What `run-experiment` Provides
 
