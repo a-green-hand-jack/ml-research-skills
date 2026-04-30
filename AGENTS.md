@@ -50,6 +50,10 @@ ml-research-skills/
     ├── conference-writing-adapter/
     │   ├── SKILL.md
     │   └── references/
+    ├── citation-audit/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   └── scripts/
     ├── work-timeline-planner/
     │   ├── SKILL.md
     │   ├── references/
@@ -92,6 +96,7 @@ ml-research-skills/
 | `new-workspace` | Create a Git branch or worktree for features and experiments |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
+| `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
 | `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows |
