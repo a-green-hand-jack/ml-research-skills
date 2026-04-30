@@ -44,6 +44,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
+| `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
@@ -64,12 +65,13 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 5. project-sync       -> record results in paper/sections/daily_experiments.tex
 6. experiment-report-writer -> turn experiment evidence into a structured report
 7. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-8. citation-audit    -> verify citations, BibTeX metadata, and LaTeX references before submission
-9. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-10. update-docs       -> refresh docs after meaningful code changes
-11. submit-paper      -> run a readiness check before a deadline
-12. release-code      -> prepare the public code release when needed
-13. add-git-tag       -> mark a milestone
+8. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+9. citation-audit    -> verify citations, BibTeX metadata, and LaTeX references before submission
+10. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+11. update-docs       -> refresh docs after meaningful code changes
+12. submit-paper      -> run a readiness check before a deadline
+13. release-code      -> prepare the public code release when needed
+14. add-git-tag       -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -116,6 +118,14 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 - Paper archetype diagnosis for method, empirical study, benchmark, theory, systems, analysis, and application papers
 - Section-level and paragraph-level rewrite blueprints that assign each paragraph a reviewer-facing function
 - Project-local writing memory under `.agent/conference-writing/` for venue patterns, exemplar notes, and current-paper style decisions
+
+## What `paper-reviewer-simulator` Provides
+
+- Venue-specific shadow reviews for ML/AI conferences such as NeurIPS, ICML, ICLR, CVPR, ACL, and EMNLP
+- Dynamic learning from official reviewer guidelines, OpenReview discussions, example reviews, and accepted-paper patterns
+- Multi-reviewer panels with technical, skeptical generalist, empirical/reproducibility, related-work, and area-chair perspectives
+- Predicted decision, score/confidence estimates, likely reviewer questions, rebuttal readiness, and an actionable risk register
+- Project-local memory under `.agent/reviewer-simulator/` for venue review patterns, example notes, and current-paper risks
 
 ## What `citation-audit` Provides
 
