@@ -36,6 +36,9 @@ ml-research-skills/
 └── skills/
     ├── add-git-tag/
     │   └── SKILL.md
+    ├── research-idea-validator/
+    │   ├── SKILL.md
+    │   └── references/
     ├── init-latex-project/
     │   ├── SKILL.md
     │   ├── scripts/
@@ -101,6 +104,7 @@ ml-research-skills/
 
 | Skill | Purpose |
 |---|---|
+| `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision using novelty, feasibility, evidence, and reviewer-risk analysis |
 | `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML project using `uv` |
 | `project-init` | Create a parent research workspace with aligned `paper/` and `code/` repos |

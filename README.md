@@ -37,6 +37,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 
 | Skill | What it does |
 |---|---|
+| `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML project using `uv`, pytest, black, ruff, and mypy, with remote-workflow memory scaffolding |
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
@@ -62,7 +63,15 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 
 These skills are organized around the lifecycle of an ML research project: set up the workspace, run and summarize experiments, shape the paper for submission, handle review and rebuttal, then maintain or release the project.
 
-### 1. Project and Workspace Setup
+### 1. Idea Validation and Project Shaping
+
+Use these skills when deciding whether an idea is worth pursuing and how it should become a research project:
+
+| Skill | Lifecycle role |
+|---|---|
+| **research-idea-validator** | Judge a rough idea with the FIVE+C framework and choose pursue, revise, park, or kill |
+
+### 2. Project and Workspace Setup
 
 Use these skills when starting a project, creating paper/code repositories, or isolating a new line of work:
 
@@ -74,7 +83,7 @@ Use these skills when starting a project, creating paper/code repositories, or i
 | **new-workspace** | Create a branch or worktree for a new feature, experiment, or revision |
 | **remote-project-control** | Coordinate local editing with remote execution on SSH/HPC environments |
 
-### 2. Experiment Execution and Evidence Capture
+### 3. Experiment Execution and Evidence Capture
 
 Use these skills while producing the evidence that will support the paper:
 
@@ -85,7 +94,7 @@ Use these skills while producing the evidence that will support the paper:
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
 
-### 3. Paper Writing and Pre-Submission Review
+### 4. Paper Writing and Pre-Submission Review
 
 Use these skills while turning results into a submission and reducing reviewer risk before the deadline:
 
@@ -97,7 +106,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
 | **submit-paper** | Run final submission readiness checks for format, anonymity, required sections, and compilation |
 
-### 4. Review, Rebuttal, and Revision
+### 5. Review, Rebuttal, and Revision
 
 Use this stage after real reviews arrive:
 
@@ -105,7 +114,7 @@ Use this stage after real reviews arrive:
 |---|---|
 | **rebuttal-strategist** | Analyze reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 
-### 5. Maintenance, Release, and Retrospective
+### 6. Maintenance, Release, and Retrospective
 
 Use these skills to keep the project understandable, publishable, and easy to hand off:
 
@@ -116,7 +125,7 @@ Use these skills to keep the project understandable, publishable, and easy to ha
 | **work-timeline-planner** | Summarize past work or plan future work from git history, docs, and notes |
 | **add-git-tag** | Mark a milestone with an annotated git tag |
 
-### 6. Git Safety
+### 7. Git Safety
 
 Use this whenever a workflow touches non-trivial Git state:
 
@@ -189,6 +198,7 @@ For the person designing the overall research project, repo structure, and colla
 
 | Skill | Role support |
 |---|---|
+| **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
 | **project-init** | Create the initial paper/code workspace |
 | **init-latex-project** | Define the paper scaffold and venue template |
 | **init-python-project** | Define the code repo structure and tooling |
@@ -197,42 +207,51 @@ For the person designing the overall research project, repo structure, and colla
 
 ### Algorithm / Research Idea Designer
 
-This role is only partially covered in this repository today. Existing skills help once there is a project, experiment, or paper draft, but there is not yet a dedicated skill for:
+This role is partially covered in this repository today. Existing skills help validate ideas and design evidence once a rough claim exists, but there is not yet a dedicated skill for:
 
 - turning a rough algorithmic idea into a precise method
 - designing ablations and baselines from first principles
-- checking novelty before implementation
 - mapping assumptions, failure modes, and theory/experiment claims
 
 Current partial support:
 
 | Skill | Role support |
 |---|---|
+| **research-idea-validator** | Turn a rough idea into a pursue/revise/park/kill decision with novelty, feasibility, and paper-shape analysis |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **research-idea-validator**, **algorithm-design-planner**, or **paper-positioning-planner**.
+Potential future skills could include **algorithm-design-planner**, **result-diagnosis**, **paper-evidence-board**, or **paper-positioning-planner**.
 
 ## Typical Workflow
 
 ```text
-1. project-init       -> create a parent workspace with paper/ and code/
-2. new-workspace      -> isolate a feature or experiment branch
-3. remote-project-control -> recover project memory and align local vs remote state
-4. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
-5. run-experiment     -> launch locally or on SLURM / RunAI
-6. project-sync       -> record results in paper/sections/daily_experiments.tex
-7. experiment-report-writer -> turn experiment evidence into a structured report
-8. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-9. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-10. citation-coverage-audit -> find missing classic, close, and concurrent citations
-11. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-12. submit-paper    -> run a readiness check before a deadline
-13. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-14. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-15. update-docs     -> refresh docs after meaningful code changes
-16. release-code    -> prepare the public code release when needed
-17. add-git-tag     -> mark a milestone
+1. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
+2. project-init       -> create a parent workspace with paper/ and code/
+3. new-workspace      -> isolate a feature or experiment branch
+4. remote-project-control -> recover project memory and align local vs remote state
+5. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
+6. run-experiment     -> launch locally or on SLURM / RunAI
+7. project-sync       -> record results in paper/sections/daily_experiments.tex
+8. experiment-report-writer -> turn experiment evidence into a structured report
+9. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+10. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+11. citation-coverage-audit -> find missing classic, close, and concurrent citations
+12. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+13. submit-paper    -> run a readiness check before a deadline
+14. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+15. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+16. update-docs     -> refresh docs after meaningful code changes
+17. release-code    -> prepare the public code release when needed
+18. add-git-tag     -> mark a milestone
 ```
+
+## What `research-idea-validator` Provides
+
+- Early-stage idea validation using the FIVE+C framework: framing, importance, validity, evidence, execution, and competition
+- A clear decision label: pursue, revise, park, or kill
+- Paper-shape analysis for method, theory, benchmark, empirical analysis, systems, application, negative-result, and position-style ideas
+- Minimum viable project, killer experiment or analysis, reviewer attack forecast, kill criteria, and next actions
+- Memory guidance for preserving promising, parked, revised, or killed ideas across sessions
 
 ## What `init-latex-project` Provides
 

@@ -65,6 +65,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 | Skill | Purpose |
 |---|---|
+| `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill project decision using novelty, feasibility, evidence, and reviewer-risk analysis |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates and official style files |
 | `init-python-project` | Create a production-ready Python/ML project with uv, pytest, black, ruff, mypy |
 | `project-init` | Initialize a full research project: parent folder with `paper/` (LaTeX) + `code/` (Python) + `PROJECT.md` |
@@ -88,6 +89,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 ## Key Design Patterns
 
+- **`research-idea-validator`**: Use at the start of a project or when a direction is uncertain. It applies the FIVE+C framework to decide pursue/revise/park/kill, then routes to literature review, algorithm design, experiment design, or project setup.
 - **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates `paper/` and `code/` sibling repos under a shared parent; `project-sync` keeps `daily_experiments.tex` updated with new results.
 - **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.
 - **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
