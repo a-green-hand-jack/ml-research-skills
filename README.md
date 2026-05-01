@@ -45,6 +45,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
+| `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
@@ -68,12 +69,13 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 7. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
 8. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
 9. citation-coverage-audit -> find missing classic, close, and concurrent citations
-10. citation-audit   -> verify citations, BibTeX metadata, and LaTeX references before submission
-11. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-12. update-docs       -> refresh docs after meaningful code changes
-13. submit-paper      -> run a readiness check before a deadline
-14. release-code      -> prepare the public code release when needed
-15. add-git-tag       -> mark a milestone
+10. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+11. submit-paper    -> run a readiness check before a deadline
+12. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+13. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+14. update-docs     -> refresh docs after meaningful code changes
+15. release-code    -> prepare the public code release when needed
+16. add-git-tag     -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -128,6 +130,15 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 - Multi-reviewer panels with technical, skeptical generalist, empirical/reproducibility, related-work, and area-chair perspectives
 - Predicted decision, score/confidence estimates, likely reviewer questions, rebuttal readiness, and an actionable risk register
 - Project-local memory under `.agent/reviewer-simulator/` for venue review patterns, example notes, and current-paper risks
+
+## What `rebuttal-strategist` Provides
+
+- OpenReview-aware review extraction, thread state tracking, and source logging for real reviews and discussion rounds
+- Reviewer intent analysis that distinguishes champions, persuadable reviewers, skeptical reviewers, and likely rejects
+- Issue boards that turn review comments into ranked must-win, must-answer, experiment-needed, and paper-revision tasks
+- Targeted rebuttal experiment planning with success, partial-success, failure, and out-of-scope response wording
+- Evidence-first rebuttal drafting, follow-up reply preparation, decision-path analysis, and promised-revision tracking
+- Project-local memory under `.agent/rebuttal-strategy/` for reviews, issue boards, experiments, drafts, and final outcomes
 
 ## What `citation-coverage-audit` Provides
 
