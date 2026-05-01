@@ -57,6 +57,71 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |
 
+## Lifecycle Categories
+
+These skills are organized around the lifecycle of an ML research project: set up the workspace, run and summarize experiments, shape the paper for submission, handle review and rebuttal, then maintain or release the project.
+
+### 1. Project and Workspace Setup
+
+Use these skills when starting a project, creating paper/code repositories, or isolating a new line of work:
+
+| Skill | Lifecycle role |
+|---|---|
+| **project-init** | Create the parent research workspace with aligned `paper/` and `code/` repositories |
+| **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
+| **init-python-project** | Scaffold or enhance the code repo with ML project structure and tooling |
+| **new-workspace** | Create a branch or worktree for a new feature, experiment, or revision |
+| **remote-project-control** | Coordinate local editing with remote execution on SSH/HPC environments |
+
+### 2. Experiment Execution and Evidence Capture
+
+Use these skills while producing the evidence that will support the paper:
+
+| Skill | Lifecycle role |
+|---|---|
+| **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
+| **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
+| **project-sync** | Record experiment results from the code repo into the paper repo |
+
+### 3. Paper Writing and Pre-Submission Review
+
+Use these skills while turning results into a submission and reducing reviewer risk before the deadline:
+
+| Skill | Lifecycle role |
+|---|---|
+| **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
+| **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
+| **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
+| **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
+| **submit-paper** | Run final submission readiness checks for format, anonymity, required sections, and compilation |
+
+### 4. Review, Rebuttal, and Revision
+
+Use this stage after real reviews arrive:
+
+| Skill | Lifecycle role |
+|---|---|
+| **rebuttal-strategist** | Analyze reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
+
+### 5. Maintenance, Release, and Retrospective
+
+Use these skills to keep the project understandable, publishable, and easy to hand off:
+
+| Skill | Lifecycle role |
+|---|---|
+| **update-docs** | Refresh documentation after meaningful code or workflow changes |
+| **release-code** | Prepare a public research code release with repo hygiene, README, license, citation, and tagging |
+| **work-timeline-planner** | Summarize past work or plan future work from git history, docs, and notes |
+| **add-git-tag** | Mark a milestone with an annotated git tag |
+
+### 6. Git Safety
+
+Use this whenever a workflow touches non-trivial Git state:
+
+| Skill | Lifecycle role |
+|---|---|
+| **safe-git-ops** | Diagnose and perform Git operations safely, especially around worktrees, conflicts, and sandboxed metadata writes |
+
 ## Typical Workflow
 
 ```text
