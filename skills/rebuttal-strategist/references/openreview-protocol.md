@@ -26,6 +26,14 @@ OpenReview pages may be client-rendered or require login. Prefer:
 
 If login or permissions block access, do not guess. Ask the user for the review text or JSON export.
 
+For public forums, the OpenReview API endpoint often works better than the rendered page:
+
+```text
+https://api2.openreview.net/notes?forum=<forum_id>
+```
+
+Use it to collect submissions, reviews, author comments, meta-reviews, and decisions. Be prepared for rate limits and retry later or request exported JSON from the user.
+
 ## Review Extraction Template
 
 ```markdown

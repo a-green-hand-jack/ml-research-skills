@@ -75,6 +75,37 @@ After mining examples, summarize:
 - How this applies to the user's paper:
 ```
 
+## Observed Pattern: ICLR 2024 Evoke Case
+
+Source: OpenReview forum `OXv0zQ1umU`, accessed 2026-05-02.
+
+Useful reviewer/rebuttal dynamics observed:
+
+- Mixed initial scores can still become an accept when positive reviewers like the core idea and the negative reviewer gives concrete, addressable concerns.
+- A high-confidence borderline-negative review deserves priority even if other reviewers are positive.
+- The area chair can explicitly treat author responses as satisfactory and still ask authors to add new rebuttal results and promised revisions to the final paper.
+- Decision-relevant concerns included:
+  - relationship to closest or concurrent prior work
+  - generalization beyond one proprietary model
+  - method details and reproducibility
+  - efficiency and overhead
+  - fairness of baseline comparison
+- Effective responses combined:
+  - new targeted experiments
+  - direct clarification of misunderstood methodology
+  - explicit discussion of closest prior work
+  - promised camera-ready revisions
+  - short follow-up comments inviting remaining questions
+
+When simulating reviewers, explicitly test for these ICLR-style concerns when relevant:
+
+- single-model or single-backbone dependency
+- missing open-source model validation
+- insufficient distinction from close/concurrent work
+- unclear algorithm workflow or reproducibility details
+- method overhead and practical efficiency
+- baseline fairness when methods use different supervision or data access
+
 ## Safety and Copyright
 
 - Do not quote long review text.

@@ -36,6 +36,16 @@ Response limit:
 
 ## Response Outline
 
+### General Response
+- Shared concerns:
+- New evidence:
+- Promised revisions:
+
+### Per-Reviewer Responses
+- R1:
+- R2:
+- R3:
+
 ## Draft Response
 
 ## Promised Paper Revisions

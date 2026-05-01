@@ -75,3 +75,20 @@ Include at least one sentence that helps the AC:
 - understand why remaining limitations do not invalidate acceptance
 
 Avoid sounding like the paper is only promising future work. Rebuttal should rely on current or newly obtained evidence.
+
+## Case-Derived Pattern: Mixed Scores Can Be Recoverable
+
+Observed in a public ICLR 2024 OpenReview case:
+
+- initial score pattern included one strong accept, two marginal accepts, and one marginal reject
+- the marginal reject had high confidence and raised concrete issues about closest prior work, generalization, clarity, efficiency, and fairness
+- authors supplied targeted new experiments, clarified methodology, and promised paper revisions
+- the meta-review explicitly treated the author responses as satisfactory and recommended adding the new results and promised revisions
+- final decision was accept poster
+
+Use this pattern when analyzing a real rebuttal:
+
+- Do not overreact to one negative review if it is concrete and addressable.
+- Do prioritize a high-confidence borderline-negative reviewer because ACs may rely on that review to justify rejection.
+- Make the accept path explicit: positive reviewers already value X; rebuttal must neutralize Y.
+- Track promised revisions because ACs may condition acceptance confidence on them.

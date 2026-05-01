@@ -98,3 +98,22 @@ Bad actions are vague:
 - "Improve experiments."
 - "Clarify novelty."
 - "Discuss limitations more."
+
+## Rebuttal-Sensitive Risk Patterns
+
+When doing a pre-submission shadow review, flag risks that are especially likely to become rebuttal pressure:
+
+- `single-provider-generalization`: method only evaluated with GPT-4, one backbone, one simulator, one dataset family, or one proprietary model
+- `closest-concurrent-work`: a recent paper before the deadline appears close enough that reviewers may ask for an explicit distinction
+- `workflow-reproducibility`: algorithm depends on prompts, agents, heuristics, or multi-step workflows that are hard to reproduce from the main text
+- `efficiency-overhead`: iterative methods, search methods, or multi-model pipelines may work but cost much more than baselines
+- `baseline-fairness`: proposed method uses supervision, data, prompts, tools, or feedback not available to baselines
+- `appendix-hidden-evidence`: key implementation details or evidence exist but are buried where reviewers may miss them
+
+For each such risk, suggest a pre-submission fix and a rebuttal fallback:
+
+```markdown
+| Risk | Pre-submission fix | Rebuttal fallback |
+|---|---|---|
+| single-provider-generalization | add one open-source model or backbone result | report quick result or scope the claim |
+```

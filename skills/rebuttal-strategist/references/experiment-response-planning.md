@@ -77,3 +77,21 @@ Before promising an experiment:
 - result can be explained in response length?
 
 If no, do not promise it as completed. Scope the claim or propose final-version clarification.
+
+## High-Leverage Rebuttal Experiments
+
+Public OpenReview cases show that rebuttal experiments are most useful when they directly neutralize a reviewer objection rather than broaden the paper casually.
+
+Common high-leverage patterns:
+
+- `generalization check`: add one or two alternative backbones/models/providers when reviewer says results depend on a single model
+- `component ablation`: compare full method against a version without the disputed component
+- `initialization or sensitivity check`: vary initialization, seeds, prompts, timesteps, or hyperparameters when reviewer worries about dependence
+- `efficiency table`: report runtime, query count, memory, or iteration count when reviewer worries about overhead
+- `baseline fairness check`: explain or test whether baselines receive comparable supervision/data/access
+- `closest-work comparison`: add a concise comparison table or experiment against the closest/concurrent method
+
+For each experiment, prepare two response sentences:
+
+- evidence sentence: the result and what it shows
+- revision sentence: where it will be added in the final paper

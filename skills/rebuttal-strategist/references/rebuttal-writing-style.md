@@ -94,6 +94,28 @@ Example:
 Baseline X. We ran X under the same protocol as Table 2. Our method remains stronger on A/B by 2.1/1.7 points, while matching X on C. We will add this baseline and discuss the tie on C as a limitation.
 ```
 
+## General Response Plus Per-Reviewer Pattern
+
+When the venue permits multiple official comments, a strong structure is:
+
+1. post a concise general response that lists the main new evidence and global changes
+2. answer each reviewer with targeted headings that quote or paraphrase the concern
+3. include compact tables for new experiments when they are central
+4. post short follow-up comments inviting remaining questions after detailed responses
+
+This pattern is useful when several reviewers share concerns, such as generalization, reproducibility, or clarity.
+
+The general response should not be a vague thank-you. It should function as an AC-readable change log:
+
+```markdown
+- New experiment addressing R2/R3:
+- New analysis addressing R1:
+- Clarification/revision promised:
+- Limitation or scope adjustment:
+```
+
+The per-reviewer response should then avoid repeating the full global story and instead map the reviewer concern to the relevant evidence.
+
 ## Wording Rules
 
 - Use exact numbers when available.
