@@ -122,6 +122,87 @@ Use this whenever a workflow touches non-trivial Git state:
 |---|---|
 | **safe-git-ops** | Diagnose and perform Git operations safely, especially around worktrees, conflicts, and sandboxed metadata writes |
 
+## Role-Based Categories
+
+The same skills can also be viewed by research role. A single researcher may switch between these roles during a project, but the classification helps choose the right skill for the job at hand.
+
+### Experiment Runner
+
+For the person running experiments, collecting evidence, and making results reproducible:
+
+| Skill | Role support |
+|---|---|
+| **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
+| **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
+| **project-sync** | Move experiment findings into the paper repo's experiment log |
+| **remote-project-control** | Keep local code and remote execution state aligned |
+
+### Paper Writer
+
+For the person turning research evidence into a submission:
+
+| Skill | Role support |
+|---|---|
+| **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
+| **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
+| **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
+| **submit-paper** | Check final submission readiness |
+
+### Reviewer / Internal Critic
+
+For the person stress-testing the paper before reviewers see it:
+
+| Skill | Role support |
+|---|---|
+| **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
+| **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
+| **citation-audit** | Check whether cited papers actually support the text's claims |
+
+### Rebuttal Lead
+
+For the person coordinating author response after real reviews arrive:
+
+| Skill | Role support |
+|---|---|
+| **rebuttal-strategist** | Parse reviews, infer reviewer intent, prioritize issues, plan rebuttal experiments, draft responses, and track promised revisions |
+| **run-experiment** | Execute targeted rebuttal experiments or analyses |
+| **conference-writing-adapter** | Turn accepted reviewer criticism into paper revisions |
+
+### Project Maintainer / Release Owner
+
+For the person keeping the repo usable, documented, and publishable:
+
+| Skill | Role support |
+|---|---|
+| **update-docs** | Refresh docs after code or workflow changes |
+| **release-code** | Prepare the public research code release |
+| **add-git-tag** | Mark milestones with annotated tags |
+| **work-timeline-planner** | Summarize work history or plan the next phase |
+| **safe-git-ops** | Handle Git operations safely |
+
+### Project Designer
+
+For the person designing the overall research project, repo structure, and collaboration workflow:
+
+| Skill | Role support |
+|---|---|
+| **project-init** | Create the initial paper/code workspace |
+| **init-latex-project** | Define the paper scaffold and venue template |
+| **init-python-project** | Define the code repo structure and tooling |
+| **new-workspace** | Isolate new directions, experiments, or revisions |
+| **remote-project-control** | Establish local/remote execution conventions |
+
+### Algorithm / Research Idea Designer
+
+This role is only partially covered in this repository today. Existing skills help once there is a project, experiment, or paper draft, but there is not yet a dedicated skill for:
+
+- turning a rough algorithmic idea into a precise method
+- designing ablations and baselines from first principles
+- checking novelty before implementation
+- mapping assumptions, failure modes, and theory/experiment claims
+
+Potential future skills could include **research-idea-validator**, **algorithm-design-planner**, or **experiment-design-planner**.
+
 ## Typical Workflow
 
 ```text
