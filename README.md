@@ -42,6 +42,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
+| `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
@@ -79,6 +80,7 @@ Use these skills while producing the evidence that will support the paper:
 
 | Skill | Lifecycle role |
 |---|---|
+| **experiment-design-planner** | Design hypotheses, baselines, ablations, controls, metrics, and stop conditions before running |
 | **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
@@ -132,6 +134,7 @@ For the person running experiments, collecting evidence, and making results repr
 
 | Skill | Role support |
 |---|---|
+| **experiment-design-planner** | Convert a claim into a runnable experiment matrix with controls and decision rules |
 | **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
 | **project-sync** | Move experiment findings into the paper repo's experiment log |
@@ -201,7 +204,13 @@ This role is only partially covered in this repository today. Existing skills he
 - checking novelty before implementation
 - mapping assumptions, failure modes, and theory/experiment claims
 
-Potential future skills could include **research-idea-validator**, **algorithm-design-planner**, or **experiment-design-planner**.
+Current partial support:
+
+| Skill | Role support |
+|---|---|
+| **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
+
+Potential future skills could include **research-idea-validator**, **algorithm-design-planner**, or **paper-positioning-planner**.
 
 ## Typical Workflow
 
@@ -209,19 +218,20 @@ Potential future skills could include **research-idea-validator**, **algorithm-d
 1. project-init       -> create a parent workspace with paper/ and code/
 2. new-workspace      -> isolate a feature or experiment branch
 3. remote-project-control -> recover project memory and align local vs remote state
-4. run-experiment     -> launch locally or on SLURM / RunAI
-5. project-sync       -> record results in paper/sections/daily_experiments.tex
-6. experiment-report-writer -> turn experiment evidence into a structured report
-7. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-8. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-9. citation-coverage-audit -> find missing classic, close, and concurrent citations
-10. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-11. submit-paper    -> run a readiness check before a deadline
-12. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-13. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-14. update-docs     -> refresh docs after meaningful code changes
-15. release-code    -> prepare the public code release when needed
-16. add-git-tag     -> mark a milestone
+4. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
+5. run-experiment     -> launch locally or on SLURM / RunAI
+6. project-sync       -> record results in paper/sections/daily_experiments.tex
+7. experiment-report-writer -> turn experiment evidence into a structured report
+8. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+9. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+10. citation-coverage-audit -> find missing classic, close, and concurrent citations
+11. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+12. submit-paper    -> run a readiness check before a deadline
+13. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+14. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+15. update-docs     -> refresh docs after meaningful code changes
+16. release-code    -> prepare the public code release when needed
+17. add-git-tag     -> mark a milestone
 ```
 
 ## What `init-latex-project` Provides
@@ -260,6 +270,14 @@ Potential future skills could include **research-idea-validator**, **algorithm-d
 - Guidance for explaining figures and tables, including axes, legends, units, scales, and error bars
 - Evidence-first writing that distinguishes measured results from interpretation and marks missing reproducibility details
 - Audience-aware output for lab notes, mentor updates, paper sections, or presentation-ready summaries
+
+## What `experiment-design-planner` Provides
+
+- Claim-first experiment planning before using compute
+- Hypothesis, alternative explanation, falsification, and decision-rule templates
+- Baseline, control, nuisance-variable, metric, seed, repeat, and logging requirements
+- Ablation matrix guidance for isolating components and avoiding multi-variable confounds
+- Reviewer-risk checks that ask whether the planned evidence will satisfy paper or rebuttal expectations
 
 ## What `conference-writing-adapter` Provides
 

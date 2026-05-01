@@ -70,6 +70,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `project-init` | Initialize a full research project: parent folder with `paper/` (LaTeX) + `code/` (Python) + `PROJECT.md` |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
 | `new-workspace` | Create a git branch or worktree with UV sync and IDE config copying |
+| `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `conference-writing-adapter` | Adapt a paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and project-local writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |
@@ -88,6 +89,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 ## Key Design Patterns
 
 - **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates `paper/` and `code/` sibling repos under a shared parent; `project-sync` keeps `daily_experiments.tex` updated with new results.
+- **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.
 - **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
 - **`conference-writing-adapter`**: Use when a paper needs to be reshaped for a target venue's reviewer expectations. It learns from accepted/oral/spotlight exemplars, diagnoses the paper archetype, and produces section-level or paragraph-level rewrite plans.
 - **`paper-reviewer-simulator`**: Use before submission to simulate venue-specific reviewers, predict likely reject reasons, produce an area-chair style meta-review, and rank fixes by acceptance impact.
