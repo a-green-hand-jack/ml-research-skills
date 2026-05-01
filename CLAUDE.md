@@ -65,6 +65,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 | Skill | Purpose |
 |---|---|
+| `research-project-memory` | Initialize and maintain hierarchical memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill project decision using novelty, feasibility, evidence, and reviewer-risk analysis |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates and official style files |
 | `init-python-project` | Create a production-ready Python/ML project with uv, pytest, black, ruff, mypy |
@@ -89,6 +90,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 ## Key Design Patterns
 
+- **`research-project-memory`**: Use as the project-level coordination layer. It maintains memory boards for claims, evidence, risks, actions, decisions, components, and worktrees so experiment, writing, review, and rebuttal feedback loops stay aligned.
 - **`research-idea-validator`**: Use at the start of a project or when a direction is uncertain. It applies the FIVE+C framework to decide pursue/revise/park/kill, then routes to literature review, algorithm design, experiment design, or project setup.
 - **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates `paper/` and `code/` sibling repos under a shared parent; `project-sync` keeps `daily_experiments.tex` updated with new results.
 - **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.

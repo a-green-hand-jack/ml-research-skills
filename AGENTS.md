@@ -36,6 +36,10 @@ ml-research-skills/
 └── skills/
     ├── add-git-tag/
     │   └── SKILL.md
+    ├── research-project-memory/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   └── templates/
     ├── research-idea-validator/
     │   ├── SKILL.md
     │   └── references/
@@ -104,6 +108,7 @@ ml-research-skills/
 
 | Skill | Purpose |
 |---|---|
+| `research-project-memory` | Initialize and maintain hierarchical memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision using novelty, feasibility, evidence, and reviewer-risk analysis |
 | `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML project using `uv` |

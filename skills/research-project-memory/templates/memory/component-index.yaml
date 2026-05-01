@@ -1,0 +1,44 @@
+# Component index for cross-project memory.
+
+project_name: {{PROJECT_NAME}}
+last_updated: {{DATE}}
+
+components:
+  - name: paper
+    path: paper
+    memory_path: paper/.agent
+    owns:
+      - paper sections
+      - claims in prose
+      - figures and tables
+      - venue writing decisions
+  - name: code
+    path: code
+    memory_path: code/.agent
+    owns:
+      - implementation state
+      - experiment entry points
+      - run artifacts
+      - code worktrees
+  - name: slides
+    path: slides
+    memory_path: slides/.agent
+    owns:
+      - presentation story
+      - audience feedback
+      - slide-specific stale evidence
+  - name: reviewer
+    path: reviewer
+    memory_path: reviewer/.agent
+    owns:
+      - simulated reviews
+      - pre-submission risk register
+  - name: rebuttal
+    path: rebuttal
+    memory_path: rebuttal/.agent
+    owns:
+      - real review issues
+      - response plan
+      - promised revisions
+
+worktrees: []

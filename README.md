@@ -37,6 +37,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 
 | Skill | What it does |
 |---|---|
+| `research-project-memory` | Initialize and maintain hierarchical project memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviews, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML project using `uv`, pytest, black, ruff, and mypy, with remote-workflow memory scaffolding |
@@ -62,6 +63,14 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 ## Lifecycle Categories
 
 These skills are organized around the lifecycle of an ML research project: set up the workspace, run and summarize experiments, shape the paper for submission, handle review and rebuttal, then maintain or release the project.
+
+### 0. Project Memory and Coordination
+
+Use this skill to keep feedback loops between idea, algorithm, experiments, writing, review, and rebuttal coherent across sessions:
+
+| Skill | Lifecycle role |
+|---|---|
+| **research-project-memory** | Maintain hierarchical memory and claim-evidence-risk-action links across project components |
 
 ### 1. Idea Validation and Project Shaping
 
@@ -143,6 +152,7 @@ For the person running experiments, collecting evidence, and making results repr
 
 | Skill | Role support |
 |---|---|
+| **research-project-memory** | Track evidence, risks, actions, and worktree state across experiment feedback loops |
 | **experiment-design-planner** | Convert a claim into a runnable experiment matrix with controls and decision rules |
 | **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
@@ -155,6 +165,7 @@ For the person turning research evidence into a submission:
 
 | Skill | Role support |
 |---|---|
+| **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
@@ -166,6 +177,7 @@ For the person stress-testing the paper before reviewers see it:
 
 | Skill | Role support |
 |---|---|
+| **research-project-memory** | Link simulated reviewer risks to claims, evidence gaps, and concrete actions |
 | **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
 | **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
 | **citation-audit** | Check whether cited papers actually support the text's claims |
@@ -176,6 +188,7 @@ For the person coordinating author response after real reviews arrive:
 
 | Skill | Role support |
 |---|---|
+| **research-project-memory** | Link real review issues to rebuttal actions, promised revisions, and updated evidence |
 | **rebuttal-strategist** | Parse reviews, infer reviewer intent, prioritize issues, plan rebuttal experiments, draft responses, and track promised revisions |
 | **run-experiment** | Execute targeted rebuttal experiments or analyses |
 | **conference-writing-adapter** | Turn accepted reviewer criticism into paper revisions |
@@ -186,6 +199,7 @@ For the person keeping the repo usable, documented, and publishable:
 
 | Skill | Role support |
 |---|---|
+| **research-project-memory** | Maintain project-level status, decisions, actions, component memory, and closeout summaries |
 | **update-docs** | Refresh docs after code or workflow changes |
 | **release-code** | Prepare the public research code release |
 | **add-git-tag** | Mark milestones with annotated tags |
@@ -198,6 +212,7 @@ For the person designing the overall research project, repo structure, and colla
 
 | Skill | Role support |
 |---|---|
+| **research-project-memory** | Define memory layout and component ownership for the full project |
 | **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
 | **project-init** | Create the initial paper/code workspace |
 | **init-latex-project** | Define the paper scaffold and venue template |
@@ -217,6 +232,7 @@ Current partial support:
 
 | Skill | Role support |
 |---|---|
+| **research-project-memory** | Preserve idea, claim, evidence, risk, and action state across project pivots |
 | **research-idea-validator** | Turn a rough idea into a pursue/revise/park/kill decision with novelty, feasibility, and paper-shape analysis |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
@@ -225,25 +241,34 @@ Potential future skills could include **algorithm-design-planner**, **result-dia
 ## Typical Workflow
 
 ```text
-1. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
-2. project-init       -> create a parent workspace with paper/ and code/
-3. new-workspace      -> isolate a feature or experiment branch
-4. remote-project-control -> recover project memory and align local vs remote state
-5. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
-6. run-experiment     -> launch locally or on SLURM / RunAI
-7. project-sync       -> record results in paper/sections/daily_experiments.tex
-8. experiment-report-writer -> turn experiment evidence into a structured report
-9. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-10. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-11. citation-coverage-audit -> find missing classic, close, and concurrent citations
-12. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-13. submit-paper    -> run a readiness check before a deadline
-14. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-15. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-16. update-docs     -> refresh docs after meaningful code changes
-17. release-code    -> prepare the public code release when needed
-18. add-git-tag     -> mark a milestone
+1. research-project-memory -> initialize or recover hierarchical project memory and feedback-loop state
+2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
+3. project-init       -> create a parent workspace with paper/ and code/
+4. new-workspace      -> isolate a feature or experiment branch
+5. remote-project-control -> recover project memory and align local vs remote state
+6. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
+7. run-experiment     -> launch locally or on SLURM / RunAI
+8. project-sync       -> record results in paper/sections/daily_experiments.tex
+9. experiment-report-writer -> turn experiment evidence into a structured report
+10. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+11. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+12. citation-coverage-audit -> find missing classic, close, and concurrent citations
+13. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+14. submit-paper    -> run a readiness check before a deadline
+15. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+16. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+17. update-docs     -> refresh docs after meaningful code changes
+18. release-code    -> prepare the public code release when needed
+19. add-git-tag     -> mark a milestone
 ```
+
+## What `research-project-memory` Provides
+
+- Hierarchical project memory across `memory/`, component `.agent/` folders, and worktree status files
+- Claim-evidence-risk-action tracking with stable IDs such as `CLM-001`, `EVD-001`, `RSK-001`, and `ACT-001`
+- Templates for project boards: claims, evidence, risks, actions, decisions, current status, and component index
+- Consistency checks for unsupported claims, stale evidence, reviewer risks without actions, rebuttal promises, and worktrees without exit conditions
+- A shared writeback protocol for other skills after idea validation, experiment design, runs, writing, review simulation, and rebuttal
 
 ## What `research-idea-validator` Provides
 

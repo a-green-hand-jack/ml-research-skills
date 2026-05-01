@@ -1,0 +1,49 @@
+# Stable project memory. Commit this file when shared project identity or policy changes.
+
+project:
+  name: {{PROJECT_NAME}}
+  root: {{PROJECT_ROOT}}
+  research_question: ""
+  positioning: ""
+  target_venue: ""
+  target_milestone: ""
+  status: active
+
+memory_policy:
+  commit_shared_memory: true
+  keep_private_paths_out_of_shared_memory: true
+  require_certainty_labels: true
+  reverify_volatile_state_before_action: true
+
+components:
+  paper:
+    path: paper
+    memory_path: paper/.agent
+    status: planned
+  code:
+    path: code
+    memory_path: code/.agent
+    status: planned
+  slides:
+    path: slides
+    memory_path: slides/.agent
+    status: optional
+  reviewer:
+    path: reviewer
+    memory_path: reviewer/.agent
+    status: optional
+  rebuttal:
+    path: rebuttal
+    memory_path: rebuttal/.agent
+    status: optional
+
+id_counters:
+  claim: 0
+  evidence: 0
+  experiment: 0
+  figure: 0
+  risk: 0
+  action: 0
+  decision: 0
+  worktree: 0
+  review: 0
