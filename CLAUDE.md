@@ -71,7 +71,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates and official style files |
 | `init-python-project` | Create a production-ready Python/ML code repo with uv, pytest, black, ruff, mypy, code-side evidence docs, and remote workflow memory |
-| `project-init` | Initialize a research project control root with independent paper/code/slides repos, shared memory, root agent guidance, and code-owned worktree policy |
+| `project-init` | Initialize a research project control root with independent paper/code/slides repos, shared memory, root project docs, root agent guidance, and code-owned worktree policy |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
 | `new-workspace` | Create a git branch or project-aware code worktree with UV sync, IDE config copying, evidence dirs, and worktree memory |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
@@ -105,7 +105,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`research-idea-validator`**: Use at the start of a project or when a direction is uncertain. It applies the FIVE+C framework to decide pursue/revise/park/kill, then routes to literature review, algorithm design, experiment design, or project setup.
 - **`literature-review-sprint`**: Use before method lock-in or after novelty doubts arise. It builds a ranked map of canonical, closest, recent, baseline, and positioning-relevant papers, then converts the map into project decisions and memory updates.
 - **`algorithm-design-planner`**: Use after idea validation and before coding/experiment design. It turns a research idea into a method spec, failure-mode map, ablation implications, implementation handoff, and paper-method bridge.
-- **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates the project control root with independent component repos, shared memory, root `AGENTS.md`, and a `code-worktrees/` policy; `project-sync` promotes verified code-side evidence into the paper log.
+- **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates the project control root with independent component repos, shared memory, root project docs, root `AGENTS.md`, and a `code-worktrees/` policy; `project-sync` promotes verified code-side evidence into the paper log.
 - **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.
 - **`baseline-selection-audit`**: Use between literature review and experiment execution, or whenever a comparison table may be vulnerable. It classifies baselines as must-have/should-have/optional/not-comparable/citation-only and produces a fairness ledger plus reviewer-risk forecast.
 - **`result-diagnosis`**: Use after results are surprising, negative, unstable, or hard to interpret. It separates bugs, metric issues, baseline fairness, variance, mechanism failure, and claim mismatch before deciding the next action.

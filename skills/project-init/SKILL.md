@@ -1,6 +1,6 @@
 ---
 name: project-init
-description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, root-level agent guidance, code-owned worktree policy, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
+description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, root project docs, root-level agent guidance, code-owned worktree policy, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
@@ -44,12 +44,17 @@ Default shape:
 ├── rebuttal/              # real review and response state
 ├── artifact/              # artifact-evaluation and release handoff state
 └── docs/
+    ├── overview.md
+    ├── designs/
+    ├── experiments/
     ├── updates/
     ├── audits/
     └── timelines/
 ```
 
 Do not create a top-level `experiments/` directory by default. Experiment execution, run summaries, result reports, and raw artifact pointers belong inside `code/` or the relevant code worktree.
+
+Root-level `docs/` is still useful, but it is project-level documentation, not a replacement for code-side evidence. Use it for staged method designs, cross-component experiment plans, project overviews, audits, timelines, and handoffs that coordinate `paper/`, `code/`, `slides/`, review, rebuttal, and artifact work.
 
 Recommended code-side evidence paths:
 
@@ -65,7 +70,7 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 - `paper/`, `code/`, and `slides/` are component repos, not mere folders.
 - The code component owns algorithm implementation, experiment execution, run records, result reports, remote execution state, and code worktrees.
 - Code worktrees should not be nested inside `code/` by default. Use the sibling root `code-worktrees/` so Git, IDEs, search tools, and agents do not confuse worktrees with normal source files.
-- Project memory stores durable cross-component state; code docs store code-side experiment details.
+- Project memory stores durable cross-component state; root `docs/` stores project-level design and planning artifacts; code docs store code-side implementation, run, and result details.
 - Root Git is optional. If enabled, do not accidentally commit nested component repos unless the user explicitly wants submodules.
 
 ## Step 1 - Gather Project Information
@@ -98,6 +103,9 @@ Create:
 ```text
 <parent-dir>/<ProjectName>/
 ├── memory/
+├── docs/overview.md
+├── docs/designs/
+├── docs/experiments/
 ├── docs/updates/
 ├── docs/audits/
 ├── docs/timelines/
@@ -172,6 +180,8 @@ It must state:
 - agents start from `<ProjectName>/` unless a task is explicitly component-local
 - use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component repos
 - code worktrees live under `code-worktrees/` by default
+- root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
+- `code/docs/` is for code-side result summaries, run records, implementation reports, and remote execution notes
 - experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
 - raw outputs, logs, checkpoints, and wandb/tensorboard caches are not project-root artifacts
 - project memory gets durable claim/evidence/risk/action summaries
@@ -262,6 +272,15 @@ Agents should start from this directory for cross-component work. Component repo
 | rebuttal | `rebuttal/` | root state dir | real reviews, responses, promised revisions |
 | artifact | `artifact/` | root state dir | artifact evaluation and release handoff |
 
+## Documentation Boundary
+
+- `memory/` stores durable claim/evidence/risk/action/decision state.
+- `docs/overview.md` gives the current human-readable project overview.
+- `docs/designs/` stores staged method and system design documents.
+- `docs/experiments/` stores cross-component experiment plans before they become code-side run records.
+- `code/docs/results/`, `code/docs/reports/`, and `code/docs/runs/` store code-side evidence and run provenance.
+- Detailed paper prose belongs in `paper/`; detailed implementation docs belong in `code/`.
+
 ## Code Evidence Policy
 
 - runnable experiment logic lives in `code/experiments/`
@@ -270,6 +289,16 @@ Agents should start from this directory for cross-component work. Component repo
 - run pointers and job summaries live in `code/docs/runs/`
 - raw outputs, logs, checkpoints, and wandb/tensorboard caches stay outside Git or in ignored paths
 - paper-facing evidence is promoted through `paper-evidence-board` or `project-sync`
+
+## Project-Level Docs Policy
+
+- project overview lives in `docs/overview.md` and should summarize current project positioning, components, blockers, and next stage
+- staged method/system designs live in `docs/designs/`
+- cross-component experiment plans live in `docs/experiments/`
+- advisor/lab updates live in `docs/updates/`
+- consistency or readiness audits live in `docs/audits/`
+- retrospective or forward-looking schedules live in `docs/timelines/`
+- when algorithm or experiment plans change, update both the relevant root `docs/` artifact and the matching `memory/` boards; update `code/docs/` only when code-side run details, implementation notes, or result evidence change
 
 ## Worktree Policy
 
@@ -282,6 +311,7 @@ Agents should start from this directory for cross-component work. Component repo
 
 - project-level durable summaries live in `memory/`
 - component details live in `<component>/.agent/`
+- project-level human-readable docs live in root `docs/`
 - code-side run details live in `code/docs/`
 - volatile scheduler or job state must be re-verified before action
 ```
@@ -319,5 +349,6 @@ Before finishing:
 - `paper/`, `code/`, and `slides/` Git boundaries are clear
 - `code-worktrees/` policy is recorded
 - there is no top-level `experiments/` directory unless the user explicitly requested it
+- root `docs/` has a clear project-level role and is not confused with `code/docs/`
 - code-side evidence paths are inside `code/docs/`
 - component remotes and root Git policy are not ambiguous

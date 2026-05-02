@@ -43,7 +43,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, code-side evidence docs, and remote-workflow memory scaffolding |
-| `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root agent guidance, and code-owned worktree policy |
+| `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, root agent guidance, and code-owned worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware code worktree for a new feature, experiment, baseline, debug task, or rebuttal fix |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
@@ -197,7 +197,7 @@ Use these skills when starting the project control root, creating or connecting 
 
 | Skill | Lifecycle role |
 |---|---|
-| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `AGENTS.md`, and `code-worktrees/` policy |
+| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, root `AGENTS.md`, and `code-worktrees/` policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or code worktree, defaulting to `code-worktrees/` under the project control root when applicable |
@@ -372,7 +372,7 @@ For the person designing the overall research project, repo structure, and colla
 | **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
 | **literature-review-sprint** | Establish the literature map, closest-work risk, baseline expectations, and open gap before method design |
 | **algorithm-design-planner** | Define the method design before implementation and experiment planning |
-| **project-init** | Create the project control root and connect paper, code, slides, memory, review, rebuttal, artifact, and code-worktree policy |
+| **project-init** | Create the project control root and connect paper, code, slides, memory, root docs, review, rebuttal, artifact, and code-worktree policy |
 | **init-latex-project** | Define the paper scaffold and venue template |
 | **init-python-project** | Define the code repo structure, experiment-entry architecture, and code-side evidence docs |
 | **new-workspace** | Isolate new code directions, experiments, baselines, or rebuttal fixes with branches or code worktrees |
@@ -405,7 +405,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
 3. literature-review-sprint -> map canonical, closest, and recent work before locking project positioning
 4. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
-5. project-init       -> create the project control root, memory, component repos, and code-worktree policy
+5. project-init       -> create the project control root, memory, root docs, component repos, and code-worktree policy
 6. new-workspace      -> isolate a code feature, experiment, baseline, debug task, or rebuttal fix
 7. remote-project-control -> recover project memory and align local vs remote state
 8. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
@@ -487,9 +487,9 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 ## What `project-init` Provides
 
 - A project control root where agents can coordinate independent `paper/`, `code/`, optional `slides/`, `reviewer/`, `rebuttal/`, and `artifact/` components
-- Root-level `PROJECT.md`, `AGENTS.md`, and `memory/` scaffolding for cross-component claim/evidence/risk/action management
+- Root-level `PROJECT.md`, `AGENTS.md`, `memory/`, and `docs/` scaffolding for cross-component claim/evidence/risk/action management, project overviews, staged method designs, and cross-component experiment plans
 - A default code worktree policy using sibling `code-worktrees/` rather than nested worktrees inside `code/`
-- Clear separation between project-level memory, component repos, code-side evidence docs, and raw experiment artifacts
+- Clear separation between project-level memory, root project docs, component repos, code-side evidence docs, and raw experiment artifacts
 
 ## What `new-workspace` Provides
 
