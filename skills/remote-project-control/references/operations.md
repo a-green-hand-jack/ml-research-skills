@@ -21,6 +21,11 @@ Report mismatches clearly:
 - configured path does not exist
 - scheduler or environment activation command looks stale
 
+Network preflight rule:
+
+- For commands that contact GitHub/GitLab, SSH servers, package registries, or scheduler APIs, DNS failure, timeout, or connection failure is `network/sandbox access` until rerun with network permission.
+- Do not classify network-restricted `git`, `gh`, `ssh`, `curl`, or API commands as bad credentials, missing repos, bad SSH keys, or broken server configuration before a network-enabled rerun.
+
 ## Sync Code
 
 Goal: safely align local code, the Git remote, and the server repo through git.
@@ -88,6 +93,8 @@ If `gh auth status` has network access and still fails:
 - do not continue to `gh repo create`, `gh repo fork`, or `git push`
 
 If `gh auth login` succeeds but the next `gh repo ...` command fails with `api.github.com` reachability, classify that as `GitHub API network/sandbox access`, not as a failed login. Rerun the repo command with network permission.
+
+The same pattern applies to `git fetch`, `git push`, `git pull`, `git ls-remote`, and `ssh`: if the first failure is DNS, timeout, host unreachable, or API reachability, rerun with network permission before diagnosing Git credentials, SSH keys, repository existence, or server state.
 
 Repository setup rules:
 

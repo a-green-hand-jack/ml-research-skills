@@ -80,6 +80,30 @@ What to do:
 - explain the risk plainly
 - ask for explicit approval before executing
 
+## 5. Network or Sandbox Network Restriction
+
+Typical signals:
+
+- `Could not resolve host`
+- `Could not read from remote repository`
+- `Connection timed out`
+- `Network is unreachable`
+- DNS failure, TLS connection failure, or API reachability failure
+- `ssh: Could not resolve hostname`
+- `gh` reports `error connecting to api.github.com`
+
+Interpretation:
+
+- the command may not have reached the Git remote, GitHub/GitLab API, or SSH server
+- this is not yet evidence of a bad token, bad SSH key, missing repository, branch mismatch, or GitHub/server outage
+- sandboxed agent runtimes may require network permission even when the same command works in the user's normal terminal
+
+What to tell the user:
+
+- classify the first failure as network/sandbox access
+- rerun with network permission if the command is required
+- only diagnose authentication, missing repo, or server-side failures after a network-enabled rerun reaches the host
+
 ## Reporting Rule
 
-Do not collapse these categories into a generic phrase like "Git conflict" or "merge issue." Say which category it is.
+Do not collapse these categories into a generic phrase like "Git conflict", "merge issue", "auth failed", or "remote is broken." Say which category it is.

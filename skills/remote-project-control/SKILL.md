@@ -48,6 +48,7 @@ Pair this skill with `research-project-memory` when server execution state shoul
 - Verify volatile state before acting on it
 - Prefer GitHub/GitLab or the configured Git remote for local-to-server code sync; do not improvise ad hoc source copying unless the project explicitly uses it
 - Never use destructive server-side git commands without explicit user approval
+- Treat network access as a separate failure mode for `gh`, `git`, `ssh`, `curl`, and scheduler/API commands; DNS, timeout, or connection errors in a sandboxed agent runtime must be retried with network permission before diagnosing credentials or configuration
 - Treat GitHub/GitLab API access as separate from normal `git` SSH access: `git push` may work while `gh repo create`, `gh repo view`, or `gh repo fork` fails because `gh` is not authenticated
 - Treat GitHub/GitLab API network access as separate from authentication: in sandboxed agent runtimes, `gh` may fail to reach `api.github.com` unless the command is rerun with network permission
 - In project-control-root layouts, inspect root and component repos separately; `<ProjectName>/` and `<ProjectName>/code/` may be independent Git repos with different remotes and permissions
@@ -167,6 +168,12 @@ Interpret failures carefully:
 - If the output says it cannot connect to `api.github.com`, `github.com`, or asks to check the internet connection, treat it as network/sandbox access first. Rerun the same `gh` check with network permission before asking the user to log in again.
 - If `gh auth status` has network access and still reports an invalid token, missing account, or failed login, stop the GitHub API flow and tell the user to re-authenticate with `gh auth login -h github.com`.
 - Do not interpret either failure as a repository creation failure, Git remote failure, SSH key failure, or server problem.
+
+Apply the same network-first classification to other commands:
+
+- `git fetch`, `git push`, `git pull`, `git ls-remote`: DNS or connection failure is network/sandbox access until rerun with network permission.
+- `ssh <server>`: hostname resolution, timeout, or network unreachable is network/VPN/sandbox reachability until rerun with the expected network permission and VPN state.
+- `curl`, package managers, and scheduler/API CLIs: connection failure is not enough to prove credentials or server configuration are wrong.
 
 ## Step 5 — Write Back to the Right Memory Layer
 

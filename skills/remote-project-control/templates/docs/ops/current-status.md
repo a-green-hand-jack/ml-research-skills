@@ -12,6 +12,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 - Local repo root: `{{LOCAL_REPO_ROOT}}`
 - GitHub/GitLab CLI auth: unknown until checked
 - GitHub/GitLab API network access: unknown until checked
+- General network-sensitive commands: `gh`, `git fetch/push/ls-remote`, `ssh`, `curl`, package managers, and scheduler/API CLIs may require network permission in sandboxed agent runtimes
 
 ## Current Focus
 
@@ -33,6 +34,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 - Record blockers, mismatches, or things the next session should re-check.
 - Re-check `gh auth status` with network access before using GitHub API commands such as repo creation, repo view, or fork.
 - If `gh` reports `api.github.com` connection failure, treat it as network/sandbox access until rechecked with network permission.
+- If `git`, `ssh`, `curl`, package managers, or scheduler/API CLIs report DNS, timeout, or connection failures, recheck with network permission before diagnosing credentials, Git remotes, SSH keys, or server configuration.
 
 ## Next Step
 

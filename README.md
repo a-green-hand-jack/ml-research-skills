@@ -267,7 +267,7 @@ Use this whenever a workflow touches non-trivial Git state:
 
 | Skill | Lifecycle role |
 |---|---|
-| **safe-git-ops** | Diagnose and perform Git operations safely, especially around worktrees, conflicts, and sandboxed metadata writes |
+| **safe-git-ops** | Diagnose and perform Git operations safely, especially around worktrees, conflicts, sandboxed metadata writes, and networked Git commands |
 
 ## Role-Based Categories
 
@@ -504,6 +504,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Shared and private memory files for Git remote mappings, server mappings, working status, and local overrides
 - Safe orchestration for inspect, Git remote setup, sync, server job submission, monitoring, and artifact lookup
 - GitHub CLI guardrails: check `gh auth status` with network access before `gh repo create`, `gh repo view`, or `gh repo fork`; distinguish `api.github.com` network/sandbox failures from real auth failures; keep project-root and component-repo remotes separate
+- Network guardrails for sandboxed agents: classify DNS, timeout, and host/API connection failures from `gh`, networked `git`, `ssh`, `curl`, package managers, or scheduler APIs as network/sandbox access until retried with network permission
 - A clean handoff layer between project memory and `run-experiment`
 
 ## What `work-timeline-planner` Provides

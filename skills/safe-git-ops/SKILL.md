@@ -31,6 +31,7 @@ Help the user perform common Git operations without confusing sandbox failures, 
 - Ask before destructive operations such as `reset --hard`, `checkout --`, deleting branches, or dropping stashes
 - Prefer non-interactive Git commands
 - When a write operation is blocked by the sandbox, explain that clearly and request escalation instead of guessing about conflicts
+- When a network Git operation fails, distinguish network/sandbox access from authentication, Git remote, or repository problems before asking the user to change credentials
 - Bias toward early activation: if the user reports a Git failure in vague language, assume this skill should own the diagnosis before any state-changing command runs
 
 ## Trigger Heuristics
@@ -44,6 +45,10 @@ Use this skill immediately when any of these show up:
   - `index.lock`
   - `operation not permitted`
   - `permission denied`
+  - `Could not resolve host`
+  - `Could not read from remote repository`
+  - `Connection timed out`
+  - `Network is unreachable`
   - `.git/worktrees/`
   - `ORIG_HEAD`
   - `CHERRY_PICK_HEAD`
@@ -58,6 +63,7 @@ Never say any of the following unless Git actually proved it:
 - "this is a merge conflict" when the error is really permission-related
 - "this is just local to the current worktree" when the common git dir may be involved
 - "Git is broken" when the real issue is dirty state, detached HEAD, or an in-progress operation
+- "your token/SSH key/remote is broken" when the first failure is a sandboxed network or DNS failure
 - "just rerun it" without saying whether the block is conflict, repo state, or sandbox
 
 ## Step 1 — Orient the Repository
@@ -91,10 +97,13 @@ Summarize:
 Handle the request as one of these categories:
 
 - `inspect`: status, log, diff, branch list, remotes, worktree layout
+- `network_inspect`: fetch, pull, push dry checks, ls-remote, submodule update, or any Git operation that contacts a Git remote
 - `safe_write`: add, commit, cherry-pick, merge, rebase, stash, branch creation, worktree creation
 - `destructive_write`: reset, checkout over local changes, clean, branch deletion, stash drop, force push
 
 For `inspect`, run the command directly if sandbox rules allow it.
+
+For `network_inspect`, expect sandboxed runtimes to block DNS or outbound connections unless network permission is granted.
 
 For `safe_write`, do a preflight check first.
 
@@ -135,9 +144,12 @@ Use the guidance in `references/failure-modes.md`. The high-level rule is:
 
 - If Git reports `CONFLICT`, conflict markers, or asks to resolve files, this is a code conflict
 - If Git reports `operation not permitted`, `permission denied`, failure to create lock files, or inability to update refs or worktree metadata, this is a sandbox or permission problem
+- If Git reports DNS failure, API/host connection failure, timeout, or network unreachable during `fetch`, `pull`, `push`, `ls-remote`, or submodule operations, this is network/sandbox access until rerun with network permission
 - If Git reports dirty state, untracked-file overwrite, detached HEAD mismatch, or missing commit, this is a repository state problem
 
 Do not tell the user "there is a conflict" unless Git actually reported one.
+
+Do not tell the user "authentication failed", "SSH key is wrong", or "the remote repo is missing" when Git never reached the host because of DNS/network/sandbox restrictions.
 
 ## Step 5 — Escalate Cleanly When Sandbox Restrictions Are the Real Problem
 
@@ -154,6 +166,17 @@ If a write command is important and fails because of sandbox restrictions:
 Use wording like:
 
 > This `git cherry-pick` failure looks like a sandbox write restriction, not a merge conflict. Git needs to update shared worktree metadata, so I should rerun it with elevated permissions.
+
+If a network Git command is important and fails because DNS, API, or host connection is blocked:
+
+1. State that the first failure is network/sandbox access, not proven Git auth or remote configuration failure
+2. Name the command, such as `git fetch`, `git push`, or `git ls-remote`
+3. Request network permission and rerun the same command
+4. Only after a network-enabled rerun should you classify credential, permission, missing-repo, branch, or server-side errors
+
+Use wording like:
+
+> This `git ls-remote` failure did not reach GitHub; it looks like sandboxed network access, not a missing repo or bad SSH key. I should rerun it with network permission before diagnosing credentials.
 
 ## Step 6 — Worktree-Specific Rules
 
@@ -173,6 +196,7 @@ When you finish, report one of these outcomes clearly:
 - success
 - conflict requiring manual resolution
 - sandbox or permission restriction
+- network/sandbox restriction
 - repository state problem that needs a user choice
 
 For each case, give the user the next action, not a vague Git dump.
@@ -191,7 +215,7 @@ When the user asked "what happened?" or "why did this fail?", report in this str
 
 ```text
 Operation: <git command>
-Classification: success | content conflict | sandbox restriction | repository state problem
+Classification: success | content conflict | sandbox restriction | network/sandbox restriction | repository state problem
 Evidence: <the key git message or state observation>
 Why it happened: <short explanation>
 Next step: <single concrete next action>
@@ -202,6 +226,7 @@ Keep the classification line explicit. That is the main protection against slopp
 ## Commands This Skill Should Handle Well
 
 - `git status`, `log`, `diff`, `show`, `branch`, `remote`
+- `git fetch`, `pull`, `push`, `ls-remote`
 - `git add`, `commit`, `stash`
 - `git cherry-pick`
 - `git merge`

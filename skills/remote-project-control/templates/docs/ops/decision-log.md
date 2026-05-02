@@ -21,3 +21,9 @@ Use this file for durable workflow decisions, not ephemeral runtime status.
 - Check `gh auth status` before GitHub API operations such as `gh repo create`, `gh repo view`, or `gh repo fork`.
 - A failed `gh auth status` should be treated as an authentication blocker, not as evidence that the Git remote, server, or repository is broken.
 - In sandboxed agent runtimes, `gh` also needs network permission. An `api.github.com` connection failure should be rechecked with network permission before asking the user to re-authenticate.
+
+## Network Permission Convention
+
+- Network-sensitive commands include `gh`, `git fetch/push/pull/ls-remote`, `ssh`, `curl`, package managers, and scheduler/API CLIs.
+- DNS failure, timeout, host unreachable, or API reachability failure in a sandboxed agent runtime should be classified as network/sandbox access until rerun with network permission.
+- Diagnose credentials, missing repositories, SSH key problems, or server configuration only after a network-enabled command reaches the target host/API.
