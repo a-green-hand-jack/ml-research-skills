@@ -39,6 +39,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 |---|---|
 | `research-project-memory` | Initialize and maintain hierarchical project memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviews, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
+| `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML project using `uv`, pytest, black, ruff, and mypy, with remote-workflow memory scaffolding |
 | `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
@@ -79,6 +80,7 @@ Use these skills when deciding whether an idea is worth pursuing and how it shou
 | Skill | Lifecycle role |
 |---|---|
 | **research-idea-validator** | Judge a rough idea with the FIVE+C framework and choose pursue, revise, park, or kill |
+| **algorithm-design-planner** | Convert a promising idea into a concrete method, objective, architecture, or inference design |
 
 ### 2. Project and Workspace Setup
 
@@ -214,6 +216,7 @@ For the person designing the overall research project, repo structure, and colla
 |---|---|
 | **research-project-memory** | Define memory layout and component ownership for the full project |
 | **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
+| **algorithm-design-planner** | Define the method design before implementation and experiment planning |
 | **project-init** | Create the initial paper/code workspace |
 | **init-latex-project** | Define the paper scaffold and venue template |
 | **init-python-project** | Define the code repo structure and tooling |
@@ -222,11 +225,7 @@ For the person designing the overall research project, repo structure, and colla
 
 ### Algorithm / Research Idea Designer
 
-This role is partially covered in this repository today. Existing skills help validate ideas and design evidence once a rough claim exists, but there is not yet a dedicated skill for:
-
-- turning a rough algorithmic idea into a precise method
-- designing ablations and baselines from first principles
-- mapping assumptions, failure modes, and theory/experiment claims
+This role covers the earliest technical design work: decide whether an idea is worth pursuing, then turn it into a method that can be implemented and tested.
 
 Current partial support:
 
@@ -234,32 +233,34 @@ Current partial support:
 |---|---|
 | **research-project-memory** | Preserve idea, claim, evidence, risk, and action state across project pivots |
 | **research-idea-validator** | Turn a rough idea into a pursue/revise/park/kill decision with novelty, feasibility, and paper-shape analysis |
+| **algorithm-design-planner** | Turn a promising idea into a method specification with assumptions, components, failure modes, ablations, and implementation handoff |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **algorithm-design-planner**, **result-diagnosis**, **paper-evidence-board**, or **paper-positioning-planner**.
+Potential future skills could include **result-diagnosis**, **paper-evidence-board**, or **paper-positioning-planner**.
 
 ## Typical Workflow
 
 ```text
 1. research-project-memory -> initialize or recover hierarchical project memory and feedback-loop state
 2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
-3. project-init       -> create a parent workspace with paper/ and code/
-4. new-workspace      -> isolate a feature or experiment branch
-5. remote-project-control -> recover project memory and align local vs remote state
-6. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
-7. run-experiment     -> launch locally or on SLURM / RunAI
-8. project-sync       -> record results in paper/sections/daily_experiments.tex
-9. experiment-report-writer -> turn experiment evidence into a structured report
-10. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-11. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-12. citation-coverage-audit -> find missing classic, close, and concurrent citations
-13. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-14. submit-paper    -> run a readiness check before a deadline
-15. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-16. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-17. update-docs     -> refresh docs after meaningful code changes
-18. release-code    -> prepare the public code release when needed
-19. add-git-tag     -> mark a milestone
+3. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
+4. project-init       -> create a parent workspace with paper/ and code/
+5. new-workspace      -> isolate a feature or experiment branch
+6. remote-project-control -> recover project memory and align local vs remote state
+7. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
+8. run-experiment     -> launch locally or on SLURM / RunAI
+9. project-sync       -> record results in paper/sections/daily_experiments.tex
+10. experiment-report-writer -> turn experiment evidence into a structured report
+11. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+12. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+13. citation-coverage-audit -> find missing classic, close, and concurrent citations
+14. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+15. submit-paper    -> run a readiness check before a deadline
+16. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+17. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+18. update-docs     -> refresh docs after meaningful code changes
+19. release-code    -> prepare the public code release when needed
+20. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -278,6 +279,14 @@ Potential future skills could include **algorithm-design-planner**, **result-dia
 - Paper-shape analysis for method, theory, benchmark, empirical analysis, systems, application, negative-result, and position-style ideas
 - Minimum viable project, killer experiment or analysis, reviewer attack forecast, kill criteria, and next actions
 - Memory guidance for preserving promising, parked, revised, or killed ideas across sessions
+
+## What `algorithm-design-planner` Provides
+
+- A method-design workflow that turns a validated idea into a precise problem formulation, baseline modification, mechanism, objective, architecture, or inference procedure
+- Assumption, invariant, failure-mode, complexity, and implementation-handoff checks before coding
+- Ablation and diagnostic implications for every method component so the design can feed into `experiment-design-planner`
+- Paper-method bridge guidance for algorithm boxes, equations, assumptions, and reviewer-facing explanations
+- Project-memory writeback for design decisions, planned claims, risks, actions, and worktree exit conditions
 
 ## What `init-latex-project` Provides
 

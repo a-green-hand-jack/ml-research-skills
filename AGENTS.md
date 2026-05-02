@@ -43,6 +43,9 @@ ml-research-skills/
     ├── research-idea-validator/
     │   ├── SKILL.md
     │   └── references/
+    ├── algorithm-design-planner/
+    │   ├── SKILL.md
+    │   └── references/
     ├── init-latex-project/
     │   ├── SKILL.md
     │   ├── scripts/
@@ -110,6 +113,7 @@ ml-research-skills/
 |---|---|
 | `research-project-memory` | Initialize and maintain hierarchical memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision using novelty, feasibility, evidence, and reviewer-risk analysis |
+| `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML project using `uv` |
 | `project-init` | Create a parent research workspace with aligned `paper/` and `code/` repos |
