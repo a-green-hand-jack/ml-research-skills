@@ -85,6 +85,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt a paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and project-local writing memory |
+| `paper-writing-assistant` | Draft and revise claim-aware paper prose, use micro-patterns for captions and paragraph-level writing, interpret results in support of claims, and track provisional result placeholders until verified evidence arrives |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
@@ -119,6 +120,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`paper-evidence-board`**: Use while writing or reviewing a draft to keep claims, evidence, figures, sections, reviewer risks, and next actions aligned.
 - **`paper-positioning-planner`**: Use when deciding what the paper should strategically sell before venue-specific rewriting. It chooses paper archetype, primary/secondary contribution hierarchy, claim scope, target audience, related-work boundary, narrative architecture, and claims to avoid.
 - **`conference-writing-adapter`**: Use when a paper needs to be reshaped for a target venue's reviewer expectations. It learns from accepted/oral/spotlight exemplars, diagnoses the paper archetype, and produces section-level or paragraph-level rewrite plans.
+- **`paper-writing-assistant`**: Use when the paper needs actual prose, not review. It writes and revises sections against the active claims, uses reference-backed micro-patterns for captions, paragraph starts, transitions, and result interpretation, and records any temporary result placeholders in `paper/.agent/provisional-results.md` until verified evidence replaces them.
 - **`paper-reviewer-simulator`**: Use before submission to simulate venue-specific reviewers, predict likely reject reasons, produce an area-chair style meta-review, and rank fixes by acceptance impact.
 - **`rebuttal-strategist`**: Use after real reviews arrive to parse OpenReview/reviewer comments, infer reviewer intent, decide which experiments or clarifications matter, draft rebuttals, and track promised revisions.
 - **`camera-ready-finalizer`**: Use after acceptance to close rebuttal promises, de-anonymize, lock final claims against evidence, check supplement consistency, run final submission handoff, and route code/artifact/release tasks.

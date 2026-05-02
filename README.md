@@ -57,6 +57,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
+| `paper-writing-assistant` | Draft and revise claim-aware paper prose, use micro-patterns for captions and paragraph-level writing, interpret results in support of claims, and track provisional result placeholders until verified evidence arrives |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
@@ -270,7 +271,7 @@ Primary skills in `paper/`:
 | Paper area | Main artifacts | Primary skills |
 |---|---|---|
 | Paper scaffold | `main.tex`, `sections/`, `venue_preamble.tex`, `macros.tex` | **init-latex-project**, **submit-paper** |
-| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-evidence-board** |
+| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-assistant**, **paper-evidence-board** |
 | Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **figure-results-review**, **paper-evidence-board** |
 | Tables | `tables/*.tex` | **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
 | Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
@@ -477,12 +478,14 @@ flowchart TD
     subgraph D2[Paper Writing and Pre-Submission Review]
         PEB[paper-evidence-board]
         CWA[conference-writing-adapter]
+        PWA[paper-writing-assistant<br/>claim-aware prose + provisional results]
         PRS[paper-reviewer-simulator]
         CCA[citation-coverage-audit]
         CA[citation-audit]
         SUB[submit-paper]
         PEB --> P
-        P --> CWA --> PRS
+        P --> CWA --> PWA --> PRS
+        PWA --> PEB
         PRS --> PEB
         CWA --> CCA --> CA --> SUB
     end
@@ -529,9 +532,9 @@ flowchart TD
 
 The most important feedback loops are:
 
-- **Writing to experiments**: `paper-evidence-board` or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
+- **Writing to experiments**: `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
-- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper.
+- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-assistant` turns verified or clearly provisional evidence into claim-aware prose.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
@@ -593,6 +596,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
+| **paper-writing-assistant** | Draft and revise claim-aware prose, interpret results toward claims, and track provisional result placeholders |
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
@@ -670,6 +674,7 @@ For the person turning research evidence into a submission:
 | **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
+| **paper-writing-assistant** | Write and revise paper sections while preserving claims, evidence status, and provisional-result traceability |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
 | **submit-paper** | Check final submission readiness |
@@ -794,18 +799,19 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 18. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
 19. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
 20. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-21. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-22. citation-coverage-audit -> find missing classic, close, and concurrent citations
-23. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-24. submit-paper    -> run a readiness check before a deadline
-25. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-26. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-27. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-28. release-code    -> prepare the public code release when needed
-29. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-30. update-docs     -> refresh docs after meaningful code changes
-31. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-32. add-git-tag     -> mark a milestone
+21. paper-writing-assistant -> write claim-aware paper prose and track provisional result placeholders
+22. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+23. citation-coverage-audit -> find missing classic, close, and concurrent citations
+24. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+25. submit-paper    -> run a readiness check before a deadline
+26. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+27. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+28. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+29. release-code    -> prepare the public code release when needed
+30. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+31. update-docs     -> refresh docs after meaningful code changes
+32. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+33. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -986,6 +992,16 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Paper archetype diagnosis for method, empirical study, benchmark, theory, systems, analysis, and application papers
 - Section-level and paragraph-level rewrite blueprints that assign each paragraph a reviewer-facing function
 - Project-local writing memory under `.agent/conference-writing/` for venue patterns, exemplar notes, and current-paper style decisions
+
+## What `paper-writing-assistant` Provides
+
+- Direct drafting and revision of abstract, introduction, method, experiment, result, limitation, and conclusion prose
+- Claim-aware result interpretation that explains how evidence supports, narrows, or complicates the paper's claims
+- Venue- and positioning-aware style choices for method, empirical, benchmark, theory, systems, analysis, and application papers
+- A curated exemplar index with paraphrased section and micro-writing patterns from representative papers across ML, NLP, vision, and systems venues
+- Reference-backed micro-patterns for paragraph openings/closings, figure captions, table captions, transitions, contribution bullets, and related-work positioning
+- A provisional result protocol with searchable `PR-###` / `PROVISIONAL-RESULT` markers in paper source
+- A ledger at `paper/.agent/provisional-results.md` so temporary placeholders are replaced when verified experiment results arrive
 
 ## What `paper-reviewer-simulator` Provides
 
