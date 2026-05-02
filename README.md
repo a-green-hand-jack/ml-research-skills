@@ -106,7 +106,14 @@ A full project is a control root with independent component repositories:
 ├── code/                   # independent Python/ML code repo
 ├── code-worktrees/          # sibling worktrees for code repo branches
 ├── paper-worktrees/         # sibling worktrees for paper venue/arXiv/camera-ready versions
-├── slides/                 # optional independent slides repo
+├── slides/                 # optional independent multi-deck slides repo
+│   ├── slides.md            # optional active/default deck or template staging file
+│   ├── decks/               # stable advisor/lab/result/rebuttal/conference decks
+│   ├── assets/              # shared or deck-specific slide assets
+│   └── .agent/
+│       ├── slides-status.md
+│       ├── deck-index.md
+│       └── decks/
 ├── reviewer/               # simulated review state
 ├── rebuttal/               # real review and response state
 └── artifact/               # artifact evaluation and release handoff state
@@ -118,6 +125,7 @@ Root ownership rules:
 - `paper/`, `code/`, and `slides/` are component repos. Use `git -C paper ...`, `git -C code ...`, and `git -C slides ...`.
 - Do not put experiment outputs directly under the root. Runnable code, run records, results, and logs belong under `code/` or a code worktree.
 - Do not create paper version folders inside `paper/`. Venue submissions, arXiv releases, and camera-ready versions belong under `paper-worktrees/`.
+- Do not treat `slides/slides.md` as the whole presentation history. Stable meeting/talk decks belong under `slides/decks/`, with deck registry memory in `slides/.agent/deck-index.md`.
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
 - Cross-worktree memory has three layers: global registry in `memory/component-index.yaml`, component rollups in `paper/.agent/worktree-index.md` and `code/.agent/worktree-index.md`, and leaf status in each worktree's `.agent/worktree-status.md`.
 
@@ -150,7 +158,7 @@ Memory is layered:
 |---|---|---|---|
 | Project memory | `memory/` | Shared coordination state across paper, code, slides, review, rebuttal, artifact, and worktrees | `project.yaml`, `component-index.yaml`, `claim-board.md`, `evidence-board.md`, `risk-board.md`, `action-board.md` |
 | Cloud coordination | GitHub Project | Optional collaborator-facing task board across component repos | issues, PRs, draft items, roadmap/board/table views, custom fields |
-| Component memory | `<component>/.agent/` | Component-local state that is too detailed for root boards but still useful across sessions | `paper/.agent/paper-status.md`, `paper/.agent/figure-table-map.md`, `code/.agent/worktree-index.md` |
+| Component memory | `<component>/.agent/` | Component-local state that is too detailed for root boards but still useful across sessions | `paper/.agent/paper-status.md`, `paper/.agent/figure-table-map.md`, `code/.agent/worktree-index.md`, `slides/.agent/deck-index.md` |
 | Repo-native ops memory | `code/docs/ops/` and similar component docs | Operational notes native to a repo; useful but not a cross-component registry | `code/docs/ops/current-status.md`, `code/docs/ops/decision-log.md` |
 | Worktree memory | `<component-worktree>/.agent/worktree-status.md` | Leaf state for one experimental branch or paper version | purpose, branch, linked claims, latest result, source visibility, exit condition |
 
@@ -171,7 +179,7 @@ This graph is what connects skills:
 | Figure and table review | evidence board, paper locations, visual/table map | figure/table status, caption actions, provenance risks |
 | Paper writing and venue adaptation | claims, evidence, risks, target venue, paper status | section mapping, claim wording decisions, writing risks |
 | Submission, review, rebuttal, camera-ready | readiness state, reviewer risks, promised actions | blockers, review issues, rebuttal promises, final release handoff |
-| Slides and advisor updates | current status, evidence, risks, action board | advisor feedback, presentation stale-evidence notes, next actions |
+| Slides and advisor updates | current status, evidence, risks, action board, deck index | advisor feedback, deck registry updates, presentation stale-evidence notes, next actions |
 
 Cross-worktree memory has a stricter shape:
 
@@ -184,6 +192,18 @@ memory/component-index.yaml
 ```
 
 When `new-workspace` creates, parks, merges, or kills a worktree, it should update the root registry, the component worktree index, and the leaf status file. This prevents a result in one code branch, an arXiv paper branch, and a camera-ready branch from drifting apart without a visible project-level record.
+
+Slides deck memory is similar but deck-oriented rather than worktree-oriented:
+
+```text
+memory/component-index.yaml
+  -> slides/.agent/slides-status.md
+      -> slides/.agent/deck-index.md
+          -> slides/.agent/decks/<deck-id>.md
+          -> slides/decks/<deck-id>.md
+```
+
+When `research-slide-deck-builder` creates or materially changes a real meeting/talk deck, it should update the component status and deck index so old advisor, lab, rebuttal, and conference decks remain discoverable instead of being overwritten through `slides.md`.
 
 Use certainty labels whenever memory may become stale:
 
@@ -351,11 +371,54 @@ Primary skills in `code/`:
 | Paper evidence handoff | stable summaries, figure/table notes, paper pointers | **project-sync**, **figure-results-review**, **table-results-review** |
 | Release and artifact | public repo hygiene, artifact commands, manifests | **release-code**, **artifact-evaluation-prep** |
 
+### Slides Component
+
+The slides repo is a presentation workspace over the whole project lifecycle, not a single file:
+
+```text
+slides/
+├── slides.md                 # active/default deck or temporary template staging file
+├── decks/
+│   ├── 2026-05-02-advisor-plan.md
+│   ├── 2026-05-09-lab-update.md
+│   ├── 2026-05-15-result-review.md
+│   └── <venue-or-event>-<purpose>.md
+├── assets/
+│   ├── shared/
+│   └── <deck-id>/
+├── templates/
+├── snippets/
+└── .agent/
+    ├── slides-status.md
+    ├── deck-index.md
+    └── decks/
+        └── <deck-id>.md
+```
+
+Slides boundary rules:
+
+- `decks/` stores stable source decks for real meetings, lab talks, result reviews, rebuttal discussions, proposals, and conference talks.
+- `slides.md` is only the active default deck, a temporary staging target for template tooling, or a sample/index deck.
+- `assets/<deck-id>/` stores deck-specific figures or media; `assets/shared/` stores reusable visual assets.
+- `snippets/` stores reusable single-slide fragments. It is not a historical deck archive.
+- `.agent/deck-index.md` records deck history, audience, purpose, source evidence, validation status, and follow-up.
+- `.agent/decks/<deck-id>.md` stores optional per-deck memory for important decks.
+- Run Slidev against the target deck file, for example `npx slidev decks/2026-05-02-advisor-plan.md`.
+
+Primary skills in `slides/`:
+
+| Slides area | Main artifacts | Primary skills |
+|---|---|---|
+| Slides component setup | `slides/`, `templates/`, `snippets/`, `package.json` | **project-init**, **research-slide-deck-builder** |
+| Deck creation | `decks/<deck-id>.md`, `assets/<deck-id>/` | **research-slide-deck-builder**, **advisor-update-writer**, **experiment-report-writer** |
+| Visual/table reuse | paper figures, code-side plots, result tables | **figure-results-review**, **table-results-review** |
+| Deck memory | `.agent/slides-status.md`, `.agent/deck-index.md`, `.agent/decks/` | **research-slide-deck-builder**, **research-project-memory** |
+| Presentation rehearsal | final deck, speaker notes, Q&A risks | **presentation-dry-run** |
+
 ### Other Components
 
 | Component | Main artifacts | Primary skills |
 |---|---|---|
-| `slides/` | multi-deck workspace for progress/advisor/lab/rebuttal/conference decks, usually external `progress-slides` template | **research-slide-deck-builder**, **figure-results-review**, **table-results-review** |
 | `reviewer/` | simulated reviews, risk registers, reviewer-style critiques | **paper-reviewer-simulator**, **paper-evidence-board** |
 | `rebuttal/` | real reviews, issue boards, response drafts, promised revisions | **rebuttal-strategist**, **run-experiment**, **conference-writing-adapter** |
 | `artifact/` | reproduction instructions, smoke tests, package manifests | **artifact-evaluation-prep**, **release-code**, **camera-ready-finalizer** |
@@ -436,13 +499,16 @@ flowchart TD
 
     subgraph F[Communication, Maintenance, and System Care]
         AU[advisor-update-writer]
-        SDB[research-slide-deck-builder]
+        SDB[research-slide-deck-builder<br/>slides/decks + deck-index]
         DOC[update-docs]
         TAG[add-git-tag]
         TL[work-timeline-planner]
         SSA[skill-system-auditor]
         AU --> EDP
         AU --> SDB
+        ERW --> SDB
+        SDB --> FRR
+        SDB --> TRR
         DOC --> TAG
         TL --> AU
     end
@@ -467,7 +533,7 @@ The most important feedback loops are:
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
 - **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
-- **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
+- **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
 - **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
 
@@ -662,7 +728,7 @@ For the person translating project state into advisor, lab, or collaborator deci
 | **research-project-memory** | Recover current project state, decisions, risks, actions, and feedback loops |
 | **advisor-update-writer** | Write weekly updates, advisor emails, lab updates, meeting notes, and decision requests |
 | **experiment-report-writer** | Provide detailed experiment reports that support the update |
-| **research-slide-deck-builder** | Create advisor, lab, progress, reading, proposal, and conference decks using the external `progress-slides` template |
+| **research-slide-deck-builder** | Create and maintain multiple advisor, lab, progress, reading, proposal, rebuttal, and conference decks under `slides/decks/` using the external `progress-slides` template |
 | **figure-results-review** | Check figures before they are shown in an update |
 | **table-results-review** | Check tables before they are shown in an update |
 | **work-timeline-planner** | Summarize recent work when the update needs a timeline |
@@ -680,7 +746,7 @@ For the person designing the overall research project, repo structure, and colla
 | **project-init** | Create the project control root and connect paper, code, slides, memory, root docs, review, rebuttal, artifact, and code/paper worktree policy |
 | **init-latex-project** | Define the paper scaffold and venue template |
 | **init-python-project** | Define the code repo structure, experiment-entry architecture, and code-side evidence docs |
-| **research-slide-deck-builder** | Define the slides component behavior and keep it tied to the external `progress-slides` template |
+| **research-slide-deck-builder** | Define the slides component as a multi-deck workspace and keep it tied to the external `progress-slides` template |
 | **new-workspace** | Isolate code directions or paper versions with branches and component worktrees |
 | **remote-project-control** | Establish local / Git remote / server execution conventions |
 
@@ -722,7 +788,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 12. project-sync       -> record results in paper/sections/daily_experiments.tex
 13. experiment-report-writer -> turn experiment evidence into a structured report
 14. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
-15. research-slide-deck-builder -> create progress/advisor/lab slides with the external progress-slides template
+15. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
 16. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
 17. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
 18. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
