@@ -9,6 +9,8 @@ allowed-tools: Read, Write, Bash, Glob, WebSearch, WebFetch
 
 Set up a complete LaTeX academic paper project from the standard template.
 
+Default local workflow assumption: on macOS, do not assume TeX Live or MacTeX is installed. The common workflow is to edit the repo locally, push to GitHub, and compile in Overleaf through its GitHub sync. Skills should not require local `pdflatex` for normal writing or submission checks unless the user explicitly wants local compilation.
+
 ## Skill Directory Layout
 
 ```
@@ -96,7 +98,19 @@ After the script runs, ask the user if they want to:
 - Fill in authors and affiliations in `main.tex`
 - Any other immediate adjustments
 
-### 4. Print the script's output to the user
+### 4. Record the compile workflow
+
+Ask whether the paper will compile locally or in Overleaf through GitHub. If the user is on macOS and has not said otherwise, assume Overleaf/GitHub.
+
+For Overleaf/GitHub projects:
+
+- ensure the paper repo can have a GitHub remote
+- do not ask the user to install TeX Live just to validate edits
+- use local static checks, Git diff review, commit, and push
+- treat Overleaf's compile log and PDF preview as the compile source of truth
+- when compile errors appear in Overleaf, fix source locally and push again
+
+### 5. Print the script's output to the user
 
 The script prints a file tree and venue-specific setup notes. Make sure the user sees these.
 

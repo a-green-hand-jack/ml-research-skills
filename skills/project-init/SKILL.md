@@ -15,6 +15,7 @@ Pair this skill with:
 - `research-project-memory` to bootstrap cross-component memory
 - `init-latex-project` to create the paper repo
 - `init-python-project` to create the code repo
+- `research-slide-deck-builder` to create or maintain the optional slides repo using the external `progress-slides` template
 - `new-workspace` to create code-owned branches or worktrees
 - `remote-project-control` when code runs on SSH/HPC servers
 - `safe-git-ops` before non-trivial Git work
@@ -231,7 +232,13 @@ If requested, create or connect:
 <ProjectName>/slides/
 ```
 
-Slides may be a separate git repo. Create `slides/.agent/` for story, audience, and stale-evidence notes.
+Slides may be a separate git repo. Prefer using the external `progress-slides` template as the slides component instead of inventing a local scaffold:
+
+```bash
+git clone https://github.com/a-green-hand-jack/progress-slides.git <ProjectName>/slides
+```
+
+After cloning, inspect `slides/README.md`, `slides/package.json`, and the existing slide source files before editing. Use `research-slide-deck-builder` for deck structure, template-compatible source writing, preview/build commands, and `slides/.agent/` story, audience, source-evidence, and stale-evidence notes.
 
 ## Step 6 - Establish Code Worktree Policy
 
@@ -343,6 +350,7 @@ Next skills:
   new-workspace -> create a code branch/worktree
   remote-project-control -> configure SSH/HPC execution for code
   experiment-design-planner -> plan first experiment matrix
+  research-slide-deck-builder -> create progress/advisor/lab slides with progress-slides
 ```
 
 ## Final Sanity Check

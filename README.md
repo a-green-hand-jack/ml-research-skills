@@ -51,7 +51,9 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates that connect evidence, risks, options, asks, and next actions |
-| `figure-results-review` | Review figures, tables, plots, captions, result narratives, and paper visual style for claim support, visual clarity, statistical evidence, venue-facing consistency, and reviewer risk |
+| `research-slide-deck-builder` | Design and write research slide decks for advisor, lab, progress, reading, proposal, and conference talks using the external `progress-slides` template |
+| `figure-results-review` | Review figure assets, LaTeX figure wrappers, plots, captions, visual descriptions, and paper visual style for claim support and reviewer risk |
+| `table-results-review` | Review standalone `tables/*.tex` files, table captions, table descriptions, row/column semantics, numeric provenance, and experiment settings |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
@@ -70,6 +72,191 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |
 | `skill-system-auditor` | Audit the skill collection for inventory, lifecycle, routing, memory-writeback, documentation, and validation consistency |
+
+## Project Anatomy
+
+This section describes the static shape of a research project managed by these skills. It is different from the lifecycle map below: the lifecycle map explains how skills call each other over time, while this view explains where artifacts live and which skills mainly operate in each area.
+
+### Control Root
+
+A full project is a control root with independent component repositories:
+
+```text
+<ProjectName>/
+├── PROJECT.md              # human overview and component boundaries
+├── AGENTS.md               # root guidance for agents working across components
+├── memory/                 # durable cross-component state
+│   ├── project.yaml
+│   ├── component-index.yaml
+│   ├── current-status.md
+│   ├── decision-log.md
+│   ├── claim-board.md
+│   ├── evidence-board.md
+│   ├── risk-board.md
+│   └── action-board.md
+├── docs/                   # project-level docs, not code-side run archives
+│   ├── overview.md
+│   ├── designs/
+│   ├── experiments/
+│   ├── updates/
+│   ├── audits/
+│   └── timelines/
+├── paper/                  # independent LaTeX paper repo
+├── code/                   # independent Python/ML code repo
+├── code-worktrees/          # sibling worktrees for code repo branches
+├── slides/                 # optional independent slides repo
+├── reviewer/               # simulated review state
+├── rebuttal/               # real review and response state
+└── artifact/               # artifact evaluation and release handoff state
+```
+
+Root ownership rules:
+
+- `<ProjectName>/` is the coordination layer. It stores project memory, cross-component plans, and handoffs.
+- `paper/`, `code/`, and `slides/` are component repos. Use `git -C paper ...`, `git -C code ...`, and `git -C slides ...`.
+- Do not put experiment outputs directly under the root. Runnable code, run records, results, and logs belong under `code/` or a code worktree.
+- Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
+
+Primary skills by root area:
+
+| Area | Main artifacts | Primary skills |
+|---|---|---|
+| Root setup | `PROJECT.md`, root `AGENTS.md`, component repos, root docs | **project-init**, **research-project-memory** |
+| Root memory | claims, evidence, risks, actions, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
+| Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
+| Git and worktree policy | component remotes, code worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
+
+### Paper Repo
+
+The paper repo is the paper-facing source of truth: claims, narrative, figures, tables, captions, citations, submission mode, and final PDF state.
+
+```text
+paper/
+├── main.tex                 # paper entry point
+├── venue_preamble.tex       # venue mode and style package hook
+├── macros.tex               # shared math and author macros
+├── CLAUDE.md                # paper-local agent writing and compile workflow rules
+├── sections/
+│   ├── title.tex
+│   ├── abstract.tex
+│   ├── intro.tex
+│   ├── related.tex
+│   ├── method.tex
+│   ├── exp.tex
+│   ├── conclusion.tex
+│   ├── appendix.tex
+│   ├── acknowledgement.tex
+│   └── <venue-required>.tex # e.g. impact, limitations, checklist
+├── figures/
+│   ├── fig_name.pdf         # rendered figure asset
+│   ├── fig_name.png         # optional raster preview/export
+│   └── fig_name.tex         # LaTeX wrapper: includegraphics, caption, label
+├── tables/
+│   └── table_name.tex       # standalone table wrapper and table source
+├── bib/
+│   └── refs.bib
+└── .agent/
+    ├── visual-style.md
+    ├── figure-table-map.md
+    └── paper-status.md
+```
+
+Paper boundary rules:
+
+- Sections hold paper prose. They should not become experiment logs.
+- `figures/*.tex` wraps a rendered figure asset. The figure description, caption, and main-text callout are separate artifacts.
+- `tables/*.tex` is the standalone table source/wrapper. The table description, caption, row/column semantics, and numeric provenance are separate artifacts.
+- Local macOS does not need TeX Live. The default compile path can be local edit -> GitHub push -> Overleaf compile.
+- Paper-facing claims should be backed by evidence links in root `memory/` and, when needed, code-side reports under `code/docs/`.
+
+Primary skills in `paper/`:
+
+| Paper area | Main artifacts | Primary skills |
+|---|---|---|
+| Paper scaffold | `main.tex`, `sections/`, `venue_preamble.tex`, `macros.tex` | **init-latex-project**, **submit-paper** |
+| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-evidence-board** |
+| Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **figure-results-review**, **paper-evidence-board** |
+| Tables | `tables/*.tex` | **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
+| Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
+| Pre-submission | anonymity, required sections, mode, compile state | **submit-paper**, **paper-reviewer-simulator** |
+| Reviews and final paper | reviews, rebuttal promises, camera-ready state | **rebuttal-strategist**, **camera-ready-finalizer** |
+
+### Code Repo
+
+The code repo is the implementation and evidence-production source of truth. It owns algorithm code, runnable experiments, evaluation, infrastructure, run records, and code-side evidence.
+
+```text
+code/
+├── src/
+│   └── <package_name>/       # core algorithm code
+│       ├── models/
+│       ├── data/
+│       └── utils/
+├── experiments/              # runnable experiment logic
+│   ├── configs/
+│   │   └── base.yaml
+│   ├── config.py
+│   ├── train.py
+│   └── evaluate.py
+├── eval/
+│   ├── benchmarks/
+│   ├── baselines/
+│   │   └── reproduced/
+│   └── metrics.py
+├── infra/
+│   ├── envs/
+│   │   ├── local.yaml
+│   │   └── <cluster>.yaml
+│   ├── remote-projects.yaml
+│   ├── submit/
+│   │   └── slurm/
+│   └── README.md
+├── docs/
+│   ├── results/              # stable result summaries, figure/table notes
+│   ├── reports/              # experiment-report-writer outputs
+│   ├── runs/                 # run registry, job IDs, config/commit pointers
+│   ├── ops/
+│   │   ├── current-status.md
+│   │   └── decision-log.md
+│   └── dev/
+├── tests/
+├── scripts/
+├── .agent/
+│   └── local-overrides.yaml
+├── pyproject.toml
+├── README.md
+└── CLAUDE.md
+```
+
+Code boundary rules:
+
+- `src/` is the reusable algorithm core. It should not import from `experiments/`, `eval/`, or `infra/`.
+- `experiments/` is runnable logic, not a result archive.
+- `eval/` owns benchmark and baseline evaluation logic.
+- `infra/` owns environment and execution configuration. Moving to a new cluster should mainly add `infra/envs/<cluster>.yaml`.
+- `docs/results/`, `docs/reports/`, and `docs/runs/` are the stable code-side evidence layer. Raw logs, checkpoints, tensorboard caches, wandb runs, and large outputs stay ignored or external.
+- `code-worktrees/` holds isolated code branches outside `code/`. Each worktree can have its own `.agent/worktree-status.md` and code-side evidence docs.
+
+Primary skills in `code/`:
+
+| Code area | Main artifacts | Primary skills |
+|---|---|---|
+| Code scaffold | `src/`, `experiments/`, `eval/`, `infra/`, `docs/` | **init-python-project** |
+| Method implementation | `src/<package_name>/`, design docs, feature branches | **algorithm-design-planner**, **new-workspace**, **update-docs** |
+| Experiment planning | `docs/experiments/` at root, `experiments/configs/`, run plans | **experiment-design-planner**, **baseline-selection-audit** |
+| Experiment execution | `experiments/`, `infra/envs/`, job scripts, server mappings | **run-experiment**, **remote-project-control** |
+| Results and diagnosis | `docs/results/`, `docs/runs/`, metrics, plots, logs | **result-diagnosis**, **experiment-report-writer** |
+| Paper evidence handoff | stable summaries, figure/table notes, paper pointers | **project-sync**, **figure-results-review**, **table-results-review** |
+| Release and artifact | public repo hygiene, artifact commands, manifests | **release-code**, **artifact-evaluation-prep** |
+
+### Other Components
+
+| Component | Main artifacts | Primary skills |
+|---|---|---|
+| `slides/` | progress/advisor/lab decks, usually external `progress-slides` template | **research-slide-deck-builder**, **figure-results-review**, **table-results-review** |
+| `reviewer/` | simulated reviews, risk registers, reviewer-style critiques | **paper-reviewer-simulator**, **paper-evidence-board** |
+| `rebuttal/` | real reviews, issue boards, response drafts, promised revisions | **rebuttal-strategist**, **run-experiment**, **conference-writing-adapter** |
+| `artifact/` | reproduction instructions, smoke tests, package manifests | **artifact-evaluation-prep**, **release-code**, **camera-ready-finalizer** |
 
 ## Lifecycle Categories
 
@@ -110,8 +297,9 @@ flowchart TD
         RD[result-diagnosis]
         ERW[experiment-report-writer<br/>code/docs/reports]
         FRR[figure-results-review<br/>visual style + code/docs/results]
+        TRR[table-results-review<br/>tables/*.tex + provenance]
         PS[project-sync]
-        EDP --> BSA --> RUN --> RD --> ERW --> FRR --> PS
+        EDP --> BSA --> RUN --> RD --> ERW --> FRR --> TRR --> PS
         RD --> D
         RD --> P
         FRR --> EDP
@@ -142,11 +330,13 @@ flowchart TD
 
     subgraph F[Communication, Maintenance, and System Care]
         AU[advisor-update-writer]
+        SDB[research-slide-deck-builder]
         DOC[update-docs]
         TAG[add-git-tag]
         TL[work-timeline-planner]
         SSA[skill-system-auditor]
         AU --> EDP
+        AU --> SDB
         DOC --> TAG
         TL --> AU
     end
@@ -169,8 +359,9 @@ The most important feedback loops are:
 
 - **Writing to experiments**: `paper-evidence-board` or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
-- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks claim support, captions, and visual style; `project-sync` and `paper-evidence-board` promote it into paper-facing evidence.
+- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
+- **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
 
 ### 0. Project Memory and Coordination
@@ -215,7 +406,9 @@ Use these skills while producing the evidence that will support the paper:
 | **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **advisor-update-writer** | Convert current progress, evidence, risks, and blockers into decision-oriented advisor or lab updates |
-| **figure-results-review** | Check whether figures, tables, captions, result narratives, and visual style support the intended paper claims |
+| **research-slide-deck-builder** | Turn project state, reports, figures, and decisions into a template-backed `progress-slides` deck |
+| **figure-results-review** | Check whether figures, captions, result narratives, and visual style support the intended paper claims |
+| **table-results-review** | Check whether standalone tables, captions, row/column semantics, numeric provenance, and experiment settings support the intended paper claims |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
 
 ### 4. Paper Writing and Pre-Submission Review
@@ -286,7 +479,8 @@ For the person running experiments, collecting evidence, and making results repr
 | **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
 | **advisor-update-writer** | Summarize experiment progress, blockers, and decision requests for advisors or collaborators |
-| **figure-results-review** | Audit plots, tables, captions, and visual style before they become paper, slide, or advisor-facing evidence |
+| **figure-results-review** | Audit plots, captions, and visual style before they become paper, slide, or advisor-facing evidence |
+| **table-results-review** | Audit result tables, ablation tables, captions, numeric provenance, and table layout before paper, slide, or advisor use |
 | **project-sync** | Move experiment findings into the paper repo's experiment log |
 | **remote-project-control** | Keep local code, Git remote sync, and server execution state aligned |
 
@@ -298,7 +492,8 @@ For the person turning research evidence into a submission:
 |---|---|
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
-| **figure-results-review** | Verify that result visuals, captions, tables, and style conventions support the exact paper claims |
+| **figure-results-review** | Verify that result visuals, captions, and style conventions support the exact paper claims |
+| **table-results-review** | Verify that table values, captions, row/column semantics, and provenance support the exact paper claims |
 | **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
@@ -315,7 +510,8 @@ For the person stress-testing the paper before reviewers see it:
 | **research-project-memory** | Link simulated reviewer risks to claims, evidence gaps, and concrete actions |
 | **paper-evidence-board** | Convert reviewer risks into paper locations, evidence gaps, and fix actions |
 | **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
-| **figure-results-review** | Catch visual-style, statistical, caption, and claim-support weaknesses before reviewers do |
+| **figure-results-review** | Catch visual-style, statistical, caption, and claim-support weaknesses in figures before reviewers do |
+| **table-results-review** | Catch table layout, numeric provenance, statistical, caption, and claim-support weaknesses before reviewers do |
 | **paper-positioning-planner** | Detect when the paper is selling the wrong claim or should change archetype before review |
 | **baseline-selection-audit** | Stress-test missing, weak, unfair, or outdated baseline comparisons before reviewers do |
 | **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
@@ -359,7 +555,9 @@ For the person translating project state into advisor, lab, or collaborator deci
 | **research-project-memory** | Recover current project state, decisions, risks, actions, and feedback loops |
 | **advisor-update-writer** | Write weekly updates, advisor emails, lab updates, meeting notes, and decision requests |
 | **experiment-report-writer** | Provide detailed experiment reports that support the update |
-| **figure-results-review** | Check figures or tables before they are shown in an update |
+| **research-slide-deck-builder** | Create advisor, lab, progress, reading, proposal, and conference decks using the external `progress-slides` template |
+| **figure-results-review** | Check figures before they are shown in an update |
+| **table-results-review** | Check tables before they are shown in an update |
 | **work-timeline-planner** | Summarize recent work when the update needs a timeline |
 
 ### Project Designer
@@ -375,6 +573,7 @@ For the person designing the overall research project, repo structure, and colla
 | **project-init** | Create the project control root and connect paper, code, slides, memory, root docs, review, rebuttal, artifact, and code-worktree policy |
 | **init-latex-project** | Define the paper scaffold and venue template |
 | **init-python-project** | Define the code repo structure, experiment-entry architecture, and code-side evidence docs |
+| **research-slide-deck-builder** | Define the slides component behavior and keep it tied to the external `progress-slides` template |
 | **new-workspace** | Isolate new code directions, experiments, baselines, or rebuttal fixes with branches or code worktrees |
 | **remote-project-control** | Establish local / Git remote / server execution conventions |
 
@@ -393,6 +592,7 @@ Current partial support:
 | **baseline-selection-audit** | Check whether the planned evidence compares against the right methods before the experiment matrix is fixed |
 | **result-diagnosis** | Feed negative or surprising results back into algorithm design, project positioning, or claim revision |
 | **figure-results-review** | Feed visualized results back into claim scope, evidence quality, and next experiment decisions |
+| **table-results-review** | Feed tabulated results back into claim scope, evidence quality, and next experiment decisions |
 | **paper-positioning-planner** | Convert idea, literature, method, and evidence into the paper's strategic claim and archetype |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
@@ -415,22 +615,24 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 12. project-sync       -> record results in paper/sections/daily_experiments.tex
 13. experiment-report-writer -> turn experiment evidence into a structured report
 14. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
-15. figure-results-review -> audit figures, tables, captions, visual style, uncertainty, and claim support
-16. paper-evidence-board -> align claims, evidence, figures, visual style, sections, risks, and actions
-17. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
-18. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-19. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-20. citation-coverage-audit -> find missing classic, close, and concurrent citations
-21. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-22. submit-paper    -> run a readiness check before a deadline
-23. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-24. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-25. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-26. release-code    -> prepare the public code release when needed
-27. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-28. update-docs     -> refresh docs after meaningful code changes
-29. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-30. add-git-tag     -> mark a milestone
+15. research-slide-deck-builder -> create progress/advisor/lab slides with the external progress-slides template
+16. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
+17. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
+18. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
+19. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
+20. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+21. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+22. citation-coverage-audit -> find missing classic, close, and concurrent citations
+23. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+24. submit-paper    -> run a readiness check before a deadline
+25. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+26. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+27. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+28. release-code    -> prepare the public code release when needed
+29. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+30. update-docs     -> refresh docs after meaningful code changes
+31. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+32. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -528,14 +730,33 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Evidence/risk/option framing that separates facts, interpretation, blockers, and recommendations
 - Memory writeback for advisor decisions, action items, risks, and current project status after feedback
 
+## What `research-slide-deck-builder` Provides
+
+- Research slide deck structure for advisor updates, lab meetings, paper reading reports, progress reports, proposals, conference talks, and thesis-style presentations
+- A policy to use `https://github.com/a-green-hand-jack/progress-slides.git` as the external slides template instead of duplicating template code in this skills repo
+- Installation and connection guidance for a `slides/` component repo, including cloning, inspecting `README.md` and `package.json`, installing dependencies, and using the template's preview/build commands
+- Template-compatible writing guidance for slide source, speaker notes, figures, evidence provenance, backup slides, and `slides/.agent/` memory
+
 ## What `figure-results-review` Provides
 
-- A claim-support audit for figures, tables, plots, captions, and result prose before paper, slide, rebuttal, or advisor use
-- Visual and table integrity checks for axes, labels, units, legends, row/column order, missing values, scales, and main-comparison salience
-- Paper visual style policy checks for palette, marker and symbol mapping, typography, figure sizing, line widths, table conventions, and venue-facing consistency
+- A claim-support audit for figures, plots, captions, and result prose before paper, slide, rebuttal, or advisor use
+- A paper figure bundle audit for `figures/*.pdf` or `figures/*.png` plus matching `figures/*.tex` wrappers, including asset path, label, width, caption, and paper callout location
+- A separate visual-description layer so agents first record what the image actually shows before writing or judging the paper caption
+- Plotting-parameter and experiment-parameter provenance checks for figure interpretation and reproducibility
+- Visual integrity checks for axes, labels, units, legends, missing values, scales, and main-comparison salience
+- Paper visual style policy checks for palette, marker and symbol mapping, typography, figure sizing, line widths, and venue-facing consistency
 - Statistical evidence checks for seeds, uncertainty, effect size, metric definitions, compute reporting, and efficiency claims
 - Caption and narrative fixes that align setup, metric, comparison, takeaway, and caveat with the evidence
-- Routed actions and project-memory writeback for reruns, result diagnosis, baseline audits, claim narrowing, caption rewrites, visual restyling, and figure/table edits
+- Routed actions and project-memory writeback for reruns, result diagnosis, baseline audits, claim narrowing, caption rewrites, visual restyling, and figure edits
+
+## What `table-results-review` Provides
+
+- A claim-support audit for standalone paper tables before paper, slide, rebuttal, or advisor use
+- A paper table bundle audit for `tables/*.tex` files inserted with `\input`, including label, caption, source location, and paper callout location
+- A separate table-description layer so agents first record what the table reports before writing or judging the caption
+- Row/column semantics checks for grouping, metric direction, comparison path, footnotes, missing values, bolding or underlining rules, and decimal precision
+- Numeric provenance checks for source values, result logs/configs, aggregation, rounding, seeds, table-generation scripts, and manual edits
+- Routed actions and project-memory writeback for table edits, reruns, result diagnosis, baseline audits, claim narrowing, and caption rewrites
 
 ## What `result-diagnosis` Provides
 
@@ -648,7 +869,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Drafting artifacts such as TODOs and comment macros
 - Venue-specific required sections and bibliography presence
 - Basic anonymity issues for blind review
-- Optional compile checks and page-count sanity checks
+- Optional local compile checks when a LaTeX compiler exists
+- Overleaf/GitHub compile workflow guidance when local TeX Live is not installed
 
 ## What `release-code` Provides
 
@@ -697,4 +919,4 @@ To validate a skill end-to-end:
 - [Claude Code](https://claude.ai/code) or another compatible agent runtime
 - [npx skills](https://github.com/vercel-labs/skills)
 - For Python-related skills: [uv](https://docs.astral.sh/uv/)
-- For LaTeX-related skills: a TeX distribution such as TeX Live or MiKTeX
+- For LaTeX-related skills: local TeX is optional; macOS workflows may use GitHub-linked Overleaf for compilation

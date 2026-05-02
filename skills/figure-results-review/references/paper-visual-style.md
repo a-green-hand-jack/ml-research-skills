@@ -1,10 +1,10 @@
 # Paper Visual Style
 
-Use this when figures or tables are being prepared for a paper, slide deck, rebuttal, or camera-ready version. This is a writing and presentation concern: visual style controls the reader's attention and should match the paper's narrative.
+Use this when figures are being prepared for a paper, slide deck, rebuttal, or camera-ready version. This is a writing and presentation concern: visual style controls the reader's attention and should match the paper's narrative.
 
 ## Style Policy
 
-Create a compact style policy when the paper has more than one figure or table:
+Create a compact style policy when the paper has more than one figure:
 
 ```markdown
 # Paper Visual Style Policy
@@ -32,7 +32,6 @@ Create a compact style policy when the paper has more than one figure or table:
 - One-column figures:
 - Two-column figures:
 - Appendix figures:
-- Table precision:
 
 ## Rules
 - What should be visually salient:
@@ -62,13 +61,12 @@ Check final rendered size, not only the plotting notebook:
 - Legends do not cover data and are not far from the relevant curve.
 - Panel labels use stable ordering and match the caption.
 - Line widths and marker sizes remain visible after PDF scaling.
-- Table font size is not so small that reviewers skip it.
 
 ## Symbol and Notation Consistency
 
 - Plot labels use the same method names as the paper text.
 - Mathematical symbols match the method section.
-- Dataset, metric, and baseline names match tables, captions, and related work.
+- Dataset, metric, and baseline names match captions and related work.
 - Units and arrows match the metric definition.
 - The same color is not reused for different meanings across figures.
 
@@ -78,11 +76,11 @@ Different paper archetypes need different visual emphasis:
 
 - `method`: one main figure should teach the method or mechanism, not only show final scores.
 - `theory-guided method`: plots should connect empirical behavior to the theoretical quantity or diagnostic.
-- `benchmark`: tables need clear grouping, protocol labels, and fair comparison cues.
+- `benchmark`: figures need clear grouping, protocol labels, and fair comparison cues.
 - `analysis`: visual encodings should make patterns, regimes, or failure modes visible.
 - `systems`: latency, memory, throughput, and scale axes must be readable and units explicit.
 
-When adapting to a venue, inspect strong accepted papers for figure density, caption style, main-figure role, and table compactness. Borrow conventions, not content.
+When adapting to a venue, inspect strong accepted papers for figure density, caption style, and main-figure role. Borrow conventions, not content.
 
 ## Common Fixes
 
@@ -91,6 +89,4 @@ When adapting to a venue, inspect strong accepted papers for figure density, cap
 - Use one visual encoding for method identity and another for experimental condition.
 - Split a crowded figure into main claim plus appendix diagnostics.
 - Convert a rainbow palette into a small semantic palette plus markers/hatches.
-- Add table section headers for baseline families.
-- Reduce decimal precision when it exceeds metric noise.
 - Use consistent figure aspect ratios across related results.

@@ -9,7 +9,7 @@ Use this structure for a figure or result review.
 
 - Target audience:
 - Target claim:
-- Figure/table inputs:
+- Figure inputs:
 - Linked memory IDs:
 
 ## Decision Summary
@@ -20,17 +20,30 @@ Use this structure for a figure or result review.
 - Required fixes before paper/meeting:
 - Recommended next skill:
 
-## Figure and Table Inventory
+## Figure Inventory
 
-| ID | Asset | Intended claim | Status | Paper location | Main risk |
-|---|---|---|---|---|---|
+| ID | Asset | Wrapper | Label | Intended claim | Status | Paper location | Main risk |
+|---|---|---|---|---|---|---|---|
+
+## Visual Description and Provenance
+
+### [ID]
+
+- Rendered asset:
+- LaTeX wrapper:
+- Paper callout location:
+- Visual description:
+- Plotting parameters:
+- Experiment parameters:
+- Provenance sources:
+- Unknowns / needs author confirmation:
 
 ## Claim Support Audit
 
 | ID | Evidence relation | Status | Claim change needed | Reviewer question answered |
 |---|---|---|---|---|
 
-## Visual and Table Integrity
+## Visual Integrity
 
 | ID | Issue | Severity | Fix |
 |---|---|---|---|
@@ -44,6 +57,7 @@ Use this structure for a figure or result review.
 
 ### [ID]
 
+- Caption-image alignment:
 - Caption diagnosis:
 - Revised caption:
 - Paper callout:

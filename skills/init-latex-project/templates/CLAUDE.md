@@ -4,7 +4,21 @@
 
 ---
 
-## 0. Top Priority: Use Macros from `macros.tex`
+## 0. Local vs Overleaf Compile Workflow
+
+Do not assume the local machine has TeX Live, MacTeX, `pdflatex`, `xelatex`, or `lualatex` installed. The default workflow is:
+
+1. Edit LaTeX source locally.
+2. Review `git diff`.
+3. Commit and push to GitHub when the user asks.
+4. Compile in Overleaf through the GitHub-linked project.
+5. Use Overleaf logs and PDF preview as the compile source of truth.
+
+If a local LaTeX compiler is missing, do not ask the user to install TeX unless they explicitly want local compilation. Continue with static source checks and push the changes for Overleaf validation.
+
+---
+
+## 1. Top Priority: Use Macros from `macros.tex`
 
 > [!CAUTION]
 > **Always prioritize macros defined in `macros.tex`.** Do NOT write raw LaTeX when a macro already exists. Before writing any math symbol, operator, or environment, check `macros.tex` first.
@@ -32,7 +46,7 @@ This rule applies to **all** LaTeX content: equations, captions, inline math, th
 
 ---
 
-## 1. Five Mandatory Writing Rules
+## 2. Five Mandatory Writing Rules
 
 Every sentence you write **must** follow all five rules simultaneously:
 
@@ -49,14 +63,14 @@ Every sentence you write **must** follow all five rules simultaneously:
 
 ---
 
-## 2. Section Structure Rules
+## 3. Section Structure Rules
 
 - **Every section begins with a summary paragraph.** This paragraph gives the reader a high-level overview before any subsections or details.
 - **The Introduction ends with an organization summary.** The last paragraph lists the structure of the rest of the paper (e.g., "In Section 2, we review... In Section 3, we describe...").
 
 ---
 
-## 3. Cross-Reference and Citation Commands
+## 4. Cross-Reference and Citation Commands
 
 | What you reference                           | Command         | Example                          |
 | -------------------------------------------- | --------------- | -------------------------------- |
@@ -71,7 +85,7 @@ Every sentence you write **must** follow all five rules simultaneously:
 
 ---
 
-## 4. Math Environments
+## 5. Math Environments
 
 | Environment | Command               | Label convention     |
 | ----------- | --------------------- | -------------------- |
@@ -86,7 +100,7 @@ Every sentence you write **must** follow all five rules simultaneously:
 
 ---
 
-## 5. Available Math Shorthand Macros
+## 6. Available Math Shorthand Macros
 
 | Category                        | Examples                                              |
 | ------------------------------- | ----------------------------------------------------- |
@@ -100,7 +114,7 @@ Every sentence you write **must** follow all five rules simultaneously:
 
 ---
 
-## 6. Comment / Annotation Macros
+## 7. Comment / Annotation Macros
 
 Use these for inline comments during drafting:
 
@@ -118,7 +132,7 @@ Use these for inline comments during drafting:
 
 ---
 
-## 7. Figure and Table Conventions
+## 8. Figure and Table Conventions
 
 ### Figures
 ```latex
@@ -159,7 +173,7 @@ Use these for inline comments during drafting:
 
 ---
 
-## 8. Project File Structure
+## 9. Project File Structure
 
 ```
 ├── main.tex                 # Main document entry point
@@ -184,7 +198,7 @@ Use these for inline comments during drafting:
 
 ---
 
-## 9. Quick Checklist Before Submitting Any LaTeX Text
+## 10. Quick Checklist Before Submitting Any LaTeX Text
 
 - [ ] Every sentence uses **present tense**?
 - [ ] Every sentence uses **active voice**?

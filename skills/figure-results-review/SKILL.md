@@ -1,30 +1,30 @@
 ---
 name: figure-results-review
-description: Review ML or AI experiment figures, tables, plots, captions, result narratives, and paper visual style before they are shown in a paper, advisor meeting, report, slide deck, rebuttal, or submission. Use this skill whenever the user has experimental results, plots, tables, metrics, screenshots, captions, draft result sections, or wants to audit figure style choices such as color, typography, markers, symbols, line widths, sizing, and venue-consistent visual conventions.
+description: Review ML or AI experiment figures, rendered figure assets, LaTeX figure wrappers, plots, figure captions, visual descriptions, result narratives, and paper visual style before they are shown in a paper, advisor meeting, report, slide deck, rebuttal, or submission. Use this skill whenever the user has experimental plots, figure screenshots, figure captions, draft result sections, paper figures under figures/*.tex plus figures/*.pdf/png, or wants to audit figure style choices such as color, typography, markers, symbols, line widths, sizing, and venue-consistent conventions.
 argument-hint: "[project-dir-or-results-file] [--mode paper|meeting|slide|rebuttal|diagnosis] [--venue <venue>]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---
 
 # Figure Results Review
 
-Audit figures, tables, plots, captions, and result narratives before they become paper evidence or meeting material.
+Audit figures, plots, captions, and result narratives before they become paper evidence or meeting material.
 
 Use this skill when:
 
-- the user has a figure, table, plot, result screenshot, caption, result section, or slide with experimental evidence
+- the user has a figure, plot, result screenshot, figure caption, result section, or slide with experimental evidence
+- the paper stores each figure as a rendered asset such as `figures/fig_name.pdf` or `figures/fig_name.png` plus a LaTeX wrapper such as `figures/fig_name.tex`
 - a paper claim needs to be checked against the actual displayed evidence
 - a plot may be missing baselines, error bars, seeds, labels, units, or fairness context
-- a table layout hides the main comparison or makes the result look weaker than it is
 - paper figures need a consistent visual style: color palette, markers, symbols, line widths, fonts, sizing, and notation
 - new results require deciding whether to update writing, rerun experiments, diagnose failures, or narrow claims
-- a rebuttal needs a clean result table or concise visual answer
+- a rebuttal needs a concise visual answer
 - an advisor meeting needs figures that make the decision obvious
 
 Do not use this skill to design experiments from scratch. Use `experiment-design-planner` before results exist. Use `result-diagnosis` when the primary issue is why a result is surprising or broken. Use `conference-writing-adapter` when the main task is prose style after the evidence is already accepted.
 
 Pair this skill with:
 
-- `paper-evidence-board` when figures/tables must be linked to paper claims, sections, reviewer risks, and actions
+- `paper-evidence-board` when figures must be linked to paper claims, sections, reviewer risks, and actions
 - `result-diagnosis` when a plotted result is suspicious, unstable, negative, or contradictory
 - `baseline-selection-audit` when the visual exposes missing, weak, or unfair baselines
 - `experiment-design-planner` when the fix requires new experiments, ablations, controls, or metrics
@@ -50,17 +50,19 @@ Pair this skill with:
 ## Progressive Loading
 
 - Always read `references/claim-support.md`, `references/visual-integrity.md`, and `references/statistical-evidence.md`.
-- Read `references/paper-visual-style.md` when figures/tables are intended for a paper, slide deck, rebuttal, camera-ready, or venue-specific rewrite.
+- Read `references/paper-visual-style.md` when figures are intended for a paper, slide deck, rebuttal, camera-ready, or venue-specific rewrite.
 - Read `references/caption-and-narrative.md` when revising captions, result prose, slide text, or paper figure callouts.
 - Read `references/report-template.md` before writing the final review.
 - Read `references/memory-writeback.md` when the project has `memory/`, component `.agent/` folders, or the user asks for persistent project memory.
-- If the expected plotting or table conventions depend on a target venue, benchmark, or recent paper style, verify with current accepted papers, official benchmark protocols, or user-provided exemplars.
-- If the actual image/table cannot be inspected, audit the provided data/caption/prose and clearly mark visual-layout judgments as unverified.
+- If the expected plotting conventions depend on a target venue, benchmark, or recent paper style, verify with current accepted papers, official benchmark protocols, or user-provided exemplars.
+- If the actual image cannot be inspected, audit the provided data/caption/prose and clearly mark visual-layout judgments as unverified.
 
 ## Core Principles
 
 - A figure is evidence for a specific claim, not decoration.
-- Every plot/table should answer one reviewer question.
+- A figure bundle has separate layers: rendered asset, LaTeX wrapper, visual description, caption, main-text callout, and provenance.
+- Figure description and caption are different artifacts. Describe what the image shows before interpreting why it matters.
+- Every plot should answer one reviewer question.
 - The main comparison should be visually and numerically easy to find.
 - Captions must state enough setup for the result to be interpreted without searching the paper.
 - Statistical uncertainty, seeds, and variance matter when the claim depends on small differences.
@@ -73,9 +75,12 @@ Pair this skill with:
 
 Collect:
 
-- figure/table file path, screenshot, raw data, caption, or result prose
+- figure file path, screenshot, raw data, caption, or result prose
+- rendered asset path such as `figures/fig_name.pdf` or `figures/fig_name.png`
+- LaTeX wrapper path such as `figures/fig_name.tex`, if the paper uses wrapper files
 - paper claim or section the result is meant to support
 - experiment setup: dataset, model, baseline, metric, seed, split, hyperparameters, protocol
+- plotting setup: plotted variables, filters, smoothing, transforms, axis ranges, colormap, annotation rules, aggregation, and code/config path when available
 - target audience: paper, advisor meeting, slide, rebuttal, internal report, or appendix
 - target venue or benchmark expectations
 - current paper location, if any
@@ -84,22 +89,55 @@ Collect:
 Rewrite the intended evidence relation:
 
 ```text
-This figure/table is supposed to show that [claim] because [metric/comparison/trend] under [setup].
+This figure is supposed to show that [claim] because [metric/comparison/trend] under [setup].
 ```
 
 If that sentence cannot be written, route to `paper-evidence-board` before polishing the visual.
 
-## Step 2 - Audit Claim Support
+## Step 2 - Resolve the Figure Bundle
+
+For paper figures, identify the bundle by shared stem:
+
+```text
+figures/fig_name.pdf or figures/fig_name.png  # rendered asset
+figures/fig_name.tex                          # LaTeX wrapper
+```
+
+Inspect both layers when available:
+
+- rendered asset: what the reader visually sees
+- wrapper `.tex`: `\includegraphics`, width, placement, `\caption{}`, `\label{}`, subfigure layout, notes, and whether the asset filename matches the intended figure
+- nearby paper source: where the wrapper is `\input{}` or `\include{}` and how the main text calls it out
+
+If a wrapper exists without a matching asset, or an asset exists without a wrapper, flag the bundle as incomplete. If multiple asset formats exist, identify which one the wrapper includes.
+
+## Step 3 - Describe Before Interpreting
+
+For each figure, produce a visual description before writing or judging the caption.
+
+The visual description should state:
+
+- figure type and panel structure
+- axes, units, scales, and directionality
+- methods, datasets, variables, colors, markers, and legends
+- visible trends, comparisons, outliers, missing values, and uncertainty
+- plotting parameters needed to reproduce what is shown
+- experiment parameters needed to interpret the result: dataset split, model/checkpoint, baselines, metric, seed count, sampling budget, hyperparameters, compute budget, or protocol
+- what is directly visible versus inferred from logs, configs, filename, caption, or user statement
+
+Do not put the full visual description into the paper caption. Use it as the audit record that checks whether the caption and paper prose are faithful to the figure.
+
+## Step 4 - Audit Claim Support
 
 Read `references/claim-support.md`.
 
-For each figure or table, answer:
+For each figure, answer:
 
 - what exact claim does it support?
 - is the displayed evidence sufficient for that claim?
 - is the claim too broad for the measured setup?
 - are baselines, ablations, controls, or diagnostics missing?
-- does the result contradict another figure, table, or section?
+- does the result contradict another figure or section?
 - is the result main-paper material, appendix material, diagnostic material, or not ready?
 
 Assign one status:
@@ -111,7 +149,7 @@ Assign one status:
 - `diagnostic-only`
 - `not-ready`
 
-## Step 3 - Audit Visual and Table Integrity
+## Step 5 - Audit Visual Integrity
 
 Read `references/visual-integrity.md`.
 
@@ -121,14 +159,14 @@ Check:
 - legend readability and method names
 - ordering of methods, datasets, metrics, and ablations
 - whether the main result is visually salient
-- table grouping, bolding, decimals, missing values, and footnotes
 - whether color, markers, line styles, or hatching remain readable in grayscale
 - whether figure size works for one-column, two-column, slide, or appendix usage
 - whether captions and labels match the actual plotted data
+- whether figure wrapper width, cropping, subfigure order, and labels match the rendered asset and visual description
 
 Flag any issue that could cause a reviewer to misread the result.
 
-## Step 4 - Audit Paper Visual Style
+## Step 6 - Audit Paper Visual Style
 
 Read `references/paper-visual-style.md` when the output is paper-facing.
 
@@ -145,7 +183,7 @@ Check:
 
 If the paper has no visual style policy, propose one and record it in `paper/.agent/` or `.agent/conference-writing/project-style.md` when appropriate.
 
-## Step 5 - Audit Statistical and Experimental Evidence
+## Step 7 - Audit Statistical and Experimental Evidence
 
 Read `references/statistical-evidence.md`.
 
@@ -159,15 +197,19 @@ Check:
 - baseline fairness and tuning budget
 - compute or speed reporting when efficiency is part of the claim
 - failure cases or negative results that should be shown
+- whether plotting parameters and experiment parameters are recoverable from the figure wrapper, caption, result report, logs, config, or paper text
 
 If the plot lacks necessary uncertainty, decide whether to rerun, add error bars, weaken the claim, or move the result to appendix/diagnostic status.
 
-## Step 6 - Review Caption and Result Narrative
+## Step 8 - Review Caption and Result Narrative
 
 Read `references/caption-and-narrative.md` when output text needs revision.
 
-For each figure/table, produce:
+For each figure, produce:
 
+- visual description
+- provenance summary: rendered asset, wrapper `.tex`, plotting parameters, experiment parameters, and source certainty
+- caption-image alignment diagnosis
 - caption diagnosis
 - revised caption or caption outline
 - one-sentence paper callout
@@ -177,13 +219,14 @@ For each figure/table, produce:
 
 Captions should not oversell. They should state the setup, comparison, metric, and takeaway.
 
-## Step 7 - Route Fixes
+## Step 9 - Route Fixes
 
 For every issue, route to one or more actions:
 
+- `fix-wrapper`: wrong asset path, stale caption, label mismatch, width/crop/layout issue, or missing subfigure mapping in `figures/*.tex`
 - `edit-figure`: labels, ordering, scale, legend, layout, or visual emphasis
-- `edit-table`: grouping, decimals, bolding, footnotes, missing values, or row/column order
 - `rewrite-caption`: setup, metric, takeaway, caveat, or claim alignment
+- `write-description`: missing visual description or missing provenance record
 - `rewrite-results-text`: nearby paper prose overclaims or misses the takeaway
 - `define-visual-style`: missing or inconsistent paper visual style policy
 - `restyle-figure`: color, marker, line width, font size, symbol, panel layout, or emphasis
@@ -196,7 +239,7 @@ For every issue, route to one or more actions:
 
 Name the next skill when appropriate.
 
-## Step 8 - Write the Review Report
+## Step 10 - Write the Review Report
 
 Read `references/report-template.md`.
 
@@ -208,9 +251,12 @@ docs/results/figure_results_review_YYYY-MM-DD_<short-name>.md
 
 The report must include:
 
-- figure/table inventory
+- figure inventory
+- figure bundle map: rendered asset, wrapper `.tex`, paper callout location, label
+- visual descriptions
+- plotting and experiment parameter provenance
 - claim-support status
-- visual/table integrity issues
+- visual integrity issues
 - visual style policy and consistency issues
 - statistical evidence issues
 - caption and narrative fixes
@@ -218,17 +264,17 @@ The report must include:
 - routed actions and next skills
 - memory update section
 
-## Step 9 - Write Back to Project Memory
+## Step 11 - Write Back to Project Memory
 
 Read `references/memory-writeback.md` when memory exists.
 
 Update the smallest useful set of entries:
 
-- `memory/evidence-board.md`: figure/table evidence status, setup, and linked claims
+- `memory/evidence-board.md`: figure evidence status, rendered asset, wrapper `.tex`, setup, plotting parameters, experiment parameters, and linked claims
 - `memory/claim-board.md`: claims supported, narrowed, contradicted, or not ready
 - `memory/risk-board.md`: reviewer risks from visual ambiguity, missing uncertainty, weak baselines, or overclaiming
 - `memory/action-board.md`: figure edits, reruns, caption fixes, result diagnosis, or claim revisions
-- `paper/.agent/`: figure/table map, paper locations, caption state, and stale visual warnings
+- `paper/.agent/`: figure map, asset/wrapper pairings, paper locations, visual descriptions, caption state, provenance gaps, and stale visual warnings
 - `.agent/conference-writing/project-style.md`: venue-facing figure style decisions when conference adaptation is active
 - worktree `.agent/worktree-status.md`: result-generation or plotting tasks and exit conditions
 
@@ -243,9 +289,12 @@ Use certainty labels:
 
 Before finalizing:
 
-- every figure/table has a linked claim and reviewer question
+- every figure has a linked claim and reviewer question
+- every paper figure has a resolved asset/wrapper bundle when the project uses `figures/*.tex`
+- every reviewed figure has a visual description separate from its caption
+- plotting parameters and experiment parameters are recorded or explicitly marked unknown
 - main comparison is easy to find
-- axes, units, legends, captions, and table labels are unambiguous
+- axes, units, legends, captions, and labels are unambiguous
 - colors, markers, fonts, symbols, and figure sizes are consistent across the paper
 - uncertainty is present or the lack of uncertainty is justified
 - baseline and compute fairness are visible when relevant

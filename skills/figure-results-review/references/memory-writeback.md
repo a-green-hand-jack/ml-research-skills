@@ -6,27 +6,36 @@ Use this when the project has `research-project-memory` files.
 
 Write durable evidence state:
 
-- which figures/tables support which claims
+- which figures support which claims
+- the rendered asset and LaTeX wrapper pairing for paper figures
+- visual descriptions that distinguish what is visible from what is inferred
+- plotting parameters and experiment parameters needed to interpret the figure
 - whether evidence is main-paper ready, appendix-only, diagnostic, or not ready
 - missing uncertainty, baselines, metrics, or captions
 - reviewer risks caused by visual ambiguity or overclaiming
 - rerun, plotting, caption, or writing actions
 - visual style decisions such as palette, marker map, typography, figure sizing, and notation consistency
 
-Do not store full raw logs. Link to reports, figure files, tables, or result artifacts.
+Do not store full raw logs. Link to reports, figure files, or result artifacts.
 
 ## `memory/evidence-board.md`
 
-Add or update figure/table evidence:
+Add or update figure evidence:
 
 ```markdown
-## EVD-### - [Figure/Table]: [short name]
+## EVD-### - [Figure]: [short name]
 
 - Status: planned / observed / paper-ready / appendix / diagnostic / stale / blocked
-- Evidence type: figure / table / plot / qualitative / diagnostic
+- Evidence type: figure / plot / qualitative / diagnostic
 - Linked claims:
 - Linked risks:
 - Source files:
+- Rendered asset:
+- LaTeX wrapper:
+- Visual description:
+- Plotting parameters:
+- Experiment parameters:
+- Provenance certainty:
 - Setup:
 - Supports:
 - Caveats:
@@ -37,7 +46,7 @@ Add or update figure/table evidence:
 
 Update claim status:
 
-- `active`: figure/table supports paper use
+- `active`: figure supports paper use
 - `narrowed`: result supports a smaller claim
 - `revised`: result changes the story
 - `blocked`: result cannot support the claim yet
@@ -64,10 +73,10 @@ Add reviewer risks:
 Add actions:
 
 ```markdown
-## ACT-### - Fix [figure/table/result issue]
+## ACT-### - Fix [figure/result issue]
 
 - Status: todo
-- Type: plot / table / rerun / caption / writing / diagnosis / baseline / claim
+- Type: plot / rerun / caption / writing / diagnosis / baseline / claim
 - Priority: high / medium / low
 - Linked evidence:
 - Linked risks:
@@ -79,9 +88,12 @@ Add actions:
 
 When a paper draft exists, update:
 
-- figure/table map
+- figure map
+- asset/wrapper pairings for `figures/*.pdf`, `figures/*.png`, and `figures/*.tex`
 - paper locations
+- visual descriptions
 - caption status
+- plotting and experiment parameter gaps
 - visual style policy path, if one exists
 - stale figure warnings
 - missing callouts
@@ -100,7 +112,7 @@ When code must change, update worktree `.agent/worktree-status.md` with:
 - restyling task and expected visual policy
 - source data/log path
 - linked evidence/risk IDs
-- expected output figure/table
+- expected output figure
 - exit condition
 
 ## Certainty Labels
@@ -112,4 +124,4 @@ Use:
 - `inferred`: reviewer-risk or visual/narrative judgment
 - `unverified`: image/data not inspected directly
 
-Never mark a result paper-ready if raw data, setup, or uncertainty is unknown.
+Never mark a figure paper-ready if raw data, setup, or uncertainty is unknown.

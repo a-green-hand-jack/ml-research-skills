@@ -5,8 +5,9 @@
 #   bash check.sh [project-dir] [--compile]
 #
 # Flags:
-#   --compile   Run pdflatex + bibtex to check compilation, page count,
-#               overfull boxes, and undefined refs.  Adds ~30s.
+#   --compile   Run local LaTeX + bibtex to check compilation, page count,
+#               overfull boxes, and undefined refs. If no compiler is installed,
+#               skip local compilation and use Overleaf/GitHub workflow.
 #               Skipped by default (static analysis only).
 
 set -euo pipefail
@@ -267,7 +268,7 @@ if $DO_COMPILE; then
   command -v lualatex &>/dev/null && LATEX_CMD="lualatex"
 
   if [[ -z "$LATEX_CMD" ]]; then
-    warn "No LaTeX compiler found (pdflatex/xelatex/lualatex) — skipping"
+    warn "No LaTeX compiler found (pdflatex/xelatex/lualatex) — skipping local compile; use Overleaf/GitHub workflow"
   else
     COMPILE_LOG=$(mktemp)
     info "Running: $LATEX_CMD -interaction=nonstopmode main.tex"
@@ -313,7 +314,7 @@ if $DO_COMPILE; then
   fi
 else
   section "Compilation"
-  info "Skipped (pass --compile to enable full pdflatex check)"
+  info "Skipped local compile (pass --compile only when a local LaTeX compiler is available)"
 fi
 
 # ── Summary ────────────────────────────────────────────────────────────────────

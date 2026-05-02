@@ -1,13 +1,13 @@
 # Claim Support
 
-Use this to decide whether a figure or table actually supports the intended claim.
+Use this to decide whether a figure actually supports the intended claim.
 
 ## Evidence Relation
 
 Write:
 
 ```text
-This figure/table supports [claim] by showing [comparison/trend/effect] under [setup].
+This figure supports [claim] by showing [comparison/trend/effect] under [setup].
 ```
 
 If the sentence is weak or vague, the visual is not ready for paper use.
@@ -41,7 +41,7 @@ For each visual, answer:
 - Which baseline or ablation blocks that alternative explanation?
 - Is the result main-paper, appendix, diagnostic, or cut?
 - Does the visual support a performance claim, mechanism claim, efficiency claim, robustness claim, or qualitative claim?
-- Does the result need a paired table, figure, or caption caveat?
+- Does the result need a paired figure, table-results-review output, or caption caveat?
 
 ## Claim Types
 

@@ -9,6 +9,8 @@ allowed-tools: Read, Edit, Bash, Glob, Grep
 
 Run a systematic readiness check on a LaTeX paper project before submitting to a conference. Covers submission mode, mandatory sections, drafting artifacts, bibliography, anonymity, and optional compilation.
 
+Do not assume the local machine has TeX Live, MacTeX, or another LaTeX distribution installed. Many macOS research workflows edit locally, sync through GitHub, and compile on Overleaf. If `pdflatex`, `xelatex`, or `lualatex` is missing, do not ask the user to install TeX unless they explicitly want local compilation. Use static checks locally and route compile/page-count verification through the GitHub-linked Overleaf project.
+
 ---
 
 ## Step 1 — Locate the LaTeX project
@@ -38,7 +40,7 @@ Ask the user **in a single message**:
 
 1. **Submission type**: Initial submission (anonymous) / Camera-ready / arXiv preprint?
 2. **Deadline**: When is the deadline? (helps prioritize what to fix)
-3. **Compile check**: Should I run pdflatex to check compilation and page count? (adds ~30s)
+3. **Compile workflow**: Is this paper compiled locally or in Overleaf through GitHub? If unknown, assume Overleaf/GitHub for macOS users.
 
 If venue can be inferred from `venue_preamble.tex` (Step 3 will read it), skip asking.
 
@@ -56,6 +58,8 @@ bash <submit-paper-skill-dir>/scripts/check.sh "$PAPER_DIR" [--compile]
 
 **Important**: Resolve `<submit-paper-skill-dir>` as the installed directory for this skill and use the absolute path to `check.sh`.
 
+Only pass `--compile` when a local LaTeX compiler exists or the user explicitly asked for a local compile attempt. If no compiler exists, run the script without `--compile`; it still performs the useful static checks.
+
 The script performs:
 | Check | What it looks for |
 |---|---|
@@ -66,11 +70,37 @@ The script performs:
 | Mandatory sections | Venue-specific required sections (see below) |
 | Abstract length | ~30–350 words (warns outside range) |
 | Figures & tables | All `\label{fig:*}` and `\label{tab:*}` are `\ref`'d |
-| Compilation | (opt) pdflatex + bibtex: page count, overfull boxes, undefined refs |
+| Compilation | optional local LaTeX compile when a compiler exists; otherwise verify PDF/page count in Overleaf |
 
 ---
 
-## Step 4 — Fix submission mode in venue_preamble.tex
+## Step 4 — Handle Overleaf/GitHub compilation
+
+Use this workflow when the user says they compile in Overleaf, when the paper repo is linked to Overleaf through GitHub, or when local LaTeX commands are missing.
+
+1. Confirm the local paper repo has a GitHub remote:
+
+```bash
+git -C "$PAPER_DIR" remote -v
+git -C "$PAPER_DIR" status --short --branch
+```
+
+2. If the user asks to publish the changes for Overleaf, commit and push through normal Git flow. Do not commit unrelated user changes without checking the diff.
+
+3. Tell the user to compile the synced branch in Overleaf. Treat Overleaf as the source of PDF truth for:
+   - clean compile status
+   - page count
+   - overfull boxes and layout warnings
+   - bibliography rendering
+   - final PDF inspection
+
+4. If Overleaf reports errors, use the Overleaf log text or screenshots as the compile evidence. Fix the LaTeX source locally, then push again.
+
+Do not block submission readiness solely because local `pdflatex` is unavailable.
+
+---
+
+## Step 5 — Fix submission mode in venue_preamble.tex
 
 After reading the script output, check `venue_preamble.tex` and verify the `\usepackage` option matches what the user said in Step 2.
 
@@ -86,9 +116,15 @@ Ask "Should I update `venue_preamble.tex` to `[mode]` mode?" — then edit if co
 
 ---
 
-## Step 5 — Report findings and action plan
+## Step 6 — Report findings and action plan
 
 Present results in a structured format:
+
+Mention the local/Overleaf compile state explicitly:
+
+- local static-check result
+- Overleaf/GitHub compile status if known, or "pending Overleaf compile" if the user must verify it there
+- whether local LaTeX was skipped because no compiler exists
 
 ```
 ## Submission Readiness: <venue> — <mode>
@@ -111,7 +147,7 @@ For each failure or warning, provide the **specific file and line** and the **ex
 
 ---
 
-## Step 6 — Offer targeted fixes
+## Step 7 — Offer targeted fixes
 
 For common failures, offer to fix them immediately:
 
@@ -229,6 +265,6 @@ arXiv has different packaging requirements from venue submission:
 ```
 /submit-paper                                   # check current directory
 /submit-paper ~/Papers/my-neurips-paper         # check specific project
-/submit-paper . --compile                       # include pdflatex check
+/submit-paper . --compile                       # include local LaTeX check only if a compiler exists
 /submit-paper . --mode camera-ready             # camera-ready checklist
 ```

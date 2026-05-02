@@ -68,6 +68,7 @@ Pair this skill with:
 - New post-acceptance edits should reduce risk, not reopen novelty or evaluation disputes.
 - The main paper, appendix, supplement, metadata, and code links must tell the same story.
 - The final output should leave a clear handoff to release, artifact evaluation, tagging, and archival memory.
+- Do not assume local TeX Live or MacTeX exists. If the project compiles through Overleaf linked to GitHub, use local static checks, push changes, and treat Overleaf's compile log/PDF as the final compile evidence.
 
 ## Step 1 - Recover Acceptance Context
 
@@ -170,6 +171,8 @@ Check:
 - final link reachability if links are included
 
 Use `citation-audit` and `submit-paper` for detailed checks when needed.
+
+If local `pdflatex`, `xelatex`, or `lualatex` is unavailable, do not block on local compilation. Confirm the GitHub remote, push the camera-ready source when requested, and ask the user to compile in Overleaf. Use Overleaf logs or screenshots to drive any final LaTeX fixes.
 
 ## Step 7 - Prepare Release and Artifact Handoff
 
