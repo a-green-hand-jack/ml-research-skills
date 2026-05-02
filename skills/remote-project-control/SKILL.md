@@ -8,6 +8,8 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 Help the user operate a project whose code is edited locally but actually runs on one or more remote servers over SSH. Establish project memory first, then coordinate safe local and remote actions.
 
+Pair this skill with `research-project-memory` when remote execution state should be linked to project-level experiments, evidence, actions, or worktree status.
+
 ## Skill Directory Layout
 
 ```text
@@ -29,6 +31,7 @@ Help the user operate a project whose code is edited locally but actually runs o
 - Always read `references/memory-model.md`
 - Read `references/operations.md` when the user wants to inspect, sync, run, monitor, or fetch artifacts
 - Use `templates/` as the source of truth when bootstrapping memory files into the target project
+- If the repo has `memory/`, summarize verified remote execution facts into `research-project-memory` boards without duplicating the remote manifest.
 
 ## Core Principles
 
@@ -139,6 +142,13 @@ When new information becomes trustworthy, persist it to the appropriate file:
 - durable workflow rationale -> `docs/ops/decision-log.md`
 - user-specific ssh aliases, usernames, and private paths -> `.agent/local-overrides.yaml`
 
+If the repo also uses `research-project-memory`, write only cross-project pointers:
+
+- `memory/evidence-board.md`: verified job/run pointer for linked `EXP-###`
+- `memory/action-board.md`: monitor, fetch-artifact, rerun, or report actions
+- `memory/current-status.md`: latest verified remote execution summary and next verification step
+- worktree `.agent/worktree-status.md`: remote run status when tied to a branch/worktree purpose
+
 Do not write volatile scheduler output or one-off shell command results into the stable manifest.
 
 ## Step 6 — End Every Substantial Session with Closeout
@@ -153,6 +163,8 @@ Before finishing, update `docs/ops/current-status.md` whenever the session mater
 - the next concrete action for the next session
 
 If a new stable practice was established, add a short entry to `docs/ops/decision-log.md`.
+
+If the project has `memory/current-status.md`, update it with a concise cross-component pointer rather than copying the full remote status.
 
 ## Bootstrap Targets
 

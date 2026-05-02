@@ -22,6 +22,7 @@ Do not treat this as generic brainstorming. The goal is to decide whether an ide
 
 Pair this skill with:
 
+- `research-project-memory` when the decision should persist into a project-level claim, risk, action, or decision board
 - `literature-review-sprint` when closest work or novelty risk is unclear
 - `algorithm-design-planner` when the idea is promising but the method shape is underspecified
 - `experiment-design-planner` when the claim is clear and needs a minimum validation plan
@@ -47,6 +48,7 @@ Pair this skill with:
 - Read `references/paper-shapes.md` when deciding the contribution type or target paper form.
 - Read `references/reviewer-risk-patterns.md` when forecasting rejection risks or advisor objections.
 - Read `references/memory-guidelines.md` when saving or reusing idea/project knowledge.
+- If the target repo has `memory/` or the user asks for project memory, use `research-project-memory` writeback conventions for decision, risk, and action entries.
 - If novelty or current competition matters, verify with current sources using web search or user-provided papers.
 
 ## Core Principles
@@ -241,6 +243,24 @@ If saving to a project and no path is given, use:
 ```text
 docs/ideas/idea_validation_YYYY-MM-DD_<short-name>.md
 ```
+
+## Step 9 - Write Back to Project Memory
+
+If the project uses `research-project-memory`, update the smallest useful set of entries:
+
+- `memory/decision-log.md`: idea decision, why, alternatives, and revisit trigger
+- `memory/claim-board.md`: best possible paper claim as `planned`, `active`, `revised`, `parked`, or `cut`
+- `memory/risk-board.md`: novelty, feasibility, evaluation, and reviewer risks
+- `memory/action-board.md`: next 3 actions and recommended next skill
+- `memory/current-status.md`: current focus if the idea changes the project direction
+
+Use certainty labels:
+
+- `user-stated` for the user's idea and constraints
+- `inferred` for reviewer risks and paper-shape diagnosis
+- `needs-verification` for closest-work or feasibility assumptions that still need checking
+
+Do not overwrite old idea decisions. Add a new decision entry that supersedes the previous one when the idea changes.
 
 ## Final Sanity Check
 

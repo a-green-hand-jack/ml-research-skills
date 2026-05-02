@@ -19,6 +19,8 @@ Use this skill when:
 
 Do not use this as a replacement for `citation-audit`. Use `citation-audit` after this skill to verify that added BibTeX entries and citation keys are correct.
 
+Pair this skill with `research-project-memory` when missing citations affect novelty, baseline, related-work, or reviewer-risk tracking.
+
 ## Skill Directory Layout
 
 ```text
@@ -218,6 +220,16 @@ Memory must separate:
 - papers already cited
 - papers intentionally not cited
 - unresolved author decisions
+
+If the project uses `research-project-memory`, also update:
+
+- `memory/risk-board.md`: missing closest-work, classic, benchmark, baseline, or concurrent-work risks
+- `memory/action-board.md`: add-citation, check-bibtex, add-baseline, revise-novelty, or author-review actions
+- `memory/claim-board.md`: novelty claims that must be weakened or qualified
+- `memory/evidence-board.md`: citation evidence for claims when a paper directly supports or limits a claim
+- `paper/.agent/paper-status.md`: related-work sections or insertion points that need edits
+
+Use `needs-verification` for candidate papers not yet read deeply enough.
 
 ## Final Sanity Check
 

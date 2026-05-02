@@ -22,6 +22,7 @@ Use this skill for:
 
 Pair this skill with:
 
+- `research-project-memory` when real reviews, issue boards, rebuttal experiments, or promised revisions should persist across sessions
 - `paper-reviewer-simulator` for pre-submission shadow review or for stress-testing the draft response
 - `run-experiment` when the rebuttal plan requires new experiments
 - `conference-writing-adapter` when accepted reviewer criticism requires paper restructuring or clearer prose
@@ -233,6 +234,16 @@ Track:
 - promised paper revisions
 - follow-up discussion state
 - final decision, if known
+
+If the project uses `research-project-memory`, also update:
+
+- `memory/risk-board.md`: real reviewer risks and issue severity, using certainty `observed` for review text and `inferred` for intent
+- `memory/action-board.md`: rebuttal experiments, response drafting tasks, promised revisions, and post-rebuttal follow-ups
+- `memory/evidence-board.md`: new rebuttal experiments, proof sketches, analyses, or tables
+- `memory/claim-board.md`: claims reviewers challenged, weakened, clarified, or supported
+- `rebuttal/.agent/rebuttal-status.md`: issue board, reviewer intent map, response plan, promised revisions, and discussion state
+
+Never mark a promised revision as done until the paper/code change exists. Link promises to actions.
 
 ## Output Modes
 

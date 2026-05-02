@@ -11,6 +11,8 @@ Submit an ML experiment to a compute environment — local machine, SLURM HPC (I
 
 Generates a **reproducible job script** in `jobs/` that is committed alongside the code, then provides the exact submit command to run.
 
+Pair this skill with `research-project-memory` when a launched job should be linked to a planned experiment, evidence item, worktree, or project action.
+
 ## Skill Directory Layout
 
 ```
@@ -205,6 +207,17 @@ If a `jobs/README.md` or `jobs/index.md` exists, offer to append a one-line entr
 ```
 | {DATE} | {JOB_NAME} | {ENV_NAME} | {COMMIT} | {RUN_COMMAND_BRIEF} |
 ```
+
+### 8. Update project memory when present
+
+If the repo has `memory/` or a worktree `.agent/worktree-status.md`, update only verified run pointers:
+
+- `memory/evidence-board.md`: add or update the linked `EXP-###` with job script path, commit, command, output directory, and status `planned`, `submitted`, or `running` only if verified
+- `memory/action-board.md`: mark the launch action as `doing` or create a monitor action
+- `memory/current-status.md`: record the latest known job and what must be checked next
+- `<worktree>/.agent/worktree-status.md`: link the run to the worktree purpose and exit condition
+
+Do not store queue state, job success, or final metric values as durable facts unless they were verified in this session. Use `needs-verification` for monitor tasks.
 
 ---
 

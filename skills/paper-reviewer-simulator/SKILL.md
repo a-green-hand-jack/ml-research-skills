@@ -22,6 +22,8 @@ Use this skill for:
 
 Do not use this skill to rewrite the paper directly. Pair it with `conference-writing-adapter` after the review if the paper needs structural or paragraph-level changes. Pair it with `citation-audit` for reference correctness and `submit-paper` for final submission hygiene.
 
+Pair this skill with `research-project-memory` when simulated reviewer risks should become project-level risks and actions.
+
 ## Skill Directory Layout
 
 ```text
@@ -236,6 +238,16 @@ Memory must separate:
 
 Do not store long copied review text. Paraphrase review patterns and include source URLs.
 
+If the project uses `research-project-memory`, also update:
+
+- `memory/risk-board.md`: top simulated reviewer risks, each linked to affected claim IDs when possible
+- `memory/action-board.md`: must-fix and should-fix actions, distinguishing writing fixes from new experiments/proofs
+- `memory/claim-board.md`: claims likely to be weakened, cut, or reframed
+- `memory/evidence-board.md`: evidence gaps, stale figures/tables, or missing proof/experiment needs
+- `reviewer/.agent/reviewer-status.md`: review mode, predicted decision, and unresolved reviewer questions
+
+Do not treat simulated reviews as real reviews. Use certainty `inferred` for predicted reviewer behavior.
+
 ## Output Modes
 
 ### Quick Review
@@ -290,3 +302,4 @@ Before finalizing:
 - top risks are ranked by acceptance impact
 - fixes distinguish writing changes from new experiments/proofs
 - memory updates are written when venue examples were studied
+- project memory is updated when simulated risks should persist

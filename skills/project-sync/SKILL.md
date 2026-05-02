@@ -10,6 +10,8 @@ Use this workflow when you have new experiment results in the code repo and want
 
 This is a **manual, human-triggered** workflow — run it whenever you want to checkpoint results into the paper.
 
+Pair this skill with `research-project-memory` when the logged result should update evidence, claims, risks, actions, or paper status.
+
 ---
 
 ## Step 1 — Locate the Project
@@ -114,3 +116,15 @@ Experiment logged:
 To view all logged experiments:
   cat <PAPER_ROOT>/sections/daily_experiments.tex
 ```
+
+## Step 7 — Update Project Memory When Present
+
+If the parent project has `memory/`, update:
+
+- `memory/evidence-board.md`: add the logged result as an `EVD-###` or link it to an existing `EXP-###`
+- `memory/claim-board.md`: mark affected claims as supported, weakened, or still unsupported
+- `memory/risk-board.md`: add or close risks exposed by the result
+- `memory/action-board.md`: add the next experiment/report/writing action from the log entry
+- `paper/.agent/paper-status.md`: note that `sections/daily_experiments.tex` now contains the result
+
+Treat the daily experiment log as evidence only if the numbers are source-linked or user-confirmed. Otherwise mark certainty as `user-stated` or `needs-verification`.

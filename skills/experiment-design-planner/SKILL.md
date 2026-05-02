@@ -20,6 +20,7 @@ Use this skill when:
 
 Pair this skill with:
 
+- `research-project-memory` when the experiment plan should become project-level evidence, risk, and action memory
 - `run-experiment` after the design is ready to execute
 - `experiment-report-writer` after results exist
 - `paper-reviewer-simulator` to stress-test whether the evidence will satisfy reviewers
@@ -42,6 +43,7 @@ Pair this skill with:
 - Always read `references/evidence-standards.md` and `references/metrics-and-controls.md`.
 - Read `references/ablation-matrix.md` when the plan compares variants, components, baselines, hyperparameters, datasets, or model sizes.
 - Use `references/report-template.md` when saving or returning a substantial experiment plan.
+- If the target repo has `memory/`, update planned evidence, experiment families, risks, and actions using `research-project-memory` conventions.
 - If the experiment depends on current baselines, benchmarks, or leaderboard conventions, verify current sources with web search.
 
 ## Core Principles
@@ -198,6 +200,18 @@ docs/experiments/experiment_plan_YYYY-MM-DD_<short-name>.md
 
 The final plan should be runnable by `run-experiment` and later reportable by `experiment-report-writer`.
 
+## Step 10 - Write Back to Project Memory
+
+If the project uses `research-project-memory`, update:
+
+- `memory/evidence-board.md`: planned `EVD-###` items and `EXP-###` experiment families
+- `memory/claim-board.md`: linked claims, marking unsupported or planned claims honestly
+- `memory/risk-board.md`: baseline, mechanism, metric, seed, compute, and reviewer risks exposed by the design
+- `memory/action-board.md`: runnable next actions, including which experiment to launch first
+- relevant worktree `.agent/worktree-status.md`: experiment purpose and exit condition if a branch/worktree is involved
+
+Use `planned` status for experiments that have not run. Do not record expected outcomes as observed evidence.
+
 ## Final Sanity Check
 
 Before finalizing:
@@ -211,3 +225,4 @@ Before finalizing:
 - logging requirements are sufficient for reproduction
 - stop condition and decision rule are explicit
 - reviewer risks are stated
+- project memory is updated when the repo has `memory/`

@@ -19,7 +19,7 @@ Use this skill when a paper already has draft citations and the user wants confi
 - citation claims in nearby prose are actually supported by the cited work
 - bibliography style is submission-ready
 
-Pair this with `submit-paper` for the broader submission checklist.
+Pair this with `submit-paper` for the broader submission checklist. Pair it with `research-project-memory` when citation correctness issues should become blocking paper risks or actions.
 
 ## Skill Directory Layout
 
@@ -198,6 +198,18 @@ Before finalizing:
 
 - all cited keys resolve to exactly one BibTeX entry
 - all required TeX references resolve to exactly one label
+- blocking citation/reference problems are tracked as actions when project memory exists
+
+## Step 9 - Write Back to Project Memory
+
+If the project uses `research-project-memory`, update:
+
+- `memory/risk-board.md`: blocking or important citation, metadata, label, reference, or citation-claim risks
+- `memory/action-board.md`: concrete fixes for missing keys, metadata corrections, unsupported claims, or broken refs
+- `memory/claim-board.md`: claims that must be weakened because citations do not support them
+- `paper/.agent/paper-status.md`: citation-audit status and unresolved author decisions
+
+Use `observed` for deterministic TeX/BibTeX graph findings and `needs-verification` for metadata or claim-support issues not fully checked.
 - every blocking metadata issue is fixed or explicitly listed
 - high-risk citation claims have been audited
 - unresolved citation correctness questions are not hidden

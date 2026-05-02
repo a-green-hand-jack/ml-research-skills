@@ -269,6 +269,7 @@ Potential future skills could include **algorithm-design-planner**, **result-dia
 - Templates for project boards: claims, evidence, risks, actions, decisions, current status, and component index
 - Consistency checks for unsupported claims, stale evidence, reviewer risks without actions, rebuttal promises, and worktrees without exit conditions
 - A shared writeback protocol for other skills after idea validation, experiment design, runs, writing, review simulation, and rebuttal
+- Integration guidance in core research-loop skills so results, reviews, citations, rebuttals, and remote runs can update the same project memory graph
 
 ## What `research-idea-validator` Provides
 

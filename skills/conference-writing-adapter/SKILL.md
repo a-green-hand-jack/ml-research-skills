@@ -19,6 +19,8 @@ Use this skill for:
 
 Do not use this skill as a substitute for running experiments, proving claims, or checking final submission compliance. Pair it with `submit-paper` for final readiness checks and with experiment skills when the paper has evidence gaps.
 
+Pair this skill with `research-project-memory` when rewriting changes paper claims, section structure, figure/table roles, writing risks, or experiment actions.
+
 ## Skill Directory Layout
 
 ```text
@@ -266,6 +268,16 @@ Memory entries must separate:
 - unresolved questions
 
 Do not store copyrighted paper text beyond short titles, bibliographic metadata, and brief paraphrased notes.
+
+If the project uses `research-project-memory`, also update:
+
+- `memory/claim-board.md`: revised claim wording, paper locations, and unsupported claims to cut or weaken
+- `memory/evidence-board.md`: figure/table roles and evidence items cited by rewritten sections
+- `memory/risk-board.md`: writing, positioning, venue-fit, and evidence-gap risks
+- `memory/action-board.md`: missing experiments, citation checks, section rewrites, or figure updates exposed by writing
+- `paper/.agent/paper-status.md`: section map, paragraph-level decisions, and stale figures/tables
+
+Do not strengthen claims in memory beyond the evidence available in the paper.
 
 ## Output Formats
 

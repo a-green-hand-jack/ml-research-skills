@@ -10,6 +10,8 @@ Turn experiment evidence into a clear research report that a reader can evaluate
 
 Use this skill to write a standalone document, a section for a paper or lab note, a mentor-facing update, or a presentation-ready experiment summary.
 
+Pair this skill with `research-project-memory` when completed results should update project claims, evidence, risks, actions, figures, or worktree decisions.
+
 ## Skill Directory Layout
 
 ```text
@@ -253,6 +255,19 @@ Recommend concrete follow-ups:
 
 Tie each next step to the uncertainty it resolves.
 
+## Project Memory Writeback
+
+If the project uses `research-project-memory`, write back the result after the report is drafted:
+
+- `memory/evidence-board.md`: completed `EVD-###` summary, source paths, linked claim IDs, limitations, and certainty
+- `memory/claim-board.md`: mark claims as supported, weakened, revised, unsupported, or cut based on the observed result
+- `memory/risk-board.md`: close mitigated risks or add new risks exposed by the result
+- `memory/action-board.md`: next steps from the report, including rerun, write, revise-method, park, or kill decisions
+- `memory/current-status.md`: latest reliable experiment state and next session entry point
+- worktree `.agent/worktree-status.md`: latest result and exit condition if the experiment belongs to a worktree
+
+Do not write an interpretation as a measured fact. Use `observed` for metrics from logs/tables and `inferred` for explanations.
+
 ## Output Quality Checklist
 
 Before finalizing, check that:
@@ -265,4 +280,4 @@ Before finalizing, check that:
 - missing evidence is labeled instead of invented
 - conclusions do not overclaim beyond the data
 - next steps are actionable
-
+- project memory is updated when present and relevant
