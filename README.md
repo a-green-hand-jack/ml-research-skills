@@ -129,6 +129,60 @@ Primary skills by root area:
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
 | Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
 
+### Memory System
+
+The memory system is the project bus that lets independent skills act coherently across sessions. A skill should not only finish its immediate task; when it changes project state, it should leave a small, durable pointer so the next skill can pick up the claim, evidence, risk, action, component, or worktree that changed.
+
+Memory is layered:
+
+| Layer | Location | Purpose | Examples |
+|---|---|---|---|
+| Project memory | `memory/` | Shared coordination state across paper, code, slides, review, rebuttal, artifact, and worktrees | `project.yaml`, `component-index.yaml`, `claim-board.md`, `evidence-board.md`, `risk-board.md`, `action-board.md` |
+| Component memory | `<component>/.agent/` | Component-local state that is too detailed for root boards but still useful across sessions | `paper/.agent/paper-status.md`, `paper/.agent/figure-table-map.md`, `code/.agent/worktree-index.md` |
+| Repo-native ops memory | `code/docs/ops/` and similar component docs | Operational notes native to a repo; useful but not a cross-component registry | `code/docs/ops/current-status.md`, `code/docs/ops/decision-log.md` |
+| Worktree memory | `<component-worktree>/.agent/worktree-status.md` | Leaf state for one experimental branch or paper version | purpose, branch, linked claims, latest result, source visibility, exit condition |
+
+The stable object graph uses IDs:
+
+```text
+CLM-001 -> supported_by EVD-003 -> visualized_by FIG-002 -> threatened_by RSK-004 -> resolved_by ACT-007
+                      \-> produced_by EXP-002 on WTR-005
+```
+
+This graph is what connects skills:
+
+| Skill family | Reads from memory | Writes back |
+|---|---|---|
+| Idea, literature, method | existing claims, decisions, risks, target venue | scoped claims, novelty risks, method decisions, planned actions |
+| Experiment planning and baselines | claims, risks, required evidence, prior decisions | experiment families, baseline policy, falsification actions |
+| Run and diagnose experiments | worktree state, run plans, stale evidence | run pointers, evidence status, revised claims, next actions |
+| Figure and table review | evidence board, paper locations, visual/table map | figure/table status, caption actions, provenance risks |
+| Paper writing and venue adaptation | claims, evidence, risks, target venue, paper status | section mapping, claim wording decisions, writing risks |
+| Submission, review, rebuttal, camera-ready | readiness state, reviewer risks, promised actions | blockers, review issues, rebuttal promises, final release handoff |
+| Slides and advisor updates | current status, evidence, risks, action board | advisor feedback, presentation stale-evidence notes, next actions |
+
+Cross-worktree memory has a stricter shape:
+
+```text
+memory/component-index.yaml
+  -> code/.agent/worktree-index.md
+      -> code-worktrees/<branch>/.agent/worktree-status.md
+  -> paper/.agent/worktree-index.md
+      -> paper-worktrees/<version>/.agent/worktree-status.md
+```
+
+When `new-workspace` creates, parks, merges, or kills a worktree, it should update the root registry, the component worktree index, and the leaf status file. This prevents a result in one code branch, an arXiv paper branch, and a camera-ready branch from drifting apart without a visible project-level record.
+
+Use certainty labels whenever memory may become stale:
+
+- `observed`: verified from files, logs, command output, paper text, or review text
+- `user-stated`: stated by the researcher
+- `inferred`: agent inference that should be treated cautiously
+- `stale`: was true earlier but may have changed
+- `needs-verification`: must be checked before acting
+
+Rule of thumb: root `memory/` stores durable coordination, component `.agent/` stores local rollups, repo-native docs store operational detail, and worktree status files store branch/version leaf state. Do not hide important cross-skill state only in a report, only in a paper comment, or only in a terminal transcript.
+
 ### Paper Repo
 
 The paper repo is the paper-facing source of truth: claims, narrative, figures, tables, captions, citations, submission mode, and final PDF state.
@@ -670,9 +724,10 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 ## What `research-project-memory` Provides
 
-- Hierarchical project memory across `memory/`, component `.agent/` folders, and worktree status files
+- Hierarchical project memory across root `memory/`, component `.agent/` folders, repo-native operational docs, and worktree status files
 - Claim-evidence-risk-action tracking with stable IDs such as `CLM-001`, `EVD-001`, `RSK-001`, and `ACT-001`
 - Templates for project boards: claims, evidence, risks, actions, decisions, current status, and component index
+- Component and worktree rollups: `<component>/.agent/<component>-status.md`, `<component>/.agent/worktree-index.md`, and `<component-worktree>/.agent/worktree-status.md`
 - Consistency checks for unsupported claims, stale evidence, reviewer risks without actions, rebuttal promises, and worktrees without exit conditions
 - A shared writeback protocol for other skills after idea validation, experiment design, runs, writing, review simulation, and rebuttal
 - Integration guidance in core research-loop skills so results, reviews, citations, rebuttals, and remote runs can update the same project memory graph
