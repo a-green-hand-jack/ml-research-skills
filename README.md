@@ -846,6 +846,9 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A policy to use `https://github.com/a-green-hand-jack/progress-slides.git` as the external slides template instead of duplicating template code in this skills repo
 - Installation and connection guidance for a `slides/` component repo, including cloning, inspecting `README.md` and `package.json`, installing dependencies, and using the template's preview/build commands
 - Template-compatible writing guidance for slide source, speaker notes, figures, evidence provenance, backup slides, and `slides/.agent/` memory
+- Deck-contract checks for project title, narrative scope, allowed terms, banned terms, and one-sentence claim before writing Slidev source
+- Slidev syntax guardrails for deck-level and per-slide frontmatter so `layout:` and `class:` metadata do not render as body text
+- Visual validation guidance beyond build success, including browser preview, PNG/PDF export when Playwright is available, overflow checks, and `slides/.agent/slides-status.md` closeout
 
 ## What `figure-results-review` Provides
 

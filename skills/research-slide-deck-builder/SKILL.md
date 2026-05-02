@@ -81,6 +81,21 @@ For an existing project:
 - Figures are evidence, not decoration. Explain axes, setup, and takeaway.
 - Keep slide titles specific. Avoid generic titles like "Results", "Method", or "Experiments".
 - Put dense details in backup slides instead of shrinking text.
+- Build success is not visual success. A Slidev deck can compile while the browser view still has overflow, broken frontmatter, missing assets, or slides that are too dense to present.
+
+## Deck Contract
+
+Before writing slide source, establish a short deck contract:
+
+- `deck_scope`: the one narrative lane this deck is allowed to cover
+- `allowed_terms`: project names and presentation terms that should appear, such as `FK-Doob-PhysGen`
+- `banned_terms`: implementation names, stale project names, or route words that must not appear in audience-facing text
+- `one_sentence_claim`: the sentence the audience should remember
+- `project_title`: the exact project name that must appear in the title slide and deck metadata
+
+After writing, search the slide source for banned or stale terms. If an internal code name is useful during implementation but confusing for the audience, replace it with the presentation term in headings and takeaways while keeping the implementation term only where technically necessary.
+
+Default naming rule: the title slide, browser/PDF metadata, and first H1 must include the project name. Do not use a method-only title unless the user explicitly asks for it.
 
 ## Workflow
 
@@ -93,6 +108,7 @@ Determine:
 - goal: feedback, progress report, teaching, persuasion, or defense
 - single most important takeaway
 - available material: memory, notes, figures, reports, paper draft, code results, or existing slides
+- deck contract: scope, allowed terms, banned terms, one-sentence claim, and exact project title
 
 ### 2. Choose the Deck Archetype
 
@@ -148,7 +164,30 @@ Conference-style talk:
 10. Limitations
 11. Takeaway
 
-### 3. Write Template-Compatible Source
+### 3. Produce a Slide Plan Before Heavy Editing
+
+For each slide, write:
+
+- slide number
+- slide type
+- takeaway title
+- visual/evidence needed
+- bullets or diagram content
+- speaker note
+- risk: what may confuse the audience
+
+If a slide has no takeaway, merge it, cut it, or move it to backup.
+
+Apply a capacity budget before editing source:
+
+- A normal slide should have at most one H1, one primary visual region, and one takeaway.
+- Do not combine a question box, long bullets, a code block, and a takeaway on the same normal slide.
+- Code blocks on normal slides should usually be at most 3 lines; longer code belongs in backup.
+- Tables should fit within 16:9 without shrinking text below readable size.
+- Three-column layouts should keep each column to about 3 bullets unless the visual design clearly supports more.
+- Backup slides may be dense, but each backup slide still needs a purpose: reference links, asset paths, implementation detail, or extra evidence.
+
+### 4. Write Template-Compatible Source
 
 After inspecting `progress-slides`, write in the format the template already uses. For Slidev-style Markdown, prefer this pattern:
 
@@ -180,37 +219,69 @@ Speaker note: what to say in 20-40 seconds.
 
 Keep speaker notes close to the slide source when the template supports notes. Keep image paths relative to the slide deck so the deck can be moved or shared.
 
-### 4. Use Project Evidence Correctly
+Slidev source guardrails:
+
+- Put deck-level frontmatter only at the top of the deck.
+- Per-slide frontmatter must be a valid frontmatter block by itself:
+
+```markdown
+---
+layout: center
+class: text-center
+---
+```
+
+- If a page does not need per-slide frontmatter, omit it. Do not leave `layout:` or `class:` lines in normal Markdown body text.
+- After editing, search for `^layout:` and `^class:` outside frontmatter blocks if the source was heavily modified.
+- Title metadata should include the project name so exported PDF/browser titles are recognizable.
+
+### 5. Use Project Evidence Correctly
 
 - Pull stable figures from `code/docs/results/`, `code/docs/reports/`, paper figures, or user-provided assets.
 - Do not copy raw logs, huge outputs, checkpoints, or wandb/tensorboard caches into the slides repo.
 - If a figure is stale, unclear, or too dense, use `figure-results-review` before finalizing the deck.
 - If slide claims diverge from the paper or project status, update `memory/` or `slides/.agent/` with the risk.
 
-### 5. Produce a Slide Plan Before Heavy Editing
+### 6. Validate Narrative and Terms
 
-For each slide, write:
+Before build or export:
 
-- slide number
-- slide type
-- takeaway title
-- visual/evidence needed
-- bullets or diagram content
-- speaker note
-- risk: what may confuse the audience
+- confirm the first slide title, browser/PDF title metadata, and main H1 include the project name
+- confirm every normal slide has one primary takeaway
+- search for `banned_terms`, stale project names, and internal implementation names in audience-facing headings and takeaways
+- check that the final slide does not introduce a new unmotivated direction unless the deck scope explicitly allows it
+- prefer presentation terms in takeaways, such as "isometric conditional model"; keep implementation terms, such as `model_D`, only in implementation-detail slides
 
-If a slide has no takeaway, merge it, cut it, or move it to backup.
-
-### 6. Validate the Deck
+### 7. Validate the Deck
 
 Before finishing:
 
 - run the template's preview/build command when dependencies are available
-- confirm the deck opens locally
+- confirm the deck opens locally; do not treat `npm run build` alone as proof that the slides are visually usable
 - check that all image paths resolve
 - check that text is readable in 16:9 presentation view
 - check that each result slide explains setup, metric, and interpretation
-- update `slides/.agent/` with deck purpose, audience, source evidence, stale evidence risks, and follow-up actions when using a project-control-root layout
+- visually inspect the first slide, second slide, and final three slides because title, framing, and closeout mistakes are high impact
+- when possible, export PNG/PDF through the template's export command, Slidev browser export UI, or `slidev export --format png`; Slidev CLI export requires Playwright/`playwright-chromium`
+- if PNG/PDF export is blocked by missing Playwright or Chromium, record the missing dependency and use browser preview screenshots or manual browser inspection instead
+- check tables, code blocks, three-column layouts, question boxes, and takeaway boxes for overflow
+- update `slides/.agent/slides-status.md` with deck purpose, audience, source evidence, build status, visual validation status, stale evidence risks, known unchecked risks, and follow-up actions when using a project-control-root layout
+
+Final checklist:
+
+```markdown
+- [ ] Title includes project name.
+- [ ] Deck has one explicit narrative scope.
+- [ ] Banned or stale terms checked with search.
+- [ ] No normal slide has H1 + question box + code block + takeaway together.
+- [ ] Code blocks are <= 3 lines unless in backup.
+- [ ] Tables fit within 16:9 width.
+- [ ] No literal `layout:` or `class:` frontmatter is rendered as body text.
+- [ ] Internal code names are replaced in audience-facing text where appropriate.
+- [ ] Preview/build passes, or missing dependency is recorded.
+- [ ] PNG/PDF visual export or browser visual inspection completed.
+- [ ] `slides/.agent/slides-status.md` updated when project memory is present.
+```
 
 ## Output Shape
 
@@ -225,6 +296,9 @@ For a planning-only request, produce:
 - Goal:
 - One takeaway:
 - Template: progress-slides
+- Deck scope:
+- Allowed terms:
+- Banned terms:
 
 ## Slide Plan
 | # | Type | Takeaway title | Visual/evidence | Speaker note | Risk |
@@ -249,3 +323,5 @@ For an implementation request, edit the actual `slides/` source files in the clo
 - Do not make a deck of status bullets without evidence or decisions.
 - Do not force a conference-talk narrative onto an advisor update.
 - Do not overpack slides because the user is afraid to leave things out.
+- Do not stop at Markdown correctness or build success when the user expects a deck they can open and present.
+- Do not leave backup slides as unexplained asset dumps.
