@@ -9,6 +9,8 @@
 - Path:
 - Created:
 - Parent branch:
+- Component: code / paper
+- Worktree type: experiment / baseline / debug / rebuttal / venue / arxiv / camera-ready / paper-fix / other
 
 ## Purpose
 
@@ -17,6 +19,17 @@
 - Linked claims:
 - Linked experiments:
 - Linked risks:
+
+## Paper Version Policy
+
+Use this section for paper worktrees.
+
+- Target venue or release:
+- Submission mode: anonymous / preprint / camera-ready / rebuttal / internal
+- Template or style differences:
+- Source visibility: private / uploaded source / public arXiv source
+- Cleanup required:
+- Compile workflow: local / Overleaf-GitHub / unknown
 
 ## Latest Reliable State
 

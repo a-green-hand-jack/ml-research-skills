@@ -43,9 +43,9 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, code-side evidence docs, and remote-workflow memory scaffolding |
-| `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, root agent guidance, and code-owned worktree policy |
+| `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
-| `new-workspace` | Create a Git branch or project-aware code worktree for a new feature, experiment, baseline, debug task, or rebuttal fix |
+| `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
@@ -104,6 +104,7 @@ A full project is a control root with independent component repositories:
 ├── paper/                  # independent LaTeX paper repo
 ├── code/                   # independent Python/ML code repo
 ├── code-worktrees/          # sibling worktrees for code repo branches
+├── paper-worktrees/         # sibling worktrees for paper venue/arXiv/camera-ready versions
 ├── slides/                 # optional independent slides repo
 ├── reviewer/               # simulated review state
 ├── rebuttal/               # real review and response state
@@ -115,7 +116,9 @@ Root ownership rules:
 - `<ProjectName>/` is the coordination layer. It stores project memory, cross-component plans, and handoffs.
 - `paper/`, `code/`, and `slides/` are component repos. Use `git -C paper ...`, `git -C code ...`, and `git -C slides ...`.
 - Do not put experiment outputs directly under the root. Runnable code, run records, results, and logs belong under `code/` or a code worktree.
+- Do not create paper version folders inside `paper/`. Venue submissions, arXiv releases, and camera-ready versions belong under `paper-worktrees/`.
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
+- Cross-worktree memory has three layers: global registry in `memory/component-index.yaml`, component rollups in `paper/.agent/worktree-index.md` and `code/.agent/worktree-index.md`, and leaf status in each worktree's `.agent/worktree-status.md`.
 
 Primary skills by root area:
 
@@ -124,7 +127,7 @@ Primary skills by root area:
 | Root setup | `PROJECT.md`, root `AGENTS.md`, component repos, root docs | **project-init**, **research-project-memory** |
 | Root memory | claims, evidence, risks, actions, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
-| Git and worktree policy | component remotes, code worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
+| Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
 
 ### Paper Repo
 
@@ -158,6 +161,7 @@ paper/
 └── .agent/
     ├── visual-style.md
     ├── figure-table-map.md
+    ├── worktree-index.md
     └── paper-status.md
 ```
 
@@ -168,6 +172,9 @@ Paper boundary rules:
 - `tables/*.tex` is the standalone table source/wrapper. The table description, caption, row/column semantics, and numeric provenance are separate artifacts.
 - Local macOS does not need TeX Live. The default compile path can be local edit -> GitHub push -> Overleaf compile.
 - Paper-facing claims should be backed by evidence links in root `memory/` and, when needed, code-side reports under `code/docs/`.
+- Different paper versions should use paper worktrees under `paper-worktrees/` when they need different templates, venue modes, anonymity rules, arXiv cleanup, or camera-ready edits.
+- arXiv/public-source worktrees must remove internal comments, figure/table descriptions in TeX comments, reviewer notes, TODOs, author-comment macros, and private paths from public source.
+- Conference worktrees must enforce venue mode and anonymity. Camera-ready worktrees must de-anonymize, add acknowledgements/funding, and remove draft-only notes.
 
 Primary skills in `paper/`:
 
@@ -180,6 +187,29 @@ Primary skills in `paper/`:
 | Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
 | Pre-submission | anonymity, required sections, mode, compile state | **submit-paper**, **paper-reviewer-simulator** |
 | Reviews and final paper | reviews, rebuttal promises, camera-ready state | **rebuttal-strategist**, **camera-ready-finalizer** |
+
+### Paper Worktrees
+
+Paper worktrees isolate paper versions without disturbing the main `paper/` branch:
+
+```text
+<ProjectName>/
+├── paper/
+└── paper-worktrees/
+    ├── venue-neurips/
+    ├── venue-icml/
+    ├── arxiv-v1/
+    └── camera-ready-neurips/
+```
+
+Use them when:
+
+- retargeting the same project to a different conference template
+- preparing an arXiv release with public source cleanup
+- finalizing a camera-ready version after acceptance
+- making paper-only rebuttal edits with a clear exit condition
+
+Each paper worktree should have `.agent/worktree-status.md` recording target venue/release, submission mode, template/style differences, source visibility, cleanup requirements, compile workflow, and exit condition.
 
 ### Code Repo
 
@@ -222,7 +252,8 @@ code/
 ├── tests/
 ├── scripts/
 ├── .agent/
-│   └── local-overrides.yaml
+│   ├── local-overrides.yaml
+│   └── worktree-index.md
 ├── pyproject.toml
 ├── README.md
 └── CLAUDE.md
@@ -235,7 +266,8 @@ Code boundary rules:
 - `eval/` owns benchmark and baseline evaluation logic.
 - `infra/` owns environment and execution configuration. Moving to a new cluster should mainly add `infra/envs/<cluster>.yaml`.
 - `docs/results/`, `docs/reports/`, and `docs/runs/` are the stable code-side evidence layer. Raw logs, checkpoints, tensorboard caches, wandb runs, and large outputs stay ignored or external.
-- `code-worktrees/` holds isolated code branches outside `code/`. Each worktree can have its own `.agent/worktree-status.md` and code-side evidence docs.
+- `docs/ops/current-status.md` and `docs/ops/decision-log.md` are useful code-repo operational memory, but they are not a cross-worktree registry.
+- `code/.agent/worktree-index.md` is the code component's cross-worktree rollup. `code-worktrees/` holds isolated code branches outside `code/`; each worktree can have its own `.agent/worktree-status.md` and code-side evidence docs.
 
 Primary skills in `code/`:
 
@@ -282,10 +314,11 @@ flowchart TD
         PI[project-init]
         LP[init-latex-project<br/>paper repo]
         CP[init-python-project<br/>code repo]
-        NW[new-workspace<br/>code-worktrees/]
+        NW[new-workspace<br/>code/paper worktrees]
         RPC[remote-project-control]
         PI --> LP
         PI --> CP
+        LP --> NW
         CP --> NW
         CP --> RPC
     end
@@ -388,10 +421,10 @@ Use these skills when starting the project control root, creating or connecting 
 
 | Skill | Lifecycle role |
 |---|---|
-| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, root `AGENTS.md`, and `code-worktrees/` policy |
+| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, root `AGENTS.md`, and code/paper worktree policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
-| **new-workspace** | Create a branch or code worktree, defaulting to `code-worktrees/` under the project control root when applicable |
+| **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
 | **remote-project-control** | Coordinate local editing, Git remote sync, and server execution on SSH/HPC environments |
 
 ### 3. Experiment Execution, Evidence Capture, and Research Updates
@@ -570,11 +603,11 @@ For the person designing the overall research project, repo structure, and colla
 | **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
 | **literature-review-sprint** | Establish the literature map, closest-work risk, baseline expectations, and open gap before method design |
 | **algorithm-design-planner** | Define the method design before implementation and experiment planning |
-| **project-init** | Create the project control root and connect paper, code, slides, memory, root docs, review, rebuttal, artifact, and code-worktree policy |
+| **project-init** | Create the project control root and connect paper, code, slides, memory, root docs, review, rebuttal, artifact, and code/paper worktree policy |
 | **init-latex-project** | Define the paper scaffold and venue template |
 | **init-python-project** | Define the code repo structure, experiment-entry architecture, and code-side evidence docs |
 | **research-slide-deck-builder** | Define the slides component behavior and keep it tied to the external `progress-slides` template |
-| **new-workspace** | Isolate new code directions, experiments, baselines, or rebuttal fixes with branches or code worktrees |
+| **new-workspace** | Isolate code directions or paper versions with branches and component worktrees |
 | **remote-project-control** | Establish local / Git remote / server execution conventions |
 
 ### Algorithm / Research Idea Designer
@@ -605,8 +638,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
 3. literature-review-sprint -> map canonical, closest, and recent work before locking project positioning
 4. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
-5. project-init       -> create the project control root, memory, root docs, component repos, and code-worktree policy
-6. new-workspace      -> isolate a code feature, experiment, baseline, debug task, or rebuttal fix
+5. project-init       -> create the project control root, memory, root docs, component repos, and code/paper worktree policy
+6. new-workspace      -> isolate a code feature, experiment, baseline, paper venue version, arXiv release, or camera-ready edit
 7. remote-project-control -> recover project memory and align local, Git remote, and server state
 8. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
 9. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
@@ -690,15 +723,16 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - A project control root where agents can coordinate independent `paper/`, `code/`, optional `slides/`, `reviewer/`, `rebuttal/`, and `artifact/` components
 - Root-level `PROJECT.md`, `AGENTS.md`, `memory/`, and `docs/` scaffolding for cross-component claim/evidence/risk/action management, project overviews, staged method designs, and cross-component experiment plans
-- A default code worktree policy using sibling `code-worktrees/` rather than nested worktrees inside `code/`
+- Default component worktree policies using sibling `code-worktrees/` for code branches and `paper-worktrees/` for paper versions
 - Clear separation between project-level memory, root project docs, component repos, code-side evidence docs, and raw experiment artifacts
 
 ## What `new-workspace` Provides
 
-- Branch and worktree creation for code features, experiments, baselines, debug tasks, and rebuttal fixes
-- Project-aware worktree placement under `<ProjectName>/code-worktrees/` when the repo is `<ProjectName>/code/`
-- Worktree-local evidence paths and `.agent/worktree-status.md` purpose/exit-condition memory
-- UV environment sync, IDE config copying, and optional shared-asset symlinks through `.worktree-links`
+- Branch and worktree creation for code features, experiments, baselines, debug tasks, paper venue versions, arXiv releases, and camera-ready paper versions
+- Project-aware code worktree placement under `<ProjectName>/code-worktrees/` when the repo is `<ProjectName>/code/`
+- Project-aware paper worktree placement under `<ProjectName>/paper-worktrees/` when the repo is `<ProjectName>/paper/`
+- Worktree-local `.agent/worktree-status.md` purpose, version policy, source visibility, cleanup requirements, and exit-condition memory
+- UV environment sync for code worktrees, IDE config copying, and optional shared-asset symlinks through `.worktree-links`
 
 ## What `remote-project-control` Provides
 

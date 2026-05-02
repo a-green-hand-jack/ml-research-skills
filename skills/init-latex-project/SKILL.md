@@ -110,7 +110,22 @@ For Overleaf/GitHub projects:
 - treat Overleaf's compile log and PDF preview as the compile source of truth
 - when compile errors appear in Overleaf, fix source locally and push again
 
-### 5. Print the script's output to the user
+### 5. Record paper version policy when inside a project root
+
+If this paper repo is part of a `project-init` layout, note that target-specific paper versions should usually be isolated as paper worktrees under sibling `paper-worktrees/`, not as copied folders inside `paper/`.
+
+Use paper worktrees for:
+
+- retargeting the same project to another conference template
+- preparing an arXiv/preprint release where LaTeX source may be public
+- finalizing a camera-ready version after acceptance
+- making paper-only rebuttal edits with a clear exit condition
+
+For arXiv or any public-source release, keep internal figure/table descriptions, experimental provenance notes, reviewer notes, TODOs, author-comment macros, private paths, and hidden comments out of the released `.tex` source. Store that descriptive/provenance material in `.agent/`, root `memory/`, or private project docs instead.
+
+For anonymous conference submissions, enforce venue anonymity and formatting mode. Do not assume source comments are safe if the venue requires source upload.
+
+### 6. Print the script's output to the user
 
 The script prints a file tree and venue-specific setup notes. Make sure the user sees these.
 

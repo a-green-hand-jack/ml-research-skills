@@ -7,14 +7,18 @@ components:
   - name: paper
     path: paper
     memory_path: paper/.agent
+    worktree_index_path: paper/.agent/worktree-index.md
+    worktree_root: paper-worktrees
     owns:
       - paper sections
       - claims in prose
       - figures and tables
       - venue writing decisions
+      - venue/arXiv/camera-ready paper worktrees
   - name: code
     path: code
     memory_path: code/.agent
+    worktree_index_path: code/.agent/worktree-index.md
     worktree_root: code-worktrees
     evidence_paths:
       results: code/docs/results
@@ -56,5 +60,8 @@ components:
       - release handoff
 
 worktrees:
-  root: code-worktrees
+  code_root: code-worktrees
+  paper_root: paper-worktrees
+  # Entry fields: id, component, branch, path, status, leaf_memory,
+  # component_index, linked_ids, exit_condition.
   entries: []

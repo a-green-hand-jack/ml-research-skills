@@ -18,6 +18,23 @@ If a local LaTeX compiler is missing, do not ask the user to install TeX unless 
 
 ---
 
+## 0.1 Paper Version Worktrees and Source Hygiene
+
+If this paper belongs to a project control root, paper versions may live in sibling worktrees under `../paper-worktrees/`.
+
+Use paper worktrees for:
+
+- different conference targets with different templates or style files
+- arXiv or preprint releases
+- camera-ready versions
+- paper-only rebuttal edits
+
+For public-source versions such as arXiv, do not leave internal notes in `.tex` files. Remove TODOs, reviewer notes, author comments, hidden comments, private paths, and internal figure/table descriptions before source release. Keep figure/table descriptions and provenance in `.agent/` or project memory, not in public LaTeX comments.
+
+For anonymous conference versions, enforce anonymity and venue format. Do not assume source comments are safe if the submission system asks for source upload.
+
+---
+
 ## 1. Top Priority: Use Macros from `macros.tex`
 
 > [!CAUTION]

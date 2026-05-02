@@ -34,6 +34,7 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 └── templates/
     ├── component/
     │   ├── component-status.md
+    │   ├── worktree-index.md
     │   └── worktree-status.md
     └── memory/
         ├── action-board.md
@@ -61,6 +62,9 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 - Every important claim should link to evidence, a paper location, and current risks.
 - Every reviewer or rebuttal risk should link to an action, a decision to accept the risk, or a reason it is out of scope.
 - Every worktree should have a purpose and an exit condition: merge, continue, park, or kill.
+- Paper version worktrees should also record target venue/release, submission mode, template/style differences, source visibility, cleanup requirements, and compile workflow.
+- Component-local memory is a rollup, not a replacement for project memory. `code/docs/ops/current-status.md` and `code/docs/ops/decision-log.md` can record code operational state, but cross-component and cross-worktree coordination should still be visible in root `memory/` and component `.agent/` indexes.
+- Cross-worktree state has three levels: global registry in `memory/component-index.yaml`, component rollup in `<component>/.agent/worktree-index.md`, and leaf status in each `<component-worktree>/.agent/worktree-status.md`.
 - Mark certainty: `observed`, `user-stated`, `inferred`, `stale`, or `needs-verification`.
 - Write memory at the most specific layer that will help the next session.
 
@@ -83,7 +87,9 @@ Then inspect likely memory files:
 - `memory/risk-board.md`
 - `memory/action-board.md`
 - `paper/.agent/`
+- `paper/.agent/worktree-index.md`
 - `code/.agent/`
+- `code/.agent/worktree-index.md`
 - `slides/.agent/`
 - `reviewer/.agent/`
 - `rebuttal/.agent/`
@@ -103,7 +109,8 @@ If the user asks to initialize memory, or if memory is missing and the task depe
 - `templates/memory/risk-board.md` -> `memory/risk-board.md`
 - `templates/memory/action-board.md` -> `memory/action-board.md`
 - `templates/component/component-status.md` -> `<component>/.agent/<component>-status.md`
-- `templates/component/worktree-status.md` -> `<code-worktree>/.agent/worktree-status.md` when a worktree needs its own memory
+- `templates/component/worktree-index.md` -> `<component>/.agent/worktree-index.md` when the component uses worktrees
+- `templates/component/worktree-status.md` -> `<component-worktree>/.agent/worktree-status.md` when a code or paper worktree needs its own memory
 
 Ask only for fields that cannot be inferred safely:
 
@@ -145,7 +152,9 @@ Use this routing:
 - reviewer, novelty, baseline, writing, execution, and rebuttal risks -> `memory/risk-board.md`
 - concrete next tasks and owners -> `memory/action-board.md`
 - component-specific state -> `<component>/.agent/<component>-status.md`
-- code worktree purpose and exit condition -> `<worktree>/.agent/worktree-status.md`
+- global worktree registry and root paths -> `memory/component-index.yaml`
+- component-local cross-worktree rollup -> `<component>/.agent/worktree-index.md`
+- code worktree purpose, or paper version policy and exit condition -> `<worktree>/.agent/worktree-status.md`
 
 When in doubt, write a short pointer at the project layer and details in the component layer.
 
@@ -184,6 +193,7 @@ Check for:
 - reviewer risks without actions
 - rebuttal promises without paper/code follow-up
 - worktrees without exit condition
+- worktrees missing from the global registry or component worktree index
 - stale results still used in writing
 - slides that contradict paper status
 - volatile state recorded as stable truth
@@ -199,7 +209,8 @@ Before ending a substantial session, update:
 - `memory/current-status.md`
 - any changed claim/evidence/risk/action board
 - relevant component status file
-- worktree status file if code branch direction changed
+- worktree status file if a code branch direction or paper version policy changed
+- component worktree index and `memory/component-index.yaml` if worktrees were added, closed, parked, merged, or killed
 - `memory/decision-log.md` if a durable decision was made
 
 Closeout should answer: what changed, what is trustworthy, what is stale, what should the next agent verify, and what is the next concrete action.
@@ -213,5 +224,6 @@ Before finalizing:
 - new evidence links to a claim, component, and source path
 - new risks link to actions or accepted-risk decisions
 - worktree memory has a purpose and exit condition
+- active worktrees appear in both the root registry and the relevant component worktree index
 - current-status gives the next session a clear starting point
 - no private local path or credential is written into shared memory unless the user explicitly wants it

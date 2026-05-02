@@ -69,12 +69,14 @@ Pair this skill with:
 - The main paper, appendix, supplement, metadata, and code links must tell the same story.
 - The final output should leave a clear handoff to release, artifact evaluation, tagging, and archival memory.
 - Do not assume local TeX Live or MacTeX exists. If the project compiles through Overleaf linked to GitHub, use local static checks, push changes, and treat Overleaf's compile log/PDF as the final compile evidence.
+- Prefer a dedicated paper worktree under `paper-worktrees/` for camera-ready finalization when the main paper branch must preserve the submitted or arXiv state.
 
 ## Step 1 - Recover Acceptance Context
 
 Collect:
 
 - paper directory and main LaTeX file
+- whether the final version lives in `paper/` or a `paper-worktrees/` camera-ready worktree
 - target venue and camera-ready deadline
 - acceptance email, meta-review, reviews, discussion, and author responses
 - rebuttal promise list, if available
@@ -167,6 +169,7 @@ Check:
 - bibliography and metadata
 - labels, references, figures, tables, algorithms, equations, and appendices
 - stale TODOs, comments, draft macros, anonymization text, or hidden placeholders
+- public or publisher-visible source hygiene: no internal figure/table descriptions, reviewer notes, private paths, or draft-only comments in `.tex` files
 - final title, abstract, author metadata, and PDF filename
 - final link reachability if links are included
 

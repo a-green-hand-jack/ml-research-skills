@@ -1,6 +1,6 @@
 ---
 name: project-init
-description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, root project docs, root-level agent guidance, code-owned worktree policy, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
+description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, root project docs, root-level agent guidance, code and paper worktree policies, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
@@ -16,7 +16,7 @@ Pair this skill with:
 - `init-latex-project` to create the paper repo
 - `init-python-project` to create the code repo
 - `research-slide-deck-builder` to create or maintain the optional slides repo using the external `progress-slides` template
-- `new-workspace` to create code-owned branches or worktrees
+- `new-workspace` to create code experiment worktrees or paper version worktrees
 - `remote-project-control` when code runs on SSH/HPC servers
 - `safe-git-ops` before non-trivial Git work
 
@@ -40,6 +40,7 @@ Default shape:
 ├── paper/                 # independent LaTeX git repo
 ├── code/                  # independent Python/ML git repo
 ├── code-worktrees/         # sibling worktree root for code repo branches
+├── paper-worktrees/        # sibling worktree root for paper venue/arXiv/camera-ready versions
 ├── slides/                # optional independent git repo
 ├── reviewer/              # reviewer simulation state
 ├── rebuttal/              # real review and response state
@@ -71,6 +72,8 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 - `paper/`, `code/`, and `slides/` are component repos, not mere folders.
 - The code component owns algorithm implementation, experiment execution, run records, result reports, server execution state, and code worktrees.
 - Code worktrees should not be nested inside `code/` by default. Use the sibling root `code-worktrees/` so Git, IDEs, search tools, and agents do not confuse worktrees with normal source files.
+- The paper component owns paper source, venue templates, submission modes, arXiv/public-source cleanup, camera-ready revisions, and paper worktrees.
+- Paper worktrees should not be nested inside `paper/` by default. Use the sibling root `paper-worktrees/` for venue retargeting, arXiv releases, rebuttal paper edits, and camera-ready branches.
 - Project memory stores durable cross-component state; root `docs/` stores project-level design and planning artifacts; code docs store code-side implementation, run, and result details.
 - Root Git is optional. If enabled, do not accidentally commit nested component repos unless the user explicitly wants submodules.
 
@@ -91,8 +94,9 @@ Ask for these fields in one message:
    - component remotes for paper/code/slides, if available
    - whether component repos should be submodules or ignored by root Git
    - whether GitHub/GitLab repos should be created now, and if so whether `gh auth status` is valid
-6. Code worktree policy:
+6. Worktree policy:
    - default sibling root: `<ProjectName>/code-worktrees/`
+   - default paper sibling root: `<ProjectName>/paper-worktrees/`
    - server worktree root, if different
    - branch naming conventions, if any
 
@@ -114,7 +118,8 @@ Create:
 ├── reviewer/.agent/
 ├── rebuttal/.agent/
 ├── artifact/.agent/
-└── code-worktrees/
+├── code-worktrees/
+└── paper-worktrees/
 ```
 
 Create optional `slides/` only when the user wants a slides component now.
@@ -126,6 +131,7 @@ If root Git is enabled, initialize it at `<ProjectName>/` and add a root `.gitig
 /code/
 /slides/
 /code-worktrees/
+/paper-worktrees/
 ```
 
 If the user wants submodules, use submodule commands deliberately rather than relying on accidental nested Git behavior.
@@ -152,6 +158,7 @@ components:
   code:
     path: code
     worktree_root: code-worktrees
+    worktree_index_path: code/.agent/worktree-index.md
     owns:
       - algorithm implementation
       - experiment execution
@@ -159,9 +166,12 @@ components:
       - server execution state
   paper:
     path: paper
+    worktree_root: paper-worktrees
+    worktree_index_path: paper/.agent/worktree-index.md
     owns:
       - paper claims and narrative
       - figures and tables selected for submission
+      - venue/arXiv/camera-ready versions
   slides:
     path: slides
     status: optional
@@ -184,10 +194,15 @@ It must state:
 - agents start from `<ProjectName>/` unless a task is explicitly component-local
 - use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component repos
 - code worktrees live under `code-worktrees/` by default
+- paper worktrees live under `paper-worktrees/` by default for venue, arXiv, and camera-ready versions
 - root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
 - `code/docs/` is for code-side result summaries, run records, implementation reports, and server execution notes
 - experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
 - raw outputs, logs, checkpoints, and wandb/tensorboard caches are not project-root artifacts
+- paper version notes live in the relevant paper worktree `.agent/worktree-status.md` and durable decisions live in root `memory/`
+- cross-worktree rollups live in `code/.agent/worktree-index.md`, `paper/.agent/worktree-index.md`, and root `memory/component-index.yaml`
+- arXiv/public-source paper worktrees must remove TODOs, internal comments, hidden figure/table descriptions, reviewer-response notes, and author-comment macros before source release
+- anonymous conference paper worktrees must enforce venue anonymity and formatting rules
 - project memory gets durable claim/evidence/risk/action summaries
 - use `update-docs` during code changes, not only at release time
 - use `add-git-tag` for stable code, paper, artifact, or root milestones
@@ -240,15 +255,36 @@ git clone https://github.com/a-green-hand-jack/progress-slides.git <ProjectName>
 
 After cloning, inspect `slides/README.md`, `slides/package.json`, and the existing slide source files before editing. Use `research-slide-deck-builder` for deck structure, template-compatible source writing, preview/build commands, and `slides/.agent/` story, audience, source-evidence, and stale-evidence notes.
 
-## Step 6 - Establish Code Worktree Policy
+## Step 6 - Establish Worktree Policy
 
-Default policy:
+Default code policy:
 
 ```text
 main code repo:       <ProjectName>/code/
 code worktree root:   <ProjectName>/code-worktrees/
 worktree path:        <ProjectName>/code-worktrees/<branch-type>-<branch-name>/
 ```
+
+Default paper policy:
+
+```text
+main paper repo:      <ProjectName>/paper/
+paper worktree root:  <ProjectName>/paper-worktrees/
+worktree path:        <ProjectName>/paper-worktrees/<version-type>-<venue-or-name>/
+```
+
+Use paper worktrees for:
+
+- different conference targets with different templates or style files
+- arXiv/preprint releases where LaTeX source may become public
+- camera-ready versions after acceptance
+- paper-only rebuttal edits that should not disturb the main submission branch
+
+Paper version hygiene:
+
+- arXiv/public source: remove TODOs, internal figure/table descriptions in TeX comments, reviewer notes, hidden comments, author-comment macros, and anonymization leftovers
+- anonymous conference: enforce anonymity, venue mode, and formatting; do not assume source comments are safe if source is uploaded
+- camera-ready: de-anonymize, add acknowledgements/funding, close rebuttal promises, and remove draft-only notes
 
 Record this in:
 
@@ -279,6 +315,7 @@ Agents should start from this directory for cross-component work. Component repo
 | paper | `paper/` | independent repo | LaTeX paper and paper-facing claims |
 | code | `code/` | independent repo | implementation, experiments, code-side evidence |
 | code worktrees | `code-worktrees/` | linked worktrees of code repo | isolated experiments, baselines, rebuttal fixes |
+| paper worktrees | `paper-worktrees/` | linked worktrees of paper repo | venue submissions, arXiv releases, camera-ready versions |
 | slides | `slides/` | optional independent repo | talks and advisor/lab presentations |
 | reviewer | `reviewer/` | root state dir | simulated reviews and pre-submission risk |
 | rebuttal | `rebuttal/` | root state dir | real reviews, responses, promised revisions |
@@ -314,10 +351,13 @@ Agents should start from this directory for cross-component work. Component repo
 
 ## Worktree Policy
 
-- default root: `code-worktrees/`
+- default code root: `code-worktrees/`
+- default paper root: `paper-worktrees/`
 - naming: `<branch-type>-<branch-name>`
-- every research worktree needs `.agent/worktree-status.md`
+- every research or paper-version worktree needs `.agent/worktree-status.md`
 - exit condition: merge, continue, park, or kill
+- paper version worktrees must record target venue/release, submission mode, template/style differences, source visibility, cleanup requirements, and compile workflow
+- component worktree indexes live at `code/.agent/worktree-index.md` and `paper/.agent/worktree-index.md`
 
 ## Memory Policy
 
@@ -344,10 +384,12 @@ Components:
 
 Code worktree root:
   <ProjectName>/code-worktrees/
+Paper worktree root:
+  <ProjectName>/paper-worktrees/
 
 Next skills:
   research-project-memory -> inspect or update project state
-  new-workspace -> create a code branch/worktree
+  new-workspace -> create a code branch/worktree or paper version worktree
   remote-project-control -> configure SSH/HPC execution for code
   experiment-design-planner -> plan first experiment matrix
   research-slide-deck-builder -> create progress/advisor/lab slides with progress-slides
@@ -363,6 +405,7 @@ Before finishing:
 - root and component Git remotes have been inspected separately when GitHub/GitLab setup is involved
 - `gh auth status` or equivalent hosting CLI auth has been checked before attempting repo creation
 - `code-worktrees/` policy is recorded
+- `paper-worktrees/` policy is recorded
 - there is no top-level `experiments/` directory unless the user explicitly requested it
 - root `docs/` has a clear project-level role and is not confused with `code/docs/`
 - code-side evidence paths are inside `code/docs/`

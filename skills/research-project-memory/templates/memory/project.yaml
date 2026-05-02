@@ -19,10 +19,13 @@ components:
   paper:
     path: paper
     memory_path: paper/.agent
+    worktree_index_path: paper/.agent/worktree-index.md
+    worktree_root: paper-worktrees
     status: planned
   code:
     path: code
     memory_path: code/.agent
+    worktree_index_path: code/.agent/worktree-index.md
     worktree_root: code-worktrees
     evidence_paths:
       results: code/docs/results

@@ -14,7 +14,9 @@ Write the smallest durable update that will help the next session. Do not turn m
 | A reviewer, novelty, baseline, mechanism, writing, execution, or rebuttal risk appears | `memory/risk-board.md` |
 | A concrete task needs to be tracked | `memory/action-board.md` |
 | Paper section status, writing decision, figure location | `paper/.agent/` |
+| Paper version target, template differences, source visibility, cleanup policy, compile workflow | relevant paper worktree `.agent/worktree-status.md` plus durable decisions in `memory/decision-log.md` |
 | Code architecture, implementation status, experiment entry point, remote execution pointer | `code/.agent/` or relevant code worktree `.agent/` |
+| Worktree created, merged, parked, killed, or found stale | `memory/component-index.yaml`, `<component>/.agent/worktree-index.md`, and the relevant worktree `.agent/worktree-status.md` |
 | Code-side result summaries, experiment reports, and run pointers | `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, plus project evidence board summaries |
 | Slide story, audience feedback, outdated slide evidence | `slides/.agent/` |
 | Simulated reviewer findings | `reviewer/.agent/` plus project risk board |

@@ -16,6 +16,13 @@
 - Linked risks:
 - Active actions:
 
+## Memory Surfaces
+
+- Component status file:
+- Worktree index:
+- Repo-native operational memory, if any:
+- Evidence/report/run paths, if any:
+
 ## Local Decisions
 
 - Record component-specific decisions that do not belong in the project decision log.

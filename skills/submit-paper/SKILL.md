@@ -11,6 +11,8 @@ Run a systematic readiness check on a LaTeX paper project before submitting to a
 
 Do not assume the local machine has TeX Live, MacTeX, or another LaTeX distribution installed. Many macOS research workflows edit locally, sync through GitHub, and compile on Overleaf. If `pdflatex`, `xelatex`, or `lualatex` is missing, do not ask the user to install TeX unless they explicitly want local compilation. Use static checks locally and route compile/page-count verification through the GitHub-linked Overleaf project.
 
+Paper versions may live in separate worktrees. If the project has `paper-worktrees/`, prefer checking the specific version worktree for the target venue, arXiv release, or camera-ready submission rather than mutating the main `paper/` branch.
+
 ---
 
 ## Step 1 — Locate the LaTeX project
@@ -31,6 +33,7 @@ Determine `$PAPER_DIR` — the directory containing `main.tex`.
 
 If `$ARGUMENTS` provides a path, use it directly.
 If in a `project-init` project structure, check for `paper/` sibling.
+If the requested target is a venue retarget, arXiv release, or camera-ready version, also check for a matching `paper-worktrees/` sibling.
 
 ---
 
@@ -41,6 +44,7 @@ Ask the user **in a single message**:
 1. **Submission type**: Initial submission (anonymous) / Camera-ready / arXiv preprint?
 2. **Deadline**: When is the deadline? (helps prioritize what to fix)
 3. **Compile workflow**: Is this paper compiled locally or in Overleaf through GitHub? If unknown, assume Overleaf/GitHub for macOS users.
+4. **Version workspace**: Is this the main `paper/` repo or a `paper-worktrees/` version for a specific venue/arXiv/camera-ready target?
 
 If venue can be inferred from `venue_preamble.tex` (Step 3 will read it), skip asking.
 
@@ -116,7 +120,29 @@ Ask "Should I update `venue_preamble.tex` to `[mode]` mode?" — then edit if co
 
 ---
 
-## Step 6 — Report findings and action plan
+## Step 6 — Check source visibility and cleanup
+
+Different paper versions have different source hygiene requirements.
+
+| Version | Source visibility | Required cleanup |
+|---|---|---|
+| Anonymous conference | Usually private to submission system, but may be uploaded | Enforce anonymization, remove author-identifying text, check acknowledgements and self-citations |
+| arXiv / preprint | Public LaTeX source may be visible | Remove TODOs, author comments, reviewer notes, hidden comments, internal figure/table descriptions, anonymization leftovers, and non-public paths |
+| Camera-ready | Publisher/source package may be archived | De-anonymize, add acknowledgements/funding, remove draft-only notes, close rebuttal promises |
+
+For arXiv/public-source worktrees, do not leave internal audit artifacts in `.tex` comments. This includes figure descriptions, table descriptions, provenance notes, reviewer-response notes, TODOs, and author comment macros. Keep those in `paper/.agent/`, root `memory/`, or private docs, not in the public source package.
+
+Check for risky source text:
+
+```bash
+grep -RIn "\\\\todo\\|\\\\fixme\\|TODO\\|FIXME\\|\\\\jieke\\|\\\\jerry\\|\\\\wwm\\|Reviewer\\|internal\\|description\\|provenance" "$PAPER_DIR" --include="*.tex" || true
+```
+
+Use judgment before deleting. Some words such as "description" may be legitimate paper prose. Remove or rewrite only draft/internal material.
+
+---
+
+## Step 7 — Report findings and action plan
 
 Present results in a structured format:
 
@@ -125,6 +151,8 @@ Mention the local/Overleaf compile state explicitly:
 - local static-check result
 - Overleaf/GitHub compile status if known, or "pending Overleaf compile" if the user must verify it there
 - whether local LaTeX was skipped because no compiler exists
+- version workspace status: main paper repo or specific paper worktree
+- source hygiene status for anonymous, arXiv, or camera-ready mode
 
 ```
 ## Submission Readiness: <venue> — <mode>
@@ -147,13 +175,14 @@ For each failure or warning, provide the **specific file and line** and the **ex
 
 ---
 
-## Step 7 — Offer targeted fixes
+## Step 8 — Offer targeted fixes
 
 For common failures, offer to fix them immediately:
 
 - **Drafting artifacts**: Show the list; ask if you should remove them.
 - **Missing mandatory sections**: Offer to create a placeholder that the user can fill in.
 - **Wrong submission mode**: Offer to edit `venue_preamble.tex`.
+- **Source hygiene issues**: For arXiv/public source, offer to remove internal comments, figure/table descriptions, reviewer notes, TODOs, and author comment macros from `.tex` files after showing the diff scope.
 - **Empty bib file**: Remind user to add references to `bib/refs.bib`.
 
 Do **not** auto-fix without confirmation.
@@ -255,6 +284,7 @@ arXiv has different packaging requirements from venue submission:
 - Flatten `\input{...}` if using many files (some arXiv setups require a single `.tex`)
 - Switch to `[preprint]` mode (removes venue branding / anonymization)
 - Include all `.sty`, `.bst`, `.cls` files in the zip
+- Remove internal comments, TODOs, author comment macros, reviewer notes, private paths, and figure/table descriptions from public source
 - Remove any `\usepackage{times}` if it causes font issues on arXiv
 - arXiv compiles with an older TeX Live — check for package compatibility
 
