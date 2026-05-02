@@ -2,6 +2,14 @@
 
 Use this skill's memory system to recover project context quickly across many coding-agent sessions without confusing long-lived facts with short-lived runtime state.
 
+## Terminology
+
+- `local`: the local development machine, usually the user's Mac.
+- `Git remote`: the Git hosting remote such as GitHub or GitLab, usually named `origin`.
+- `server`: the SSH/HPC/RunAI execution environment, such as `quest`, `ibex-vscode`, or `epfl-haas`.
+
+Use `server` for execution machines in new prose. Some legacy file and field names contain `remote` for compatibility; in those names, `remote_repo_root` means the repo root on the execution server, not the GitHub/GitLab remote.
+
 ## The Four Layers
 
 ### 1. Stable Shared Memory
@@ -13,8 +21,8 @@ This is the source of truth for facts that should survive many sessions and can 
 - project name
 - local repo root
 - default git remote and branch
-- remote server names and SSH aliases
-- remote repo roots
+- server names and SSH aliases
+- server repo roots
 - scheduler type and default launch modes
 - environment activation command
 - shared data, checkpoint, scratch, and logs roots
@@ -87,8 +95,8 @@ For narrative context, use:
 Never trust these purely from memory:
 
 - current local dirty state
-- current remote dirty state
-- remote branch or commit
+- current server-side dirty state
+- server-side branch or commit
 - active or queued jobs
 - whether a checkpoint exists
 - whether a log file exists

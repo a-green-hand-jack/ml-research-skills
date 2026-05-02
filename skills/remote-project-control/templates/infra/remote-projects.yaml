@@ -1,5 +1,10 @@
-# Stable shared memory for remote project control.
+# Stable shared memory for server-side project control.
 # Commit this file when the project mapping or workflow policy changes.
+#
+# Terminology:
+# - local: the user's local development machine
+# - git remote: GitHub/GitLab remote such as origin
+# - server: SSH/HPC/RunAI execution environment
 
 project:
   name: {{PROJECT_NAME}}
@@ -13,6 +18,8 @@ git_sync:
 servers:
   - name: {{DEFAULT_SERVER_NAME}}
     ssh_alias: {{DEFAULT_SSH_ALIAS}}
+    # Backward-compatible field name: this is the repo root on the execution server,
+    # not the GitHub/GitLab git remote.
     remote_repo_root: {{DEFAULT_REMOTE_REPO_ROOT}}
     scheduler: {{DEFAULT_SCHEDULER}}
     launch_modes:

@@ -1,14 +1,22 @@
 ---
 name: remote-project-control
-description: Control a remote SSH server project from a local git repo with persistent project memory. Use when the user develops locally but runs remotely, wants the agent to understand remote repo mappings across sessions, needs safe local/remote git sync via GitHub, wants to inspect remote state, submit jobs, start interactive sessions, monitor logs, or recover project context at the start of a new coding session.
+description: Control a server-side SSH/HPC/RunAI project from a local development repo with persistent project memory. Use when the user develops locally, syncs through a Git remote such as GitHub or GitLab, runs on a server such as quest, ibex-vscode, or epfl-haas, wants safe local/git-remote/server sync, wants to inspect server state, submit jobs, start interactive sessions, monitor logs, or recover project context at the start of a new coding session.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
 # Remote Project Control
 
-Help the user operate a project whose code is edited locally but actually runs on one or more remote servers over SSH. Establish project memory first, then coordinate safe local and remote actions.
+Help the user operate a project whose code is edited locally but actually runs on one or more servers over SSH. Establish project memory first, then coordinate safe local, Git remote, and server actions.
 
-Pair this skill with `research-project-memory` when remote execution state should be linked to project-level experiments, evidence, actions, or worktree status.
+Terminology used by this skill:
+
+- `local`: the user's local development machine, usually the Mac where the agent is running
+- `remote` or `git remote`: the Git hosting remote such as GitHub or GitLab, e.g. `origin`
+- `server`: an execution machine or cluster reached by SSH, such as `quest`, `ibex-vscode`, or `epfl-haas`
+
+The skill name is historical. In project memory and user-facing summaries, prefer `server` for SSH/HPC/RunAI execution environments and reserve `remote` for Git remotes unless quoting an existing field name.
+
+Pair this skill with `research-project-memory` when server execution state should be linked to project-level experiments, evidence, actions, or worktree status.
 
 ## Skill Directory Layout
 
@@ -31,21 +39,21 @@ Pair this skill with `research-project-memory` when remote execution state shoul
 - Always read `references/memory-model.md`
 - Read `references/operations.md` when the user wants to inspect, sync, run, monitor, or fetch artifacts
 - Use `templates/` as the source of truth when bootstrapping memory files into the target project
-- If the repo has `memory/`, summarize verified remote execution facts into `research-project-memory` boards without duplicating the remote manifest.
+- If the repo has `memory/`, summarize verified server execution facts into `research-project-memory` boards without duplicating the server manifest.
 
 ## Core Principles
 
 - Memory is bootstrap context, not execution truth
 - Stable shared facts belong in the repo; private machine-specific facts belong in a local override file
 - Verify volatile state before acting on it
-- Prefer GitHub or the configured git remote for code sync; do not improvise ad hoc source copying unless the project explicitly uses it
-- Never use destructive remote git commands without explicit user approval
+- Prefer GitHub/GitLab or the configured Git remote for local-to-server code sync; do not improvise ad hoc source copying unless the project explicitly uses it
+- Never use destructive server-side git commands without explicit user approval
 
 ## Memory Files
 
 This skill manages four project-memory files with distinct roles:
 
-- `infra/remote-projects.yaml`: stable shared facts such as local/remote repo mapping, scheduler type, launch modes, key paths, and safety policies
+- `infra/remote-projects.yaml`: stable shared facts such as local repo path, Git remote/branch, server repo mapping, scheduler type, launch modes, key paths, and safety policies
 - `docs/ops/current-status.md`: working memory for the current phase of the project, including active branch, focus, latest known job, open issues, and next step
 - `docs/ops/decision-log.md`: durable explanations for why stable workflow decisions were made
 - `.agent/local-overrides.yaml`: optional private overrides for one user's machine, ssh aliases, usernames, and private paths; this file should usually be gitignored
@@ -73,7 +81,7 @@ git rev-parse --show-toplevel 2>/dev/null || pwd
 - local repo root
 - default server name
 - ssh alias
-- remote repo root
+- server repo root
 - scheduler type
 - default launch mode
 - environment activation command
@@ -88,7 +96,8 @@ Include, when known:
 
 - project name
 - local repo root, current branch, short commit, and whether the tree is dirty
-- default remote server and remote repo root
+- default server and server repo root
+- Git remote name and branch used for sync
 - scheduler type and default launch mode
 - environment activation command
 - key data, checkpoint, scratch, and logs roots
@@ -110,23 +119,23 @@ git branch --show-current
 git status --short
 ```
 
-For the chosen remote server, verify the remote repo and git state using the configured `ssh_alias` and `remote_repo_root`:
+For the chosen server, verify the server-side repo and git state using the configured `ssh_alias` and `remote_repo_root` or `server_repo_root`:
 
 ```bash
 ssh <ssh-alias> "cd <remote-repo-root> && pwd && git branch --show-current && git rev-parse --short HEAD && git status --short"
 ```
 
-If the request involves job submission or monitoring, also verify the scheduler tool and relevant log or output paths on the remote host.
+If the request involves job submission or monitoring, also verify the scheduler tool and relevant log or output paths on the server.
 
 ## Step 4 — Classify the Request and Execute
 
 Choose one of the following flows and follow the detailed guidance in `references/operations.md`:
 
 - `bootstrap`: create or repair the memory files from templates and fill the minimum required fields
-- `inspect`: compare local and remote git state, verify paths, env activation, scheduler availability, and summarize the current situation
-- `sync-code`: prepare local commits, push through the configured git remote, and update the remote repo with non-destructive fast-forward pulls only
-- `run-job`: use the remote context to submit a job safely; if a new reproducible job script is needed, use `run-experiment` after this skill has established the environment
-- `interactive-session`: prepare the correct `salloc`, `srun`, or equivalent command and run subsequent commands from the remote repo with the configured environment activation
+- `inspect`: compare local and server git state, verify paths, env activation, scheduler availability, and summarize the current situation
+- `sync-code`: prepare local commits, push through the configured Git remote, and update the server repo with non-destructive fast-forward pulls only
+- `run-job`: use the server context to submit a job safely; if a new reproducible job script is needed, use `run-experiment` after this skill has established the environment
+- `interactive-session`: prepare the correct `salloc`, `srun`, or equivalent command and run subsequent commands from the server repo with the configured environment activation
 - `monitor`: inspect queue state and tail logs from the configured log roots
 - `artifacts`: locate remote checkpoints, outputs, and logs; do not bulk-transfer large data unless the user explicitly asks
 - `closeout`: update project memory at the end of a session
@@ -138,7 +147,7 @@ If the runtime cannot execute SSH commands directly, still use this skill: gener
 When new information becomes trustworthy, persist it to the appropriate file:
 
 - stable mapping and policy changes -> `infra/remote-projects.yaml`
-- current branch, latest known job, current focus, blockers, and next step -> `docs/ops/current-status.md`
+- current branch, latest known server job, current focus, blockers, and next step -> `docs/ops/current-status.md`
 - durable workflow rationale -> `docs/ops/decision-log.md`
 - user-specific ssh aliases, usernames, and private paths -> `.agent/local-overrides.yaml`
 
@@ -146,8 +155,8 @@ If the repo also uses `research-project-memory`, write only cross-project pointe
 
 - `memory/evidence-board.md`: verified job/run pointer for linked `EXP-###`
 - `memory/action-board.md`: monitor, fetch-artifact, rerun, or report actions
-- `memory/current-status.md`: latest verified remote execution summary and next verification step
-- worktree `.agent/worktree-status.md`: remote run status when tied to a branch/worktree purpose
+- `memory/current-status.md`: latest verified server execution summary and next verification step
+- worktree `.agent/worktree-status.md`: server run status when tied to a branch/worktree purpose
 
 Do not write volatile scheduler output or one-off shell command results into the stable manifest.
 
@@ -157,7 +166,7 @@ Before finishing, update `docs/ops/current-status.md` whenever the session mater
 
 - branch or commit the user should resume from
 - what was changed locally
-- what was synced to the remote repo
+- what was pushed to the Git remote and pulled into the server repo
 - latest known submitted or running job
 - log or output paths worth checking next
 - the next concrete action for the next session

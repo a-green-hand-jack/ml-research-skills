@@ -13,6 +13,14 @@ Generates a **reproducible job script** in `jobs/` that is committed alongside t
 
 Pair this skill with `research-project-memory` when a launched job should be linked to a planned experiment, evidence item, worktree, or project action.
 
+Terminology:
+
+- `local`: the machine where the agent is running, usually the user's Mac
+- `Git remote`: GitHub/GitLab remote used for code sync, such as `origin`
+- `server`: SSH/HPC/RunAI execution environment such as `quest`, `ibex-vscode`, or `epfl-haas`
+
+When launching on SLURM or RunAI, call it a server run rather than a remote run unless referring to the Git remote.
+
 ## Skill Directory Layout
 
 ```
@@ -161,7 +169,7 @@ Print the exact command(s) to submit, tailored to the environment:
 # If you're already on the login node:
 sbatch jobs/<job-name>.sh
 
-# If submitting from your laptop (requires ssh access):
+# If submitting from your local machine to a server (requires ssh access):
 scp jobs/<job-name>.sh <ssh-alias>:<project-root>/jobs/
 ssh <ssh-alias> "cd <project-root> && mkdir -p outputs/logs/<job-name> <output-dir> jobs && sbatch jobs/<job-name>.sh"
 
@@ -198,7 +206,7 @@ nohup bash jobs/<job-name>-local.sh &
 Ask: **"Want me to run the submit command now?"**
 
 - If yes and local: run it directly.
-- If yes and remote: run the `scp` + `ssh sbatch` command (requires ssh key auth to be set up).
+- If yes and server: run the `scp` + `ssh sbatch` command (requires ssh key auth to be set up).
 - If no: remind the user that the script is saved in `jobs/` and ready to submit.
 
 ### 7. Offer to add to jobs index (optional)

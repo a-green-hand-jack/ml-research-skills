@@ -63,7 +63,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
-| `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows for research repos |
+| `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, and optional compile checks |
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
@@ -201,7 +201,7 @@ Use these skills when starting the project control root, creating or connecting 
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or code worktree, defaulting to `code-worktrees/` under the project control root when applicable |
-| **remote-project-control** | Coordinate local editing with remote execution on SSH/HPC environments |
+| **remote-project-control** | Coordinate local editing, Git remote sync, and server execution on SSH/HPC environments |
 
 ### 3. Experiment Execution, Evidence Capture, and Research Updates
 
@@ -288,7 +288,7 @@ For the person running experiments, collecting evidence, and making results repr
 | **advisor-update-writer** | Summarize experiment progress, blockers, and decision requests for advisors or collaborators |
 | **figure-results-review** | Audit plots, tables, captions, and visual style before they become paper, slide, or advisor-facing evidence |
 | **project-sync** | Move experiment findings into the paper repo's experiment log |
-| **remote-project-control** | Keep local code and remote execution state aligned |
+| **remote-project-control** | Keep local code, Git remote sync, and server execution state aligned |
 
 ### Paper Writer
 
@@ -376,7 +376,7 @@ For the person designing the overall research project, repo structure, and colla
 | **init-latex-project** | Define the paper scaffold and venue template |
 | **init-python-project** | Define the code repo structure, experiment-entry architecture, and code-side evidence docs |
 | **new-workspace** | Isolate new code directions, experiments, baselines, or rebuttal fixes with branches or code worktrees |
-| **remote-project-control** | Establish local/remote execution conventions |
+| **remote-project-control** | Establish local / Git remote / server execution conventions |
 
 ### Algorithm / Research Idea Designer
 
@@ -407,7 +407,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 4. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
 5. project-init       -> create the project control root, memory, root docs, component repos, and code-worktree policy
 6. new-workspace      -> isolate a code feature, experiment, baseline, debug task, or rebuttal fix
-7. remote-project-control -> recover project memory and align local vs remote state
+7. remote-project-control -> recover project memory and align local, Git remote, and server state
 8. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
 9. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
 10. run-experiment     -> launch locally or on SLURM / RunAI
@@ -500,8 +500,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 ## What `remote-project-control` Provides
 
-- A repo-native memory model for projects developed locally but executed remotely over SSH
-- Shared and private memory files for server mappings, working status, and local overrides
+- A repo-native memory model for projects developed locally, synced through Git remotes such as GitHub/GitLab, and executed on SSH/HPC/RunAI servers
+- Shared and private memory files for Git remote mappings, server mappings, working status, and local overrides
 - Safe orchestration for inspect, sync, remote job submission, monitoring, and artifact lookup
 - A clean handoff layer between project memory and `run-experiment`
 

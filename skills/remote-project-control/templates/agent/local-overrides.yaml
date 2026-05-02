@@ -1,11 +1,16 @@
-# Private machine-specific overrides for remote project control.
+# Private machine-specific overrides for server execution control.
 # This file usually belongs at <project-root>/.agent/local-overrides.yaml
 # and should often be gitignored.
+#
+# local = local development machine
+# git remote = GitHub/GitLab remote such as origin
+# server = SSH/HPC/RunAI execution environment
 
 servers:
   - name: {{DEFAULT_SERVER_NAME}}
     ssh_alias: {{DEFAULT_SSH_ALIAS}}
     username: your-user
+    # Backward-compatible field name: this is the repo root on the execution server.
     remote_repo_root: {{DEFAULT_REMOTE_REPO_ROOT}}
     env_activation: {{DEFAULT_ENV_ACTIVATION}}
     scratch_root: /private/scratch/path

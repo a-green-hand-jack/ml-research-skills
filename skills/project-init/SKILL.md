@@ -68,7 +68,7 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 
 - `<ProjectName>/` is the agent control root.
 - `paper/`, `code/`, and `slides/` are component repos, not mere folders.
-- The code component owns algorithm implementation, experiment execution, run records, result reports, remote execution state, and code worktrees.
+- The code component owns algorithm implementation, experiment execution, run records, result reports, server execution state, and code worktrees.
 - Code worktrees should not be nested inside `code/` by default. Use the sibling root `code-worktrees/` so Git, IDEs, search tools, and agents do not confuse worktrees with normal source files.
 - Project memory stores durable cross-component state; root `docs/` stores project-level design and planning artifacts; code docs store code-side implementation, run, and result details.
 - Root Git is optional. If enabled, do not accidentally commit nested component repos unless the user explicitly wants submodules.
@@ -91,7 +91,7 @@ Ask for these fields in one message:
    - whether component repos should be submodules or ignored by root Git
 6. Code worktree policy:
    - default sibling root: `<ProjectName>/code-worktrees/`
-   - remote server worktree root, if different
+   - server worktree root, if different
    - branch naming conventions, if any
 
 Wait for the user's answers before creating files.
@@ -152,7 +152,7 @@ components:
       - algorithm implementation
       - experiment execution
       - code-side result reports
-      - remote execution state
+      - server execution state
   paper:
     path: paper
     owns:
@@ -181,7 +181,7 @@ It must state:
 - use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component repos
 - code worktrees live under `code-worktrees/` by default
 - root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
-- `code/docs/` is for code-side result summaries, run records, implementation reports, and remote execution notes
+- `code/docs/` is for code-side result summaries, run records, implementation reports, and server execution notes
 - experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
 - raw outputs, logs, checkpoints, and wandb/tensorboard caches are not project-root artifacts
 - project memory gets durable claim/evidence/risk/action summaries
@@ -243,9 +243,9 @@ Record this in:
 - `memory/project.yaml`
 - `memory/component-index.yaml`
 - `<ProjectName>/AGENTS.md`
-- `code/docs/ops/current-status.md` when remote execution is involved
+- `code/docs/ops/current-status.md` when server execution is involved
 
-If the remote server only has the code repo, record the remote-specific worktree root in `code/infra/remote-projects.yaml` or `code/docs/ops/current-status.md`. Do not assume the remote server has `paper/` or root project memory.
+If the execution server only has the code repo, record the server-specific worktree root in `code/infra/remote-projects.yaml` or `code/docs/ops/current-status.md`. Do not assume the server has `paper/` or root project memory.
 
 ## Step 7 - Write PROJECT.md
 

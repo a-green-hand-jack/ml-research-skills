@@ -167,7 +167,7 @@ ml-research-skills/
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
 | `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
-| `remote-project-control` | Recover project memory and safely coordinate local-to-remote SSH workflows |
+| `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project |
 | `release-code` | Prepare and publish a research code repository for public release |
