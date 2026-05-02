@@ -50,6 +50,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
+| `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates that connect evidence, risks, options, asks, and next actions |
 | `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
@@ -57,6 +58,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
+| `artifact-evaluation-prep` | Prepare artifact evaluation packages, reviewer-facing reproduction instructions, smoke tests, manifests, and claim-to-artifact maps |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
@@ -67,6 +69,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |
+| `skill-system-auditor` | Audit the skill collection for inventory, lifecycle, routing, memory-writeback, documentation, and validation consistency |
 
 ## Lifecycle Categories
 
@@ -102,7 +105,7 @@ Use these skills when starting a project, creating paper/code repositories, or i
 | **new-workspace** | Create a branch or worktree for a new feature, experiment, or revision |
 | **remote-project-control** | Coordinate local editing with remote execution on SSH/HPC environments |
 
-### 3. Experiment Execution and Evidence Capture
+### 3. Experiment Execution, Evidence Capture, and Research Updates
 
 Use these skills while producing the evidence that will support the paper:
 
@@ -113,6 +116,7 @@ Use these skills while producing the evidence that will support the paper:
 | **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
 | **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
+| **advisor-update-writer** | Convert current progress, evidence, risks, and blockers into decision-oriented advisor or lab updates |
 | **figure-results-review** | Check whether figures, tables, captions, and result narratives support the intended claims |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
 
@@ -145,6 +149,7 @@ Use this stage after acceptance and before final upload or public release:
 | Skill | Lifecycle role |
 |---|---|
 | **camera-ready-finalizer** | Close rebuttal promises, de-anonymize, lock final claims/evidence, audit supplement consistency, and prepare release handoff |
+| **artifact-evaluation-prep** | Package reviewer-facing reproduction instructions, smoke tests, data/checkpoint manifests, and claim-to-artifact maps |
 
 ### 7. Maintenance, Release, and Retrospective
 
@@ -154,6 +159,7 @@ Use these skills to keep the project understandable, publishable, and easy to ha
 |---|---|
 | **update-docs** | Refresh documentation after meaningful code or workflow changes |
 | **release-code** | Prepare a public research code release with repo hygiene, README, license, citation, and tagging |
+| **skill-system-auditor** | Audit the skill collection itself for lifecycle, routing, memory, documentation, and validation consistency |
 | **work-timeline-planner** | Summarize past work or plan future work from git history, docs, and notes |
 | **add-git-tag** | Mark a milestone with an annotated git tag |
 
@@ -181,6 +187,7 @@ For the person running experiments, collecting evidence, and making results repr
 | **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
 | **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
+| **advisor-update-writer** | Summarize experiment progress, blockers, and decision requests for advisors or collaborators |
 | **figure-results-review** | Audit plots and tables before they become paper, slide, or advisor-facing evidence |
 | **project-sync** | Move experiment findings into the paper repo's experiment log |
 | **remote-project-control** | Keep local code and remote execution state aligned |
@@ -236,11 +243,26 @@ For the person keeping the repo usable, documented, and publishable:
 |---|---|
 | **research-project-memory** | Maintain project-level status, decisions, actions, component memory, and closeout summaries |
 | **camera-ready-finalizer** | Produce the final paper closeout and route code, artifact, upload, and milestone tasks |
+| **artifact-evaluation-prep** | Prepare and validate artifact packages, reviewer instructions, and claim-to-artifact reproducibility maps |
+| **advisor-update-writer** | Produce decision-oriented status updates for advisors, lab meetings, and collaborators |
 | **update-docs** | Refresh docs after code or workflow changes |
 | **release-code** | Prepare the public research code release |
+| **skill-system-auditor** | Keep this skill collection coherent as new skills, categories, and routing rules are added |
 | **add-git-tag** | Mark milestones with annotated tags |
 | **work-timeline-planner** | Summarize work history or plan the next phase |
 | **safe-git-ops** | Handle Git operations safely |
+
+### Research Communicator
+
+For the person translating project state into advisor, lab, or collaborator decisions:
+
+| Skill | Role support |
+|---|---|
+| **research-project-memory** | Recover current project state, decisions, risks, actions, and feedback loops |
+| **advisor-update-writer** | Write weekly updates, advisor emails, lab updates, meeting notes, and decision requests |
+| **experiment-report-writer** | Provide detailed experiment reports that support the update |
+| **figure-results-review** | Check figures or tables before they are shown in an update |
+| **work-timeline-planner** | Summarize recent work when the update needs a timeline |
 
 ### Project Designer
 
@@ -276,7 +298,7 @@ Current partial support:
 | **paper-positioning-planner** | Convert idea, literature, method, and evidence into the paper's strategic claim and archetype |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **artifact-evaluation-prep**, **advisor-update-writer**, or **skill-system-auditor**.
+The remaining useful hardening is mostly evaluation rather than new lifecycle coverage: end-to-end synthetic project tests, richer examples, and periodic skill-system audits.
 
 ## Typical Workflow
 
@@ -294,20 +316,23 @@ Potential future skills could include **artifact-evaluation-prep**, **advisor-up
 11. result-diagnosis -> diagnose surprising/negative results and decide the next action
 12. project-sync       -> record results in paper/sections/daily_experiments.tex
 13. experiment-report-writer -> turn experiment evidence into a structured report
-14. figure-results-review -> audit figures, tables, captions, uncertainty, and claim support
-15. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
-16. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
-17. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-18. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-19. citation-coverage-audit -> find missing classic, close, and concurrent citations
-20. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-21. submit-paper    -> run a readiness check before a deadline
-22. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-23. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-24. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-25. update-docs     -> refresh docs after meaningful code changes
+14. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
+15. figure-results-review -> audit figures, tables, captions, uncertainty, and claim support
+16. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
+17. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
+18. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+19. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+20. citation-coverage-audit -> find missing classic, close, and concurrent citations
+21. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+22. submit-paper    -> run a readiness check before a deadline
+23. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+24. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+25. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
 26. release-code    -> prepare the public code release when needed
-27. add-git-tag     -> mark a milestone
+27. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+28. update-docs     -> refresh docs after meaningful code changes
+29. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+30. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -379,6 +404,13 @@ Potential future skills could include **artifact-evaluation-prep**, **advisor-up
 - Guidance for explaining figures and tables, including axes, legends, units, scales, and error bars
 - Evidence-first writing that distinguishes measured results from interpretation and marks missing reproducibility details
 - Audience-aware output for lab notes, mentor updates, paper sections, or presentation-ready summaries
+
+## What `advisor-update-writer` Provides
+
+- Decision-oriented advisor, mentor, lab, and collaborator updates from project memory, reports, drafts, logs, and recent work
+- Weekly, decision, meeting, email, and lab-update modes with explicit asks and next actions
+- Evidence/risk/option framing that separates facts, interpretation, blockers, and recommendations
+- Memory writeback for advisor decisions, action items, risks, and current project status after feedback
 
 ## What `figure-results-review` Provides
 
@@ -461,6 +493,13 @@ Potential future skills could include **artifact-evaluation-prep**, **advisor-up
 - Final claim/evidence locking across main paper, figures, tables, appendix, supplement, bibliography, and code/artifact links
 - Release and artifact handoff for `release-code`, `artifact-evaluation-prep`, `citation-audit`, `submit-paper`, and milestone tagging
 
+## What `artifact-evaluation-prep` Provides
+
+- Reviewer-facing artifact evaluation package planning for code, data, checkpoints, scripts, expected outputs, and runtime budgets
+- Claim-to-artifact maps that distinguish full runs, reduced runs, cached outputs, manual inspection, and out-of-scope claims
+- Artifact manifests, quickstart instructions, smoke-test expectations, troubleshooting notes, and venue-rule verification guidance
+- Handoff to camera-ready, release, reproducibility, and project memory workflows
+
 ## What `citation-coverage-audit` Provides
 
 - A pre-submission scan for missing foundational classics, closest prior work, direct competitors, benchmark/data/metric sources, and recent concurrent papers
@@ -500,6 +539,13 @@ Potential future skills could include **artifact-evaluation-prep**, **advisor-up
 - Templates for `README.md` and `CITATION.cff`
 - License generation guidance
 - A structured tagging and publishing flow for public code releases
+
+## What `skill-system-auditor` Provides
+
+- Global skill-collection audits for inventory, lifecycle coverage, role categories, routing, memory writeback, documentation drift, and stale future-skill references
+- A reusable process for deciding whether a missing capability is a real gap, covered by an existing skill, out of scope, or hardening work
+- Documentation sync checks across README, AGENTS, CLAUDE, memory protocols, and audit reports
+- Validation-first maintenance guidance before committing, pushing, or reinstalling the skill collection
 
 ## Contributors
 

@@ -78,6 +78,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose debug/rerun/ablate/revise/narrow/write/park/kill decisions |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
+| `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates from evidence, risks, options, asks, and next actions |
 | `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
@@ -85,6 +86,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
+| `artifact-evaluation-prep` | Prepare artifact evaluation packages, reviewer-facing reproduction instructions, smoke tests, manifests, and claim-to-artifact maps |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of citation keys, BibTeX entries, metadata, citation claims, labels, and LaTeX references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
@@ -95,6 +97,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, optional compilation |
 | `run-experiment` | Submit an ML experiment to local, SLURM, or RunAI environments with reproducible job scripts in `jobs/` |
 | `release-code` | Prepare and publish a research code repository for public release: security audit, generate README/LICENSE/CITATION.cff, tag version, create GitHub release |
+| `skill-system-auditor` | Audit the skill collection for inventory, lifecycle, routing, memory-writeback, documentation, and validation consistency |
 
 ## Key Design Patterns
 
@@ -107,6 +110,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`baseline-selection-audit`**: Use between literature review and experiment execution, or whenever a comparison table may be vulnerable. It classifies baselines as must-have/should-have/optional/not-comparable/citation-only and produces a fairness ledger plus reviewer-risk forecast.
 - **`result-diagnosis`**: Use after results are surprising, negative, unstable, or hard to interpret. It separates bugs, metric issues, baseline fairness, variance, mechanism failure, and claim mismatch before deciding the next action.
 - **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
+- **`advisor-update-writer`**: Use when project state needs to become a decision-oriented advisor email, weekly update, lab note, or collaborator status memo with explicit asks and actions.
 - **`figure-results-review`**: Use before figures, tables, captions, or result prose enter a paper, slide deck, rebuttal, or advisor update. It checks claim support, visual integrity, uncertainty, caption wording, and routes fixes to reruns, diagnosis, baseline audit, or paper evidence updates.
 - **`paper-evidence-board`**: Use while writing or reviewing a draft to keep claims, evidence, figures, sections, reviewer risks, and next actions aligned.
 - **`paper-positioning-planner`**: Use when deciding what the paper should strategically sell before venue-specific rewriting. It chooses paper archetype, primary/secondary contribution hierarchy, claim scope, target audience, related-work boundary, narrative architecture, and claims to avoid.
@@ -114,9 +118,11 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`paper-reviewer-simulator`**: Use before submission to simulate venue-specific reviewers, predict likely reject reasons, produce an area-chair style meta-review, and rank fixes by acceptance impact.
 - **`rebuttal-strategist`**: Use after real reviews arrive to parse OpenReview/reviewer comments, infer reviewer intent, decide which experiments or clarifications matter, draft rebuttals, and track promised revisions.
 - **`camera-ready-finalizer`**: Use after acceptance to close rebuttal promises, de-anonymize, lock final claims against evidence, check supplement consistency, run final submission handoff, and route code/artifact/release tasks.
+- **`artifact-evaluation-prep`**: Use when an accepted or submitted paper needs an artifact evaluation package, reviewer quickstart, smoke tests, runtime envelope, data/checkpoint manifest, or claim-to-artifact map.
 - **`citation-coverage-audit`**: Use before submission to find missing foundational, closest, benchmark, and recent concurrent citations, then map each missing paper to an insertion point and novelty risk.
 - **`citation-audit`**: Use before paper submission to verify the LaTeX citation graph, BibTeX correctness, metadata accuracy, and whether high-risk citation claims are actually supported by the cited works.
 - **`new-workspace`**: Worktrees go to `<project-root>/../worktrees/<branch-type>-<branch-name>/`. IDE config dirs (`.vscode`, `.cursor`, `.claude`) are copied (not symlinked). Large shared assets declared in `.worktree-links` are symlinked.
 - **`safe-git-ops`**: Use this for general Git work, especially when an agent might confuse sandbox failures with merge conflicts or when shared worktree metadata makes write paths non-obvious.
 - **`remote-project-control`**: Use this before remote-heavy work when a repo is edited locally but run on SSH servers. It establishes repo-native project memory and keeps local/remote state explicit across sessions.
 - **`init-latex-project`**: Invoked by `project-init` via `scripts/init.sh`. Always expand `~` to the actual home path when calling the script.
+- **`skill-system-auditor`**: Use when maintaining this repository as a collection: inventory drift, lifecycle gaps, routing quality, memory writeback coverage, stale future-skill references, and validation readiness.

@@ -69,6 +69,9 @@ ml-research-skills/
     ├── experiment-report-writer/
     │   ├── SKILL.md
     │   └── templates/
+    ├── advisor-update-writer/
+    │   ├── SKILL.md
+    │   └── references/
     ├── figure-results-review/
     │   ├── SKILL.md
     │   └── references/
@@ -88,6 +91,9 @@ ml-research-skills/
     │   ├── SKILL.md
     │   └── references/
     ├── camera-ready-finalizer/
+    │   ├── SKILL.md
+    │   └── references/
+    ├── artifact-evaluation-prep/
     │   ├── SKILL.md
     │   └── references/
     ├── citation-coverage-audit/
@@ -117,6 +123,9 @@ ml-research-skills/
     │   ├── SKILL.md
     │   ├── checklist.md
     │   └── templates/
+    ├── skill-system-auditor/
+    │   ├── SKILL.md
+    │   └── references/
     ├── run-experiment/
     │   ├── SKILL.md
     │   ├── environments.yaml
@@ -145,6 +154,7 @@ ml-research-skills/
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
+| `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates from evidence, risks, options, asks, and next actions |
 | `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
@@ -152,6 +162,7 @@ ml-research-skills/
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
+| `artifact-evaluation-prep` | Prepare artifact evaluation packages, reviewer-facing reproduction instructions, smoke tests, manifests, and claim-to-artifact maps |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
@@ -162,6 +173,7 @@ ml-research-skills/
 | `release-code` | Prepare and publish a research code repository for public release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs update and refresh affected documentation |
+| `skill-system-auditor` | Audit the skill collection for inventory, lifecycle, routing, memory-writeback, documentation, and validation consistency |
 
 ## Adding or Updating a Skill
 

@@ -5,7 +5,7 @@ Repo: `/Users/jieke/Projects/project-skills`
 
 ## Scope
 
-This audit checks whether the current 30-skill collection is coherent as a lifecycle system:
+This audit originally checked whether the 30-skill collection was coherent as a lifecycle system. A same-day follow-up added three extension skills, bringing the collection to 33 skills:
 
 - top-level inventory and lifecycle ordering
 - role-based categories
@@ -56,16 +56,18 @@ research-project-memory
 | `paper-evidence-board` did not explicitly route figure/table ambiguity to `figure-results-review`. | Added a dedicated figure/table review triage branch. |
 | Rebuttal workflow did not explicitly hand off to camera-ready after acceptance. | Added `camera-ready-finalizer` pairing to `rebuttal-strategist`. |
 
-## Remaining Gaps
+## Remaining Gaps and Follow-Up
 
-These are real remaining gaps, not inconsistencies:
+At audit time, these were real remaining gaps, not inconsistencies. Follow-up status is included to avoid stale roadmap interpretation.
 
 | Gap | Status | Why it matters |
 |---|---|---|
-| `artifact-evaluation-prep` | Not implemented | Needed when a venue has artifact evaluation, reproducibility badges, install demos, checkpoints, data packaging, or runtime constraints. |
-| `advisor-update-writer` | Not implemented | Useful for decision-oriented mentor/lab updates that are broader than experiment reports. |
-| `skill-system-auditor` | Not implemented | Could formalize this exact global consistency audit as a reusable maintenance skill once the skill set stabilizes. |
+| `artifact-evaluation-prep` | Implemented after audit | Needed when a venue has artifact evaluation, reproducibility badges, install demos, checkpoints, data packaging, or runtime constraints. |
+| `advisor-update-writer` | Implemented after audit | Useful for decision-oriented mentor/lab updates that are broader than experiment reports. |
+| `skill-system-auditor` | Implemented after audit | Formalizes this exact global consistency audit as a reusable maintenance skill. |
 | End-to-end synthetic project test | Not yet in repo | Would validate skill handoff across the full lifecycle rather than one skill at a time. |
+
+The remaining item is the end-to-end synthetic project test and richer case-based validation.
 
 ## Consistency Decision
 
@@ -78,9 +80,16 @@ The project is now coherent enough to call the main research-paper lifecycle com
 
 ## Validation
 
-Repository validator after fixes:
+Repository validator after the original fixes:
 
 ```text
 python3 scripts/validate_skills.py
 Validated 30 skill(s); no issues found.
+```
+
+Repository validator after implementing `artifact-evaluation-prep`, `advisor-update-writer`, and `skill-system-auditor`:
+
+```text
+python3 scripts/validate_skills.py
+Validated 33 skill(s); no issues found.
 ```

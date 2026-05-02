@@ -19,6 +19,9 @@ Write the smallest durable update that will help the next session. Do not turn m
 | Simulated reviewer findings | `reviewer/.agent/` plus project risk board |
 | Real reviews, rebuttal issues, promised revisions | `rebuttal/.agent/` plus project risk/action boards |
 | Accepted-paper camera-ready status, final upload, release handoff | `paper/.agent/`, `rebuttal/.agent/`, and project decision/action boards |
+| Artifact evaluation package state, smoke tests, reviewer instructions, data/checkpoint manifest | `code/.agent/`, `paper/.agent/`, and project evidence/risk/action boards |
+| Advisor, mentor, lab, or collaborator feedback | `memory/current-status.md`, `memory/decision-log.md`, `memory/action-board.md`, and affected component `.agent/` folders |
+| Skill-system roadmap, lifecycle audit, routing audit, or repository-level skill maintenance decision | project-level roadmap memory, audit reports, and relevant repo docs |
 
 ## Skill Writeback Expectations
 
@@ -30,6 +33,7 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `run-experiment`: write run pointers and volatile job context only after verification.
 - `result-diagnosis`: write diagnosis decisions, weakened or revised claims, evidence status changes, and next actions.
 - `experiment-report-writer`: write completed evidence summaries, result decisions, and stale/updated claims.
+- `advisor-update-writer`: write advisor decisions, feedback-derived actions, current status changes, and newly raised risks.
 - `figure-results-review`: write figure/table evidence status, visual/statistical reviewer risks, caption actions, and claim-scope changes.
 - `paper-evidence-board`: write paper-facing claim/evidence/figure/section alignment and open evidence gaps.
 - `paper-positioning-planner`: write paper archetype, contribution hierarchy, scoped claims, related-work boundary, and positioning actions.
@@ -39,8 +43,10 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `citation-audit`: write correctness risks and blocking fixes.
 - `rebuttal-strategist`: write review issues, response plan, promised revisions, and post-rebuttal actions.
 - `camera-ready-finalizer`: write final accepted-paper state, fulfilled promises, final claim/evidence status, residual risks, and release/artifact handoff actions.
+- `artifact-evaluation-prep`: write artifact readiness, claim-to-artifact coverage, smoke-test status, package blockers, and reviewer-instruction actions.
 - `submit-paper`: write final pre-submission blockers and readiness decisions.
 - `release-code`: write public-release readiness, release blockers, tags, and reproducibility handoff.
+- `skill-system-auditor`: write skill-system roadmap decisions, lifecycle coverage conclusions, audit reports, stale-doc fixes, and next hardening actions.
 - `remote-project-control`: write remote execution state in its own files and summarize linked experiment state in project memory when needed.
 
 ## Update Style
