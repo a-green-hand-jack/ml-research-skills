@@ -14,3 +14,9 @@ Use this file for durable workflow decisions, not ephemeral runtime status.
 - `local`: local development machine.
 - `Git remote`: GitHub/GitLab remote such as `origin`.
 - `server`: SSH/HPC/RunAI execution environment.
+
+## GitHub CLI Auth Convention
+
+- `gh` authentication is separate from `git` SSH authentication.
+- Check `gh auth status` before GitHub API operations such as `gh repo create`, `gh repo view`, or `gh repo fork`.
+- A failed `gh auth status` should be treated as an authentication blocker, not as evidence that the Git remote, server, or repository is broken.

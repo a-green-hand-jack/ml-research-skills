@@ -10,6 +10,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 - Git remote: `origin`
 - Default branch: `{{DEFAULT_BRANCH}}`
 - Local repo root: `{{LOCAL_REPO_ROOT}}`
+- GitHub/GitLab CLI auth: unknown until checked
 
 ## Current Focus
 
@@ -29,6 +30,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 ## Open Issues
 
 - Record blockers, mismatches, or things the next session should re-check.
+- Re-check `gh auth status` before using GitHub API commands such as repo creation, repo view, or fork.
 
 ## Next Step
 

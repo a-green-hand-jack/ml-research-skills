@@ -47,6 +47,54 @@ Stop and ask the user instead of forcing through if:
 
 Do not use `git reset --hard` on the server repo unless the user explicitly asks.
 
+## Git Remote Setup
+
+Goal: create or repair the GitHub/GitLab side of the workflow without confusing Git hosting, local repos, and execution servers.
+
+Preflight:
+
+1. Inspect each repo independently:
+
+```bash
+git -C <repo> remote -v
+git -C <repo> branch --show-current
+git -C <repo> status --short
+```
+
+2. If the project uses a control root with component repos, check the root repo and component repos separately:
+
+```bash
+git -C <project-root> remote -v
+git -C <project-root>/code remote -v
+git -C <project-root>/paper remote -v
+```
+
+3. Before using `gh repo view`, `gh repo create`, `gh repo fork`, or any other GitHub API command, run:
+
+```bash
+gh auth status
+```
+
+If `gh auth status` fails:
+
+- classify the problem as `GitHub CLI authentication`, not a Git repo or server problem
+- tell the user to run `gh auth login -h github.com`
+- do not continue to `gh repo create`, `gh repo fork`, or `git push`
+
+Repository setup rules:
+
+- A project control root and `code/` component repo often need separate GitHub repositories.
+- A cloned upstream repo may have `origin` pointing to an upstream project where the user has no write permission.
+- For an upstream-based code repo, prefer adding a writable fork remote or changing `origin` only after the user confirms the desired policy.
+- Do not create a GitHub repo for a nested component unless it is clear which local repo it should own.
+
+Report separately:
+
+- root repo Git remote and GitHub repo status
+- code repo Git remote and GitHub repo status
+- whether `gh` is authenticated
+- whether normal `git` SSH push is expected to work
+
 ## Run Job
 
 Goal: submit reproducible work on the server.

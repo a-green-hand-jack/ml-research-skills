@@ -89,6 +89,7 @@ Ask for these fields in one message:
    - root control-plane git repo: yes/no
    - component remotes for paper/code/slides, if available
    - whether component repos should be submodules or ignored by root Git
+   - whether GitHub/GitLab repos should be created now, and if so whether `gh auth status` is valid
 6. Code worktree policy:
    - default sibling root: `<ProjectName>/code-worktrees/`
    - server worktree root, if different
@@ -127,6 +128,8 @@ If root Git is enabled, initialize it at `<ProjectName>/` and add a root `.gitig
 ```
 
 If the user wants submodules, use submodule commands deliberately rather than relying on accidental nested Git behavior.
+
+If the user wants GitHub/GitLab repositories created during setup, first check the hosting CLI authentication such as `gh auth status`. If authentication fails, finish the local workspace setup and record Git remote creation as a blocker; do not let repo creation failure obscure the project initialization result.
 
 ## Step 3 - Bootstrap Project Memory
 
@@ -217,6 +220,8 @@ code/docs/runs/
 ```
 
 If connecting an existing code repo, do not force a full scaffold. Add missing high-value memory/docs paths only after reporting gaps.
+
+When the code repo is cloned from an upstream project, do not assume `origin` is writable. Record whether `origin` is upstream, a fork, or a newly created project repo, and keep it separate from the root control-plane repo remote.
 
 ### Slides
 
@@ -347,6 +352,8 @@ Before finishing:
 - root agent guidance exists
 - root memory files exist or are explicitly deferred
 - `paper/`, `code/`, and `slides/` Git boundaries are clear
+- root and component Git remotes have been inspected separately when GitHub/GitLab setup is involved
+- `gh auth status` or equivalent hosting CLI auth has been checked before attempting repo creation
 - `code-worktrees/` policy is recorded
 - there is no top-level `experiments/` directory unless the user explicitly requested it
 - root `docs/` has a clear project-level role and is not confused with `code/docs/`

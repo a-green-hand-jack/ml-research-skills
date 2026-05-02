@@ -48,6 +48,8 @@ Pair this skill with `research-project-memory` when server execution state shoul
 - Verify volatile state before acting on it
 - Prefer GitHub/GitLab or the configured Git remote for local-to-server code sync; do not improvise ad hoc source copying unless the project explicitly uses it
 - Never use destructive server-side git commands without explicit user approval
+- Treat GitHub/GitLab API access as separate from normal `git` SSH access: `git push` may work while `gh repo create`, `gh repo view`, or `gh repo fork` fails because `gh` is not authenticated
+- In project-control-root layouts, inspect root and component repos separately; `<ProjectName>/` and `<ProjectName>/code/` may be independent Git repos with different remotes and permissions
 
 ## Memory Files
 
@@ -87,6 +89,16 @@ git rev-parse --show-toplevel 2>/dev/null || pwd
 - environment activation command
 
 4. If `.agent/local-overrides.yaml` is missing but private overrides are clearly needed, offer to create it and recommend adding `.agent/` to `.gitignore`.
+
+5. If the project appears to be a control root with component repos, inspect each relevant repo independently instead of assuming one Git remote:
+
+```bash
+git -C <project-root> remote -v
+git -C <project-root>/code remote -v
+git -C <project-root>/paper remote -v
+```
+
+Missing remotes in one repo do not imply missing remotes in another.
 
 ## Step 2 — Build the Session Bootstrap Summary
 
@@ -133,6 +145,7 @@ Choose one of the following flows and follow the detailed guidance in `reference
 
 - `bootstrap`: create or repair the memory files from templates and fill the minimum required fields
 - `inspect`: compare local and server git state, verify paths, env activation, scheduler availability, and summarize the current situation
+- `git-remote-setup`: inspect or create GitHub/GitLab repositories, set remotes, fork upstream repos, or prepare local-to-server sync through a Git remote
 - `sync-code`: prepare local commits, push through the configured Git remote, and update the server repo with non-destructive fast-forward pulls only
 - `run-job`: use the server context to submit a job safely; if a new reproducible job script is needed, use `run-experiment` after this skill has established the environment
 - `interactive-session`: prepare the correct `salloc`, `srun`, or equivalent command and run subsequent commands from the server repo with the configured environment activation
@@ -141,6 +154,14 @@ Choose one of the following flows and follow the detailed guidance in `reference
 - `closeout`: update project memory at the end of a session
 
 If the runtime cannot execute SSH commands directly, still use this skill: generate the exact commands in the correct order, explain the assumptions, and keep the memory files up to date.
+
+Before any `gh` operation that uses GitHub's API, run:
+
+```bash
+gh auth status
+```
+
+If it fails, stop the GitHub API flow and tell the user to re-authenticate with `gh auth login -h github.com`. Do not interpret this as a repository creation failure, Git remote failure, SSH key failure, or server problem.
 
 ## Step 5 — Write Back to the Right Memory Layer
 
