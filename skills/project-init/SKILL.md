@@ -311,6 +311,8 @@ git clone https://github.com/a-green-hand-jack/progress-slides.git <ProjectName>
 
 After cloning, inspect `slides/README.md`, `slides/package.json`, and the existing slide source files before editing. Use `research-slide-deck-builder` for deck structure, template-compatible source writing, preview/build commands, and `slides/.agent/` story, audience, source-evidence, and stale-evidence notes.
 
+Treat `slides/` as a multi-deck workspace. Root and slides-local agent guidance should say that stable decks live under `slides/decks/<YYYY-MM-DD>-<audience-or-purpose>-<slug>.md`; `slides/slides.md` is only an active/default deck, staging file, or template sample. Record deck history in `slides/.agent/deck-index.md`, keep optional per-deck notes in `slides/.agent/decks/<deck-id>.md`, and run Slidev against the target deck file, for example `npx slidev decks/2026-05-02-advisor-plan.md`.
+
 ## Step 6 - Establish Worktree Policy
 
 Default code policy:

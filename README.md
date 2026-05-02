@@ -355,7 +355,7 @@ Primary skills in `code/`:
 
 | Component | Main artifacts | Primary skills |
 |---|---|---|
-| `slides/` | progress/advisor/lab decks, usually external `progress-slides` template | **research-slide-deck-builder**, **figure-results-review**, **table-results-review** |
+| `slides/` | multi-deck workspace for progress/advisor/lab/rebuttal/conference decks, usually external `progress-slides` template | **research-slide-deck-builder**, **figure-results-review**, **table-results-review** |
 | `reviewer/` | simulated reviews, risk registers, reviewer-style critiques | **paper-reviewer-simulator**, **paper-evidence-board** |
 | `rebuttal/` | real reviews, issue boards, response drafts, promised revisions | **rebuttal-strategist**, **run-experiment**, **conference-writing-adapter** |
 | `artifact/` | reproduction instructions, smoke tests, package manifests | **artifact-evaluation-prep**, **release-code**, **camera-ready-finalizer** |
@@ -845,6 +845,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Research slide deck structure for advisor updates, lab meetings, paper reading reports, progress reports, proposals, conference talks, and thesis-style presentations
 - A policy to use `https://github.com/a-green-hand-jack/progress-slides.git` as the external slides template instead of duplicating template code in this skills repo
 - Installation and connection guidance for a `slides/` component repo, including cloning, inspecting `README.md` and `package.json`, installing dependencies, and using the template's preview/build commands
+- A multi-deck workspace policy: stable decks belong under `slides/decks/<deck-id>.md`; root `slides.md` is only an active/default deck or temporary staging file
+- Deck registry memory under `slides/.agent/deck-index.md` plus optional per-deck memory under `slides/.agent/decks/<deck-id>.md`
 - Template-compatible writing guidance for slide source, speaker notes, figures, evidence provenance, backup slides, and `slides/.agent/` memory
 - Deck-contract checks for project title, narrative scope, allowed terms, banned terms, and one-sentence claim before writing Slidev source
 - Slidev syntax guardrails for deck-level and per-slide frontmatter so `layout:` and `class:` metadata do not render as body text

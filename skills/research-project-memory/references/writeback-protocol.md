@@ -20,7 +20,7 @@ Write the smallest durable update that will help the next session. Do not turn m
 | Code architecture, implementation status, experiment entry point, remote execution pointer | `code/.agent/` or relevant code worktree `.agent/` |
 | Worktree created, merged, parked, killed, or found stale | `memory/component-index.yaml`, `<component>/.agent/worktree-index.md`, and the relevant worktree `.agent/worktree-status.md` |
 | Code-side result summaries, experiment reports, and run pointers | `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, plus project evidence board summaries |
-| Slide story, audience feedback, outdated slide evidence | `slides/.agent/` |
+| Slide component status, deck registry, audience feedback, outdated slide evidence | `slides/.agent/slides-status.md`, `slides/.agent/deck-index.md`, and optionally `slides/.agent/decks/<deck-id>.md` |
 | Simulated reviewer findings | `reviewer/.agent/` plus project risk board |
 | Real reviews, rebuttal issues, promised revisions | `rebuttal/.agent/` plus project risk/action boards |
 | Accepted-paper camera-ready status, final upload, release handoff | `paper/.agent/`, `rebuttal/.agent/`, and project decision/action boards |

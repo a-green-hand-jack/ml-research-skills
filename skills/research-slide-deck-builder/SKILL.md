@@ -72,6 +72,47 @@ For an existing project:
 - If `slides/` exists but is not the template, ask whether to migrate, add `progress-slides` as a new independent repo, or only write a compatible outline.
 - If the template uses Git, preserve its history and use normal Git operations from inside `slides/`.
 
+## Multi-Deck Component Model
+
+A research project will usually need many decks over its lifetime. Treat `slides/` as a deck workspace, not as one permanent `slides.md`.
+
+Recommended shape:
+
+```text
+slides/
+├── slides.md                 # optional active/scratch deck or template index
+├── decks/
+│   ├── 2026-05-02-advisor-plan.md
+│   ├── 2026-05-09-lab-update.md
+│   ├── 2026-05-15-result-review.md
+│   └── neurips-rebuttal-risk-review.md
+├── assets/
+│   └── <deck-or-shared-assets>
+├── templates/
+├── snippets/
+└── .agent/
+    ├── slides-status.md      # component-level status
+    ├── deck-index.md         # registry of decks
+    └── decks/
+        └── 2026-05-02-advisor-plan.md
+```
+
+Use this policy:
+
+- For a real meeting, create a stable deck under `decks/<date>-<audience-or-purpose>-<slug>.md`.
+- Use root `slides.md` only for the active default deck, a temporary working copy, or the template's sample/index deck.
+- Do not overwrite an old meeting deck just because a new advisor/lab update starts.
+- Keep reusable single-slide fragments in `snippets/`; keep full historical decks in `decks/`.
+- Keep generated output in `dist/` or ignored export paths, not as the source of truth.
+- For deck-specific assets, prefer `assets/<deck-id>/...`; for reusable assets, use `assets/shared/...`.
+- If the template CLI only writes `slides.md`, initialize there first and then move or copy the finalized source into `decks/<deck-id>.md`, or use its `--out decks/<deck-id>.md` option when available.
+
+Record deck memory:
+
+- `slides/.agent/slides-status.md`: component status, active deck, recent decks, stale evidence, build/export policy
+- `slides/.agent/deck-index.md`: one row per deck with id, path, audience, date, purpose, source evidence, validation status, and follow-up
+- `slides/.agent/decks/<deck-id>.md`: optional per-deck notes for important decks, including deck contract, source evidence, visual validation, and unresolved risks
+
 ## Deck Design Principles
 
 - One slide, one job. Every slide needs a sentence-level takeaway.
@@ -103,6 +144,7 @@ Default naming rule: the title slide, browser/PDF metadata, and first H1 must in
 
 Determine:
 
+- deck id and target path under `decks/`
 - audience: advisor, lab, committee, conference, interview, or class
 - time limit
 - goal: feedback, progress report, teaching, persuasion, or defense
@@ -234,6 +276,7 @@ class: text-center
 - If a page does not need per-slide frontmatter, omit it. Do not leave `layout:` or `class:` lines in normal Markdown body text.
 - After editing, search for `^layout:` and `^class:` outside frontmatter blocks if the source was heavily modified.
 - Title metadata should include the project name so exported PDF/browser titles are recognizable.
+- When the deck source is under `decks/`, run Slidev against that file, such as `npx slidev decks/2026-05-02-advisor-plan.md`, instead of assuming the default `slides.md` is the target.
 
 ### 5. Use Project Evidence Correctly
 
@@ -265,11 +308,14 @@ Before finishing:
 - when possible, export PNG/PDF through the template's export command, Slidev browser export UI, or `slidev export --format png`; Slidev CLI export requires Playwright/`playwright-chromium`
 - if PNG/PDF export is blocked by missing Playwright or Chromium, record the missing dependency and use browser preview screenshots or manual browser inspection instead
 - check tables, code blocks, three-column layouts, question boxes, and takeaway boxes for overflow
-- update `slides/.agent/slides-status.md` with deck purpose, audience, source evidence, build status, visual validation status, stale evidence risks, known unchecked risks, and follow-up actions when using a project-control-root layout
+- update `slides/.agent/slides-status.md` and `slides/.agent/deck-index.md` with deck path, purpose, audience, source evidence, build status, visual validation status, stale evidence risks, known unchecked risks, and follow-up actions when using a project-control-root layout
+- for important or reusable decks, also write `slides/.agent/decks/<deck-id>.md`
 
 Final checklist:
 
 ```markdown
+- [ ] Deck source lives in `decks/<deck-id>.md` unless this is a temporary/default `slides.md` deck.
+- [ ] `slides.md` was not used to overwrite a previous real meeting deck.
 - [ ] Title includes project name.
 - [ ] Deck has one explicit narrative scope.
 - [ ] Banned or stale terms checked with search.
@@ -280,7 +326,7 @@ Final checklist:
 - [ ] Internal code names are replaced in audience-facing text where appropriate.
 - [ ] Preview/build passes, or missing dependency is recorded.
 - [ ] PNG/PDF visual export or browser visual inspection completed.
-- [ ] `slides/.agent/slides-status.md` updated when project memory is present.
+- [ ] `slides/.agent/slides-status.md` and `slides/.agent/deck-index.md` updated when project memory is present.
 ```
 
 ## Output Shape
@@ -296,6 +342,8 @@ For a planning-only request, produce:
 - Goal:
 - One takeaway:
 - Template: progress-slides
+- Deck id:
+- Deck path:
 - Deck scope:
 - Allowed terms:
 - Banned terms:
@@ -316,6 +364,17 @@ For a planning-only request, produce:
 
 For an implementation request, edit the actual `slides/` source files in the cloned `progress-slides` repo and report the changed paths plus the preview/build command used.
 
+When creating a new deck in an existing slides component, default to:
+
+```text
+slides/decks/<YYYY-MM-DD>-<audience-or-purpose>-<slug>.md
+slides/assets/<deck-id>/...
+slides/.agent/deck-index.md
+slides/.agent/decks/<deck-id>.md
+```
+
+Use `slides/slides.md` only when the user explicitly wants the current default deck or the template tooling requires a temporary staging file.
+
 ## Do Not
 
 - Do not create a separate in-skill slide template.
@@ -325,3 +384,5 @@ For an implementation request, edit the actual `slides/` source files in the clo
 - Do not overpack slides because the user is afraid to leave things out.
 - Do not stop at Markdown correctness or build success when the user expects a deck they can open and present.
 - Do not leave backup slides as unexplained asset dumps.
+- Do not treat `slides/slides.md` as the only deck file for a project lifecycle.
+- Do not lose old decks by reusing the same file for every meeting.
