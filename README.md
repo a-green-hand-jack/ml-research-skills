@@ -75,6 +75,104 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 
 These skills are organized around the lifecycle of an ML research project: set up the workspace, run and summarize experiments, shape the paper for submission, handle review and rebuttal, then maintain or release the project.
 
+### Skill Relationship Map
+
+The collection is a feedback system, not a one-way pipeline. `research-project-memory` is the coordination layer; `project-init` creates the project control root; code-side skills produce evidence; paper-side skills select and present that evidence; review and rebuttal route failures back into experiments, writing, or positioning.
+
+```mermaid
+flowchart TD
+    M[research-project-memory<br/>claim/evidence/risk/action graph]
+
+    subgraph A[Idea, Literature, and Method Design]
+        I[research-idea-validator]
+        L[literature-review-sprint]
+        D[algorithm-design-planner]
+        P[paper-positioning-planner]
+        I --> L --> D --> P
+    end
+
+    subgraph B[Project Control Root and Component Repos]
+        PI[project-init]
+        LP[init-latex-project<br/>paper repo]
+        CP[init-python-project<br/>code repo]
+        NW[new-workspace<br/>code-worktrees/]
+        RPC[remote-project-control]
+        PI --> LP
+        PI --> CP
+        CP --> NW
+        CP --> RPC
+    end
+
+    subgraph C[Code Execution and Evidence]
+        EDP[experiment-design-planner]
+        BSA[baseline-selection-audit]
+        RUN[run-experiment]
+        RD[result-diagnosis]
+        ERW[experiment-report-writer<br/>code/docs/reports]
+        FRR[figure-results-review<br/>code/docs/results]
+        PS[project-sync]
+        EDP --> BSA --> RUN --> RD --> ERW --> FRR --> PS
+        RD --> D
+        RD --> P
+        FRR --> EDP
+    end
+
+    subgraph D2[Paper Writing and Pre-Submission Review]
+        PEB[paper-evidence-board]
+        CWA[conference-writing-adapter]
+        PRS[paper-reviewer-simulator]
+        CCA[citation-coverage-audit]
+        CA[citation-audit]
+        SUB[submit-paper]
+        PEB --> P
+        P --> CWA --> PRS
+        PRS --> PEB
+        CWA --> CCA --> CA --> SUB
+    end
+
+    subgraph E[Real Reviews, Rebuttal, and Finalization]
+        RBS[rebuttal-strategist]
+        CR[camera-ready-finalizer]
+        ART[artifact-evaluation-prep]
+        REL[release-code]
+        RBS --> CR --> ART --> REL
+        RBS --> RUN
+        RBS --> CWA
+    end
+
+    subgraph F[Communication, Maintenance, and System Care]
+        AU[advisor-update-writer]
+        DOC[update-docs]
+        TAG[add-git-tag]
+        TL[work-timeline-planner]
+        SSA[skill-system-auditor]
+        AU --> EDP
+        DOC --> TAG
+        TL --> AU
+    end
+
+    M <--> A
+    M <--> B
+    M <--> C
+    M <--> D2
+    M <--> E
+    M <--> F
+
+    P --> EDP
+    PS --> PEB
+    SUB --> RBS
+    REL --> DOC
+    SSA --> M
+```
+
+The most important feedback loops are:
+
+- **Writing to experiments**: `paper-evidence-board` or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
+- **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
+- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks it; `project-sync` and `paper-evidence-board` promote it into paper-facing evidence.
+- **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
+- **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
+
 ### 0. Project Memory and Coordination
 
 Use this skill to keep feedback loops between idea, algorithm, experiments, writing, review, and rebuttal coherent across sessions:
