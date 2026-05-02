@@ -60,6 +60,9 @@ ml-research-skills/
     ├── experiment-design-planner/
     │   ├── SKILL.md
     │   └── references/
+    ├── baseline-selection-audit/
+    │   ├── SKILL.md
+    │   └── references/
     ├── result-diagnosis/
     │   ├── SKILL.md
     │   └── references/
@@ -130,6 +133,7 @@ ml-research-skills/
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or worktree for features and experiments |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
+| `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |

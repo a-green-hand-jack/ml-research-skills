@@ -47,6 +47,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
+| `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
@@ -105,6 +106,7 @@ Use these skills while producing the evidence that will support the paper:
 | Skill | Lifecycle role |
 |---|---|
 | **experiment-design-planner** | Design hypotheses, baselines, ablations, controls, metrics, and stop conditions before running |
+| **baseline-selection-audit** | Convert claims and literature into must-have, should-have, optional, and excluded baselines with fairness rules |
 | **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
 | **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
@@ -162,6 +164,7 @@ For the person running experiments, collecting evidence, and making results repr
 |---|---|
 | **research-project-memory** | Track evidence, risks, actions, and worktree state across experiment feedback loops |
 | **experiment-design-planner** | Convert a claim into a runnable experiment matrix with controls and decision rules |
+| **baseline-selection-audit** | Decide which baselines must be run, how to make them fair, and which exclusions are defensible |
 | **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
 | **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
@@ -176,6 +179,7 @@ For the person turning research evidence into a submission:
 |---|---|
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
+| **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
@@ -190,6 +194,7 @@ For the person stress-testing the paper before reviewers see it:
 | **research-project-memory** | Link simulated reviewer risks to claims, evidence gaps, and concrete actions |
 | **paper-evidence-board** | Convert reviewer risks into paper locations, evidence gaps, and fix actions |
 | **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
+| **baseline-selection-audit** | Stress-test missing, weak, unfair, or outdated baseline comparisons before reviewers do |
 | **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
 | **citation-audit** | Check whether cited papers actually support the text's claims |
 
@@ -245,10 +250,11 @@ Current partial support:
 | **research-idea-validator** | Turn a rough idea into a pursue/revise/park/kill decision with novelty, feasibility, and paper-shape analysis |
 | **literature-review-sprint** | Turn a topic or idea into a ranked paper map, closest-work comparison, baseline implications, and project-positioning decisions |
 | **algorithm-design-planner** | Turn a promising idea into a method specification with assumptions, components, failure modes, ablations, and implementation handoff |
+| **baseline-selection-audit** | Check whether the planned evidence compares against the right methods before the experiment matrix is fixed |
 | **result-diagnosis** | Feed negative or surprising results back into algorithm design, project positioning, or claim revision |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **baseline-selection-audit**, **camera-ready-finalizer**, or **paper-positioning-planner**.
+Potential future skills could include **figure-results-review**, **camera-ready-finalizer**, or **paper-positioning-planner**.
 
 ## Typical Workflow
 
@@ -261,21 +267,22 @@ Potential future skills could include **baseline-selection-audit**, **camera-rea
 6. new-workspace      -> isolate a feature or experiment branch
 7. remote-project-control -> recover project memory and align local vs remote state
 8. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
-9. run-experiment     -> launch locally or on SLURM / RunAI
-10. result-diagnosis -> diagnose surprising/negative results and decide the next action
-11. project-sync       -> record results in paper/sections/daily_experiments.tex
-12. experiment-report-writer -> turn experiment evidence into a structured report
-13. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
-14. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-15. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-16. citation-coverage-audit -> find missing classic, close, and concurrent citations
-17. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-18. submit-paper    -> run a readiness check before a deadline
-19. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-20. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-21. update-docs     -> refresh docs after meaningful code changes
-22. release-code    -> prepare the public code release when needed
-23. add-git-tag     -> mark a milestone
+9. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
+10. run-experiment     -> launch locally or on SLURM / RunAI
+11. result-diagnosis -> diagnose surprising/negative results and decide the next action
+12. project-sync       -> record results in paper/sections/daily_experiments.tex
+13. experiment-report-writer -> turn experiment evidence into a structured report
+14. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
+15. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+16. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+17. citation-coverage-audit -> find missing classic, close, and concurrent citations
+18. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+19. submit-paper    -> run a readiness check before a deadline
+20. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+21. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+22. update-docs     -> refresh docs after meaningful code changes
+23. release-code    -> prepare the public code release when needed
+24. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -371,6 +378,14 @@ Potential future skills could include **baseline-selection-audit**, **camera-rea
 - Baseline, control, nuisance-variable, metric, seed, repeat, and logging requirements
 - Ablation matrix guidance for isolating components and avoiding multi-variable confounds
 - Reviewer-risk checks that ask whether the planned evidence will satisfy paper or rebuttal expectations
+
+## What `baseline-selection-audit` Provides
+
+- A reviewer-facing baseline requirement audit with `must-have`, `should-have`, `optional`, `not-comparable`, and `citation-only` labels
+- A baseline taxonomy that separates direct competitors, strongest current methods, standard benchmark baselines, classics, ablations, controls, oracle references, and resource-matched comparisons
+- Fairness ledgers for data, model capacity, compute, tuning budget, protocol, metrics, implementation, and reporting units
+- Reviewer attack forecasts for missing, weak, unfair, outdated, or overclaimed comparisons
+- Experiment-design handoff and project-memory writeback for baseline risks, planned evidence, narrowed claims, and run/justify actions
 
 ## What `conference-writing-adapter` Provides
 
