@@ -52,6 +52,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
+| `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
@@ -121,6 +122,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | Skill | Lifecycle role |
 |---|---|
 | **paper-evidence-board** | Align paper claims, evidence, figures, sections, reviewer risks, and next actions |
+| **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
@@ -183,6 +185,7 @@ For the person turning research evidence into a submission:
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
 | **figure-results-review** | Verify that result visuals, captions, and tables support the exact paper claims |
+| **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
@@ -199,6 +202,7 @@ For the person stress-testing the paper before reviewers see it:
 | **paper-evidence-board** | Convert reviewer risks into paper locations, evidence gaps, and fix actions |
 | **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
 | **figure-results-review** | Catch visual, statistical, caption, and claim-support weaknesses before reviewers do |
+| **paper-positioning-planner** | Detect when the paper is selling the wrong claim or should change archetype before review |
 | **baseline-selection-audit** | Stress-test missing, weak, unfair, or outdated baseline comparisons before reviewers do |
 | **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
 | **citation-audit** | Check whether cited papers actually support the text's claims |
@@ -258,9 +262,10 @@ Current partial support:
 | **baseline-selection-audit** | Check whether the planned evidence compares against the right methods before the experiment matrix is fixed |
 | **result-diagnosis** | Feed negative or surprising results back into algorithm design, project positioning, or claim revision |
 | **figure-results-review** | Feed visualized results back into claim scope, evidence quality, and next experiment decisions |
+| **paper-positioning-planner** | Convert idea, literature, method, and evidence into the paper's strategic claim and archetype |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **camera-ready-finalizer**, **artifact-evaluation-prep**, or **paper-positioning-planner**.
+Potential future skills could include **camera-ready-finalizer**, **artifact-evaluation-prep**, or **advisor-update-writer**.
 
 ## Typical Workflow
 
@@ -280,16 +285,17 @@ Potential future skills could include **camera-ready-finalizer**, **artifact-eva
 13. experiment-report-writer -> turn experiment evidence into a structured report
 14. figure-results-review -> audit figures, tables, captions, uncertainty, and claim support
 15. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
-16. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-17. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-18. citation-coverage-audit -> find missing classic, close, and concurrent citations
-19. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-20. submit-paper    -> run a readiness check before a deadline
-21. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-22. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-23. update-docs     -> refresh docs after meaningful code changes
-24. release-code    -> prepare the public code release when needed
-25. add-git-tag     -> mark a milestone
+16. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
+17. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+18. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+19. citation-coverage-audit -> find missing classic, close, and concurrent citations
+20. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+21. submit-paper    -> run a readiness check before a deadline
+22. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+23. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+24. update-docs     -> refresh docs after meaningful code changes
+25. release-code    -> prepare the public code release when needed
+26. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -385,6 +391,14 @@ Potential future skills could include **camera-ready-finalizer**, **artifact-eva
 - Evidence-gap triage that routes issues to new experiments, result diagnosis, rewriting, claim narrowing, citation work, cutting, or accepted risk
 - Reviewer-risk integration from simulated reviews, citation audits, result diagnosis, and real rebuttal issues
 - Project-memory writeback for claim status, evidence status, paper locations, stale figures, reviewer risks, and paper actions
+
+## What `paper-positioning-planner` Provides
+
+- A strategic paper-positioning decision: lock, revise, narrow, change archetype, need evidence, or park
+- Paper archetype selection across method, theory-guided method, empirical analysis, benchmark, systems, diagnostic, negative-result, and hybrid papers
+- Primary/secondary contribution hierarchy with claims to keep, narrow, block, cut, or avoid
+- Audience and venue-fit analysis with closest-work boundary, related-work scope, and novelty framing
+- Paper-level narrative architecture for title direction, abstract skeleton, intro roles, main figure/table role, result ordering, and next-skill routing
 
 ## What `experiment-design-planner` Provides
 
