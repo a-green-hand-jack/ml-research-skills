@@ -8,7 +8,7 @@ Check what already exists before writing anything:
 
 - `pyproject.toml`, `setup.py`, `requirements.txt`
 - `src/`, `tests/`, `docs/`, `scripts/`
-- `.env.example`, `CLAUDE.md`, `.vscode/settings.json`
+- `.env.example`, `AGENTS.md`, `CLAUDE.md`, `.vscode/settings.json`
 - pytest configuration and editable-install support
 
 ## Enhancement Checklist
@@ -22,7 +22,7 @@ Check what already exists before writing anything:
    - Is the package installable?
    - Is there an `.env.example`?
 3. Documentation
-   - Is there a project instruction file such as `CLAUDE.md`?
+   - Are paired project instruction files such as `AGENTS.md` and `CLAUDE.md` present?
    - Are module docs or dependency notes present?
 4. Testing
    - Is pytest configured?

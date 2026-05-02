@@ -1,0 +1,28 @@
+# AGENTS.md - AI Agent Writing Guide for This LaTeX Project
+
+This file is the universal/Codex entrypoint for agents working on this paper. `CLAUDE.md` is the Claude Code entrypoint. Keep both files semantically aligned.
+
+## Compile Workflow
+
+Do not assume local TeX Live, MacTeX, `pdflatex`, `xelatex`, or `lualatex` is installed. The default workflow is local edit -> Git diff review -> GitHub push when requested -> Overleaf compile through GitHub sync.
+
+Use Overleaf logs and PDF preview as the compile source of truth unless the user explicitly asks for local compilation.
+
+## Paper Version Worktrees
+
+If this paper belongs to a project control root, paper versions may live in sibling worktrees under `../paper-worktrees/`.
+
+Use paper worktrees for different conference templates, arXiv/preprint releases, camera-ready versions, and paper-only rebuttal edits. Public-source versions such as arXiv must not contain internal notes, TODOs, reviewer notes, author comments, private paths, or internal figure/table descriptions in released `.tex` source.
+
+## Writing Rules
+
+- Check `macros.tex` before writing math symbols, operators, or theorem environments.
+- Use `\cref{...}` for figures, tables, sections, theorems, and algorithms.
+- Use `\eqref{...}` for equations.
+- Keep figure captions, table captions, internal visual/table descriptions, provenance, and main-text callouts conceptually separate.
+- Store internal figure/table descriptions and provenance in `.agent/` or project memory, not in public LaTeX comments.
+- Keep venue mode, anonymity, acknowledgement, checklist, limitations, and source hygiene requirements consistent with the active submission target.
+
+## Detailed Local Policy
+
+Also follow `CLAUDE.md` in this directory for the full paper-local writing guide. If `AGENTS.md` and `CLAUDE.md` disagree, stop and ask which policy should be canonical before editing.

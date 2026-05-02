@@ -84,7 +84,8 @@ A full project is a control root with independent component repositories:
 ```text
 <ProjectName>/
 ├── PROJECT.md              # human overview and component boundaries
-├── AGENTS.md               # root guidance for agents working across components
+├── AGENTS.md               # universal/Codex root guidance for agents
+├── CLAUDE.md               # Claude Code root guidance, aligned with AGENTS.md
 ├── memory/                 # durable cross-component state
 │   ├── project.yaml
 │   ├── component-index.yaml
@@ -124,7 +125,7 @@ Primary skills by root area:
 
 | Area | Main artifacts | Primary skills |
 |---|---|---|
-| Root setup | `PROJECT.md`, root `AGENTS.md`, component repos, root docs | **project-init**, **research-project-memory** |
+| Root setup | `PROJECT.md`, paired root `AGENTS.md`/`CLAUDE.md`, component repos, root docs | **project-init**, **research-project-memory** |
 | Root memory | claims, evidence, risks, actions, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
 | Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
@@ -192,7 +193,8 @@ paper/
 ├── main.tex                 # paper entry point
 ├── venue_preamble.tex       # venue mode and style package hook
 ├── macros.tex               # shared math and author macros
-├── CLAUDE.md                # paper-local agent writing and compile workflow rules
+├── AGENTS.md                # universal/Codex paper-local guidance
+├── CLAUDE.md                # Claude Code paper-local guidance, aligned with AGENTS.md
 ├── sections/
 │   ├── title.tex
 │   ├── abstract.tex
@@ -310,6 +312,7 @@ code/
 │   └── worktree-index.md
 ├── pyproject.toml
 ├── README.md
+├── AGENTS.md
 └── CLAUDE.md
 ```
 
@@ -475,7 +478,7 @@ Use these skills when starting the project control root, creating or connecting 
 
 | Skill | Lifecycle role |
 |---|---|
-| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, root `AGENTS.md`, and code/paper worktree policy |
+| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, paired root `AGENTS.md`/`CLAUDE.md`, and code/paper worktree policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
@@ -777,7 +780,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 ## What `project-init` Provides
 
 - A project control root where agents can coordinate independent `paper/`, `code/`, optional `slides/`, `reviewer/`, `rebuttal/`, and `artifact/` components
-- Root-level `PROJECT.md`, `AGENTS.md`, `memory/`, and `docs/` scaffolding for cross-component claim/evidence/risk/action management, project overviews, staged method designs, and cross-component experiment plans
+- Root-level `PROJECT.md`, paired `AGENTS.md`/`CLAUDE.md`, `memory/`, and `docs/` scaffolding for cross-component claim/evidence/risk/action management, project overviews, staged method designs, and cross-component experiment plans
 - Default component worktree policies using sibling `code-worktrees/` for code branches and `paper-worktrees/` for paper versions
 - Clear separation between project-level memory, root project docs, component repos, code-side evidence docs, and raw experiment artifacts
 

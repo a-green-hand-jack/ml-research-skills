@@ -69,6 +69,7 @@ Lower layers never import from higher layers.
 ├── .gitignore
 ├── pyproject.toml
 ├── README.md
+├── AGENTS.md
 └── CLAUDE.md
 ```
 

@@ -27,6 +27,7 @@ Help the user create a production-ready Python project or upgrade an existing on
     │   ├── .gitignore
     │   ├── .env.example
     │   ├── README.md
+    │   ├── AGENTS.md
     │   ├── CLAUDE.md
     │   ├── pyproject.toml.tmpl
     │   ├── tests/
@@ -157,6 +158,7 @@ Write these common files from `templates/common/`:
 - `.gitignore`
 - `.env.example`
 - `README.md`
+- `AGENTS.md`
 - `CLAUDE.md`
 - `pyproject.toml`
 - `tests/conftest.py`
@@ -266,7 +268,7 @@ Check for:
 
 - `pyproject.toml`, `setup.py`, `requirements.txt`
 - `src/`, `tests/`, `docs/`, `scripts/`
-- `.env.example`, `CLAUDE.md`, `.vscode/settings.json`
+- `.env.example`, `AGENTS.md`, `CLAUDE.md`, `.vscode/settings.json`
 
 #### 2B.2 Report gaps before bulk edits
 
@@ -288,6 +290,7 @@ Then ask whether to:
 When the user approves edits, use the templates under `templates/common/` to fill gaps:
 
 - `.env.example`
+- `AGENTS.md`
 - `CLAUDE.md`
 - `tests/conftest.py`
 - docs templates

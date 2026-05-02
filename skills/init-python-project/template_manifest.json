@@ -22,6 +22,7 @@
       "templates/common/.gitignore",
       "templates/common/.env.example",
       "templates/common/README.md",
+      "templates/common/AGENTS.md",
       "templates/common/CLAUDE.md",
       "templates/common/pyproject.toml.tmpl",
       "templates/common/tests/conftest.py",

@@ -253,6 +253,7 @@ mkdir -p "$DEST"/{sections,figures,tables,bib}
 
 # ── Copy Base Template Files ──────────────────────────────────────────────────
 cp "$TEMPLATES/macros.tex" "$DEST/macros.tex"
+cp "$TEMPLATES/AGENTS.md"  "$DEST/AGENTS.md"
 cp "$TEMPLATES/CLAUDE.md"  "$DEST/CLAUDE.md"
 
 # Copy venue-specific main.tex (all use \input{venue_preamble})

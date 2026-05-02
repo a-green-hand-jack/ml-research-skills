@@ -20,6 +20,7 @@ Default local workflow assumption: on macOS, do not assume TeX Live or MacTeX is
 ├── templates/
 │   ├── macros.tex                  # Full math macro library
 │   ├── main.tex                    # Generic arXiv/whitepaper template
+│   ├── AGENTS.md                   # Universal/Codex writing rules
 │   ├── CLAUDE.md                   # Writing rules for AI agents
 │   └── venues/
 │       ├── icml/main.tex           # ICML two-column template
@@ -110,7 +111,16 @@ For Overleaf/GitHub projects:
 - treat Overleaf's compile log and PDF preview as the compile source of truth
 - when compile errors appear in Overleaf, fix source locally and push again
 
-### 5. Record paper version policy when inside a project root
+### 5. Record agent guidance policy
+
+The generated paper repo should include both:
+
+- `AGENTS.md`: universal/Codex entrypoint for paper-local writing, compile, figure, table, and source hygiene rules
+- `CLAUDE.md`: Claude Code entrypoint with the same effective policy
+
+Keep the two files semantically aligned. If one file is shorter, it must clearly point to the other as the canonical paper-local policy.
+
+### 6. Record paper version policy when inside a project root
 
 If this paper repo is part of a `project-init` layout, note that target-specific paper versions should usually be isolated as paper worktrees under sibling `paper-worktrees/`, not as copied folders inside `paper/`.
 
@@ -125,7 +135,7 @@ For arXiv or any public-source release, keep internal figure/table descriptions,
 
 For anonymous conference submissions, enforce venue anonymity and formatting mode. Do not assume source comments are safe if the venue requires source upload.
 
-### 6. Print the script's output to the user
+### 7. Print the script's output to the user
 
 The script prints a file tree and venue-specific setup notes. Make sure the user sees these.
 

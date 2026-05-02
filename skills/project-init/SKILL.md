@@ -28,6 +28,7 @@ Default shape:
 <ProjectName>/
 ├── PROJECT.md
 ├── AGENTS.md
+├── CLAUDE.md
 ├── memory/
 │   ├── project.yaml
 │   ├── component-index.yaml
@@ -187,9 +188,14 @@ Root memory should store pointers to code-side evidence, not duplicate detailed 
 
 ## Step 4 - Create Root-Level Agent Guidance
 
-Write `<ProjectName>/AGENTS.md`.
+Write both root agent entrypoints:
 
-It must state:
+- `<ProjectName>/AGENTS.md` for Codex and universal agent guidance
+- `<ProjectName>/CLAUDE.md` for Claude Code compatibility
+
+They should stay semantically aligned. Prefer either mirrored content or a short `CLAUDE.md` that tells Claude Code to follow `AGENTS.md` as the canonical project-control-root policy.
+
+The root guidance must state:
 
 - agents start from `<ProjectName>/` unless a task is explicitly component-local
 - use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component repos
@@ -219,6 +225,8 @@ If creating a new paper repo, use `init-latex-project` at:
 
 If connecting an existing paper repo, clone or record its path and remote. Then create `paper/.agent/` if missing.
 
+Ensure the paper repo has both `paper/AGENTS.md` and `paper/CLAUDE.md` when agents will edit it. `AGENTS.md` is the universal/Codex entrypoint; `CLAUDE.md` is the Claude Code entrypoint. Keep them aligned with the same paper-local compile, venue, source hygiene, figure, table, and memory rules.
+
 ### Code
 
 If creating a new code repo, use `init-python-project` at:
@@ -230,6 +238,8 @@ If creating a new code repo, use `init-python-project` at:
 For ML projects, ensure the code repo has:
 
 ```text
+code/AGENTS.md
+code/CLAUDE.md
 code/docs/results/
 code/docs/reports/
 code/docs/runs/
@@ -291,6 +301,7 @@ Record this in:
 - `memory/project.yaml`
 - `memory/component-index.yaml`
 - `<ProjectName>/AGENTS.md`
+- `<ProjectName>/CLAUDE.md`
 - `code/docs/ops/current-status.md` when server execution is involved
 
 If the execution server only has the code repo, record the server-specific worktree root in `code/infra/remote-projects.yaml` or `code/docs/ops/current-status.md`. Do not assume the server has `paper/` or root project memory.
@@ -399,7 +410,8 @@ Next skills:
 
 Before finishing:
 
-- root agent guidance exists
+- root agent guidance exists in both `AGENTS.md` and `CLAUDE.md`
+- component repos that agents edit have paired `AGENTS.md` and `CLAUDE.md`
 - root memory files exist or are explicitly deferred
 - `paper/`, `code/`, and `slides/` Git boundaries are clear
 - root and component Git remotes have been inspected separately when GitHub/GitLab setup is involved

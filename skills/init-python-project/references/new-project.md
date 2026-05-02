@@ -30,6 +30,7 @@ Use `template_manifest.json` as the source of truth for which templates belong t
   - `templates/common/.gitignore`
   - `templates/common/.env.example`
   - `templates/common/README.md`
+  - `templates/common/AGENTS.md`
   - `templates/common/CLAUDE.md`
   - `templates/common/pyproject.toml.tmpl`
   - `templates/common/tests/conftest.py`
