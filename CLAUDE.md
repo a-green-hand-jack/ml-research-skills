@@ -84,6 +84,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `conference-writing-adapter` | Adapt a paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and project-local writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
+| `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of citation keys, BibTeX entries, metadata, citation claims, labels, and LaTeX references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
@@ -112,6 +113,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`conference-writing-adapter`**: Use when a paper needs to be reshaped for a target venue's reviewer expectations. It learns from accepted/oral/spotlight exemplars, diagnoses the paper archetype, and produces section-level or paragraph-level rewrite plans.
 - **`paper-reviewer-simulator`**: Use before submission to simulate venue-specific reviewers, predict likely reject reasons, produce an area-chair style meta-review, and rank fixes by acceptance impact.
 - **`rebuttal-strategist`**: Use after real reviews arrive to parse OpenReview/reviewer comments, infer reviewer intent, decide which experiments or clarifications matter, draft rebuttals, and track promised revisions.
+- **`camera-ready-finalizer`**: Use after acceptance to close rebuttal promises, de-anonymize, lock final claims against evidence, check supplement consistency, run final submission handoff, and route code/artifact/release tasks.
 - **`citation-coverage-audit`**: Use before submission to find missing foundational, closest, benchmark, and recent concurrent citations, then map each missing paper to an insertion point and novelty risk.
 - **`citation-audit`**: Use before paper submission to verify the LaTeX citation graph, BibTeX correctness, metadata accuracy, and whether high-risk citation claims are actually supported by the cited works.
 - **`new-workspace`**: Worktrees go to `<project-root>/../worktrees/<branch-type>-<branch-name>/`. IDE config dirs (`.vscode`, `.cursor`, `.claude`) are copied (not symlinked). Large shared assets declared in `.worktree-links` are symlinked.

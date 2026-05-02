@@ -56,6 +56,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
+| `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
@@ -137,7 +138,15 @@ Use this stage after real reviews arrive:
 |---|---|
 | **rebuttal-strategist** | Analyze reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 
-### 6. Maintenance, Release, and Retrospective
+### 6. Camera-Ready and Finalization
+
+Use this stage after acceptance and before final upload or public release:
+
+| Skill | Lifecycle role |
+|---|---|
+| **camera-ready-finalizer** | Close rebuttal promises, de-anonymize, lock final claims/evidence, audit supplement consistency, and prepare release handoff |
+
+### 7. Maintenance, Release, and Retrospective
 
 Use these skills to keep the project understandable, publishable, and easy to hand off:
 
@@ -148,7 +157,7 @@ Use these skills to keep the project understandable, publishable, and easy to ha
 | **work-timeline-planner** | Summarize past work or plan future work from git history, docs, and notes |
 | **add-git-tag** | Mark a milestone with an annotated git tag |
 
-### 7. Git Safety
+### 8. Git Safety
 
 Use this whenever a workflow touches non-trivial Git state:
 
@@ -215,6 +224,7 @@ For the person coordinating author response after real reviews arrive:
 |---|---|
 | **research-project-memory** | Link real review issues to rebuttal actions, promised revisions, and updated evidence |
 | **rebuttal-strategist** | Parse reviews, infer reviewer intent, prioritize issues, plan rebuttal experiments, draft responses, and track promised revisions |
+| **camera-ready-finalizer** | Verify that accepted-paper revisions fulfill rebuttal promises and close residual review risks |
 | **run-experiment** | Execute targeted rebuttal experiments or analyses |
 | **conference-writing-adapter** | Turn accepted reviewer criticism into paper revisions |
 
@@ -225,6 +235,7 @@ For the person keeping the repo usable, documented, and publishable:
 | Skill | Role support |
 |---|---|
 | **research-project-memory** | Maintain project-level status, decisions, actions, component memory, and closeout summaries |
+| **camera-ready-finalizer** | Produce the final paper closeout and route code, artifact, upload, and milestone tasks |
 | **update-docs** | Refresh docs after code or workflow changes |
 | **release-code** | Prepare the public research code release |
 | **add-git-tag** | Mark milestones with annotated tags |
@@ -292,10 +303,11 @@ Potential future skills could include **camera-ready-finalizer**, **artifact-eva
 20. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
 21. submit-paper    -> run a readiness check before a deadline
 22. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-23. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-24. update-docs     -> refresh docs after meaningful code changes
-25. release-code    -> prepare the public code release when needed
-26. add-git-tag     -> mark a milestone
+23. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+24. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+25. update-docs     -> refresh docs after meaningful code changes
+26. release-code    -> prepare the public code release when needed
+27. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -440,6 +452,14 @@ Potential future skills could include **camera-ready-finalizer**, **artifact-eva
 - Targeted rebuttal experiment planning with success, partial-success, failure, and out-of-scope response wording
 - Evidence-first rebuttal drafting, follow-up reply preparation, decision-path analysis, and promised-revision tracking
 - Project-local memory under `.agent/rebuttal-strategy/` for reviews, issue boards, experiments, drafts, and final outcomes
+
+## What `camera-ready-finalizer` Provides
+
+- A post-acceptance finalization workflow for accepted papers, distinct from pre-submission `submit-paper`
+- Rebuttal-promise ledgers that verify promised experiments, clarifications, citations, limitations, and fixes are fulfilled or explicitly resolved
+- De-anonymization checks for authors, affiliations, acknowledgements, funding, self-citations, code links, project pages, and metadata
+- Final claim/evidence locking across main paper, figures, tables, appendix, supplement, bibliography, and code/artifact links
+- Release and artifact handoff for `release-code`, `artifact-evaluation-prep`, `citation-audit`, `submit-paper`, and milestone tagging
 
 ## What `citation-coverage-audit` Provides
 
