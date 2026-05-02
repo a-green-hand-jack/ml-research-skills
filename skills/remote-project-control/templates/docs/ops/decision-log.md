@@ -20,3 +20,4 @@ Use this file for durable workflow decisions, not ephemeral runtime status.
 - `gh` authentication is separate from `git` SSH authentication.
 - Check `gh auth status` before GitHub API operations such as `gh repo create`, `gh repo view`, or `gh repo fork`.
 - A failed `gh auth status` should be treated as an authentication blocker, not as evidence that the Git remote, server, or repository is broken.
+- In sandboxed agent runtimes, `gh` also needs network permission. An `api.github.com` connection failure should be rechecked with network permission before asking the user to re-authenticate.

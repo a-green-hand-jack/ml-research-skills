@@ -11,6 +11,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 - Default branch: `{{DEFAULT_BRANCH}}`
 - Local repo root: `{{LOCAL_REPO_ROOT}}`
 - GitHub/GitLab CLI auth: unknown until checked
+- GitHub/GitLab API network access: unknown until checked
 
 ## Current Focus
 
@@ -30,7 +31,8 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 ## Open Issues
 
 - Record blockers, mismatches, or things the next session should re-check.
-- Re-check `gh auth status` before using GitHub API commands such as repo creation, repo view, or fork.
+- Re-check `gh auth status` with network access before using GitHub API commands such as repo creation, repo view, or fork.
+- If `gh` reports `api.github.com` connection failure, treat it as network/sandbox access until rechecked with network permission.
 
 ## Next Step
 

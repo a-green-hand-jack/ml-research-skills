@@ -503,7 +503,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A repo-native memory model for projects developed locally, synced through Git remotes such as GitHub/GitLab, and executed on SSH/HPC/RunAI servers
 - Shared and private memory files for Git remote mappings, server mappings, working status, and local overrides
 - Safe orchestration for inspect, Git remote setup, sync, server job submission, monitoring, and artifact lookup
-- GitHub CLI guardrails: check `gh auth status` before `gh repo create`, `gh repo view`, or `gh repo fork`, and keep project-root and component-repo remotes separate
+- GitHub CLI guardrails: check `gh auth status` with network access before `gh repo create`, `gh repo view`, or `gh repo fork`; distinguish `api.github.com` network/sandbox failures from real auth failures; keep project-root and component-repo remotes separate
 - A clean handoff layer between project memory and `run-experiment`
 
 ## What `work-timeline-planner` Provides

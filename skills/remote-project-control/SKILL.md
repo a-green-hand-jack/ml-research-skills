@@ -49,6 +49,7 @@ Pair this skill with `research-project-memory` when server execution state shoul
 - Prefer GitHub/GitLab or the configured Git remote for local-to-server code sync; do not improvise ad hoc source copying unless the project explicitly uses it
 - Never use destructive server-side git commands without explicit user approval
 - Treat GitHub/GitLab API access as separate from normal `git` SSH access: `git push` may work while `gh repo create`, `gh repo view`, or `gh repo fork` fails because `gh` is not authenticated
+- Treat GitHub/GitLab API network access as separate from authentication: in sandboxed agent runtimes, `gh` may fail to reach `api.github.com` unless the command is rerun with network permission
 - In project-control-root layouts, inspect root and component repos separately; `<ProjectName>/` and `<ProjectName>/code/` may be independent Git repos with different remotes and permissions
 
 ## Memory Files
@@ -161,7 +162,11 @@ Before any `gh` operation that uses GitHub's API, run:
 gh auth status
 ```
 
-If it fails, stop the GitHub API flow and tell the user to re-authenticate with `gh auth login -h github.com`. Do not interpret this as a repository creation failure, Git remote failure, SSH key failure, or server problem.
+Interpret failures carefully:
+
+- If the output says it cannot connect to `api.github.com`, `github.com`, or asks to check the internet connection, treat it as network/sandbox access first. Rerun the same `gh` check with network permission before asking the user to log in again.
+- If `gh auth status` has network access and still reports an invalid token, missing account, or failed login, stop the GitHub API flow and tell the user to re-authenticate with `gh auth login -h github.com`.
+- Do not interpret either failure as a repository creation failure, Git remote failure, SSH key failure, or server problem.
 
 ## Step 5 — Write Back to the Right Memory Layer
 

@@ -75,11 +75,19 @@ git -C <project-root>/paper remote -v
 gh auth status
 ```
 
-If `gh auth status` fails:
+If `gh auth status` fails with a network/API reachability message such as `error connecting to api.github.com`, `check your internet connection`, DNS failure, timeout, or TLS connection failure:
+
+- classify the first problem as `GitHub API network/sandbox access`
+- rerun `gh auth status` with network permission before asking the user to log in again
+- do not conclude the token is invalid from a network-restricted run
+
+If `gh auth status` has network access and still fails:
 
 - classify the problem as `GitHub CLI authentication`, not a Git repo or server problem
 - tell the user to run `gh auth login -h github.com`
 - do not continue to `gh repo create`, `gh repo fork`, or `git push`
+
+If `gh auth login` succeeds but the next `gh repo ...` command fails with `api.github.com` reachability, classify that as `GitHub API network/sandbox access`, not as a failed login. Rerun the repo command with network permission.
 
 Repository setup rules:
 
@@ -93,6 +101,7 @@ Report separately:
 - root repo Git remote and GitHub repo status
 - code repo Git remote and GitHub repo status
 - whether `gh` is authenticated
+- whether the latest `gh` checks had network permission
 - whether normal `git` SSH push is expected to work
 
 ## Run Job
