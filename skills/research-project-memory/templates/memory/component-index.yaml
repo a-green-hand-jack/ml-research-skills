@@ -15,10 +15,17 @@ components:
   - name: code
     path: code
     memory_path: code/.agent
+    worktree_root: code-worktrees
+    evidence_paths:
+      results: code/docs/results
+      reports: code/docs/reports
+      runs: code/docs/runs
     owns:
       - implementation state
       - experiment entry points
-      - run artifacts
+      - code-side result reports
+      - run pointers
+      - remote execution state
       - code worktrees
   - name: slides
     path: slides
@@ -40,5 +47,14 @@ components:
       - real review issues
       - response plan
       - promised revisions
+  - name: artifact
+    path: artifact
+    memory_path: artifact/.agent
+    owns:
+      - artifact evaluation package state
+      - reproduction instructions
+      - release handoff
 
-worktrees: []
+worktrees:
+  root: code-worktrees
+  entries: []

@@ -1,206 +1,260 @@
 ---
 name: new-workspace
-description: Create a new Git branch or worktree for experiments or features. Use when starting a new experiment branch, creating an isolated workspace, or setting up a feature branch with worktree support and UV environment sync.
+description: Create a new Git branch or code worktree for experiments, features, baselines, rebuttal fixes, or method revisions. Use when starting an isolated code direction, creating a branch, creating a project-aware code worktree under a project control root, or setting up a worktree with UV sync, IDE config copying, linked assets, and worktree memory.
 allowed-tools: Read, Write, Bash, Glob
 ---
 
-# Create New Git Workspace (Branch or Worktree)
+# Create New Git Workspace
 
-You are helping the user create a new Git branch or worktree for experiments or features.
+Create a branch or Git worktree without confusing project-level management with code-repo management.
 
-## Workflow
+Use this skill for code, experiment, baseline, feature, or rebuttal branches. In a full research project, the usual target repo is `<ProjectName>/code/`, and worktrees should live under `<ProjectName>/code-worktrees/`.
 
-### 1. Ask User for Workspace Type
+Pair this skill with:
 
-Ask the user to choose:
-- **branch**: Create a new branch in the current working directory
-- **worktree**: Create a new worktree in a separate directory
+- `safe-git-ops` for non-trivial Git state, conflicts, or sandbox write failures
+- `research-project-memory` to record worktree purpose and exit condition
+- `remote-project-control` when the worktree will be used on an SSH/HPC server
+- `run-experiment` when the new workspace immediately launches jobs
 
-### 2. Ask for Branch Type and Name
+## Core Principles
 
-Ask the user to choose the branch type:
-- **feature**: For new features (creates `feature/<name>`)
-- **exp**: For experiments (creates `exp/<name>`)
+- Create worktrees for the code repo, not for the whole project root.
+- Prefer sibling code worktrees under `<ProjectName>/code-worktrees/`.
+- Avoid nested worktrees inside `code/` unless the user explicitly requires that layout.
+- Every research worktree should have a purpose, linked claim/risk/experiment, and exit condition.
+- `experiments/` is runnable logic; stable result summaries belong in `docs/results/`, reports in `docs/reports/`, and run pointers in `docs/runs/`.
+- Each worktree gets its own `.venv/` after `uv sync`.
 
-Then ask for the branch name (without prefix). For example:
-- User inputs: `authentication`
-- Result: `feature/authentication` or `exp/authentication`
+## Step 1 - Classify the Target
 
-### 3. Verify Current Git State
+Ask the user for:
 
-Before creating anything, check:
-```bash
-# Ensure we're in a git repository
-git rev-parse --git-dir
+- workspace type: `branch` or `worktree`
+- branch type: `feature`, `exp`, `baseline`, `debug`, `rebuttal`, `paper-fix`, or custom
+- branch name without prefix
+- target repo path, if not obvious
+- whether to write worktree memory
 
-# Check for uncommitted changes
-git status --porcelain
+If running inside `<ProjectName>/`, prefer the `code/` repo for experiment, baseline, debug, and rebuttal implementation work.
+
+If running inside `<ProjectName>/code/`, infer:
+
+```text
+code repo root:      <ProjectName>/code/
+project control root: <ProjectName>/
+worktree root:      <ProjectName>/code-worktrees/
 ```
 
-If there are uncommitted changes, warn the user and ask if they want to:
-- Stash changes and continue
-- Commit changes first
-- Cancel operation
+If running inside a standalone code repo, use the fallback worktree root:
 
-### 4. Create Branch or Worktree
-
-#### Option A: Create Branch Only
-
-```bash
-# Create and checkout new branch
-git checkout -b <branch-type>/<branch-name>
+```text
+<code-repo-parent>/worktrees/
 ```
 
-Show success message and current branch.
+## Step 2 - Verify Git State
 
-#### Option B: Create Worktree
-
-**Steps:**
-
-1. **Get project root directory:**
-```bash
-git rev-parse --show-toplevel
-```
-
-2. **Create worktree directory structure:**
-```bash
-# Worktrees will be at: <project-root>/../worktrees/<branch-name>/
-PROJECT_ROOT=$(git rev-parse --show-toplevel)
-WORKTREE_DIR="$PROJECT_ROOT/../worktrees/<branch-type>-<branch-name>"
-
-# Create worktree
-git worktree add "$WORKTREE_DIR" -b <branch-type>/<branch-name>
-```
-
-3. **Sync IDE configuration directories:**
-
-Automatically copy IDE configuration folders from project root to worktree:
+In the target repo:
 
 ```bash
-# Copy IDE configuration directories
-for config_dir in .vscode .cursor .claude; do
-    if [ -d "$PROJECT_ROOT/$config_dir" ]; then
-        echo "Copying $config_dir configuration..."
-        cp -r "$PROJECT_ROOT/$config_dir" "$WORKTREE_DIR/"
-        echo "✓ $config_dir synced"
-    fi
-done
+git -C <repo-root> rev-parse --show-toplevel
+git -C <repo-root> status --short
+git -C <repo-root> branch --show-current
+git -C <repo-root> worktree list
 ```
 
-**Important**: These directories are **copied** (not symlinked) so that:
-- Each worktree can have independent IDE settings if needed
-- Changes in one worktree don't affect others
-- You can customize settings per experiment/feature
+If there are uncommitted changes, ask whether to commit, stash, continue with a branch only, or cancel.
 
-4. **Check for .worktree-links configuration:**
+## Step 3 - Choose Branch Name
 
-Look for `.worktree-links` file in the project root:
+Use:
+
+```text
+<branch-type>/<branch-name>
+```
+
+Examples:
+
+- `exp/new-loss`
+- `baseline/fair-tuning`
+- `debug/nan-loss`
+- `rebuttal/add-ablation`
+- `feature/data-loader`
+
+The worktree directory name should be filesystem-friendly:
+
+```text
+<branch-type>-<branch-name-with-slashes-replaced-by-hyphens>
+```
+
+## Step 4 - Create a Branch
+
+For branch-only work:
+
 ```bash
-LINKS_CONFIG="$PROJECT_ROOT/.worktree-links"
-if [ -f "$LINKS_CONFIG" ]; then
-    # Read and process links
-    while IFS= read -r line; do
-        # Skip empty lines and comments
-        [[ -z "$line" || "$line" =~ ^#.* ]] && continue
-
-        # Create symlink from worktree to original location
-        SOURCE="$PROJECT_ROOT/$line"
-        TARGET="$WORKTREE_DIR/$line"
-
-        if [ -e "$SOURCE" ]; then
-            # Create parent directory if needed
-            mkdir -p "$(dirname "$TARGET")"
-            ln -s "$SOURCE" "$TARGET"
-            echo "Linked: $line"
-        else
-            echo "Warning: Source not found: $line"
-        fi
-    done < "$LINKS_CONFIG"
-fi
+git -C <repo-root> checkout -b <branch-type>/<branch-name>
 ```
 
-**Format of `.worktree-links` file:**
-```
-# Lines starting with # are comments
-# List relative paths from project root to link
+Then update component memory if the branch has a research purpose.
 
+## Step 5 - Create a Worktree
+
+Determine the worktree root:
+
+1. If `<repo-root>` is `<ProjectName>/code/`, use `<ProjectName>/code-worktrees/`.
+2. If `<repo-root>/../code-worktrees/` exists, use that.
+3. If project memory declares a code worktree root, use that.
+4. Otherwise use `<repo-root>/../worktrees/`.
+
+Create the worktree:
+
+```bash
+mkdir -p <worktree-root>
+git -C <repo-root> worktree add <worktree-root>/<worktree-dir-name> -b <branch-type>/<branch-name>
+```
+
+If the branch already exists, ask whether to create the worktree from the existing branch:
+
+```bash
+git -C <repo-root> worktree add <worktree-root>/<worktree-dir-name> <branch-type>/<branch-name>
+```
+
+## Step 6 - Copy Local Tooling and Link Shared Assets
+
+Copy local IDE/tooling directories when present:
+
+```text
+.vscode/
+.cursor/
+.claude/
+```
+
+Copy, do not symlink, because each worktree may need independent IDE state.
+
+If `<repo-root>/.worktree-links` exists, read relative paths from it and symlink shared large assets into the worktree. Typical entries:
+
+```text
 data/
 models/
 .env
 configs/local_settings.yaml
 ```
 
-4. **Sync UV environment in the new worktree:**
+Use absolute symlink targets so links remain valid from the worktree path.
+
+## Step 7 - Prepare Code-Side Evidence Paths
+
+In the worktree, ensure:
+
+```text
+docs/results/
+docs/reports/
+docs/runs/
+.agent/
+```
+
+Use these paths for branch-local evidence:
+
+- `docs/results/`: stable result summaries, table notes, figure notes
+- `docs/reports/`: experiment reports and result narratives
+- `docs/runs/`: job IDs, config paths, commit hashes, remote paths, short metrics
+- `.agent/worktree-status.md`: purpose, linked claims/risks, latest reliable state, exit condition
+
+Do not store raw logs, checkpoints, wandb runs, tensorboard caches, or large outputs in `docs/`.
+
+## Step 8 - Sync Environment
+
+If `pyproject.toml` exists in the worktree:
 
 ```bash
-cd "$WORKTREE_DIR"
-
-# Check if pyproject.toml exists (indicating a Python project with uv)
-if [ -f "pyproject.toml" ]; then
-    echo "Syncing UV environment..."
-    uv sync
-    echo "UV environment synced successfully"
-else
-    echo "No pyproject.toml found, skipping UV sync"
-fi
+cd <worktree-path>
+uv sync
 ```
 
-5. **Display summary:**
-```
-✓ Worktree created at: <worktree-path>
-✓ Branch created: <branch-type>/<branch-name>
-✓ Symlinks created: <count> items
-✓ UV environment synced
+If `uv sync` fails, report the error but do not delete the worktree. The user may still want to inspect or fix the branch.
 
-To start working:
+## Step 9 - Write Worktree Memory
+
+If the workspace has a research purpose, create or update:
+
+```text
+<worktree>/.agent/worktree-status.md
+```
+
+Include:
+
+- branch
+- path
+- created date
+- parent branch
+- purpose
+- linked claims, experiments, risks, or reviewer issues
+- expected difference from main branch
+- result/output paths
+- exit condition: merge, continue, park, or kill
+- next verification step
+
+If project memory exists, also add a short pointer to:
+
+- `memory/component-index.yaml`: known worktree path
+- `memory/action-board.md`: next action for the worktree
+- `memory/current-status.md`: only if this is the active focus
+
+## Step 10 - Final Summary
+
+Report:
+
+```text
+Workspace created
+
+Repo: <repo-root>
+Branch: <branch-type>/<branch-name>
+Worktree: <path or branch-only>
+Evidence paths:
+  docs/results/
+  docs/reports/
+  docs/runs/
+Memory:
+  .agent/worktree-status.md <created|skipped>
+
+Next:
   cd <worktree-path>
+  uv sync
+  run or edit the planned experiment
 ```
 
-### 5. Error Handling
+## Error Handling
 
-Handle common errors:
-
-- **Not in a git repository**: Show clear error message
-- **Branch already exists**: Ask if user wants to:
-  - Create worktree from existing branch (if applicable)
-  - Choose a different name
-  - Cancel
-- **Worktree directory already exists**: Ask to remove or choose different name
-- **UV sync fails**: Show error but don't rollback worktree creation
-- **.worktree-links not found**: Continue without creating symlinks (this is optional)
-
-### 6. Additional Features
-
-**Optional: List existing worktrees**
-
-If user chooses worktree option, first show existing worktrees:
-```bash
-git worktree list
-```
-
-This helps user see what already exists.
+- Not a Git repo: stop and ask for the target repo.
+- Dirty tree: ask whether to commit, stash, continue, or cancel.
+- Branch exists: ask whether to use existing branch or choose a new name.
+- Worktree path exists: ask whether to choose a new name or inspect existing path.
+- Sandbox blocks Git metadata writes: treat as a permission issue and use `safe-git-ops`.
+- UV sync fails: keep the worktree and report the environment issue.
 
 ## Configuration File Template
 
-If `.worktree-links` doesn't exist in the project, you can offer to create it with common defaults:
+If `.worktree-links` does not exist, offer to create:
 
-```
+```text
 # .worktree-links
 #
-# Symlinks to create in new worktrees
-# List paths relative to project root
-# Lines starting with # are ignored
+# Symlinks to create in new worktrees.
+# List paths relative to the code repo root.
 
-# Example entries:
 # data/
 # models/
 # .env
-# configs/production.yaml
+# configs/local_settings.yaml
 ```
 
-## Important Notes
+## Final Sanity Check
 
-- **Worktree isolation**: Each worktree has its own working directory but shares the same Git object database
-- **UV environment**: Each worktree gets its own `.venv/` (not symlinked) to avoid conflicts
-- **Symlinks are absolute paths**: Use absolute paths in symlinks to ensure they work from the worktree location
-- **Branch tracking**: New branches are created as local branches (not tracking remote)
+Before finishing:
+
+- branch or worktree was created in the intended code repo
+- worktree is not nested inside `code/` unless explicitly requested
+- `git worktree list` shows the expected path
+- evidence paths exist in the worktree
+- worktree memory records purpose and exit condition when relevant
+- project memory is updated only with durable pointers, not logs

@@ -25,7 +25,7 @@ Purpose: the project-level source of coordination truth.
 Files:
 
 - `project.yaml`: stable project identity, components, policies, and current target
-- `component-index.yaml`: paths and roles for paper, code, slides, reviewer, rebuttal, and worktrees
+- `component-index.yaml`: paths and roles for paper, code, code worktrees, slides, reviewer, rebuttal, artifact, and component memory
 - `current-status.md`: session-to-session working state
 - `decision-log.md`: durable decisions and why they were made
 - `claim-board.md`: active, revised, cut, and planned claims
@@ -42,16 +42,28 @@ Path: `<component>/.agent/`
 Common components:
 
 - `paper/`: section map, figure/table map, writing decisions, venue adaptation state
-- `code/`: code status, experiment index, implementation decisions, remote execution pointers
+- `code/`: code status, experiment index, implementation decisions, remote execution pointers, and code-side evidence under `docs/results/`, `docs/reports/`, and `docs/runs/`
 - `slides/`: presentation story, audience feedback, outdated figures
 - `reviewer/`: simulated review history and risk register
 - `rebuttal/`: real review issue board, response plan, promised revisions
+- `artifact/`: artifact evaluation package state, reproduction instructions, and release handoff
 
 Component memory should contain details that are too local for project boards but important for agents working inside that component.
 
 ## Layer 4: Worktree / Branch Memory
 
-Path: `<worktree>/.agent/worktree-status.md`
+Path: `<code-worktree>/.agent/worktree-status.md`
+
+Default project-control-root layout:
+
+```text
+<ProjectName>/
+├── code/
+└── code-worktrees/
+    └── <branch-type>-<branch-name>/
+```
+
+Avoid nesting linked worktrees inside `code/` unless the project explicitly chose that layout.
 
 Every research worktree should state:
 

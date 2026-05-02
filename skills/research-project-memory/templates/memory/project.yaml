@@ -23,6 +23,11 @@ components:
   code:
     path: code
     memory_path: code/.agent
+    worktree_root: code-worktrees
+    evidence_paths:
+      results: code/docs/results
+      reports: code/docs/reports
+      runs: code/docs/runs
     status: planned
   slides:
     path: slides
@@ -35,6 +40,10 @@ components:
   rebuttal:
     path: rebuttal
     memory_path: rebuttal/.agent
+    status: optional
+  artifact:
+    path: artifact
+    memory_path: artifact/.agent
     status: optional
 
 id_counters:

@@ -27,6 +27,9 @@
       "templates/common/tests/conftest.py",
       "templates/common/docs/outlines/project_plan.md",
       "templates/common/docs/outlines/progress.md",
+      "templates/common/docs/results/.gitkeep",
+      "templates/common/docs/reports/.gitkeep",
+      "templates/common/docs/runs/.gitkeep",
       "templates/common/docs/dev/feature_template.md",
       "templates/common/docs/src/dependencies.md",
       "templates/common/.vscode/settings.json"
@@ -62,6 +65,9 @@
         "tests/outputs",
         "docs/dev/features",
         "docs/src",
+        "docs/results",
+        "docs/reports",
+        "docs/runs",
         "eval/benchmarks",
         "eval/baselines/reproduced",
         "infra/submit/slurm",
@@ -73,6 +79,9 @@
         "eval/benchmarks/.gitkeep",
         "eval/baselines/reproduced/.gitkeep",
         "infra/submit/slurm/.gitkeep",
+        "docs/results/.gitkeep",
+        "docs/reports/.gitkeep",
+        "docs/runs/.gitkeep",
         "tests/data/.gitkeep",
         "tests/outputs/.gitkeep"
       ]

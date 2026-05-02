@@ -46,6 +46,9 @@ Lower layers never import from higher layers.
 │   ├── outlines/
 │   │   ├── project_plan.md
 │   │   └── progress.md
+│   ├── results/                 # Stable result summaries and paper-facing table/figure notes
+│   ├── reports/                 # Experiment reports and technical result writeups
+│   ├── runs/                    # Run registry, job pointers, config/commit pointers
 │   ├── ops/
 │   │   ├── current-status.md
 │   │   └── decision-log.md
@@ -81,3 +84,31 @@ Lower layers never import from higher layers.
 Migrating to a new HPC should only require adding one YAML file to `infra/envs/`. Science code should not change.
 
 For projects that are developed locally but run remotely, store stable mapping and policy in `infra/remote-projects.yaml`, keep cross-session working memory in `docs/ops/`, and keep private machine-specific overrides in `.agent/local-overrides.yaml`.
+
+## Experiment Evidence Policy
+
+`experiments/` is runnable logic, not a result archive.
+
+Use:
+
+- `docs/results/` for stable result summaries, table notes, and figure notes that are small enough to review and commit.
+- `docs/reports/` for `experiment-report-writer` outputs and technical result narratives.
+- `docs/runs/` for run registries, job IDs, config pointers, commit hashes, remote output paths, and short metric summaries.
+
+Do not commit raw training outputs, checkpoints, large logs, tensorboard caches, or wandb directories. Keep those in ignored paths such as `outputs/`, `logs/`, `checkpoints/`, or external storage, then link to them from `docs/runs/`.
+
+## Worktree Policy
+
+Do not place linked worktrees inside the main code repo by default.
+
+When this code repo is part of a project control root, prefer:
+
+```text
+<ProjectName>/
+├── code/
+└── code-worktrees/
+    ├── exp-<name>/
+    └── rebuttal-<name>/
+```
+
+Each code worktree should keep its own `.agent/worktree-status.md` and may use the same `docs/results/`, `docs/reports/`, and `docs/runs/` convention for branch-local evidence.

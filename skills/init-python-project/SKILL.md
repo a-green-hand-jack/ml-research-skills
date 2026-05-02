@@ -129,7 +129,7 @@ At minimum, create:
 ```bash
 mkdir -p src/<package_name>/{models,data,utils}
 mkdir -p tests/{data,outputs}
-mkdir -p docs/outlines docs/dev/features docs/src
+mkdir -p docs/outlines docs/dev/features docs/src docs/results docs/reports docs/runs
 mkdir -p .vscode .cursor .claude/commands
 touch src/<package_name>/__init__.py
 touch src/<package_name>/models/__init__.py
@@ -162,6 +162,9 @@ Write these common files from `templates/common/`:
 - `tests/conftest.py`
 - `docs/outlines/project_plan.md`
 - `docs/outlines/progress.md`
+- `docs/results/.gitkeep`
+- `docs/reports/.gitkeep`
+- `docs/runs/.gitkeep`
 - `docs/dev/feature_template.md`
 - `docs/src/dependencies.md`
 - `.vscode/settings.json`
@@ -192,6 +195,9 @@ touch experiments/configs/.gitkeep
 touch eval/benchmarks/.gitkeep
 touch eval/baselines/reproduced/.gitkeep
 touch infra/submit/slurm/.gitkeep
+touch docs/results/.gitkeep
+touch docs/reports/.gitkeep
+touch docs/runs/.gitkeep
 touch tests/data/.gitkeep
 touch tests/outputs/.gitkeep
 ```
@@ -316,10 +322,13 @@ Next steps:
 2. cp .env.example .env
 3. Fill in project-specific settings
 4. Start implementing in src/<package_name>/
-5. Run pytest before the next commit
+5. Put stable experiment summaries in docs/results/, reports in docs/reports/, and run pointers in docs/runs/
+6. Run pytest before the next commit
 ```
 
 ## Important Notes
 
 - Use `references/best-practices.md` when you hit edge cases.
 - Keep this `SKILL.md` focused on orchestration; the detailed file content should live in `templates/` and `references/`.
+- `experiments/` is runnable experiment logic, not a result archive. Raw outputs, checkpoints, logs, and wandb/tensorboard caches should stay in ignored paths or external storage, with small pointers in `docs/runs/`.
+- When this code repo belongs to a project control root, prefer sibling code worktrees under `<ProjectName>/code-worktrees/` instead of nested worktrees inside `code/`.

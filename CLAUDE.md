@@ -70,10 +70,10 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `literature-review-sprint` | Turn a topic or project direction into a ranked literature map with closest-work, baseline, novelty, and positioning implications |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates and official style files |
-| `init-python-project` | Create a production-ready Python/ML project with uv, pytest, black, ruff, mypy |
-| `project-init` | Initialize a full research project: parent folder with `paper/` (LaTeX) + `code/` (Python) + `PROJECT.md` |
+| `init-python-project` | Create a production-ready Python/ML code repo with uv, pytest, black, ruff, mypy, code-side evidence docs, and remote workflow memory |
+| `project-init` | Initialize a research project control root with independent paper/code/slides repos, shared memory, root agent guidance, and code-owned worktree policy |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
-| `new-workspace` | Create a git branch or worktree with UV sync and IDE config copying |
+| `new-workspace` | Create a git branch or project-aware code worktree with UV sync, IDE config copying, evidence dirs, and worktree memory |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose debug/rerun/ablate/revise/narrow/write/park/kill decisions |
@@ -105,7 +105,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`research-idea-validator`**: Use at the start of a project or when a direction is uncertain. It applies the FIVE+C framework to decide pursue/revise/park/kill, then routes to literature review, algorithm design, experiment design, or project setup.
 - **`literature-review-sprint`**: Use before method lock-in or after novelty doubts arise. It builds a ranked map of canonical, closest, recent, baseline, and positioning-relevant papers, then converts the map into project decisions and memory updates.
 - **`algorithm-design-planner`**: Use after idea validation and before coding/experiment design. It turns a research idea into a method spec, failure-mode map, ablation implications, implementation handoff, and paper-method bridge.
-- **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates `paper/` and `code/` sibling repos under a shared parent; `project-sync` keeps `daily_experiments.tex` updated with new results.
+- **`project-init` + `project-sync`**: Core paired workflow. `project-init` creates the project control root with independent component repos, shared memory, root `AGENTS.md`, and a `code-worktrees/` policy; `project-sync` promotes verified code-side evidence into the paper log.
 - **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.
 - **`baseline-selection-audit`**: Use between literature review and experiment execution, or whenever a comparison table may be vulnerable. It classifies baselines as must-have/should-have/optional/not-comparable/citation-only and produces a fairness ledger plus reviewer-risk forecast.
 - **`result-diagnosis`**: Use after results are surprising, negative, unstable, or hard to interpret. It separates bugs, metric issues, baseline fairness, variance, mechanism failure, and claim mismatch before deciding the next action.
@@ -121,8 +121,9 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`artifact-evaluation-prep`**: Use when an accepted or submitted paper needs an artifact evaluation package, reviewer quickstart, smoke tests, runtime envelope, data/checkpoint manifest, or claim-to-artifact map.
 - **`citation-coverage-audit`**: Use before submission to find missing foundational, closest, benchmark, and recent concurrent citations, then map each missing paper to an insertion point and novelty risk.
 - **`citation-audit`**: Use before paper submission to verify the LaTeX citation graph, BibTeX correctness, metadata accuracy, and whether high-risk citation claims are actually supported by the cited works.
-- **`new-workspace`**: Worktrees go to `<project-root>/../worktrees/<branch-type>-<branch-name>/`. IDE config dirs (`.vscode`, `.cursor`, `.claude`) are copied (not symlinked). Large shared assets declared in `.worktree-links` are symlinked.
+- **`new-workspace`**: In a project-init layout, code worktrees go to `<ProjectName>/code-worktrees/<branch-type>-<branch-name>/` when the target repo is `<ProjectName>/code/`. IDE config dirs (`.vscode`, `.cursor`, `.claude`) are copied, large shared assets declared in `.worktree-links` are symlinked, and `.agent/worktree-status.md` records purpose and exit condition.
 - **`safe-git-ops`**: Use this for general Git work, especially when an agent might confuse sandbox failures with merge conflicts or when shared worktree metadata makes write paths non-obvious.
 - **`remote-project-control`**: Use this before remote-heavy work when a repo is edited locally but run on SSH servers. It establishes repo-native project memory and keeps local/remote state explicit across sessions.
 - **`init-latex-project`**: Invoked by `project-init` via `scripts/init.sh`. Always expand `~` to the actual home path when calling the script.
+- **`init-python-project`**: Treat `experiments/` as runnable logic. Code-side evidence belongs in `docs/results/`, `docs/reports/`, and `docs/runs/`; raw outputs, logs, checkpoints, tensorboard caches, and wandb runs stay ignored or external.
 - **`skill-system-auditor`**: Use when maintaining this repository as a collection: inventory drift, lifecycle gaps, routing quality, memory writeback coverage, stale future-skill references, and validation readiness.

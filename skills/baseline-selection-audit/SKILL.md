@@ -204,6 +204,12 @@ If saving to a project and no path is given, use:
 docs/experiments/baseline_selection_audit_YYYY-MM-DD_<short-name>.md
 ```
 
+If working inside a code repo or code worktree created by `init-python-project` / `new-workspace`, prefer:
+
+```text
+docs/reports/baseline_selection_audit_YYYY-MM-DD_<short-name>.md
+```
+
 The report must include:
 
 - claim under audit

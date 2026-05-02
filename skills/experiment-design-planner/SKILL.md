@@ -199,6 +199,12 @@ If saving to a project and no path is given, use:
 docs/experiments/experiment_plan_YYYY-MM-DD_<short-name>.md
 ```
 
+If working inside a code repo or code worktree created by `init-python-project` / `new-workspace`, prefer:
+
+```text
+docs/reports/experiment_plan_YYYY-MM-DD_<short-name>.md
+```
+
 The final plan should be runnable by `run-experiment` and later reportable by `experiment-report-writer`.
 
 ## Step 10 - Write Back to Project Memory

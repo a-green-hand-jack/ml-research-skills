@@ -62,6 +62,9 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
             self.assertTrue((target_dir / "infra" / "remote-projects.yaml").is_file())
             self.assertTrue((target_dir / "docs" / "ops" / "current-status.md").is_file())
             self.assertTrue((target_dir / "docs" / "ops" / "decision-log.md").is_file())
+            self.assertTrue((target_dir / "docs" / "results" / ".gitkeep").is_file())
+            self.assertTrue((target_dir / "docs" / "reports" / ".gitkeep").is_file())
+            self.assertTrue((target_dir / "docs" / "runs" / ".gitkeep").is_file())
             self.assertTrue((target_dir / ".agent" / "local-overrides.yaml").is_file())
             self.assertTrue((target_dir / "scripts" / "train.py").is_file())
             self.assertTrue((target_dir / "tests" / "conftest.py").is_file())
@@ -102,6 +105,8 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
             self.assertIn("/path/to/demo-ml", remote_manifest)
             self.assertIn("cluster-a", current_status)
             self.assertIn(".agent/", gitignore)
+            self.assertIn("/runs/", gitignore)
+            self.assertIn("docs/results/", readme)
 
     def test_scaffold_rejects_non_empty_target_directory(self) -> None:
         with tempfile.TemporaryDirectory(prefix="init-python-project-") as tmp:

@@ -42,10 +42,10 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
-| `init-python-project` | Create or enhance a production-ready Python/ML project using `uv`, pytest, black, ruff, and mypy, with remote-workflow memory scaffolding |
-| `project-init` | Set up a parent research workspace with aligned `paper/` and `code/` repositories plus `PROJECT.md` |
+| `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, code-side evidence docs, and remote-workflow memory scaffolding |
+| `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root agent guidance, and code-owned worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
-| `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
+| `new-workspace` | Create a Git branch or project-aware code worktree for a new feature, experiment, baseline, debug task, or rebuttal fix |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
@@ -93,16 +93,16 @@ Use these skills when deciding whether an idea is worth pursuing and how it shou
 | **literature-review-sprint** | Map canonical, closest, and recent work so novelty, baselines, gaps, and positioning are clear |
 | **algorithm-design-planner** | Convert a promising idea into a concrete method, objective, architecture, or inference design |
 
-### 2. Project and Workspace Setup
+### 2. Project Control Root and Component Repos
 
-Use these skills when starting a project, creating paper/code repositories, or isolating a new line of work:
+Use these skills when starting the project control root, creating or connecting component repos, or isolating a code line of work:
 
 | Skill | Lifecycle role |
 |---|---|
-| **project-init** | Create the parent research workspace with aligned `paper/` and `code/` repositories |
+| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `AGENTS.md`, and `code-worktrees/` policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
-| **init-python-project** | Scaffold or enhance the code repo with ML project structure and tooling |
-| **new-workspace** | Create a branch or worktree for a new feature, experiment, or revision |
+| **init-python-project** | Scaffold or enhance the code repo with ML architecture, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
+| **new-workspace** | Create a branch or code worktree, defaulting to `code-worktrees/` under the project control root when applicable |
 | **remote-project-control** | Coordinate local editing with remote execution on SSH/HPC environments |
 
 ### 3. Experiment Execution, Evidence Capture, and Research Updates
@@ -274,10 +274,10 @@ For the person designing the overall research project, repo structure, and colla
 | **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
 | **literature-review-sprint** | Establish the literature map, closest-work risk, baseline expectations, and open gap before method design |
 | **algorithm-design-planner** | Define the method design before implementation and experiment planning |
-| **project-init** | Create the initial paper/code workspace |
+| **project-init** | Create the project control root and connect paper, code, slides, memory, review, rebuttal, artifact, and code-worktree policy |
 | **init-latex-project** | Define the paper scaffold and venue template |
-| **init-python-project** | Define the code repo structure and tooling |
-| **new-workspace** | Isolate new directions, experiments, or revisions |
+| **init-python-project** | Define the code repo structure, experiment-entry architecture, and code-side evidence docs |
+| **new-workspace** | Isolate new code directions, experiments, baselines, or rebuttal fixes with branches or code worktrees |
 | **remote-project-control** | Establish local/remote execution conventions |
 
 ### Algorithm / Research Idea Designer
@@ -307,8 +307,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
 3. literature-review-sprint -> map canonical, closest, and recent work before locking project positioning
 4. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
-5. project-init       -> create a parent workspace with paper/ and code/
-6. new-workspace      -> isolate a feature or experiment branch
+5. project-init       -> create the project control root, memory, component repos, and code-worktree policy
+6. new-workspace      -> isolate a code feature, experiment, baseline, debug task, or rebuttal fix
 7. remote-project-control -> recover project memory and align local vs remote state
 8. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
 9. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
@@ -378,11 +378,27 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 ## What `init-python-project` Provides
 
 - A four-layer ML project structure: `src/`, `experiments/`, `eval/`, and `infra/`
+- Code-side evidence paths: `docs/results/`, `docs/reports/`, and `docs/runs/`
 - `uv`-based Python project setup with editable installs
 - Development tooling: pytest, black, ruff, and mypy
 - Project docs scaffolding under `docs/`
 - Remote workflow bootstrap files under `infra/remote-projects.yaml`, `docs/ops/`, and `.agent/`
 - Editor configuration for Claude Code / Cursor / VS Code
+- Guidance that `experiments/` is runnable logic, while raw outputs, logs, checkpoints, and wandb/tensorboard caches stay ignored or external
+
+## What `project-init` Provides
+
+- A project control root where agents can coordinate independent `paper/`, `code/`, optional `slides/`, `reviewer/`, `rebuttal/`, and `artifact/` components
+- Root-level `PROJECT.md`, `AGENTS.md`, and `memory/` scaffolding for cross-component claim/evidence/risk/action management
+- A default code worktree policy using sibling `code-worktrees/` rather than nested worktrees inside `code/`
+- Clear separation between project-level memory, component repos, code-side evidence docs, and raw experiment artifacts
+
+## What `new-workspace` Provides
+
+- Branch and worktree creation for code features, experiments, baselines, debug tasks, and rebuttal fixes
+- Project-aware worktree placement under `<ProjectName>/code-worktrees/` when the repo is `<ProjectName>/code/`
+- Worktree-local evidence paths and `.agent/worktree-status.md` purpose/exit-condition memory
+- UV environment sync, IDE config copying, and optional shared-asset symlinks through `.worktree-links`
 
 ## What `remote-project-control` Provides
 

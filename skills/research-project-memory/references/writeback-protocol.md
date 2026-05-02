@@ -14,7 +14,8 @@ Write the smallest durable update that will help the next session. Do not turn m
 | A reviewer, novelty, baseline, mechanism, writing, execution, or rebuttal risk appears | `memory/risk-board.md` |
 | A concrete task needs to be tracked | `memory/action-board.md` |
 | Paper section status, writing decision, figure location | `paper/.agent/` |
-| Code architecture, implementation status, experiment entry point, remote execution pointer | `code/.agent/` or relevant worktree `.agent/` |
+| Code architecture, implementation status, experiment entry point, remote execution pointer | `code/.agent/` or relevant code worktree `.agent/` |
+| Code-side result summaries, experiment reports, and run pointers | `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, plus project evidence board summaries |
 | Slide story, audience feedback, outdated slide evidence | `slides/.agent/` |
 | Simulated reviewer findings | `reviewer/.agent/` plus project risk board |
 | Real reviews, rebuttal issues, promised revisions | `rebuttal/.agent/` plus project risk/action boards |
@@ -30,9 +31,9 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `algorithm-design-planner`: write method assumptions, design decisions, linked claims, and expected ablations.
 - `experiment-design-planner`: write planned evidence, experiment families, controls, and falsification actions.
 - `baseline-selection-audit`: write must-have baseline decisions, fairness risks, planned comparison evidence, and run/justify actions.
-- `run-experiment`: write run pointers and volatile job context only after verification.
+- `run-experiment`: write run pointers and volatile job context only after verification, preferably into `code/docs/runs/` or the active code worktree's `docs/runs/`.
 - `result-diagnosis`: write diagnosis decisions, weakened or revised claims, evidence status changes, and next actions.
-- `experiment-report-writer`: write completed evidence summaries, result decisions, and stale/updated claims.
+- `experiment-report-writer`: write completed evidence summaries, result decisions, and stale/updated claims; code-side reports usually belong in `code/docs/reports/` or a code worktree's `docs/reports/`.
 - `advisor-update-writer`: write advisor decisions, feedback-derived actions, current status changes, and newly raised risks.
 - `figure-results-review`: write figure/table evidence status, visual/statistical reviewer risks, caption actions, and claim-scope changes.
 - `paper-evidence-board`: write paper-facing claim/evidence/figure/section alignment and open evidence gaps.

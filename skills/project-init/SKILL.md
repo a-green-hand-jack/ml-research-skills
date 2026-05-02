@@ -1,189 +1,323 @@
 ---
 name: project-init
-description: Initialize a new ML research project with aligned paper (LaTeX) and code (Python) repositories under a shared parent folder. Use when starting a new research project, setting up a paper+code workspace, or initializing a new ML research environment.
+description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, root-level agent guidance, code-owned worktree policy, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
 # Project Init Workflow
 
-Use this workflow when starting a new research project that requires both a LaTeX paper repo and a Python code repo, managed in parallel under a shared project folder.
+Initialize a research project as a control root, not just as two sibling repos.
 
-## Expected Output Structure
+Use this skill when the user wants a new ML research project where agents should work from `<ProjectName>/` while `paper/`, `code/`, and optional `slides/` remain independent component repositories.
 
-```
-~/Projects/<ProjectName>/
-├── paper/    ← LaTeX repo (init-latex-project)
-├── code/     ← Python ML repo (init-python-project)
-└── PROJECT.md ← Project overview linking both repos
-```
+Pair this skill with:
 
----
+- `research-project-memory` to bootstrap cross-component memory
+- `init-latex-project` to create the paper repo
+- `init-python-project` to create the code repo
+- `new-workspace` to create code-owned branches or worktrees
+- `remote-project-control` when code runs on SSH/HPC servers
+- `safe-git-ops` before non-trivial Git work
 
-## Step 1 — Gather Project Information
+## Expected Project Shape
 
-Ask the user the following in a **single message**:
+Default shape:
 
-1. **Project name**: What is the project called? (used as the parent folder name, e.g. `DemoProject`)
-2. **Parent directory**: Where should this project live? (default: `~/Projects/`)
-3. **Paper venue**: Which conference/journal? (`iclr`, `cvpr`, `icml`, `acm`, `acl`, or `none` for generic arXiv)
-4. **Research summary** (brief): What is the method? What datasets/benchmarks? What metrics?
-   - This will be used to pre-fill the `paper/` structure and `PROJECT.md`
-5. **GitHub**: Do you have GitHub repos ready for paper and code? If yes, provide SSH URLs (or skip to add later).
-
-Wait for the user's answers before proceeding.
-
----
-
-## Step 2 — Create the Parent Folder
-
-```bash
-mkdir -p <parent-dir>/<ProjectName>
-```
-
----
-
-## Step 3 — Initialize the Paper Repo
-
-Locate the installed `init-latex-project` skill directory for the current agent, then run its `init.sh` script by absolute path:
-
-```bash
-bash <init-latex-project-skill-dir>/scripts/init.sh <ProjectName>-paper <parent-dir>/<ProjectName>/paper [--venue <venue>] --git
-```
-
-> **Note**: Do not assume `~/.claude/skills/`. Resolve the skill directory for the current agent install first. Use `--venue` only if a venue was specified; omit for generic arXiv.
-
-After the script runs:
-
-1. Add a `sections/daily_experiments.tex` file to the paper:
-
-```latex
-% Daily Experiments Log
-% Add experiment entries in reverse chronological order (newest first).
-%
-% Template for each entry:
-%   \subsection*{YYYY-MM-DD — <short title>}
-%   \textbf{Setup:} <method variant, dataset, config>\\
-%   \textbf{Result:} <key numbers, metric values>\\
-%   \textbf{Observation:} <what worked, what didn't>\\
-%   \textbf{Next:} <follow-up experiment planned>
+```text
+<ProjectName>/
+├── PROJECT.md
+├── AGENTS.md
+├── memory/
+│   ├── project.yaml
+│   ├── component-index.yaml
+│   ├── current-status.md
+│   ├── decision-log.md
+│   ├── claim-board.md
+│   ├── evidence-board.md
+│   ├── risk-board.md
+│   └── action-board.md
+├── paper/                 # independent LaTeX git repo
+├── code/                  # independent Python/ML git repo
+├── code-worktrees/         # sibling worktree root for code repo branches
+├── slides/                # optional independent git repo
+├── reviewer/              # reviewer simulation state
+├── rebuttal/              # real review and response state
+├── artifact/              # artifact-evaluation and release handoff state
+└── docs/
+    ├── updates/
+    ├── audits/
+    └── timelines/
 ```
 
-2. Add `\input{sections/daily_experiments}` to `paper/main.tex` in the appendix area (before `\end{document}`), with a section header:
+Do not create a top-level `experiments/` directory by default. Experiment execution, run summaries, result reports, and raw artifact pointers belong inside `code/` or the relevant code worktree.
 
-```latex
-\section*{Daily Experiments (Internal)}
-\input{sections/daily_experiments}
+Recommended code-side evidence paths:
+
+```text
+code/docs/results/         # stable result summaries, table notes, figure notes
+code/docs/reports/         # experiment-report-writer outputs
+code/docs/runs/            # run registry, job pointers, config and commit pointers
 ```
 
-3. If GitHub SSH URL was provided for paper:
-```bash
-git -C <parent-dir>/<ProjectName>/paper remote add origin <paper-github-url>
-git -C <parent-dir>/<ProjectName>/paper push -u origin "$(git -C <parent-dir>/<ProjectName>/paper branch --show-current)"
+## Core Principles
+
+- `<ProjectName>/` is the agent control root.
+- `paper/`, `code/`, and `slides/` are component repos, not mere folders.
+- The code component owns algorithm implementation, experiment execution, run records, result reports, remote execution state, and code worktrees.
+- Code worktrees should not be nested inside `code/` by default. Use the sibling root `code-worktrees/` so Git, IDEs, search tools, and agents do not confuse worktrees with normal source files.
+- Project memory stores durable cross-component state; code docs store code-side experiment details.
+- Root Git is optional. If enabled, do not accidentally commit nested component repos unless the user explicitly wants submodules.
+
+## Step 1 - Gather Project Information
+
+Ask for these fields in one message:
+
+1. Project name and parent directory.
+2. Research summary: method idea, target problem, datasets, baselines, metrics, and current maturity.
+3. Target venue or milestone, if known.
+4. Component choices:
+   - paper repo: create new, connect existing, or skip for now
+   - code repo: create new, connect existing, or skip for now
+   - slides repo: create new, connect existing, or skip
+   - reviewer/rebuttal/artifact state dirs: create now or later
+5. Git policy:
+   - root control-plane git repo: yes/no
+   - component remotes for paper/code/slides, if available
+   - whether component repos should be submodules or ignored by root Git
+6. Code worktree policy:
+   - default sibling root: `<ProjectName>/code-worktrees/`
+   - remote server worktree root, if different
+   - branch naming conventions, if any
+
+Wait for the user's answers before creating files.
+
+## Step 2 - Create the Control Root
+
+Create:
+
+```text
+<parent-dir>/<ProjectName>/
+├── memory/
+├── docs/updates/
+├── docs/audits/
+├── docs/timelines/
+├── reviewer/.agent/
+├── rebuttal/.agent/
+├── artifact/.agent/
+└── code-worktrees/
 ```
 
----
+Create optional `slides/` only when the user wants a slides component now.
 
-## Step 4 — Initialize the Code Repo
+If root Git is enabled, initialize it at `<ProjectName>/` and add a root `.gitignore` that ignores component repos and worktrees unless the user explicitly wants submodules:
 
-Invoke the `init-python-project` skill. Tell the user:
+```gitignore
+/paper/
+/code/
+/slides/
+/code-worktrees/
+```
 
-> "Now let's set up the code repo. I'll run the `init-python-project` skill for the `code/` directory."
+If the user wants submodules, use submodule commands deliberately rather than relying on accidental nested Git behavior.
 
-Use the `init-python-project` skill with the following context already established:
-- **Target directory**: `<parent-dir>/<ProjectName>/code/`
-- **Project type**: `new`, ML project
-- **GitHub URL**: from Step 1 (if provided)
+## Step 3 - Bootstrap Project Memory
 
-Follow all steps in `init-python-project` as normal. The code repo will be initialized at `<parent-dir>/<ProjectName>/code/`.
+Use `research-project-memory` templates or equivalent files to create:
 
----
+- `memory/project.yaml`
+- `memory/component-index.yaml`
+- `memory/current-status.md`
+- `memory/decision-log.md`
+- `memory/claim-board.md`
+- `memory/evidence-board.md`
+- `memory/risk-board.md`
+- `memory/action-board.md`
 
-## Step 5 — Create PROJECT.md in the Parent Folder
+The component index should record:
 
-Write `<parent-dir>/<ProjectName>/PROJECT.md` with the following content (fill in from the user's research summary in Step 1):
+```yaml
+components:
+  code:
+    path: code
+    worktree_root: code-worktrees
+    owns:
+      - algorithm implementation
+      - experiment execution
+      - code-side result reports
+      - remote execution state
+  paper:
+    path: paper
+    owns:
+      - paper claims and narrative
+      - figures and tables selected for submission
+  slides:
+    path: slides
+    status: optional
+  reviewer:
+    path: reviewer
+  rebuttal:
+    path: rebuttal
+  artifact:
+    path: artifact
+```
+
+Root memory should store pointers to code-side evidence, not duplicate detailed run logs.
+
+## Step 4 - Create Root-Level Agent Guidance
+
+Write `<ProjectName>/AGENTS.md`.
+
+It must state:
+
+- agents start from `<ProjectName>/` unless a task is explicitly component-local
+- use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component repos
+- code worktrees live under `code-worktrees/` by default
+- experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
+- raw outputs, logs, checkpoints, and wandb/tensorboard caches are not project-root artifacts
+- project memory gets durable claim/evidence/risk/action summaries
+- use `update-docs` during code changes, not only at release time
+- use `add-git-tag` for stable code, paper, artifact, or root milestones
+
+## Step 5 - Initialize or Connect Component Repos
+
+### Paper
+
+If creating a new paper repo, use `init-latex-project` at:
+
+```text
+<ProjectName>/paper/
+```
+
+If connecting an existing paper repo, clone or record its path and remote. Then create `paper/.agent/` if missing.
+
+### Code
+
+If creating a new code repo, use `init-python-project` at:
+
+```text
+<ProjectName>/code/
+```
+
+For ML projects, ensure the code repo has:
+
+```text
+code/docs/results/
+code/docs/reports/
+code/docs/runs/
+```
+
+If connecting an existing code repo, do not force a full scaffold. Add missing high-value memory/docs paths only after reporting gaps.
+
+### Slides
+
+If requested, create or connect:
+
+```text
+<ProjectName>/slides/
+```
+
+Slides may be a separate git repo. Create `slides/.agent/` for story, audience, and stale-evidence notes.
+
+## Step 6 - Establish Code Worktree Policy
+
+Default policy:
+
+```text
+main code repo:       <ProjectName>/code/
+code worktree root:   <ProjectName>/code-worktrees/
+worktree path:        <ProjectName>/code-worktrees/<branch-type>-<branch-name>/
+```
+
+Record this in:
+
+- `memory/project.yaml`
+- `memory/component-index.yaml`
+- `<ProjectName>/AGENTS.md`
+- `code/docs/ops/current-status.md` when remote execution is involved
+
+If the remote server only has the code repo, record the remote-specific worktree root in `code/infra/remote-projects.yaml` or `code/docs/ops/current-status.md`. Do not assume the remote server has `paper/` or root project memory.
+
+## Step 7 - Write PROJECT.md
+
+Create `<ProjectName>/PROJECT.md` with:
 
 ```markdown
 # <ProjectName>
 
-> <One-line description of the research project>
+> <one-line research description>
 
-## Research Overview
+## Project Control Root
 
-**Method**: <method description>
-**Datasets**: <datasets used>
-**Benchmarks**: <benchmarks / baselines compared against>
-**Metrics**: <evaluation metrics>
+Agents should start from this directory for cross-component work. Component repos are independent.
 
-## Repository Structure
+## Components
 
-| Repo | Path | Purpose |
-|------|------|---------|
-| paper | `./paper/` | LaTeX paper (<venue or arXiv>) |
-| code  | `./code/`  | Python implementation (uv)     |
+| Component | Path | Git | Purpose |
+|---|---|---|---|
+| paper | `paper/` | independent repo | LaTeX paper and paper-facing claims |
+| code | `code/` | independent repo | implementation, experiments, code-side evidence |
+| code worktrees | `code-worktrees/` | linked worktrees of code repo | isolated experiments, baselines, rebuttal fixes |
+| slides | `slides/` | optional independent repo | talks and advisor/lab presentations |
+| reviewer | `reviewer/` | root state dir | simulated reviews and pre-submission risk |
+| rebuttal | `rebuttal/` | root state dir | real reviews, responses, promised revisions |
+| artifact | `artifact/` | root state dir | artifact evaluation and release handoff |
 
-## Code Layout (Four-Layer Architecture)
+## Code Evidence Policy
 
-```
-code/
-├── src/<pkg>/       # Layer 1: Algorithm core — pure, portable, no paths
-├── experiments/     # Layer 2: Training/eval entry points ("what to run")
-│   ├── configs/     #   Experiment hyperparameters (yaml)
-│   └── config.py    #   Loads infra/envs/<ENV>.yaml
-├── eval/            # Layer 3: Benchmarks and baselines
-│   └── baselines/   #   Git submodules for external; reproduced/ for own
-└── infra/           # Layer 4: Platform configs ("how to run")
-    └── envs/        #   One yaml per cluster — zero science code changes
-```
+- runnable experiment logic lives in `code/experiments/`
+- stable code-side result summaries live in `code/docs/results/`
+- experiment reports live in `code/docs/reports/`
+- run pointers and job summaries live in `code/docs/runs/`
+- raw outputs, logs, checkpoints, and wandb/tensorboard caches stay outside Git or in ignored paths
+- paper-facing evidence is promoted through `paper-evidence-board` or `project-sync`
 
-Switching clusters: `ENV=<cluster> uv run python experiments/train.py`
+## Worktree Policy
 
-## GitHub Remotes
+- default root: `code-worktrees/`
+- naming: `<branch-type>-<branch-name>`
+- every research worktree needs `.agent/worktree-status.md`
+- exit condition: merge, continue, park, or kill
 
-| Repo | URL |
-|------|-----|
-| paper | <paper-github-url or TBD> |
-| code  | <code-github-url or TBD> |
+## Memory Policy
 
-## Workflow
-
-- **Design changes** (method, datasets, metrics): update `paper/sections/method.tex` first, then implement in `code/src/`
-- **Experiment results**: run via `ENV=<cluster> uv run python experiments/train.py`, then sync to `paper/sections/daily_experiments.tex`
-- **New cluster**: add `code/infra/envs/<cluster>.yaml` — no other files change
-- **New baseline**: `git submodule add <url> eval/baselines/<name>` or implement in `eval/baselines/reproduced/`
-- **Milestones**: use `add-git-tag` skill in each repo separately
-- **Code docs**: use `update-docs` skill in `code/`
-
-## Key Files
-
-- `paper/sections/method.tex` — canonical method description
-- `paper/sections/exp.tex` — main experiments section
-- `paper/sections/daily_experiments.tex` — running experiment log
-- `code/src/<pkg>/` — algorithm core (the science)
-- `code/experiments/configs/` — experiment hyperparameters
-- `code/infra/envs/` — per-cluster path configs
-- `code/eval/baselines/` — baseline implementations
+- project-level durable summaries live in `memory/`
+- component details live in `<component>/.agent/`
+- code-side run details live in `code/docs/`
+- volatile scheduler or job state must be re-verified before action
 ```
 
----
+## Step 8 - Final Summary
 
-## Step 6 — Final Summary
+Report:
 
-Report to the user:
-
-```
+```text
 Project initialized: <ProjectName>
+Control root: <path>
 
-paper/  → <paper-github-url or "local only">
-code/   → <code-github-url or "local only">
+Components:
+  paper: <created|connected|skipped>
+  code: <created|connected|skipped>
+  slides: <created|connected|skipped>
+  reviewer/rebuttal/artifact state: <created|deferred>
 
-Key skills for this project:
-  - project-sync   → sync experiment results from code to paper
-  - add-git-tag    → mark milestones in either repo
-  - update-docs    → refresh code documentation
+Code worktree root:
+  <ProjectName>/code-worktrees/
 
-Next steps:
-  1. Fill in paper/sections/method.tex with your method details
-  2. Fill in paper/sections/exp.tex with planned experiments
-  3. Start implementing in code/src/
-  4. When you have results, use the project-sync skill to log them in paper
+Next skills:
+  research-project-memory -> inspect or update project state
+  new-workspace -> create a code branch/worktree
+  remote-project-control -> configure SSH/HPC execution for code
+  experiment-design-planner -> plan first experiment matrix
 ```
+
+## Final Sanity Check
+
+Before finishing:
+
+- root agent guidance exists
+- root memory files exist or are explicitly deferred
+- `paper/`, `code/`, and `slides/` Git boundaries are clear
+- `code-worktrees/` policy is recorded
+- there is no top-level `experiments/` directory unless the user explicitly requested it
+- code-side evidence paths are inside `code/docs/`
+- component remotes and root Git policy are not ambiguous

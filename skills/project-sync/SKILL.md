@@ -1,12 +1,12 @@
 ---
 name: project-sync
-description: Sync experiment results from the code repo into the paper's daily experiments log (daily_experiments.tex). Use when you have new experiment results to record, want to update the paper with latest numbers, or log experimental findings from an ML research project.
+description: Sync verified experiment results from the code repo or a code worktree into the paper's daily experiments log and project memory. Use when results in code/docs/results, code/docs/reports, code/docs/runs, worktree docs, logs, or user-confirmed metrics should be promoted into paper-facing evidence.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
 # Project Sync Workflow
 
-Use this workflow when you have new experiment results in the code repo and want to record them in the paper's `daily_experiments.tex`.
+Use this workflow when you have new experiment results in the code repo or a code worktree and want to record them in the paper's `daily_experiments.tex`.
 
 This is a **manual, human-triggered** workflow — run it whenever you want to checkpoint results into the paper.
 
@@ -28,10 +28,11 @@ ls "$(git rev-parse --show-toplevel)/../"
 ```
 
 Determine:
-- `$CODE_ROOT` — the code repo root
-- `$PAPER_ROOT` — the paper repo root (sibling directory)
+- `$CODE_ROOT` - the code repo root or active code worktree root
+- `$PAPER_ROOT` - the paper repo root
+- `$PROJECT_ROOT` - the project control root, if present
 
-If both `paper/` and `code/` are not siblings under a common parent, ask the user:
+In a project-init project, `paper/` and `code/` are component repos under the project control root, and code worktrees usually live under `code-worktrees/`. If the paper repo cannot be inferred, ask the user:
 > "Where is the paper repo? Please provide its path."
 
 ---
@@ -50,12 +51,14 @@ Ask the user **in a single message**:
 Optionally, also check if there are existing result files to pull from:
 
 ```bash
-# Recent files in experiments/ or outputs/
-ls -lt "$CODE_ROOT/experiments/" 2>/dev/null | head -10
-ls -lt "$CODE_ROOT/outputs/logs/" 2>/dev/null | head -10
+# Stable code-side evidence
+find "$CODE_ROOT/docs/results" "$CODE_ROOT/docs/reports" "$CODE_ROOT/docs/runs" -maxdepth 2 -type f 2>/dev/null | sort | tail -20
+
+# Raw or ignored outputs, if present
+find "$CODE_ROOT/outputs" "$CODE_ROOT/logs" "$CODE_ROOT/checkpoints" -maxdepth 2 -type f 2>/dev/null | sort | tail -20
 ```
 
-If relevant log files exist, read them and pre-fill the answers for the user to confirm.
+If relevant result summaries or reports exist, read them and pre-fill the answers for the user to confirm. Treat raw logs as supporting material, not paper-facing evidence, unless the user confirms the numbers.
 
 ---
 
@@ -126,5 +129,6 @@ If the parent project has `memory/`, update:
 - `memory/risk-board.md`: add or close risks exposed by the result
 - `memory/action-board.md`: add the next experiment/report/writing action from the log entry
 - `paper/.agent/paper-status.md`: note that `sections/daily_experiments.tex` now contains the result
+- `code/.agent/` or `<code-worktree>/.agent/worktree-status.md`: mark that the result was promoted to paper-facing evidence
 
 Treat the daily experiment log as evidence only if the numbers are source-linked or user-confirmed. Otherwise mark certainty as `user-stated` or `needs-verification`.

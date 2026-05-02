@@ -35,6 +35,9 @@ Use `template_manifest.json` as the source of truth for which templates belong t
   - `templates/common/tests/conftest.py`
   - `templates/common/docs/outlines/project_plan.md`
   - `templates/common/docs/outlines/progress.md`
+  - `templates/common/docs/results/.gitkeep`
+  - `templates/common/docs/reports/.gitkeep`
+  - `templates/common/docs/runs/.gitkeep`
   - `templates/common/docs/dev/feature_template.md`
   - `templates/common/docs/src/dependencies.md`
   - `templates/common/.vscode/settings.json`
@@ -74,3 +77,14 @@ Replace these placeholders when materializing templates:
 - `{{DATE}}`
 
 If the user did not provide a value such as `REPO_URL`, leave a clear `TBD` marker instead of fabricating one.
+
+## Code-Side Evidence Layout
+
+For ML projects, make the distinction explicit:
+
+- `experiments/` contains runnable training/evaluation logic and configs.
+- `docs/results/` contains small stable result summaries and table/figure notes.
+- `docs/reports/` contains experiment reports and result narratives.
+- `docs/runs/` contains run pointers, job IDs, commit/config references, and short metric summaries.
+
+Raw outputs, checkpoints, logs, tensorboard caches, and wandb runs should be ignored or stored externally, with pointers from `docs/runs/`.

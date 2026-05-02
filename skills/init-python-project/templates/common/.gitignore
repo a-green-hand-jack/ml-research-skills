@@ -51,6 +51,15 @@ htmlcov/
 experiments/outputs/
 experiments/runs/
 experiments/wandb/
+/outputs/
+/runs/
+/wandb/
+/checkpoints/
+/tensorboard/
+
+# Linked worktrees should usually live outside this repo, e.g. ../code-worktrees/.
+# Ignore nested worktrees if a local workflow creates them anyway.
+/worktrees/
 
 # Infra secrets (actual env yamls with real paths)
 # Track only *.yaml.example; actual yamls are local

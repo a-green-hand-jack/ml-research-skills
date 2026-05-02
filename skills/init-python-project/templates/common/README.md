@@ -37,8 +37,11 @@ cp .env.example .env
 - `src/{{PACKAGE_NAME}}/` - main source code
 - `tests/` - unit tests
 - `docs/` - documentation and planning
+- `docs/results/` - stable result summaries and paper-facing table/figure notes
+- `docs/reports/` - experiment reports and technical result writeups
+- `docs/runs/` - run registry, job pointers, config and commit pointers
 - `scripts/` - executable scripts
-- `experiments/` - experiment tracking
+- `experiments/` - runnable experiment logic and configs
 - `infra/remote-projects.yaml` - shared local/remote project mapping and execution policy
 - `docs/ops/current-status.md` - cross-session working memory for ongoing remote work
 
@@ -70,6 +73,16 @@ python scripts/train.py
 ```bash
 pytest tests/
 ```
+
+## Experiment Evidence
+
+Use `experiments/` for runnable logic. Keep code-side evidence in:
+
+- `docs/results/` for small stable result summaries
+- `docs/reports/` for experiment reports
+- `docs/runs/` for run IDs, config paths, commit hashes, remote output paths, and short metric summaries
+
+Raw outputs, checkpoints, logs, tensorboard caches, and wandb runs should stay in ignored paths or external storage.
 
 ## Development
 
