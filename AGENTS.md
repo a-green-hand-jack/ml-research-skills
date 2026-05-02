@@ -57,6 +57,9 @@ ml-research-skills/
     ├── experiment-design-planner/
     │   ├── SKILL.md
     │   └── references/
+    ├── result-diagnosis/
+    │   ├── SKILL.md
+    │   └── references/
     ├── experiment-report-writer/
     │   ├── SKILL.md
     │   └── templates/
@@ -120,6 +123,7 @@ ml-research-skills/
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or worktree for features and experiments |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
+| `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |

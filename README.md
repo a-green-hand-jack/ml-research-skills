@@ -46,6 +46,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or worktree for a new feature or experiment |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
+| `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
@@ -102,6 +103,7 @@ Use these skills while producing the evidence that will support the paper:
 |---|---|
 | **experiment-design-planner** | Design hypotheses, baselines, ablations, controls, metrics, and stop conditions before running |
 | **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
+| **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
 
@@ -157,6 +159,7 @@ For the person running experiments, collecting evidence, and making results repr
 | **research-project-memory** | Track evidence, risks, actions, and worktree state across experiment feedback loops |
 | **experiment-design-planner** | Convert a claim into a runnable experiment matrix with controls and decision rules |
 | **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
+| **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
 | **project-sync** | Move experiment findings into the paper repo's experiment log |
 | **remote-project-control** | Keep local code and remote execution state aligned |
@@ -234,6 +237,7 @@ Current partial support:
 | **research-project-memory** | Preserve idea, claim, evidence, risk, and action state across project pivots |
 | **research-idea-validator** | Turn a rough idea into a pursue/revise/park/kill decision with novelty, feasibility, and paper-shape analysis |
 | **algorithm-design-planner** | Turn a promising idea into a method specification with assumptions, components, failure modes, ablations, and implementation handoff |
+| **result-diagnosis** | Feed negative or surprising results back into algorithm design, project positioning, or claim revision |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
 Potential future skills could include **result-diagnosis**, **paper-evidence-board**, or **paper-positioning-planner**.
@@ -249,18 +253,19 @@ Potential future skills could include **result-diagnosis**, **paper-evidence-boa
 6. remote-project-control -> recover project memory and align local vs remote state
 7. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
 8. run-experiment     -> launch locally or on SLURM / RunAI
-9. project-sync       -> record results in paper/sections/daily_experiments.tex
-10. experiment-report-writer -> turn experiment evidence into a structured report
-11. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-12. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-13. citation-coverage-audit -> find missing classic, close, and concurrent citations
-14. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-15. submit-paper    -> run a readiness check before a deadline
-16. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-17. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-18. update-docs     -> refresh docs after meaningful code changes
-19. release-code    -> prepare the public code release when needed
-20. add-git-tag     -> mark a milestone
+9. result-diagnosis -> diagnose surprising/negative results and decide the next action
+10. project-sync       -> record results in paper/sections/daily_experiments.tex
+11. experiment-report-writer -> turn experiment evidence into a structured report
+12. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+13. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+14. citation-coverage-audit -> find missing classic, close, and concurrent citations
+15. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+16. submit-paper    -> run a readiness check before a deadline
+17. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+18. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+19. update-docs     -> refresh docs after meaningful code changes
+20. release-code    -> prepare the public code release when needed
+21. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -324,6 +329,14 @@ Potential future skills could include **result-diagnosis**, **paper-evidence-boa
 - Guidance for explaining figures and tables, including axes, legends, units, scales, and error bars
 - Evidence-first writing that distinguishes measured results from interpretation and marks missing reproducibility details
 - Audience-aware output for lab notes, mentor updates, paper sections, or presentation-ready summaries
+
+## What `result-diagnosis` Provides
+
+- A post-result triage workflow for negative, surprising, unstable, conflicting, or suspicious experiment outcomes
+- Diagnosis categories for implementation bugs, metric bugs, data issues, baseline fairness, seed variance, optimization, mechanism failure, scale/regime mismatch, and claim mismatch
+- Decision rules for debug, rerun, ablate, revise-method, narrow-claim, write, park, or kill
+- Evidence checklists covering provenance, configs, data splits, metrics, logs, figures, seeds, and baseline fairness
+- Project-memory writeback for updated evidence, weakened claims, new risks, next actions, and worktree exit conditions
 
 ## What `experiment-design-planner` Provides
 
