@@ -24,7 +24,8 @@ Pair this skill with:
 - `run-experiment` after the design is ready to execute
 - `experiment-report-writer` after results exist
 - `paper-reviewer-simulator` to stress-test whether the evidence will satisfy reviewers
-- `baseline-selection-audit` in the future when baseline choice needs deeper review
+- `baseline-selection-audit` before finalizing the experiment matrix when baseline choice, fairness, or reviewer-proof comparisons need deeper review
+- `figure-results-review` after plotted or tabulated results exist and need claim-support review
 
 ## Skill Directory Layout
 

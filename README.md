@@ -276,7 +276,7 @@ Current partial support:
 | **paper-positioning-planner** | Convert idea, literature, method, and evidence into the paper's strategic claim and archetype |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **camera-ready-finalizer**, **artifact-evaluation-prep**, or **advisor-update-writer**.
+Potential future skills could include **artifact-evaluation-prep**, **advisor-update-writer**, or **skill-system-auditor**.
 
 ## Typical Workflow
 

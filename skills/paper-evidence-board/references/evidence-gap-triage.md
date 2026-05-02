@@ -10,7 +10,7 @@ Choose `new-experiment` when:
 - reviewer risk cannot be fixed by prose
 - a result is planned but not run
 
-Route to `experiment-design-planner`.
+Route to `experiment-design-planner`. If the missing evidence is specifically a comparison-set or fairness issue, route to `baseline-selection-audit` first.
 
 ## Result Diagnosis
 
@@ -32,7 +32,17 @@ Choose `rewrite` when:
 - section structure causes reviewer confusion
 - figure/table exists but interpretation is missing
 
-Route to `conference-writing-adapter`.
+Route to `paper-positioning-planner` when the paper is selling the wrong story or claim hierarchy. Route to `conference-writing-adapter` when the strategy is clear and the text needs venue-aware rewriting.
+
+## Figure or Table Review
+
+Choose `figure-results-review` when:
+
+- evidence exists as a plot/table but the claim support is unclear
+- axes, captions, uncertainty, table layout, or visual emphasis may mislead readers
+- a figure/table should be main-paper, appendix, diagnostic, or cut
+
+Route to `figure-results-review`.
 
 ## Narrow Claim
 
@@ -43,6 +53,8 @@ Choose `narrow-claim` when:
 - a broad claim can be made safe with scope.
 
 Update claim wording and paper locations.
+
+If narrowing changes the paper's primary contribution, route to `paper-positioning-planner`.
 
 ## Citation Work
 
@@ -75,3 +87,5 @@ Choose `accept-risk` when:
 - the paper can state scope honestly
 
 Accepted risks should appear in limitations or rebuttal prep.
+
+After acceptance, route unresolved promised revisions, final claims, and residual risks to `camera-ready-finalizer`.

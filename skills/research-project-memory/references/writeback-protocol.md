@@ -18,6 +18,7 @@ Write the smallest durable update that will help the next session. Do not turn m
 | Slide story, audience feedback, outdated slide evidence | `slides/.agent/` |
 | Simulated reviewer findings | `reviewer/.agent/` plus project risk board |
 | Real reviews, rebuttal issues, promised revisions | `rebuttal/.agent/` plus project risk/action boards |
+| Accepted-paper camera-ready status, final upload, release handoff | `paper/.agent/`, `rebuttal/.agent/`, and project decision/action boards |
 
 ## Skill Writeback Expectations
 
@@ -25,13 +26,21 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `literature-review-sprint`: write closest-work risks, citation/evidence pointers, and positioning decisions.
 - `algorithm-design-planner`: write method assumptions, design decisions, linked claims, and expected ablations.
 - `experiment-design-planner`: write planned evidence, experiment families, controls, and falsification actions.
+- `baseline-selection-audit`: write must-have baseline decisions, fairness risks, planned comparison evidence, and run/justify actions.
 - `run-experiment`: write run pointers and volatile job context only after verification.
+- `result-diagnosis`: write diagnosis decisions, weakened or revised claims, evidence status changes, and next actions.
 - `experiment-report-writer`: write completed evidence summaries, result decisions, and stale/updated claims.
+- `figure-results-review`: write figure/table evidence status, visual/statistical reviewer risks, caption actions, and claim-scope changes.
+- `paper-evidence-board`: write paper-facing claim/evidence/figure/section alignment and open evidence gaps.
+- `paper-positioning-planner`: write paper archetype, contribution hierarchy, scoped claims, related-work boundary, and positioning actions.
 - `conference-writing-adapter`: write section mapping, claim wording decisions, and writing risks.
 - `paper-reviewer-simulator`: write reviewer risks and actions.
 - `citation-coverage-audit`: write missing-citation risks and actions.
 - `citation-audit`: write correctness risks and blocking fixes.
 - `rebuttal-strategist`: write review issues, response plan, promised revisions, and post-rebuttal actions.
+- `camera-ready-finalizer`: write final accepted-paper state, fulfilled promises, final claim/evidence status, residual risks, and release/artifact handoff actions.
+- `submit-paper`: write final pre-submission blockers and readiness decisions.
+- `release-code`: write public-release readiness, release blockers, tags, and reproducibility handoff.
 - `remote-project-control`: write remote execution state in its own files and summarize linked experiment state in project memory when needed.
 
 ## Update Style

@@ -27,6 +27,7 @@ Pair this skill with:
 - `run-experiment` when the rebuttal plan requires new experiments
 - `conference-writing-adapter` when accepted reviewer criticism requires paper restructuring or clearer prose
 - `citation-audit` and `citation-coverage-audit` when reviews identify citation problems
+- `camera-ready-finalizer` after acceptance to verify promised revisions, final claim/evidence consistency, de-anonymization, and release handoff
 
 ## Skill Directory Layout
 
