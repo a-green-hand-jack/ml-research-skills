@@ -57,7 +57,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
-| `paper-writing-assistant` | Draft and revise claim-aware paper prose, use micro-patterns for captions and paragraph-level writing, interpret results in support of claims, and track provisional result placeholders until verified evidence arrives |
+| `paper-writing-assistant` | Draft and revise claim-aware paper prose, map archetypes to required evidence slots, use micro-patterns for captions and paragraph-level writing, and track provisional result placeholders until verified evidence arrives |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
@@ -596,7 +596,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
-| **paper-writing-assistant** | Draft and revise claim-aware prose, interpret results toward claims, and track provisional result placeholders |
+| **paper-writing-assistant** | Draft and revise claim-aware prose, map archetypes to evidence recipes, interpret results toward claims, and track provisional result placeholders |
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
@@ -674,7 +674,7 @@ For the person turning research evidence into a submission:
 | **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
-| **paper-writing-assistant** | Write and revise paper sections while preserving claims, evidence status, and provisional-result traceability |
+| **paper-writing-assistant** | Write and revise paper sections while preserving claims, required evidence slots, evidence status, and provisional-result traceability |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
 | **submit-paper** | Check final submission readiness |
@@ -799,7 +799,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 18. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
 19. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
 20. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-21. paper-writing-assistant -> write claim-aware paper prose and track provisional result placeholders
+21. paper-writing-assistant -> write claim-aware paper prose, enforce archetype evidence recipes, and track provisional result placeholders
 22. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
 23. citation-coverage-audit -> find missing classic, close, and concurrent citations
 24. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
@@ -998,6 +998,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Direct drafting and revision of abstract, introduction, method, experiment, result, limitation, and conclusion prose
 - Claim-aware result interpretation that explains how evidence supports, narrows, or complicates the paper's claims
 - Venue- and positioning-aware style choices for method, empirical, benchmark, theory, systems, analysis, and application papers
+- Archetype-specific evidence recipes that define must-have, should-have, optional, and blocker evidence slots before strong claims are written
 - A curated exemplar index with paraphrased section and micro-writing patterns from representative papers across ML, NLP, vision, and systems venues
 - Reference-backed micro-patterns for paragraph openings/closings, figure captions, table captions, transitions, contribution bullets, and related-work positioning
 - A provisional result protocol with searchable `PR-###` / `PROVISIONAL-RESULT` markers in paper source

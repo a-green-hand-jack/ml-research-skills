@@ -40,6 +40,7 @@ Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-sim
 ├── SKILL.md
 └── references/
     ├── style-selection.md
+    ├── evidence-recipes.md
     ├── exemplar-index.md
     ├── exemplars/
     │   └── *.md
@@ -61,6 +62,8 @@ Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-sim
 ## Progressive Loading
 
 Always read `references/style-selection.md` before substantial drafting or revision.
+
+Read `references/evidence-recipes.md` when selecting paper structure, interpreting results, deciding whether a claim is supported, or handling missing experiments. Use it to map claims to must-have, should-have, optional, and blocker evidence slots.
 
 Read `references/exemplar-index.md` when the user asks for writing based on example papers, when venue/topic positioning is important, or when the section needs concrete precedent from successful papers. Then load only one to three relevant files from `references/exemplars/`.
 
@@ -124,6 +127,8 @@ Before writing substantial prose, extract:
 - Required evidence:
 - Available evidence:
 - Missing evidence:
+- Evidence recipe loaded:
+- Evidence slot status:
 - Tone/style target:
 - Exemplars loaded:
 - Section pattern loaded:
@@ -138,6 +143,7 @@ Use claim IDs such as `CLM-001` when available. If the project lacks IDs, assign
 Read `references/style-selection.md`, then choose:
 
 - one venue/topic/positioning style profile
+- one evidence recipe for the primary paper archetype
 - zero to three exemplar cards when concrete precedent is useful
 - one section pattern file for the active section
 - one to three micro-pattern files for the exact prose action
@@ -168,7 +174,30 @@ When exemplars are loaded, use them only for:
 
 Do not copy exemplar wording. Do not let a famous exemplar override the user's actual claim or evidence.
 
-## Step 4 - Write Claim-Aware Prose
+## Step 4 - Map Evidence Slots
+
+Use `references/evidence-recipes.md` to map the active claim to evidence slots before writing final-sounding prose.
+
+For each major claim, classify:
+
+```markdown
+- Claim:
+- Archetype:
+- Required evidence slot:
+- Current status: filled / user-stated / planned / running / provisional / missing / contradicted / not-needed
+- Paper location:
+- Writing consequence:
+```
+
+Rules:
+
+- `filled` evidence can be written as observed evidence.
+- `user-stated` evidence can be drafted, but mark source verification if the artifact has not been checked.
+- `planned`, `running`, or `missing` evidence requires provisional language, an action, or a narrowed claim.
+- `contradicted` evidence requires result diagnosis, claim narrowing, or a different paper positioning.
+- Missing blocker slots from the evidence recipe should prevent strong final claims.
+
+## Step 5 - Write Claim-Aware Prose
 
 Apply the selected patterns to the user's paper rather than copying template wording. For each paragraph, caption, or bullet, keep a hidden working contract:
 
@@ -217,7 +246,7 @@ Result interpretation should follow this pattern:
 
 Avoid empty claims such as "significantly improves performance" without saying where, against what, and why it matters.
 
-## Step 5 - Handle Missing Experiments While Writing
+## Step 6 - Handle Missing Experiments While Writing
 
 When writing exposes a missing result:
 
@@ -226,6 +255,7 @@ When writing exposes a missing result:
 3. create or update `paper/.agent/provisional-results.md`
 4. create a follow-up action in project memory when present
 5. mention the placeholder in the response summary
+6. link the placeholder to the evidence recipe slot it is meant to fill
 
 Use this marker format in paper text:
 
@@ -240,9 +270,9 @@ If the venue or project style dislikes visible bold placeholders, use a LaTeX co
 [PR-001: pending main result on DATASET against BASELINE]
 ```
 
-Never insert an unmarked provisional number into final-looking prose. If the user explicitly asks for a temporary numeric target, mark it as a target or placeholder, not observed evidence.
+Never insert an unmarked provisional number into final-looking prose. If the user explicitly asks for a temporary numeric target, mark it as a target or placeholder, not observed evidence. If the missing evidence is a blocker slot for the paper archetype, either narrow the claim or record an action that must be resolved before submission.
 
-## Step 6 - Maintain the Provisional Result Ledger
+## Step 7 - Maintain the Provisional Result Ledger
 
 If provisional placeholders exist, create or update:
 
@@ -263,6 +293,7 @@ Use this format:
 - Paper location:
 - Draft text:
 - Placeholder value:
+- Evidence recipe slot:
 - Why this value supports the claim:
 - Required real experiment:
 - Expected source artifact:
@@ -288,7 +319,7 @@ Replacement rule examples:
 - weaken claim if improvement is below baseline on any primary dataset
 - remove paragraph if the ablation does not isolate the mechanism
 
-## Step 7 - Replace Provisional Results
+## Step 8 - Replace Provisional Results
 
 When real results arrive:
 
@@ -300,7 +331,7 @@ When real results arrive:
 
 Before submission, there must be no open `PROVISIONAL-RESULT` markers in paper source.
 
-## Step 8 - Edit Files
+## Step 9 - Edit Files
 
 For LaTeX projects:
 
@@ -318,6 +349,7 @@ Before finalizing:
 
 - the written prose matches the target venue and paper positioning
 - every major assertion supports or preserves a named claim
+- major claims satisfy the must-have evidence slots for the selected paper archetype, or are explicitly narrowed
 - result interpretation says how the evidence supports the claim
 - captions state the claim, setup, visual/table encoding, and takeaway when applicable
 - paragraph openings and closings serve the section's argument rather than generic flow
