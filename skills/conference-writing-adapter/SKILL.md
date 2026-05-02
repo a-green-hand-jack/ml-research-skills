@@ -13,11 +13,12 @@ Use this skill for:
 - paper structure diagnosis before submission
 - conference-specific rewrite plans
 - abstract, introduction, method, experiment, limitation, and related-work rewrites
+- venue-aware figure/table story, visual style, and result presentation decisions
 - paragraph-level outlines for an existing draft
 - learning from accepted, oral, spotlight, best-paper, or highly discussed papers at the target venue
 - accumulating reusable knowledge about venue taste and successful paper patterns
 
-Do not use this skill as a substitute for running experiments, proving claims, or checking final submission compliance. Pair it with `submit-paper` for final readiness checks and with experiment skills when the paper has evidence gaps.
+Do not use this skill as a substitute for running experiments, proving claims, or checking final submission compliance. Pair it with `submit-paper` for final readiness checks and with experiment skills when the paper has evidence gaps. Use `figure-results-review` when the main issue is whether a figure/table's claim support, style, caption, or visual encoding is paper-ready.
 
 Pair this skill with `research-project-memory` when rewriting changes paper claims, section structure, figure/table roles, writing risks, or experiment actions.
 
@@ -80,6 +81,7 @@ Look for:
 - `main.tex`, `paper.tex`, `sections/*.tex`, `*.bib`, `README.md`, `docs/`, `notes/`
 - title, abstract, introduction, contribution list
 - figures and tables, especially the main result figure
+- existing visual style choices: palette, markers, symbols, font sizes, line widths, figure sizing, and table conventions
 - method claim, assumptions, theorem statements, or system design
 - experiment setup, baselines, ablations, datasets, metrics, qualitative examples
 - limitations, broader impact, ethics, checklist, and appendix
@@ -131,6 +133,7 @@ Extract patterns from exemplars:
 - method exposition density
 - experiment narrative order
 - figure/table role
+- visual style: palette, typography, symbol conventions, figure density, caption style, and table compactness
 - limitation handling
 - reviewer concern preemption
 
@@ -165,6 +168,7 @@ Write a narrative diagnosis before rewriting:
 - Main tension:
 - What must be obvious by the end of page 1:
 - What must be proven by experiments/theory:
+- Main figure/table role and visual style:
 - What should move to appendix:
 - Writing risks:
 ```
@@ -197,6 +201,7 @@ For each section, specify:
 - paragraphs to include
 - material to cut or move
 - venue-specific cautions
+- figure/table role and visual style constraints when the section depends on visual evidence
 
 If official page limits are relevant, verify current rules and state the source.
 
@@ -276,6 +281,7 @@ If the project uses `research-project-memory`, also update:
 - `memory/risk-board.md`: writing, positioning, venue-fit, and evidence-gap risks
 - `memory/action-board.md`: missing experiments, citation checks, section rewrites, or figure updates exposed by writing
 - `paper/.agent/paper-status.md`: section map, paragraph-level decisions, and stale figures/tables
+- `paper/.agent/visual-style.md` or `.agent/conference-writing/project-style.md`: venue-facing figure style decisions, including palette, symbol, typography, and table conventions
 
 Do not strengthen claims in memory beyond the evidence available in the paper.
 

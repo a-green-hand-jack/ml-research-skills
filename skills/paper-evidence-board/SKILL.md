@@ -16,6 +16,7 @@ Use this skill when:
 - review simulation creates experiment or writing actions
 - a paper draft needs claim-evidence alignment before submission
 - figures and tables need to be mapped to paper claims
+- figure/table style needs to be tracked as a writing decision, including palette, markers, symbols, typography, and venue-facing visual conventions
 - the user wants a live evidence board for a paper
 - the project needs to decide whether a gap requires more experiments, rewriting, narrowing a claim, or cutting material
 
@@ -28,6 +29,7 @@ Pair this skill with:
 - `experiment-design-planner` when the board exposes missing evidence requiring new experiments
 - `result-diagnosis` when new evidence weakens or complicates a claim
 - `paper-reviewer-simulator` when the board should be stress-tested from a reviewer perspective
+- `figure-results-review` when figures/tables need claim-support, caption, statistical, or visual-style review
 - `citation-coverage-audit` when novelty or related-work gaps appear
 
 ## Skill Directory Layout
@@ -57,6 +59,7 @@ Pair this skill with:
 - Every major paper claim should have a paper location, evidence status, and reviewer risk.
 - Evidence should point to source artifacts, not only prose memory.
 - A figure/table should have a job: support a claim, answer a reviewer question, or delimit scope.
+- A paper-facing figure/table should also obey the paper's visual style policy, not just display correct numbers.
 - Missing evidence is not a writing problem by default; it may require experiment design, result diagnosis, claim narrowing, or citation work.
 - Do not hide negative or weak results. Mark how they change the claim.
 - Keep the board actionable: each open gap should route to a next skill or action.
@@ -121,6 +124,7 @@ Create:
 
 - section map: section -> claims -> evidence -> risks -> actions
 - figure/table map: figure/table -> evidence -> claim -> required caption message -> stale status
+- visual style map: palette, method-to-marker mapping, typography, symbols, figure sizing, and table conventions
 - appendix map when relevant
 
 Identify:
@@ -129,6 +133,7 @@ Identify:
 - figures without a claim
 - claims without a figure/table/proof/citation when one is expected
 - stale figures after new results
+- inconsistent colors, symbols, method names, font sizes, or figure sizes across paper visuals
 - result tables not discussed in prose
 
 ## Step 5 - Triage Evidence Gaps
@@ -182,6 +187,7 @@ Output:
 - claim-evidence matrix
 - section map
 - figure/table map
+- visual style map
 - evidence gaps
 - reviewer-risk map
 - action plan
@@ -196,6 +202,7 @@ If the project uses `research-project-memory`, update:
 - `memory/risk-board.md`: evidence-gap, writing, novelty, baseline, and reviewer risks
 - `memory/action-board.md`: experiment, diagnosis, rewrite, citation, figure/table, and review actions
 - `paper/.agent/paper-status.md`: current paper section state
+- `paper/.agent/visual-style.md`: paper-facing figure/table style policy when visual conventions are material
 - `paper/.agent/paper-evidence-board.md`: the paper-facing board
 
 Do not duplicate long experiment reports. Link to them.
@@ -207,6 +214,7 @@ Before finalizing:
 - every major claim has a location and evidence status
 - unsupported claims are marked as planned, narrowed, or cut
 - every main figure/table has a claim-facing job
+- paper-facing figures/tables share consistent colors, markers, symbols, typography, sizing, and notation
 - stale evidence is marked
 - reviewer risks link to actions
 - next actions are routed to the right skill

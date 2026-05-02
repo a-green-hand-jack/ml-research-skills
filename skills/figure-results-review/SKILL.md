@@ -1,6 +1,6 @@
 ---
 name: figure-results-review
-description: Review ML or AI experiment figures, tables, plots, captions, and result narratives before they are shown in a paper, advisor meeting, report, slide deck, rebuttal, or submission. Use this skill whenever the user has experimental results, plots, tables, metrics, screenshots, captions, or draft result sections and wants to know whether they support the claim, are visually/statistically clear, expose missing baselines or ablations, or create reviewer risk.
+description: Review ML or AI experiment figures, tables, plots, captions, result narratives, and paper visual style before they are shown in a paper, advisor meeting, report, slide deck, rebuttal, or submission. Use this skill whenever the user has experimental results, plots, tables, metrics, screenshots, captions, draft result sections, or wants to audit figure style choices such as color, typography, markers, symbols, line widths, sizing, and venue-consistent visual conventions.
 argument-hint: "[project-dir-or-results-file] [--mode paper|meeting|slide|rebuttal|diagnosis] [--venue <venue>]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---
@@ -15,6 +15,7 @@ Use this skill when:
 - a paper claim needs to be checked against the actual displayed evidence
 - a plot may be missing baselines, error bars, seeds, labels, units, or fairness context
 - a table layout hides the main comparison or makes the result look weaker than it is
+- paper figures need a consistent visual style: color palette, markers, symbols, line widths, fonts, sizing, and notation
 - new results require deciding whether to update writing, rerun experiments, diagnose failures, or narrow claims
 - a rebuttal needs a clean result table or concise visual answer
 - an advisor meeting needs figures that make the decision obvious
@@ -28,7 +29,7 @@ Pair this skill with:
 - `baseline-selection-audit` when the visual exposes missing, weak, or unfair baselines
 - `experiment-design-planner` when the fix requires new experiments, ablations, controls, or metrics
 - `experiment-report-writer` when raw results need a structured report before figure review
-- `conference-writing-adapter` when the final figure narrative must be adapted to a target venue
+- `conference-writing-adapter` when the final figure narrative or visual style must be adapted to a target venue
 - `research-project-memory` when claim/evidence/risk/action updates should persist across sessions
 
 ## Skill Directory Layout
@@ -40,6 +41,7 @@ Pair this skill with:
     ├── caption-and-narrative.md
     ├── claim-support.md
     ├── memory-writeback.md
+    ├── paper-visual-style.md
     ├── report-template.md
     ├── statistical-evidence.md
     └── visual-integrity.md
@@ -48,6 +50,7 @@ Pair this skill with:
 ## Progressive Loading
 
 - Always read `references/claim-support.md`, `references/visual-integrity.md`, and `references/statistical-evidence.md`.
+- Read `references/paper-visual-style.md` when figures/tables are intended for a paper, slide deck, rebuttal, camera-ready, or venue-specific rewrite.
 - Read `references/caption-and-narrative.md` when revising captions, result prose, slide text, or paper figure callouts.
 - Read `references/report-template.md` before writing the final review.
 - Read `references/memory-writeback.md` when the project has `memory/`, component `.agent/` folders, or the user asks for persistent project memory.
@@ -62,6 +65,7 @@ Pair this skill with:
 - Captions must state enough setup for the result to be interpreted without searching the paper.
 - Statistical uncertainty, seeds, and variance matter when the claim depends on small differences.
 - Compute, data, baseline, and protocol fairness must be visible when they affect interpretation.
+- Paper figures should share a deliberate visual language. Style choices are part of writing because they control what reviewers notice first.
 - A beautiful plot that does not support the claim should be revised or cut.
 - New results must update claims, writing, reviewer risks, and next actions.
 
@@ -124,7 +128,24 @@ Check:
 
 Flag any issue that could cause a reviewer to misread the result.
 
-## Step 4 - Audit Statistical and Experimental Evidence
+## Step 4 - Audit Paper Visual Style
+
+Read `references/paper-visual-style.md` when the output is paper-facing.
+
+Check:
+
+- color palette and colorblind/grayscale robustness
+- stable method-to-color and method-to-marker mapping across all figures
+- line width, marker size, hatch, symbol, and notation consistency
+- font size, tick density, label length, and final-column readability
+- figure dimensions for one-column, two-column, appendix, or slide use
+- whether visual emphasis matches the paper's claim hierarchy
+- whether the main method is recognizable without relying only on color
+- whether theorem/method symbols in plots match the paper notation
+
+If the paper has no visual style policy, propose one and record it in `paper/.agent/` or `.agent/conference-writing/project-style.md` when appropriate.
+
+## Step 5 - Audit Statistical and Experimental Evidence
 
 Read `references/statistical-evidence.md`.
 
@@ -141,7 +162,7 @@ Check:
 
 If the plot lacks necessary uncertainty, decide whether to rerun, add error bars, weaken the claim, or move the result to appendix/diagnostic status.
 
-## Step 5 - Review Caption and Result Narrative
+## Step 6 - Review Caption and Result Narrative
 
 Read `references/caption-and-narrative.md` when output text needs revision.
 
@@ -156,7 +177,7 @@ For each figure/table, produce:
 
 Captions should not oversell. They should state the setup, comparison, metric, and takeaway.
 
-## Step 6 - Route Fixes
+## Step 7 - Route Fixes
 
 For every issue, route to one or more actions:
 
@@ -164,6 +185,8 @@ For every issue, route to one or more actions:
 - `edit-table`: grouping, decimals, bolding, footnotes, missing values, or row/column order
 - `rewrite-caption`: setup, metric, takeaway, caveat, or claim alignment
 - `rewrite-results-text`: nearby paper prose overclaims or misses the takeaway
+- `define-visual-style`: missing or inconsistent paper visual style policy
+- `restyle-figure`: color, marker, line width, font size, symbol, panel layout, or emphasis
 - `rerun`: missing seeds, variance, baseline, metric, or protocol
 - `diagnose-result`: suspicious, negative, unstable, or contradictory pattern
 - `baseline-audit`: missing or unfair baseline
@@ -173,7 +196,7 @@ For every issue, route to one or more actions:
 
 Name the next skill when appropriate.
 
-## Step 7 - Write the Review Report
+## Step 8 - Write the Review Report
 
 Read `references/report-template.md`.
 
@@ -188,13 +211,14 @@ The report must include:
 - figure/table inventory
 - claim-support status
 - visual/table integrity issues
+- visual style policy and consistency issues
 - statistical evidence issues
 - caption and narrative fixes
 - reviewer-risk forecast
 - routed actions and next skills
 - memory update section
 
-## Step 8 - Write Back to Project Memory
+## Step 9 - Write Back to Project Memory
 
 Read `references/memory-writeback.md` when memory exists.
 
@@ -205,6 +229,7 @@ Update the smallest useful set of entries:
 - `memory/risk-board.md`: reviewer risks from visual ambiguity, missing uncertainty, weak baselines, or overclaiming
 - `memory/action-board.md`: figure edits, reruns, caption fixes, result diagnosis, or claim revisions
 - `paper/.agent/`: figure/table map, paper locations, caption state, and stale visual warnings
+- `.agent/conference-writing/project-style.md`: venue-facing figure style decisions when conference adaptation is active
 - worktree `.agent/worktree-status.md`: result-generation or plotting tasks and exit conditions
 
 Use certainty labels:
@@ -221,6 +246,7 @@ Before finalizing:
 - every figure/table has a linked claim and reviewer question
 - main comparison is easy to find
 - axes, units, legends, captions, and table labels are unambiguous
+- colors, markers, fonts, symbols, and figure sizes are consistent across the paper
 - uncertainty is present or the lack of uncertainty is justified
 - baseline and compute fairness are visible when relevant
 - overclaims are narrowed

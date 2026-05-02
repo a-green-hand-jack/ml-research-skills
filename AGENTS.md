@@ -155,7 +155,7 @@ ml-research-skills/
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates from evidence, risks, options, asks, and next actions |
-| `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
+| `figure-results-review` | Review figures, tables, plots, captions, result narratives, and paper visual style for claim support, visual clarity, statistical evidence, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |

@@ -51,7 +51,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
 | `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates that connect evidence, risks, options, asks, and next actions |
-| `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
+| `figure-results-review` | Review figures, tables, plots, captions, result narratives, and paper visual style for claim support, visual clarity, statistical evidence, venue-facing consistency, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
@@ -109,7 +109,7 @@ flowchart TD
         RUN[run-experiment]
         RD[result-diagnosis]
         ERW[experiment-report-writer<br/>code/docs/reports]
-        FRR[figure-results-review<br/>code/docs/results]
+        FRR[figure-results-review<br/>visual style + code/docs/results]
         PS[project-sync]
         EDP --> BSA --> RUN --> RD --> ERW --> FRR --> PS
         RD --> D
@@ -169,7 +169,7 @@ The most important feedback loops are:
 
 - **Writing to experiments**: `paper-evidence-board` or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
-- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks it; `project-sync` and `paper-evidence-board` promote it into paper-facing evidence.
+- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks claim support, captions, and visual style; `project-sync` and `paper-evidence-board` promote it into paper-facing evidence.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
 
@@ -215,7 +215,7 @@ Use these skills while producing the evidence that will support the paper:
 | **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **advisor-update-writer** | Convert current progress, evidence, risks, and blockers into decision-oriented advisor or lab updates |
-| **figure-results-review** | Check whether figures, tables, captions, and result narratives support the intended claims |
+| **figure-results-review** | Check whether figures, tables, captions, result narratives, and visual style support the intended paper claims |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
 
 ### 4. Paper Writing and Pre-Submission Review
@@ -224,7 +224,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 
 | Skill | Lifecycle role |
 |---|---|
-| **paper-evidence-board** | Align paper claims, evidence, figures, sections, reviewer risks, and next actions |
+| **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
@@ -286,7 +286,7 @@ For the person running experiments, collecting evidence, and making results repr
 | **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
 | **advisor-update-writer** | Summarize experiment progress, blockers, and decision requests for advisors or collaborators |
-| **figure-results-review** | Audit plots and tables before they become paper, slide, or advisor-facing evidence |
+| **figure-results-review** | Audit plots, tables, captions, and visual style before they become paper, slide, or advisor-facing evidence |
 | **project-sync** | Move experiment findings into the paper repo's experiment log |
 | **remote-project-control** | Keep local code and remote execution state aligned |
 
@@ -298,7 +298,7 @@ For the person turning research evidence into a submission:
 |---|---|
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
-| **figure-results-review** | Verify that result visuals, captions, and tables support the exact paper claims |
+| **figure-results-review** | Verify that result visuals, captions, tables, and style conventions support the exact paper claims |
 | **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
@@ -315,7 +315,7 @@ For the person stress-testing the paper before reviewers see it:
 | **research-project-memory** | Link simulated reviewer risks to claims, evidence gaps, and concrete actions |
 | **paper-evidence-board** | Convert reviewer risks into paper locations, evidence gaps, and fix actions |
 | **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
-| **figure-results-review** | Catch visual, statistical, caption, and claim-support weaknesses before reviewers do |
+| **figure-results-review** | Catch visual-style, statistical, caption, and claim-support weaknesses before reviewers do |
 | **paper-positioning-planner** | Detect when the paper is selling the wrong claim or should change archetype before review |
 | **baseline-selection-audit** | Stress-test missing, weak, unfair, or outdated baseline comparisons before reviewers do |
 | **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
@@ -415,8 +415,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 12. project-sync       -> record results in paper/sections/daily_experiments.tex
 13. experiment-report-writer -> turn experiment evidence into a structured report
 14. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
-15. figure-results-review -> audit figures, tables, captions, uncertainty, and claim support
-16. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
+15. figure-results-review -> audit figures, tables, captions, visual style, uncertainty, and claim support
+16. paper-evidence-board -> align claims, evidence, figures, visual style, sections, risks, and actions
 17. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
 18. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
 19. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
@@ -530,9 +530,10 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - A claim-support audit for figures, tables, plots, captions, and result prose before paper, slide, rebuttal, or advisor use
 - Visual and table integrity checks for axes, labels, units, legends, row/column order, missing values, scales, and main-comparison salience
+- Paper visual style policy checks for palette, marker and symbol mapping, typography, figure sizing, line widths, table conventions, and venue-facing consistency
 - Statistical evidence checks for seeds, uncertainty, effect size, metric definitions, compute reporting, and efficiency claims
 - Caption and narrative fixes that align setup, metric, comparison, takeaway, and caveat with the evidence
-- Routed actions and project-memory writeback for reruns, result diagnosis, baseline audits, claim narrowing, caption rewrites, and figure/table edits
+- Routed actions and project-memory writeback for reruns, result diagnosis, baseline audits, claim narrowing, caption rewrites, visual restyling, and figure/table edits
 
 ## What `result-diagnosis` Provides
 
@@ -545,7 +546,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 ## What `paper-evidence-board` Provides
 
 - A paper-facing claim/evidence matrix that links paper locations to experiments, figures, tables, citations, risks, and actions
-- Section and figure/table maps so writing changes, stale results, and unsupported claims are visible before submission
+- Section, figure/table, and visual-style maps so writing changes, stale results, inconsistent visuals, and unsupported claims are visible before submission
 - Evidence-gap triage that routes issues to new experiments, result diagnosis, rewriting, claim narrowing, citation work, cutting, or accepted risk
 - Reviewer-risk integration from simulated reviews, citation audits, result diagnosis, and real rebuttal issues
 - Project-memory writeback for claim status, evidence status, paper locations, stale figures, reviewer risks, and paper actions

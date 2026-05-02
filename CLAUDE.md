@@ -79,7 +79,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose debug/rerun/ablate/revise/narrow/write/park/kill decisions |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates from evidence, risks, options, asks, and next actions |
-| `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
+| `figure-results-review` | Review figures, tables, plots, captions, result narratives, and paper visual style for claim support, visual clarity, statistical evidence, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt a paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and project-local writing memory |
@@ -111,7 +111,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`result-diagnosis`**: Use after results are surprising, negative, unstable, or hard to interpret. It separates bugs, metric issues, baseline fairness, variance, mechanism failure, and claim mismatch before deciding the next action.
 - **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
 - **`advisor-update-writer`**: Use when project state needs to become a decision-oriented advisor email, weekly update, lab note, or collaborator status memo with explicit asks and actions.
-- **`figure-results-review`**: Use before figures, tables, captions, or result prose enter a paper, slide deck, rebuttal, or advisor update. It checks claim support, visual integrity, uncertainty, caption wording, and routes fixes to reruns, diagnosis, baseline audit, or paper evidence updates.
+- **`figure-results-review`**: Use before figures, tables, captions, or result prose enter a paper, slide deck, rebuttal, or advisor update. It checks claim support, visual integrity, paper visual style, uncertainty, caption wording, and routes fixes to reruns, diagnosis, baseline audit, restyling, or paper evidence updates.
 - **`paper-evidence-board`**: Use while writing or reviewing a draft to keep claims, evidence, figures, sections, reviewer risks, and next actions aligned.
 - **`paper-positioning-planner`**: Use when deciding what the paper should strategically sell before venue-specific rewriting. It chooses paper archetype, primary/secondary contribution hierarchy, claim scope, target audience, related-work boundary, narrative architecture, and claims to avoid.
 - **`conference-writing-adapter`**: Use when a paper needs to be reshaped for a target venue's reviewer expectations. It learns from accepted/oral/spotlight exemplars, diagnoses the paper archetype, and produces section-level or paragraph-level rewrite plans.

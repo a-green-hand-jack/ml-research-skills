@@ -11,6 +11,7 @@ Write durable evidence state:
 - missing uncertainty, baselines, metrics, or captions
 - reviewer risks caused by visual ambiguity or overclaiming
 - rerun, plotting, caption, or writing actions
+- visual style decisions such as palette, marker map, typography, figure sizing, and notation consistency
 
 Do not store full raw logs. Link to reports, figure files, tables, or result artifacts.
 
@@ -81,15 +82,22 @@ When a paper draft exists, update:
 - figure/table map
 - paper locations
 - caption status
+- visual style policy path, if one exists
 - stale figure warnings
 - missing callouts
 - main-vs-appendix placement decisions
+
+Recommended style policy paths:
+
+- `paper/.agent/visual-style.md`
+- `.agent/conference-writing/project-style.md` when venue adaptation is active
 
 ## Worktree Memory
 
 When code must change, update worktree `.agent/worktree-status.md` with:
 
 - plotting or result-generation task
+- restyling task and expected visual policy
 - source data/log path
 - linked evidence/risk IDs
 - expected output figure/table
