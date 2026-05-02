@@ -50,6 +50,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
+| `figure-results-review` | Review figures, tables, plots, captions, and result narratives for claim support, visual clarity, statistical evidence, and reviewer risk |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
@@ -110,6 +111,7 @@ Use these skills while producing the evidence that will support the paper:
 | **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
 | **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
+| **figure-results-review** | Check whether figures, tables, captions, and result narratives support the intended claims |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
 
 ### 4. Paper Writing and Pre-Submission Review
@@ -168,6 +170,7 @@ For the person running experiments, collecting evidence, and making results repr
 | **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
 | **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
+| **figure-results-review** | Audit plots and tables before they become paper, slide, or advisor-facing evidence |
 | **project-sync** | Move experiment findings into the paper repo's experiment log |
 | **remote-project-control** | Keep local code and remote execution state aligned |
 
@@ -179,6 +182,7 @@ For the person turning research evidence into a submission:
 |---|---|
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
+| **figure-results-review** | Verify that result visuals, captions, and tables support the exact paper claims |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
@@ -194,6 +198,7 @@ For the person stress-testing the paper before reviewers see it:
 | **research-project-memory** | Link simulated reviewer risks to claims, evidence gaps, and concrete actions |
 | **paper-evidence-board** | Convert reviewer risks into paper locations, evidence gaps, and fix actions |
 | **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
+| **figure-results-review** | Catch visual, statistical, caption, and claim-support weaknesses before reviewers do |
 | **baseline-selection-audit** | Stress-test missing, weak, unfair, or outdated baseline comparisons before reviewers do |
 | **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
 | **citation-audit** | Check whether cited papers actually support the text's claims |
@@ -252,9 +257,10 @@ Current partial support:
 | **algorithm-design-planner** | Turn a promising idea into a method specification with assumptions, components, failure modes, ablations, and implementation handoff |
 | **baseline-selection-audit** | Check whether the planned evidence compares against the right methods before the experiment matrix is fixed |
 | **result-diagnosis** | Feed negative or surprising results back into algorithm design, project positioning, or claim revision |
+| **figure-results-review** | Feed visualized results back into claim scope, evidence quality, and next experiment decisions |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **figure-results-review**, **camera-ready-finalizer**, or **paper-positioning-planner**.
+Potential future skills could include **camera-ready-finalizer**, **artifact-evaluation-prep**, or **paper-positioning-planner**.
 
 ## Typical Workflow
 
@@ -272,17 +278,18 @@ Potential future skills could include **figure-results-review**, **camera-ready-
 11. result-diagnosis -> diagnose surprising/negative results and decide the next action
 12. project-sync       -> record results in paper/sections/daily_experiments.tex
 13. experiment-report-writer -> turn experiment evidence into a structured report
-14. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
-15. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-16. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-17. citation-coverage-audit -> find missing classic, close, and concurrent citations
-18. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-19. submit-paper    -> run a readiness check before a deadline
-20. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-21. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-22. update-docs     -> refresh docs after meaningful code changes
-23. release-code    -> prepare the public code release when needed
-24. add-git-tag     -> mark a milestone
+14. figure-results-review -> audit figures, tables, captions, uncertainty, and claim support
+15. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
+16. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+17. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+18. citation-coverage-audit -> find missing classic, close, and concurrent citations
+19. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+20. submit-paper    -> run a readiness check before a deadline
+21. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+22. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+23. update-docs     -> refresh docs after meaningful code changes
+24. release-code    -> prepare the public code release when needed
+25. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -354,6 +361,14 @@ Potential future skills could include **figure-results-review**, **camera-ready-
 - Guidance for explaining figures and tables, including axes, legends, units, scales, and error bars
 - Evidence-first writing that distinguishes measured results from interpretation and marks missing reproducibility details
 - Audience-aware output for lab notes, mentor updates, paper sections, or presentation-ready summaries
+
+## What `figure-results-review` Provides
+
+- A claim-support audit for figures, tables, plots, captions, and result prose before paper, slide, rebuttal, or advisor use
+- Visual and table integrity checks for axes, labels, units, legends, row/column order, missing values, scales, and main-comparison salience
+- Statistical evidence checks for seeds, uncertainty, effect size, metric definitions, compute reporting, and efficiency claims
+- Caption and narrative fixes that align setup, metric, comparison, takeaway, and caveat with the evidence
+- Routed actions and project-memory writeback for reruns, result diagnosis, baseline audits, claim narrowing, caption rewrites, and figure/table edits
 
 ## What `result-diagnosis` Provides
 
