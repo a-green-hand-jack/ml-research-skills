@@ -7,12 +7,14 @@ Write the smallest durable update that will help the next session. Do not turn m
 | New information | Write to |
 |---|---|
 | Project identity, target venue, component paths, memory policy | `memory/project.yaml` |
+| GitHub Project owner, title, URL, number, visibility, and sync policy | `memory/project.yaml`; optionally `memory/component-index.yaml` for linked repos |
 | Current focus, active milestone, top blockers, next session entry point | `memory/current-status.md` |
 | Durable rationale for choosing a direction, baseline policy, venue, architecture, or workflow | `memory/decision-log.md` |
 | A paper or project claim is added, revised, supported, weakened, or cut | `memory/claim-board.md` |
 | An experiment, analysis, proof, citation, figure, or qualitative result appears | `memory/evidence-board.md` |
 | A reviewer, novelty, baseline, mechanism, writing, execution, or rebuttal risk appears | `memory/risk-board.md` |
 | A concrete task needs to be tracked | `memory/action-board.md` |
+| A concrete task should be visible to collaborators or attached to a PR/issue | GitHub issue/PR/project item plus a short pointer in `memory/action-board.md` when it affects claims, evidence, risks, or worktrees |
 | Paper section status, writing decision, figure location | `paper/.agent/` |
 | Paper version target, template differences, source visibility, cleanup policy, compile workflow | relevant paper worktree `.agent/worktree-status.md` plus durable decisions in `memory/decision-log.md` |
 | Code architecture, implementation status, experiment entry point, remote execution pointer | `code/.agent/` or relevant code worktree `.agent/` |
@@ -37,6 +39,7 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `result-diagnosis`: write diagnosis decisions, weakened or revised claims, evidence status changes, and next actions.
 - `experiment-report-writer`: write completed evidence summaries, result decisions, and stale/updated claims; code-side reports usually belong in `code/docs/reports/` or a code worktree's `docs/reports/`.
 - `advisor-update-writer`: write advisor decisions, feedback-derived actions, current status changes, and newly raised risks.
+- `project-init`: write GitHub Project board metadata and sync policy when the user creates or links a board.
 - `figure-results-review`: write figure/table evidence status, visual/statistical reviewer risks, caption actions, and claim-scope changes.
 - `paper-evidence-board`: write paper-facing claim/evidence/figure/section alignment and open evidence gaps.
 - `paper-positioning-planner`: write paper archetype, contribution hierarchy, scoped claims, related-work boundary, and positioning actions.
@@ -51,6 +54,7 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `release-code`: write public-release readiness, release blockers, tags, and reproducibility handoff.
 - `skill-system-auditor`: write skill-system roadmap decisions, lifecycle coverage conclusions, audit reports, stale-doc fixes, and next hardening actions.
 - `remote-project-control`: write remote execution state in its own files and summarize linked experiment state in project memory when needed.
+- GitHub Project operations: write only stable board metadata, issue/PR pointers, and action links into project memory. Do not mirror private research reasoning into GitHub unless the user explicitly wants it visible there.
 
 ## Update Style
 

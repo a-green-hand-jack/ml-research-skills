@@ -15,6 +15,17 @@ memory_policy:
   require_certainty_labels: true
   reverify_volatile_state_before_action: true
 
+github_project:
+  enabled: false
+  owner: ""
+  title: ""
+  number: ""
+  url: ""
+  visibility: private
+  sync_policy: none # none | manual | issue-pr-links | action-board
+  scope_required: project
+  notes: "Optional cloud coordination board. Do not use as the only copy of research memory."
+
 components:
   paper:
     path: paper

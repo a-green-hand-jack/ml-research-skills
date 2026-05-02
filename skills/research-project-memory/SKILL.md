@@ -65,6 +65,7 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 - Paper version worktrees should also record target venue/release, submission mode, template/style differences, source visibility, cleanup requirements, and compile workflow.
 - Component-local memory is a rollup, not a replacement for project memory. `code/docs/ops/current-status.md` and `code/docs/ops/decision-log.md` can record code operational state, but cross-component and cross-worktree coordination should still be visible in root `memory/` and component `.agent/` indexes.
 - Cross-worktree state has three levels: global registry in `memory/component-index.yaml`, component rollup in `<component>/.agent/worktree-index.md`, and leaf status in each `<component-worktree>/.agent/worktree-status.md`.
+- GitHub Projects, when configured, are a collaborator-facing cloud board for issues, PRs, blockers, and roadmap/status views across component repos. They do not replace root `memory/`, component `.agent/`, or worktree memory.
 - Mark certainty: `observed`, `user-stated`, `inferred`, `stale`, or `needs-verification`.
 - Write memory at the most specific layer that will help the next session.
 
@@ -93,6 +94,7 @@ Then inspect likely memory files:
 - `slides/.agent/`
 - `reviewer/.agent/`
 - `rebuttal/.agent/`
+- GitHub Project URL/number in `memory/project.yaml`, if configured
 
 If the project uses another layout, adapt the component paths but keep the same memory roles.
 
@@ -119,6 +121,7 @@ Ask only for fields that cannot be inferred safely:
 - component paths
 - current research question
 - current target venue or milestone, if any
+- GitHub Project owner/title/URL/number, if the user wants cloud board integration
 - whether memory files should be committed
 
 ## Step 3 - Build the Bootstrap Summary
@@ -145,6 +148,7 @@ Read `references/writeback-protocol.md`.
 Use this routing:
 
 - whole-project identity, target venue, component paths, memory policy -> `memory/project.yaml`
+- GitHub Project board owner, URL, number, scope, and sync policy -> `memory/project.yaml`
 - current focus, active milestone, next session entry point -> `memory/current-status.md`
 - durable project decisions and why -> `memory/decision-log.md`
 - paper claims and their status -> `memory/claim-board.md`

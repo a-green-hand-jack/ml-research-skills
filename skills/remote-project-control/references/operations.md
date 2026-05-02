@@ -74,7 +74,7 @@ git -C <project-root>/code remote -v
 git -C <project-root>/paper remote -v
 ```
 
-3. Before using `gh repo view`, `gh repo create`, `gh repo fork`, or any other GitHub API command, run:
+3. Before using `gh repo view`, `gh repo create`, `gh repo fork`, `gh project ...`, or any other GitHub API command, run:
 
 ```bash
 gh auth status
@@ -99,6 +99,8 @@ The same pattern applies to `git fetch`, `git push`, `git pull`, `git ls-remote`
 Repository setup rules:
 
 - A project control root and `code/` component repo often need separate GitHub repositories.
+- A GitHub Project can coordinate several repos, but it is not itself a Git repo and should not collapse root/code/paper/slides repository boundaries.
+- `gh project ...` requires the `project` token scope. If missing, use `gh auth refresh -s project` before creating, viewing, linking, or editing the project board.
 - A cloned upstream repo may have `origin` pointing to an upstream project where the user has no write permission.
 - For an upstream-based code repo, prefer adding a writable fork remote or changing `origin` only after the user confirms the desired policy.
 - Do not create a GitHub repo for a nested component unless it is clear which local repo it should own.
@@ -108,6 +110,7 @@ Report separately:
 - root repo Git remote and GitHub repo status
 - code repo Git remote and GitHub repo status
 - whether `gh` is authenticated
+- whether `gh` has the `project` scope when GitHub Projects are involved
 - whether the latest `gh` checks had network permission
 - whether normal `git` SSH push is expected to work
 

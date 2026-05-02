@@ -35,6 +35,40 @@ Files:
 
 Project memory should be committed when it is useful for collaborators and not private.
 
+### Optional Cloud Coordination: GitHub Project
+
+A GitHub Project can be linked from `memory/project.yaml` when the research project spans several repos. Treat it as a collaborator-facing task board, not as the durable research memory layer.
+
+Use GitHub Projects for:
+
+- issues and PRs across root, code, paper, and slides repos
+- owner/status/priority/blocker tracking
+- roadmap, board, table, experiment, paper, risk, and worktree views
+- public or collaborator-visible target dates and milestones
+
+Keep in project memory instead:
+
+- claim rationale and evidence interpretation
+- private reviewer-risk notes
+- detailed experiment provenance
+- paper worktree source-visibility and arXiv cleanup policies
+- decisions that must survive even if GitHub fields or views are reorganized
+
+Recommended `memory/project.yaml` fields:
+
+```yaml
+github_project:
+  enabled: true
+  owner: <github-user-or-org>
+  title: <project-title>
+  number: <project-number>
+  url: <project-url>
+  sync_policy: issue-pr-links
+  scope_required: project
+```
+
+When using `gh project ...`, verify `gh auth status` and refresh the `project` token scope if needed. In sandboxed agent runtimes, a failed `gh auth status` may be a Keychain or network access problem; recheck with the appropriate permission before asking the user to log in again.
+
 ## Layer 3: Component Memory
 
 Path: `<component>/.agent/`

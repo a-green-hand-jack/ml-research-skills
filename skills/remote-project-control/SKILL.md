@@ -51,6 +51,7 @@ Pair this skill with `research-project-memory` when server execution state shoul
 - Treat network access as a separate failure mode for `gh`, `git`, `ssh`, `curl`, and scheduler/API commands; DNS, timeout, or connection errors in a sandboxed agent runtime must be retried with network permission before diagnosing credentials or configuration
 - Treat GitHub/GitLab API access as separate from normal `git` SSH access: `git push` may work while `gh repo create`, `gh repo view`, or `gh repo fork` fails because `gh` is not authenticated
 - Treat GitHub/GitLab API network access as separate from authentication: in sandboxed agent runtimes, `gh` may fail to reach `api.github.com` unless the command is rerun with network permission
+- Treat GitHub Projects as GitHub API operations, not Git remotes. `gh project ...` needs a token with the `project` scope; refresh it with `gh auth refresh -s project` before project-board commands when the scope is missing.
 - In project-control-root layouts, inspect root and component repos separately; `<ProjectName>/` and `<ProjectName>/code/` may be independent Git repos with different remotes and permissions
 
 ## Memory Files
@@ -147,7 +148,7 @@ Choose one of the following flows and follow the detailed guidance in `reference
 
 - `bootstrap`: create or repair the memory files from templates and fill the minimum required fields
 - `inspect`: compare local and server git state, verify paths, env activation, scheduler availability, and summarize the current situation
-- `git-remote-setup`: inspect or create GitHub/GitLab repositories, set remotes, fork upstream repos, or prepare local-to-server sync through a Git remote
+- `git-remote-setup`: inspect or create GitHub/GitLab repositories, set remotes, fork upstream repos, link optional GitHub Projects, or prepare local-to-server sync through a Git remote
 - `sync-code`: prepare local commits, push through the configured Git remote, and update the server repo with non-destructive fast-forward pulls only
 - `run-job`: use the server context to submit a job safely; if a new reproducible job script is needed, use `run-experiment` after this skill has established the environment
 - `interactive-session`: prepare the correct `salloc`, `srun`, or equivalent command and run subsequent commands from the server repo with the configured environment activation
@@ -157,7 +158,7 @@ Choose one of the following flows and follow the detailed guidance in `reference
 
 If the runtime cannot execute SSH commands directly, still use this skill: generate the exact commands in the correct order, explain the assumptions, and keep the memory files up to date.
 
-Before any `gh` operation that uses GitHub's API, run:
+Before any `gh` operation that uses GitHub's API, including `gh repo ...` and `gh project ...`, run:
 
 ```bash
 gh auth status
@@ -168,6 +169,13 @@ Interpret failures carefully:
 - If the output says it cannot connect to `api.github.com`, `github.com`, or asks to check the internet connection, treat it as network/sandbox access first. Rerun the same `gh` check with network permission before asking the user to log in again.
 - If `gh auth status` has network access and still reports an invalid token, missing account, or failed login, stop the GitHub API flow and tell the user to re-authenticate with `gh auth login -h github.com`.
 - Do not interpret either failure as a repository creation failure, Git remote failure, SSH key failure, or server problem.
+
+For GitHub Projects:
+
+- Verify `gh auth status` shows the `project` scope before `gh project create`, `gh project view`, `gh project link`, `gh project item-*`, or `gh project field-*`.
+- If the scope is missing, run or ask the user to run `gh auth refresh -s project`.
+- If normal sandboxed `gh auth status` fails but a network/keyring-enabled check succeeds, treat the normal failure as sandbox or Keychain access, not a real logout.
+- Record the GitHub Project URL/number in root `memory/project.yaml` when the code repo belongs to a project-control-root layout.
 
 Apply the same network-first classification to other commands:
 

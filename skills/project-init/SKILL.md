@@ -1,6 +1,6 @@
 ---
 name: project-init
-description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, root project docs, root-level agent guidance, code and paper worktree policies, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
+description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, optional GitHub Project board linkage, root project docs, root-level agent guidance, code and paper worktree policies, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, aligning several repos with a GitHub Project board, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
@@ -18,6 +18,7 @@ Pair this skill with:
 - `research-slide-deck-builder` to create or maintain the optional slides repo using the external `progress-slides` template
 - `new-workspace` to create code experiment worktrees or paper version worktrees
 - `remote-project-control` when code runs on SSH/HPC servers
+- `remote-project-control` or `safe-git-ops` when GitHub CLI, repo remotes, or GitHub Project API operations are involved
 - `safe-git-ops` before non-trivial Git work
 
 ## Expected Project Shape
@@ -77,6 +78,7 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 - Paper worktrees should not be nested inside `paper/` by default. Use the sibling root `paper-worktrees/` for venue retargeting, arXiv releases, rebuttal paper edits, and camera-ready branches.
 - Project memory stores durable cross-component state; root `docs/` stores project-level design and planning artifacts; code docs store code-side implementation, run, and result details.
 - Root Git is optional. If enabled, do not accidentally commit nested component repos unless the user explicitly wants submodules.
+- A GitHub Project is optional cloud coordination. It tracks collaborator-facing issues, PRs, blockers, and roadmap views across component repos; it does not replace root `memory/`, component `.agent/`, or repo-native evidence docs.
 
 ## Step 1 - Gather Project Information
 
@@ -95,6 +97,7 @@ Ask for these fields in one message:
    - component remotes for paper/code/slides, if available
    - whether component repos should be submodules or ignored by root Git
    - whether GitHub/GitLab repos should be created now, and if so whether `gh auth status` is valid
+   - whether to create or link one GitHub Project board for this research project
 6. Worktree policy:
    - default sibling root: `<ProjectName>/code-worktrees/`
    - default paper sibling root: `<ProjectName>/paper-worktrees/`
@@ -138,6 +141,33 @@ If root Git is enabled, initialize it at `<ProjectName>/` and add a root `.gitig
 If the user wants submodules, use submodule commands deliberately rather than relying on accidental nested Git behavior.
 
 If the user wants GitHub/GitLab repositories created during setup, first check the hosting CLI authentication such as `gh auth status`. If authentication fails, finish the local workspace setup and record Git remote creation as a blocker; do not let repo creation failure obscure the project initialization result.
+
+If the user wants a GitHub Project board:
+
+1. Treat the board as optional cloud coordination for one research project across several repos.
+2. Before `gh project ...` commands, check `gh auth status`; if the token lacks the `project` scope, ask the user to approve or run `gh auth refresh -s project`.
+3. If the agent runtime cannot access the macOS Keychain or GitHub API from the sandbox, record GitHub Project setup as a blocker instead of asking the user to repeatedly log in.
+4. Create or link the project only after the owner is clear: user account such as `@me` / `a-green-hand-jack`, or an organization.
+5. Link component repos to the board when appropriate, but keep the root repo and component repo remotes separate.
+
+Useful CLI patterns:
+
+```bash
+gh project create --owner <owner> --title "<ProjectName>"
+gh project view <number> --owner <owner>
+gh project link <number> --owner <owner> --repo <owner>/<repo>
+```
+
+Recommended fields:
+
+- `Component`: root, code, paper, slides, reviewer, rebuttal, artifact
+- `Workstream`: method, experiment, writing, review, release, infra
+- `Status`: Backlog, Ready, In Progress, Blocked, Review, Done, Parked
+- `Priority`: P0, P1, P2, P3
+- `Target`: venue, milestone, deadline, arXiv, camera-ready
+- `Claim ID`, `Evidence ID`, `Worktree`, `Blocker`
+
+Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, and `Worktrees`.
 
 ## Step 3 - Bootstrap Project Memory
 
@@ -186,6 +216,21 @@ components:
 
 Root memory should store pointers to code-side evidence, not duplicate detailed run logs.
 
+If a GitHub Project board exists, record it in `memory/project.yaml`:
+
+```yaml
+github_project:
+  enabled: true
+  owner: <github-user-or-org>
+  title: <ProjectName>
+  number: <project-number>
+  url: <project-url>
+  sync_policy: issue-pr-links
+  scope_required: project
+```
+
+Use `sync_policy: none` when the board exists but agents should not manage it. Do not mirror private research rationale or hidden paper-review risks into GitHub fields unless the user explicitly wants that material visible there.
+
 ## Step 4 - Create Root-Level Agent Guidance
 
 Write both root agent entrypoints:
@@ -207,6 +252,7 @@ The root guidance must state:
 - raw outputs, logs, checkpoints, and wandb/tensorboard caches are not project-root artifacts
 - paper version notes live in the relevant paper worktree `.agent/worktree-status.md` and durable decisions live in root `memory/`
 - cross-worktree rollups live in `code/.agent/worktree-index.md`, `paper/.agent/worktree-index.md`, and root `memory/component-index.yaml`
+- GitHub Project, when configured, is the collaborator-facing board for issues, PRs, blockers, targets, and roadmap views; root `memory/` remains the durable research memory
 - arXiv/public-source paper worktrees must remove TODOs, internal comments, hidden figure/table descriptions, reviewer-response notes, and author-comment macros before source release
 - anonymous conference paper worktrees must enforce venue anonymity and formatting rules
 - project memory gets durable claim/evidence/risk/action summaries
@@ -332,6 +378,19 @@ Agents should start from this directory for cross-component work. Component repo
 | rebuttal | `rebuttal/` | root state dir | real reviews, responses, promised revisions |
 | artifact | `artifact/` | root state dir | artifact evaluation and release handoff |
 
+## GitHub Project Board
+
+- status: <none|linked|planned>
+- owner: <github-user-or-org>
+- title: <project-title>
+- number: <project-number>
+- url: <project-url>
+- role: collaborator-facing issues, PRs, blockers, milestones, and roadmap views
+- not a replacement for: root `memory/`, component `.agent/`, code-side evidence docs, or paper worktree source-hygiene policy
+
+Recommended fields: `Component`, `Workstream`, `Status`, `Priority`, `Target`, `Claim ID`, `Evidence ID`, `Worktree`, `Blocker`.
+Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktrees`.
+
 ## Documentation Boundary
 
 - `memory/` stores durable claim/evidence/risk/action/decision state.
@@ -392,6 +451,7 @@ Components:
   code: <created|connected|skipped>
   slides: <created|connected|skipped>
   reviewer/rebuttal/artifact state: <created|deferred>
+  GitHub Project: <created|linked|deferred|not requested>
 
 Code worktree root:
   <ProjectName>/code-worktrees/
@@ -416,6 +476,8 @@ Before finishing:
 - `paper/`, `code/`, and `slides/` Git boundaries are clear
 - root and component Git remotes have been inspected separately when GitHub/GitLab setup is involved
 - `gh auth status` or equivalent hosting CLI auth has been checked before attempting repo creation
+- GitHub Project setup is either recorded in `memory/project.yaml` and `PROJECT.md`, or explicitly deferred as an action/blocker
+- `gh` token has the `project` scope before `gh project ...` commands are attempted
 - `code-worktrees/` policy is recorded
 - `paper-worktrees/` policy is recorded
 - there is no top-level `experiments/` directory unless the user explicitly requested it

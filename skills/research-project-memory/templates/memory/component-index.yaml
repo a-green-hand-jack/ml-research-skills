@@ -3,6 +3,14 @@
 project_name: {{PROJECT_NAME}}
 last_updated: {{DATE}}
 
+github_project:
+  enabled: false
+  owner: ""
+  title: ""
+  number: ""
+  url: ""
+  linked_repositories: []
+
 components:
   - name: paper
     path: paper

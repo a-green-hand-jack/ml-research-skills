@@ -43,7 +43,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, code-side evidence docs, and remote-workflow memory scaffolding |
-| `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, root agent guidance, and code/paper worktree policy |
+| `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, optional GitHub Project board linkage, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
@@ -121,6 +121,15 @@ Root ownership rules:
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
 - Cross-worktree memory has three layers: global registry in `memory/component-index.yaml`, component rollups in `paper/.agent/worktree-index.md` and `code/.agent/worktree-index.md`, and leaf status in each worktree's `.agent/worktree-status.md`.
 
+Optional GitHub Project alignment:
+
+- A GitHub Project is the cloud planning board for one research project, not a replacement for the control root or any component repo.
+- Use one GitHub Project per research project when the work spans several repos, such as root, code, paper, and slides.
+- Link repo issues and PRs from the component repos into the same GitHub Project. Keep durable research memory in `memory/`; keep actionable, collaborator-facing work in GitHub issues/PRs/project items.
+- Recommended fields: `Component`, `Workstream`, `Status`, `Priority`, `Target`, `Claim ID`, `Evidence ID`, `Worktree`, and `Blocker`.
+- Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, and `Worktrees`.
+- With `gh`, GitHub Projects require a token with the `project` scope. Use `gh auth refresh -s project` before `gh project ...` commands when the scope is missing.
+
 Primary skills by root area:
 
 | Area | Main artifacts | Primary skills |
@@ -129,6 +138,7 @@ Primary skills by root area:
 | Root memory | claims, evidence, risks, actions, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
 | Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
+| Cloud coordination | GitHub Project board, repo issues, PRs, public task status | **project-init**, **remote-project-control**, **safe-git-ops** |
 
 ### Memory System
 
@@ -139,6 +149,7 @@ Memory is layered:
 | Layer | Location | Purpose | Examples |
 |---|---|---|---|
 | Project memory | `memory/` | Shared coordination state across paper, code, slides, review, rebuttal, artifact, and worktrees | `project.yaml`, `component-index.yaml`, `claim-board.md`, `evidence-board.md`, `risk-board.md`, `action-board.md` |
+| Cloud coordination | GitHub Project | Optional collaborator-facing task board across component repos | issues, PRs, draft items, roadmap/board/table views, custom fields |
 | Component memory | `<component>/.agent/` | Component-local state that is too detailed for root boards but still useful across sessions | `paper/.agent/paper-status.md`, `paper/.agent/figure-table-map.md`, `code/.agent/worktree-index.md` |
 | Repo-native ops memory | `code/docs/ops/` and similar component docs | Operational notes native to a repo; useful but not a cross-component registry | `code/docs/ops/current-status.md`, `code/docs/ops/decision-log.md` |
 | Worktree memory | `<component-worktree>/.agent/worktree-status.md` | Leaf state for one experimental branch or paper version | purpose, branch, linked claims, latest result, source visibility, exit condition |
@@ -183,6 +194,8 @@ Use certainty labels whenever memory may become stale:
 - `needs-verification`: must be checked before acting
 
 Rule of thumb: root `memory/` stores durable coordination, component `.agent/` stores local rollups, repo-native docs store operational detail, and worktree status files store branch/version leaf state. Do not hide important cross-skill state only in a report, only in a paper comment, or only in a terminal transcript.
+
+GitHub Project integration is deliberately narrower than project memory. Mirror only actionable work that benefits from GitHub visibility, such as issues, PRs, blockers, owner/status, and target dates. Do not use GitHub Project fields as the only copy of claim rationale, private reviewer-risk notes, experiment interpretation, arXiv source-cleanup policy, or detailed provenance.
 
 ### Paper Repo
 
@@ -369,12 +382,15 @@ flowchart TD
 
     subgraph B[Project Control Root and Component Repos]
         PI[project-init]
+        GHP[GitHub Project<br/>optional cloud board]
         LP[init-latex-project<br/>paper repo]
         CP[init-python-project<br/>code repo]
         NW[new-workspace<br/>code/paper worktrees]
         RPC[remote-project-control]
+        PI --> GHP
         PI --> LP
         PI --> CP
+        GHP -. issues/PRs .- RPC
         LP --> NW
         CP --> NW
         CP --> RPC
@@ -452,6 +468,7 @@ The most important feedback loops are:
 - **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
+- **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
 - **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
 
 ### 0. Project Memory and Coordination
@@ -478,7 +495,7 @@ Use these skills when starting the project control root, creating or connecting 
 
 | Skill | Lifecycle role |
 |---|---|
-| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, paired root `AGENTS.md`/`CLAUDE.md`, and code/paper worktree policy |
+| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, optional GitHub Project linkage, paired root `AGENTS.md`/`CLAUDE.md`, and code/paper worktree policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
@@ -781,6 +798,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - A project control root where agents can coordinate independent `paper/`, `code/`, optional `slides/`, `reviewer/`, `rebuttal/`, and `artifact/` components
 - Root-level `PROJECT.md`, paired `AGENTS.md`/`CLAUDE.md`, `memory/`, and `docs/` scaffolding for cross-component claim/evidence/risk/action management, project overviews, staged method designs, and cross-component experiment plans
+- Optional GitHub Project alignment for projects that span several repos, including board URL/number recording, recommended fields/views, and guidance for issue/PR linkage without replacing local research memory
 - Default component worktree policies using sibling `code-worktrees/` for code branches and `paper-worktrees/` for paper versions
 - Clear separation between project-level memory, root project docs, component repos, code-side evidence docs, and raw experiment artifacts
 
@@ -797,7 +815,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A repo-native memory model for projects developed locally, synced through Git remotes such as GitHub/GitLab, and executed on SSH/HPC/RunAI servers
 - Shared and private memory files for Git remote mappings, server mappings, working status, and local overrides
 - Safe orchestration for inspect, Git remote setup, sync, server job submission, monitoring, and artifact lookup
-- GitHub CLI guardrails: check `gh auth status` with network access before `gh repo create`, `gh repo view`, or `gh repo fork`; distinguish `api.github.com` network/sandbox failures from real auth failures; keep project-root and component-repo remotes separate
+- GitHub CLI guardrails: check `gh auth status` with network access before `gh repo create`, `gh repo view`, `gh repo fork`, or `gh project ...`; distinguish `api.github.com` network/sandbox failures from real auth failures; refresh `project` scope before GitHub Projects commands; keep project-root and component-repo remotes separate
 - Network guardrails for sandboxed agents: classify DNS, timeout, and host/API connection failures from `gh`, networked `git`, `ssh`, `curl`, package managers, or scheduler APIs as network/sandbox access until retried with network permission
 - A clean handoff layer between project memory and `run-experiment`
 
