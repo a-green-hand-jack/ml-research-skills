@@ -39,6 +39,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 |---|---|
 | `research-project-memory` | Initialize and maintain hierarchical project memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviews, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
+| `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `init-python-project` | Create or enhance a production-ready Python/ML project using `uv`, pytest, black, ruff, and mypy, with remote-workflow memory scaffolding |
@@ -82,6 +83,7 @@ Use these skills when deciding whether an idea is worth pursuing and how it shou
 | Skill | Lifecycle role |
 |---|---|
 | **research-idea-validator** | Judge a rough idea with the FIVE+C framework and choose pursue, revise, park, or kill |
+| **literature-review-sprint** | Map canonical, closest, and recent work so novelty, baselines, gaps, and positioning are clear |
 | **algorithm-design-planner** | Convert a promising idea into a concrete method, objective, architecture, or inference design |
 
 ### 2. Project and Workspace Setup
@@ -223,6 +225,7 @@ For the person designing the overall research project, repo structure, and colla
 |---|---|
 | **research-project-memory** | Define memory layout and component ownership for the full project |
 | **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
+| **literature-review-sprint** | Establish the literature map, closest-work risk, baseline expectations, and open gap before method design |
 | **algorithm-design-planner** | Define the method design before implementation and experiment planning |
 | **project-init** | Create the initial paper/code workspace |
 | **init-latex-project** | Define the paper scaffold and venue template |
@@ -240,37 +243,39 @@ Current partial support:
 |---|---|
 | **research-project-memory** | Preserve idea, claim, evidence, risk, and action state across project pivots |
 | **research-idea-validator** | Turn a rough idea into a pursue/revise/park/kill decision with novelty, feasibility, and paper-shape analysis |
+| **literature-review-sprint** | Turn a topic or idea into a ranked paper map, closest-work comparison, baseline implications, and project-positioning decisions |
 | **algorithm-design-planner** | Turn a promising idea into a method specification with assumptions, components, failure modes, ablations, and implementation handoff |
 | **result-diagnosis** | Feed negative or surprising results back into algorithm design, project positioning, or claim revision |
 | **experiment-design-planner** | Designs evidence for a claim once the rough idea exists |
 
-Potential future skills could include **result-diagnosis**, **paper-evidence-board**, or **paper-positioning-planner**.
+Potential future skills could include **baseline-selection-audit**, **camera-ready-finalizer**, or **paper-positioning-planner**.
 
 ## Typical Workflow
 
 ```text
 1. research-project-memory -> initialize or recover hierarchical project memory and feedback-loop state
 2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
-3. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
-4. project-init       -> create a parent workspace with paper/ and code/
-5. new-workspace      -> isolate a feature or experiment branch
-6. remote-project-control -> recover project memory and align local vs remote state
-7. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
-8. run-experiment     -> launch locally or on SLURM / RunAI
-9. result-diagnosis -> diagnose surprising/negative results and decide the next action
-10. project-sync       -> record results in paper/sections/daily_experiments.tex
-11. experiment-report-writer -> turn experiment evidence into a structured report
-12. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
-13. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-14. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-15. citation-coverage-audit -> find missing classic, close, and concurrent citations
-16. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-17. submit-paper    -> run a readiness check before a deadline
-18. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-19. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-20. update-docs     -> refresh docs after meaningful code changes
-21. release-code    -> prepare the public code release when needed
-22. add-git-tag     -> mark a milestone
+3. literature-review-sprint -> map canonical, closest, and recent work before locking project positioning
+4. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
+5. project-init       -> create a parent workspace with paper/ and code/
+6. new-workspace      -> isolate a feature or experiment branch
+7. remote-project-control -> recover project memory and align local vs remote state
+8. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
+9. run-experiment     -> launch locally or on SLURM / RunAI
+10. result-diagnosis -> diagnose surprising/negative results and decide the next action
+11. project-sync       -> record results in paper/sections/daily_experiments.tex
+12. experiment-report-writer -> turn experiment evidence into a structured report
+13. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
+14. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+15. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+16. citation-coverage-audit -> find missing classic, close, and concurrent citations
+17. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+18. submit-paper    -> run a readiness check before a deadline
+19. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+20. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+21. update-docs     -> refresh docs after meaningful code changes
+22. release-code    -> prepare the public code release when needed
+23. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -289,6 +294,14 @@ Potential future skills could include **result-diagnosis**, **paper-evidence-boa
 - Paper-shape analysis for method, theory, benchmark, empirical analysis, systems, application, negative-result, and position-style ideas
 - Minimum viable project, killer experiment or analysis, reviewer attack forecast, kill criteria, and next actions
 - Memory guidance for preserving promising, parked, revised, or killed ideas across sessions
+
+## What `literature-review-sprint` Provides
+
+- A focused literature sprint for mapping canonical, closest, recent, concurrent, baseline, and positioning-relevant work
+- A search protocol that records sources, queries, limitations, and verification status instead of hiding provenance
+- Paper taxonomy and read/skim/defer prioritization based on project decision value
+- Closest-work, baseline, evaluation, method, and positioning implications before algorithm or experiment design
+- Project-memory writeback for literature-driven decisions, risks, actions, claim revisions, and planned evidence
 
 ## What `algorithm-design-planner` Provides
 
