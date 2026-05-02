@@ -17,6 +17,14 @@ VENUE=""
 INIT_GIT=false
 OFFLINE=false
 
+lowercase() {
+  printf '%s' "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+uppercase() {
+  printf '%s' "$1" | tr '[:lower:]' '[:upper:]'
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --git)     INIT_GIT=true; shift ;;
@@ -44,7 +52,7 @@ if [[ -z "$PROJECT_NAME" ]]; then
   exit 1
 fi
 
-VENUE="${VENUE,,}"   # normalize to lowercase
+VENUE="$(lowercase "$VENUE")"   # normalize to lowercase; works on macOS Bash 3.2
 
 SUPPORTED="icml acl emnlp naacl iccv eccv neurips iclr cvpr acm"
 if [[ -n "$VENUE" && ! " $SUPPORTED " =~ " $VENUE " ]]; then
@@ -119,7 +127,7 @@ download_styles() {
     # ── icml ────────────────────────────────────────────────────────────────
     icml)
       for y in "$YEAR" "$((YEAR-1))"; do
-        url="https://media.icml.cc/Conferences/ICML${y}/Styles/icml${y,,}.zip"
+        url="https://media.icml.cc/Conferences/ICML${y}/Styles/icml${y}.zip"
         if fetch_zip "$url" "$dest"; then
           sty=$(first_match_basename "$dest" -name "icml*.sty")
           if [[ -n "$sty" ]]; then
@@ -224,7 +232,8 @@ EOF
     acl|emnlp|naacl)
       url="https://github.com/acl-org/acl-style-files/archive/refs/heads/master.zip"
       if fetch_zip "$url" "$dest" && [[ -f "$dest/acl.sty" ]]; then
-        local vname="${venue^^}"
+        local vname
+        vname="$(uppercase "$venue")"
         cat > "$dest/venue_preamble.tex" <<EOF
 % ${vname} (*ACL family) — fetched from github.com/acl-org/acl-style-files on ${TODAY}
 % Camera-ready: \usepackage{acl}
