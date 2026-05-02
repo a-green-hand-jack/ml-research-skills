@@ -76,6 +76,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose debug/rerun/ablate/revise/narrow/write/park/kill decisions |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
+| `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `conference-writing-adapter` | Adapt a paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and project-local writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
@@ -99,6 +100,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.
 - **`result-diagnosis`**: Use after results are surprising, negative, unstable, or hard to interpret. It separates bugs, metric issues, baseline fairness, variance, mechanism failure, and claim mismatch before deciding the next action.
 - **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
+- **`paper-evidence-board`**: Use while writing or reviewing a draft to keep claims, evidence, figures, sections, reviewer risks, and next actions aligned.
 - **`conference-writing-adapter`**: Use when a paper needs to be reshaped for a target venue's reviewer expectations. It learns from accepted/oral/spotlight exemplars, diagnoses the paper archetype, and produces section-level or paragraph-level rewrite plans.
 - **`paper-reviewer-simulator`**: Use before submission to simulate venue-specific reviewers, predict likely reject reasons, produce an area-chair style meta-review, and rank fixes by acceptance impact.
 - **`rebuttal-strategist`**: Use after real reviews arrive to parse OpenReview/reviewer comments, infer reviewer intent, decide which experiments or clarifications matter, draft rebuttals, and track promised revisions.

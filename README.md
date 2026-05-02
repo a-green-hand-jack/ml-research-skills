@@ -48,6 +48,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |
+| `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
@@ -113,6 +114,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 
 | Skill | Lifecycle role |
 |---|---|
+| **paper-evidence-board** | Align paper claims, evidence, figures, sections, reviewer risks, and next actions |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
@@ -171,6 +173,7 @@ For the person turning research evidence into a submission:
 | Skill | Role support |
 |---|---|
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
+| **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
@@ -183,6 +186,7 @@ For the person stress-testing the paper before reviewers see it:
 | Skill | Role support |
 |---|---|
 | **research-project-memory** | Link simulated reviewer risks to claims, evidence gaps, and concrete actions |
+| **paper-evidence-board** | Convert reviewer risks into paper locations, evidence gaps, and fix actions |
 | **paper-reviewer-simulator** | Simulate venue-specific reviewers, predicted scores, likely reject reasons, and meta-review dynamics |
 | **citation-coverage-audit** | Detect missing related work that reviewers are likely to complain about |
 | **citation-audit** | Check whether cited papers actually support the text's claims |
@@ -256,16 +260,17 @@ Potential future skills could include **result-diagnosis**, **paper-evidence-boa
 9. result-diagnosis -> diagnose surprising/negative results and decide the next action
 10. project-sync       -> record results in paper/sections/daily_experiments.tex
 11. experiment-report-writer -> turn experiment evidence into a structured report
-12. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-13. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-14. citation-coverage-audit -> find missing classic, close, and concurrent citations
-15. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-16. submit-paper    -> run a readiness check before a deadline
-17. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-18. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-19. update-docs     -> refresh docs after meaningful code changes
-20. release-code    -> prepare the public code release when needed
-21. add-git-tag     -> mark a milestone
+12. paper-evidence-board -> align claims, evidence, figures, sections, risks, and actions
+13. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+14. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+15. citation-coverage-audit -> find missing classic, close, and concurrent citations
+16. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+17. submit-paper    -> run a readiness check before a deadline
+18. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+19. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+20. update-docs     -> refresh docs after meaningful code changes
+21. release-code    -> prepare the public code release when needed
+22. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -337,6 +342,14 @@ Potential future skills could include **result-diagnosis**, **paper-evidence-boa
 - Decision rules for debug, rerun, ablate, revise-method, narrow-claim, write, park, or kill
 - Evidence checklists covering provenance, configs, data splits, metrics, logs, figures, seeds, and baseline fairness
 - Project-memory writeback for updated evidence, weakened claims, new risks, next actions, and worktree exit conditions
+
+## What `paper-evidence-board` Provides
+
+- A paper-facing claim/evidence matrix that links paper locations to experiments, figures, tables, citations, risks, and actions
+- Section and figure/table maps so writing changes, stale results, and unsupported claims are visible before submission
+- Evidence-gap triage that routes issues to new experiments, result diagnosis, rewriting, claim narrowing, citation work, cutting, or accepted risk
+- Reviewer-risk integration from simulated reviews, citation audits, result diagnosis, and real rebuttal issues
+- Project-memory writeback for claim status, evidence status, paper locations, stale figures, reviewer risks, and paper actions
 
 ## What `experiment-design-planner` Provides
 
