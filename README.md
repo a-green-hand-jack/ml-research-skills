@@ -57,7 +57,10 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
+| `paper-draft-consistency-editor` | Audit and edit a paper draft for internal consistency across title, abstract, intro, method, results, figures, tables, captions, terminology, limitations, and conclusion |
+| `paper-writing-contract-planner` | Create or update a writing contract that locks paper archetype, section order, paragraph roles, claim evidence slots, figure/table jobs, and forbidden claims before drafting |
 | `paper-writing-assistant` | Draft and revise claim-aware paper prose, map archetypes to required evidence slots, use micro-patterns for captions and paragraph-level writing, and track provisional result placeholders until verified evidence arrives |
+| `related-work-positioning-writer` | Plan, draft, and revise related work as novelty-boundary writing, grouping closest work and defining safe citation-backed boundary statements |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
@@ -271,7 +274,7 @@ Primary skills in `paper/`:
 | Paper area | Main artifacts | Primary skills |
 |---|---|---|
 | Paper scaffold | `main.tex`, `sections/`, `venue_preamble.tex`, `macros.tex` | **init-latex-project**, **submit-paper** |
-| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-assistant**, **paper-evidence-board** |
+| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-writing-assistant**, **related-work-positioning-writer**, **paper-draft-consistency-editor**, **paper-evidence-board** |
 | Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **figure-results-review**, **paper-evidence-board** |
 | Tables | `tables/*.tex` | **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
 | Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
@@ -478,14 +481,20 @@ flowchart TD
     subgraph D2[Paper Writing and Pre-Submission Review]
         PEB[paper-evidence-board]
         CWA[conference-writing-adapter]
+        PWCP[paper-writing-contract-planner<br/>writing contract]
         PWA[paper-writing-assistant<br/>claim-aware prose + provisional results]
+        RWPW[related-work-positioning-writer<br/>novelty boundary]
+        PDCE[paper-draft-consistency-editor<br/>draft consistency]
         PRS[paper-reviewer-simulator]
         CCA[citation-coverage-audit]
         CA[citation-audit]
         SUB[submit-paper]
         PEB --> P
-        P --> CWA --> PWA --> PRS
+        P --> CWA --> PWCP --> PWA --> RWPW --> PDCE --> PRS
+        PWCP --> PEB
         PWA --> PEB
+        RWPW --> CCA
+        PDCE --> PEB
         PRS --> PEB
         CWA --> CCA --> CA --> SUB
     end
@@ -532,9 +541,9 @@ flowchart TD
 
 The most important feedback loops are:
 
-- **Writing to experiments**: `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
+- **Writing to experiments**: `paper-writing-contract-planner`, `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
-- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-assistant` turns verified or clearly provisional evidence into claim-aware prose.
+- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-contract-planner` locks evidence slots and section jobs; `paper-writing-assistant` turns verified or clearly provisional evidence into claim-aware prose; `paper-draft-consistency-editor` checks that the whole draft still tells the same story.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
@@ -596,7 +605,10 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
+| **paper-writing-contract-planner** | Lock the paper's writing contract before drafting: section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims |
 | **paper-writing-assistant** | Draft and revise claim-aware prose, map archetypes to evidence recipes, interpret results toward claims, and track provisional result placeholders |
+| **related-work-positioning-writer** | Plan and write related work as citation-backed novelty-boundary paragraphs rather than citation lists |
+| **paper-draft-consistency-editor** | Audit and edit the draft so title, abstract, intro, results, figures, tables, limitations, and conclusion remain internally consistent |
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
@@ -674,7 +686,10 @@ For the person turning research evidence into a submission:
 | **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
+| **paper-writing-contract-planner** | Turn positioning decisions into a reusable `paper/.agent/writing-contract.md` before prose drafting |
 | **paper-writing-assistant** | Write and revise paper sections while preserving claims, required evidence slots, evidence status, and provisional-result traceability |
+| **related-work-positioning-writer** | Group closest work, define novelty boundaries, and draft related-work paragraphs with safe citation-backed wording |
+| **paper-draft-consistency-editor** | Check and fix internal consistency across the completed draft without changing the selected paper story |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
 | **submit-paper** | Check final submission readiness |
@@ -799,19 +814,22 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 18. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
 19. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
 20. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-21. paper-writing-assistant -> write claim-aware paper prose, enforce archetype evidence recipes, and track provisional result placeholders
-22. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-23. citation-coverage-audit -> find missing classic, close, and concurrent citations
-24. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-25. submit-paper    -> run a readiness check before a deadline
-26. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-27. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-28. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-29. release-code    -> prepare the public code release when needed
-30. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-31. update-docs     -> refresh docs after meaningful code changes
-32. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-33. add-git-tag     -> mark a milestone
+21. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
+22. paper-writing-assistant -> write claim-aware paper prose, enforce archetype evidence recipes, and track provisional result placeholders
+23. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
+24. paper-draft-consistency-editor -> align title, abstract, intro, results, figures, tables, terminology, limitations, and conclusion
+25. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+26. citation-coverage-audit -> find missing classic, close, and concurrent citations
+27. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+28. submit-paper    -> run a readiness check before a deadline
+29. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+30. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+31. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+32. release-code    -> prepare the public code release when needed
+33. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+34. update-docs     -> refresh docs after meaningful code changes
+35. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+36. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -992,6 +1010,30 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Paper archetype diagnosis for method, empirical study, benchmark, theory, systems, analysis, and application papers
 - Section-level and paragraph-level rewrite blueprints that assign each paragraph a reviewer-facing function
 - Project-local writing memory under `.agent/conference-writing/` for venue patterns, exemplar notes, and current-paper style decisions
+
+## What `paper-writing-contract-planner` Provides
+
+- A durable `paper/.agent/writing-contract.md` that fixes the paper's archetype, section order, paragraph roles, claim/evidence slots, and writing rules before drafting
+- Contract schemas for method, theory-guided method, empirical study, benchmark/dataset, systems/tooling, analysis, application, negative-result, and hybrid papers
+- Figure/table job assignments, related-work boundaries, limitation policy, provisional-result policy, terminology rules, and forbidden claims
+- Update and audit rules for revising the contract after new results, venue changes, reviewer risks, or claim changes
+- A handoff to `paper-writing-assistant` so later prose follows the contract instead of re-deciding the paper structure each time
+
+## What `paper-draft-consistency-editor` Provides
+
+- A non-reviewer consistency pass over title, abstract, introduction, method, experiments, results, figures, tables, captions, limitations, and conclusion
+- Checks for claim-strength drift, contribution-to-evidence mismatch, stale result prose, unresolved provisional placeholders, and terminology/name/notation inconsistency
+- Figure/table/caption/main-text alignment checks that preserve the selected paper story
+- Safe narrow edit rules for local consistency fixes while preserving LaTeX commands, citations, labels, math, and verified numbers
+- A report template for unresolved consistency risks and routed follow-up actions
+
+## What `related-work-positioning-writer` Provides
+
+- A `paper/.agent/related-work-plan.md` that groups closest work, method-family work, benchmark/evaluation work, theory foundations, systems/tooling work, domain work, and concurrent work by citation role
+- Paragraph recipes for related work that include topic sentence, synthesis sentence, closest-work detail, boundary sentence, and claim handoff
+- Safe novelty-boundary language that avoids unsupported `first`, `novel`, `unlike prior work`, and `orthogonal` claims
+- Intro-vs-related-work placement decisions so only the most necessary closest-work contrast appears in the introduction
+- Handoffs to `citation-coverage-audit`, `citation-audit`, `paper-writing-contract-planner`, and `paper-draft-consistency-editor` when missing citations or boundary conflicts remain
 
 ## What `paper-writing-assistant` Provides
 
