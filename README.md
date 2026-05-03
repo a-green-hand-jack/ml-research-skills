@@ -57,6 +57,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
+| `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |
 | `paper-draft-consistency-editor` | Audit and edit a paper draft for internal consistency across title, abstract, intro, method, results, figures, tables, captions, terminology, limitations, and conclusion |
 | `paper-introduction-argument-writer` | Plan, draft, and revise introductions as venue-aware argument chains with hook, gap, insight, method, evidence, and contribution paragraph roles |
 | `paper-writing-contract-planner` | Create or update a writing contract that locks paper archetype, section order, paragraph roles, claim evidence slots, figure/table jobs, and forbidden claims before drafting |
@@ -606,6 +607,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
+| **abstract-title-contribution-writer** | Write title, abstract, and contribution bullets as a calibrated top-level claim/evidence contract |
 | **paper-writing-contract-planner** | Lock the paper's writing contract before drafting: section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims |
 | **paper-introduction-argument-writer** | Plan and write the introduction as a paragraph-by-paragraph argument from problem to gap, insight, method, evidence, and contributions |
 | **paper-writing-assistant** | Draft and revise claim-aware prose, map archetypes to evidence recipes, interpret results toward claims, and track provisional result placeholders |
@@ -688,6 +690,7 @@ For the person turning research evidence into a submission:
 | **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
 | **baseline-selection-audit** | Ensure comparison tables support the paper's claims and baseline exclusions are explainable |
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
+| **abstract-title-contribution-writer** | Draft title options, abstract move plans, and contribution bullets that match the paper's evidence |
 | **paper-writing-contract-planner** | Turn positioning decisions into a reusable `paper/.agent/writing-contract.md` before prose drafting |
 | **paper-introduction-argument-writer** | Build the introduction's argument chain, paragraph jobs, handoff sentences, and contribution bullets |
 | **paper-writing-assistant** | Write and revise paper sections while preserving claims, required evidence slots, evidence status, and provisional-result traceability |
