@@ -30,8 +30,11 @@ Files:
 - `decision-log.md`: durable decisions and why they were made
 - `claim-board.md`: active, revised, cut, and planned claims
 - `evidence-board.md`: experiments, analyses, proofs, citations, figures, and result summaries
+- `provenance-board.md`: source-to-paper traceability for raw runs, CSVs, reports, assets, captions, and prose
 - `risk-board.md`: novelty, baseline, mechanism, writing, execution, reviewer, and rebuttal risks
 - `action-board.md`: concrete tasks linked to claims, evidence, risks, or components
+- `handoff-board.md`: producer/consumer contracts when work moves between idea, method, code, paper, slides, review, rebuttal, artifact, or release modules
+- `phase-dashboard.md`: project-cycle phase, readiness gate, stale objects, and next session entry point
 
 Project memory should be committed when it is useful for collaborators and not private.
 
@@ -90,7 +93,7 @@ Recommended component memory files:
 - `<component>/.agent/worktree-index.md`: component-local rollup of active and recently closed worktrees
 - `<component-worktree>/.agent/worktree-status.md`: leaf memory for one branch/worktree
 
-For code, `code/docs/ops/current-status.md` and `code/docs/ops/decision-log.md` are useful repo-native operational memory. They are not enough by themselves for cross-worktree coordination because they do not naturally list sibling worktrees, paper versions, or project-level claim/evidence/risk/action links. Use them alongside `code/.agent/worktree-index.md` and root `memory/component-index.yaml`.
+For code, `code/docs/ops/current-status.md` and `code/docs/ops/decision-log.md` are useful repo-native operational memory. They are not enough by themselves for cross-worktree coordination because they do not naturally list sibling worktrees, paper versions, or project-level claim/evidence/provenance/risk/action/handoff links. Use them alongside `code/.agent/worktree-index.md` and root `memory/component-index.yaml`.
 
 For paper, `.agent/paper-status.md`, `.agent/figure-table-map.md`, and `.agent/worktree-index.md` should carry writing state, figure/table mapping, and venue/arXiv/camera-ready version state. Public-source cleanup decisions should be summarized here or in root memory, not hidden in released `.tex` comments.
 
@@ -176,8 +179,11 @@ For narrative and research rationale:
 
 1. `claim-board.md`
 2. `evidence-board.md`
-3. `risk-board.md`
-4. `decision-log.md`
-5. component-specific notes
+3. `provenance-board.md`
+4. `risk-board.md`
+5. `decision-log.md`
+6. `phase-dashboard.md`
+7. `handoff-board.md`
+8. component-specific notes
 
 If layers disagree, do not silently choose one. Report the mismatch and either resolve it or create an action to resolve it.

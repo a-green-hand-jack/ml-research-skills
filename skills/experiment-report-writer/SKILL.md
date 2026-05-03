@@ -260,9 +260,12 @@ Tie each next step to the uncertainty it resolves.
 If the project uses `research-project-memory`, write back the result after the report is drafted:
 
 - `memory/evidence-board.md`: completed `EVD-###` summary, source paths, linked claim IDs, limitations, and certainty
-- `memory/claim-board.md`: mark claims as supported, weakened, revised, unsupported, or cut based on the observed result
+- `memory/provenance-board.md`: source-to-evidence traceability from run pointers, CSVs, reports, aggregation rules, and produced paper-facing candidates
+- `memory/claim-board.md`: move linked claims through the lifecycle, such as `supported`, `weakened`, `revised`, `evidence-needed`, `provisional`, or `cut`
 - `memory/risk-board.md`: close mitigated risks or add new risks exposed by the result
 - `memory/action-board.md`: next steps from the report, including rerun, write, revise-method, park, or kill decisions
+- `memory/handoff-board.md`: create a handoff when results are ready for `paper-result-asset-builder`, `paper-evidence-board`, `result-diagnosis`, or writing
+- `memory/phase-dashboard.md`: update the active gate if the project moved into evidence production, paper asset building, drafting, or regressed because the result weakened a claim
 - `memory/current-status.md`: latest reliable experiment state and next session entry point
 - worktree `.agent/worktree-status.md`: latest result and exit condition if the experiment belongs to a worktree
 

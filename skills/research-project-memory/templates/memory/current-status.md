@@ -11,8 +11,11 @@
 ## Latest Reliable State
 
 - Project positioning:
+- Current phase and gate:
 - Active claims:
 - Latest evidence:
+- Provenance/provisional-result status:
+- Open handoffs:
 - Current paper state:
 - Current code state:
 

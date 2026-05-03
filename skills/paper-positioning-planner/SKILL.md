@@ -28,7 +28,7 @@ Pair this skill with:
 - `algorithm-design-planner` when the chosen position changes the method specification
 - `baseline-selection-audit` when the position depends on whether comparisons are reviewer-proof
 - `figure-results-review` when visual evidence changes claim scope
-- `paper-evidence-board` when positioning decisions must update claim/evidence/risk/action links
+- `paper-evidence-board` when positioning decisions must update claim/evidence/provenance/risk/action/handoff links
 - `paper-reviewer-simulator` after positioning to stress-test the selected story
 - `conference-writing-adapter` after positioning to rewrite sections for the target venue
 - `research-project-memory` when positioning decisions should persist across sessions

@@ -219,9 +219,12 @@ Required output:
 If the project uses `research-project-memory`, update:
 
 - `memory/evidence-board.md`: observed result, limitations, and source paths
-- `memory/claim-board.md`: claims supported, weakened, revised, unsupported, or cut
+- `memory/provenance-board.md`: mark result provenance verified, stale, contradictory, or missing when diagnosis depends on source validity
+- `memory/claim-board.md`: claims supported, weakened, revised, evidence-needed, provisional, parked, or cut
 - `memory/risk-board.md`: bugs, metric risks, baseline risks, mechanism risks, or claim risks
 - `memory/action-board.md`: debug, rerun, ablation, method revision, writing, park, or kill actions
+- `memory/handoff-board.md`: create handoffs to method design, experiment design, paper evidence, or writing when diagnosis changes downstream work
+- `memory/phase-dashboard.md`: update the active gate when diagnosis advances evidence production or regresses the project to debugging, method revision, or claim narrowing
 - `memory/decision-log.md`: durable decisions such as killing a claim, changing method, or narrowing scope
 - worktree `.agent/worktree-status.md`: latest result and exit condition if a branch/worktree is involved
 

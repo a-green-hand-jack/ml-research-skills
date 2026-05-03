@@ -157,6 +157,12 @@ Route by classification:
 - `needs-new-compute` -> `experiment-design-planner`, then `baseline-selection-audit` and `run-experiment` if needed
 - `cut-or-defer` -> `paper-writing-contract-planner` and `paper-draft-consistency-editor`
 
+When project memory exists, update:
+
+- `memory/provenance-board.md` with checked sources, missing source classes, and provisional-result replacement needs
+- `memory/handoff-board.md` with a `paper-evidence-gap-miner` -> `paper-result-asset-builder` handoff for reusable CSV/report evidence, or a `paper-evidence-gap-miner` -> `experiment-design-planner` handoff only after existing sources cannot fill the gap
+- `memory/phase-dashboard.md` if the writing phase regresses to evidence production or paper asset building
+
 ## Final Sanity Check
 
 Before finalizing:

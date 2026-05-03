@@ -24,7 +24,7 @@ Do not use this skill for pre-submission readiness. Use `submit-paper` before in
 Pair this skill with:
 
 - `rebuttal-strategist` to recover reviewer issues, response promises, and promised revisions
-- `paper-evidence-board` to close final claim/evidence/risk/action links
+- `paper-evidence-board` to close final claim/evidence/provenance/risk/action/handoff links
 - `figure-results-review` to recheck final figures, captions, and tables after edits
 - `citation-audit` for final BibTeX, citation, label, and metadata correctness
 - `citation-coverage-audit` when accepted-paper edits reveal missing related work

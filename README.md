@@ -37,7 +37,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 
 | Skill | What it does |
 |---|---|
-| `research-project-memory` | Initialize and maintain hierarchical project memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviews, and rebuttal |
+| `research-project-memory` | Initialize and maintain hierarchical project memory across claim lifecycle, evidence provenance, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviews, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
@@ -105,8 +105,11 @@ A full project is a control root with independent component repositories:
 │   ├── decision-log.md
 │   ├── claim-board.md
 │   ├── evidence-board.md
+│   ├── provenance-board.md
 │   ├── risk-board.md
-│   └── action-board.md
+│   ├── action-board.md
+│   ├── handoff-board.md
+│   └── phase-dashboard.md
 ├── docs/                   # project-level docs, not code-side run archives
 │   ├── overview.md
 │   ├── designs/
@@ -139,6 +142,7 @@ Root ownership rules:
 - Do not create paper version folders inside `paper/`. Venue submissions, arXiv releases, and camera-ready versions belong under `paper-worktrees/`.
 - Do not treat `slides/slides.md` as the whole presentation history. Stable meeting/talk decks belong under `slides/decks/`, with deck registry memory in `slides/.agent/deck-index.md`.
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
+- Root `memory/` also owns the system-level protocols: claim lifecycle, evidence provenance, cross-module handoffs, and the project phase dashboard.
 - Cross-worktree memory has three layers: global registry in `memory/component-index.yaml`, component rollups in `paper/.agent/worktree-index.md` and `code/.agent/worktree-index.md`, and leaf status in each worktree's `.agent/worktree-status.md`.
 
 Optional GitHub Project alignment:
@@ -155,7 +159,7 @@ Primary skills by root area:
 | Area | Main artifacts | Primary skills |
 |---|---|---|
 | Root setup | `PROJECT.md`, paired root `AGENTS.md`/`CLAUDE.md`, component repos, root docs | **project-init**, **research-project-memory** |
-| Root memory | claims, evidence, risks, actions, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
+| Root memory | claims, evidence, provenance, risks, actions, handoffs, phase dashboard, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
 | Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
 | Cloud coordination | GitHub Project board, repo issues, PRs, public task status | **project-init**, **remote-project-control**, **safe-git-ops** |
@@ -168,7 +172,7 @@ Memory is layered:
 
 | Layer | Location | Purpose | Examples |
 |---|---|---|---|
-| Project memory | `memory/` | Shared coordination state across paper, code, slides, review, rebuttal, artifact, and worktrees | `project.yaml`, `component-index.yaml`, `claim-board.md`, `evidence-board.md`, `risk-board.md`, `action-board.md` |
+| Project memory | `memory/` | Shared coordination state across paper, code, slides, review, rebuttal, artifact, and worktrees | `project.yaml`, `component-index.yaml`, `claim-board.md`, `evidence-board.md`, `provenance-board.md`, `risk-board.md`, `action-board.md`, `handoff-board.md`, `phase-dashboard.md` |
 | Cloud coordination | GitHub Project | Optional collaborator-facing task board across component repos | issues, PRs, draft items, roadmap/board/table views, custom fields |
 | Component memory | `<component>/.agent/` | Component-local state that is too detailed for root boards but still useful across sessions | `paper/.agent/paper-status.md`, `paper/.agent/figure-table-map.md`, `code/.agent/worktree-index.md`, `slides/.agent/deck-index.md` |
 | Repo-native ops memory | `code/docs/ops/` and similar component docs | Operational notes native to a repo; useful but not a cross-component registry | `code/docs/ops/current-status.md`, `code/docs/ops/decision-log.md` |
@@ -177,20 +181,30 @@ Memory is layered:
 The stable object graph uses IDs:
 
 ```text
-CLM-001 -> supported_by EVD-003 -> visualized_by FIG-002 -> threatened_by RSK-004 -> resolved_by ACT-007
+CLM-001 -> supported_by EVD-003 -> traced_by PRV-002 -> visualized_by FIG-002 -> threatened_by RSK-004 -> resolved_by ACT-007
                       \-> produced_by EXP-002 on WTR-005
+HND-004 -> transfers EVD-003 from code report to paper-result-asset-builder
 ```
 
 This graph is what connects skills:
+
+The four system-level protocols are:
+
+| Protocol | Memory surface | Purpose |
+|---|---|---|
+| Claim lifecycle | `memory/claim-board.md` | Tracks each claim from `idea` / `planned` through `evidence-needed`, `provisional`, `supported`, `revised`, `cut`, or `final` |
+| Evidence provenance | `memory/provenance-board.md` | Traces raw runs, CSVs, reports, analyses, citations, figures, tables, captions, and result prose back to source evidence |
+| Project phase dashboard | `memory/phase-dashboard.md` | Gives the global project-cycle phase, active gate, readiness, stale objects, and next session entry point |
+| Cross-module handoff contracts | `memory/handoff-board.md` | Makes producer/consumer payloads explicit when work moves between idea, method, code, paper, slides, review, rebuttal, artifact, or release modules |
 
 | Skill family | Reads from memory | Writes back |
 |---|---|---|
 | Idea, literature, method | existing claims, decisions, risks, target venue | scoped claims, novelty risks, method decisions, planned actions |
 | Experiment planning and baselines | claims, risks, required evidence, prior decisions | experiment families, baseline policy, falsification actions |
 | Run and diagnose experiments | worktree state, run plans, stale evidence | run pointers, evidence status, revised claims, next actions |
-| Figure and table review | evidence board, paper locations, visual/table map | figure/table status, caption actions, provenance risks |
-| Paper writing and venue adaptation | claims, evidence, risks, target venue, paper status | section mapping, claim wording decisions, writing risks |
-| Submission, review, rebuttal, camera-ready | readiness state, reviewer risks, promised actions | blockers, review issues, rebuttal promises, final release handoff |
+| Figure and table review | evidence board, provenance board, paper locations, visual/table map | figure/table status, caption actions, provenance risks |
+| Paper writing and venue adaptation | claims, evidence, provenance, risks, target venue, phase dashboard, paper status | section mapping, claim wording decisions, writing risks, stale prose, handoffs |
+| Submission, review, rebuttal, camera-ready | readiness state, reviewer risks, promised actions, phase dashboard | blockers, review issues, rebuttal promises, final release handoff |
 | Slides and advisor updates | current status, evidence, risks, action board, deck index | advisor feedback, deck registry updates, presentation stale-evidence notes, next actions |
 
 Cross-worktree memory has a stricter shape:
@@ -466,7 +480,7 @@ The collection is a feedback system, not a one-way pipeline. `research-project-m
 
 ```mermaid
 flowchart TD
-    M[research-project-memory<br/>claim/evidence/risk/action graph]
+    M[research-project-memory<br/>claim/evidence/provenance/risk/action/handoff graph]
 
     subgraph A[Idea, Literature, and Method Design]
         I[research-idea-validator]
@@ -617,7 +631,7 @@ Use this skill to keep feedback loops between idea, algorithm, experiments, writ
 
 | Skill | Lifecycle role |
 |---|---|
-| **research-project-memory** | Maintain hierarchical memory and claim-evidence-risk-action links across project components |
+| **research-project-memory** | Maintain hierarchical memory and claim/evidence/provenance/risk/action/handoff links across project components |
 
 ### 1. Idea Validation and Project Shaping
 
@@ -953,10 +967,10 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 ## What `research-project-memory` Provides
 
 - Hierarchical project memory across root `memory/`, component `.agent/` folders, repo-native operational docs, and worktree status files
-- Claim-evidence-risk-action tracking with stable IDs such as `CLM-001`, `EVD-001`, `RSK-001`, and `ACT-001`
-- Templates for project boards: claims, evidence, risks, actions, decisions, current status, and component index
+- Claim/evidence/provenance/risk/action/handoff tracking with stable IDs such as `CLM-001`, `EVD-001`, `PRV-001`, `RSK-001`, `ACT-001`, and `HND-001`
+- Templates for project boards: claims, evidence, provenance, risks, actions, handoffs, phase dashboard, decisions, current status, and component index
 - Component and worktree rollups: `<component>/.agent/<component>-status.md`, `<component>/.agent/worktree-index.md`, and `<component-worktree>/.agent/worktree-status.md`
-- Consistency checks for unsupported claims, stale evidence, reviewer risks without actions, rebuttal promises, and worktrees without exit conditions
+- Consistency checks for unsupported claims, stale or missing provenance, reviewer risks without actions, blocked handoffs, phase-gate drift, rebuttal promises, and worktrees without exit conditions
 - A shared writeback protocol for other skills after idea validation, experiment design, runs, writing, review simulation, and rebuttal
 - Integration guidance in core research-loop skills so results, reviews, citations, rebuttals, and remote runs can update the same project memory graph
 
@@ -1005,7 +1019,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 ## What `project-init` Provides
 
 - A project control root where agents can coordinate independent `paper/`, `code/`, optional `slides/`, `reviewer/`, `rebuttal/`, and `artifact/` components
-- Root-level `PROJECT.md`, paired `AGENTS.md`/`CLAUDE.md`, `memory/`, and `docs/` scaffolding for cross-component claim/evidence/risk/action management, project overviews, staged method designs, and cross-component experiment plans
+- Root-level `PROJECT.md`, paired `AGENTS.md`/`CLAUDE.md`, `memory/`, and `docs/` scaffolding for cross-component claim/evidence/provenance/risk/action/handoff management, project overviews, staged method designs, and cross-component experiment plans
 - Optional GitHub Project alignment for projects that span several repos, including board URL/number recording, recommended fields/views, and guidance for issue/PR linkage without replacing local research memory
 - Default component worktree policies using sibling `code-worktrees/` for code branches and `paper-worktrees/` for paper versions
 - Clear separation between project-level memory, root project docs, component repos, code-side evidence docs, and raw experiment artifacts

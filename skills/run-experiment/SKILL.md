@@ -229,8 +229,10 @@ This file should contain the command, config, commit, output path, expected metr
 If the repo has `memory/` or a worktree `.agent/worktree-status.md`, update only verified run pointers:
 
 - `memory/evidence-board.md`: add or update the linked `EXP-###` with job script path, commit, command, output directory, and status `planned`, `submitted`, or `running` only if verified
+- `memory/provenance-board.md`: add only planned or available provenance for run pointers; do not mark final metrics as verified until outputs are checked
 - `docs/runs/`: write a small run pointer when the code repo uses that convention
 - `memory/action-board.md`: mark the launch action as `doing` or create a monitor action
+- `memory/handoff-board.md`: create a monitor/fetch/report handoff only when another module is expected to consume the run output
 - `memory/current-status.md`: record the latest known job and what must be checked next
 - `<worktree>/.agent/worktree-status.md`: link the run to the worktree purpose and exit condition
 

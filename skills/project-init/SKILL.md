@@ -37,8 +37,11 @@ Default shape:
 │   ├── decision-log.md
 │   ├── claim-board.md
 │   ├── evidence-board.md
+│   ├── provenance-board.md
 │   ├── risk-board.md
-│   └── action-board.md
+│   ├── action-board.md
+│   ├── handoff-board.md
+│   └── phase-dashboard.md
 ├── paper/                 # independent LaTeX git repo
 ├── code/                  # independent Python/ML git repo
 ├── code-worktrees/         # sibling worktree root for code repo branches
@@ -179,8 +182,11 @@ Use `research-project-memory` templates or equivalent files to create:
 - `memory/decision-log.md`
 - `memory/claim-board.md`
 - `memory/evidence-board.md`
+- `memory/provenance-board.md`
 - `memory/risk-board.md`
 - `memory/action-board.md`
+- `memory/handoff-board.md`
+- `memory/phase-dashboard.md`
 
 The component index should record:
 
@@ -255,7 +261,8 @@ The root guidance must state:
 - GitHub Project, when configured, is the collaborator-facing board for issues, PRs, blockers, targets, and roadmap views; root `memory/` remains the durable research memory
 - arXiv/public-source paper worktrees must remove TODOs, internal comments, hidden figure/table descriptions, reviewer-response notes, and author-comment macros before source release
 - anonymous conference paper worktrees must enforce venue anonymity and formatting rules
-- project memory gets durable claim/evidence/risk/action summaries
+- project memory gets durable claim/evidence/provenance/risk/action/handoff summaries
+- project memory tracks claim lifecycle, evidence provenance, cross-module handoffs, and phase dashboard state
 - use `update-docs` during code changes, not only at release time
 - use `add-git-tag` for stable code, paper, artifact, or root milestones
 
@@ -395,7 +402,11 @@ Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktre
 
 ## Documentation Boundary
 
-- `memory/` stores durable claim/evidence/risk/action/decision state.
+- `memory/` stores durable claim/evidence/provenance/risk/action/handoff/decision state.
+- `memory/claim-board.md` tracks claim lifecycle from idea to final or cut.
+- `memory/provenance-board.md` tracks source-to-paper evidence provenance from runs, CSVs, reports, citations, assets, captions, and prose.
+- `memory/handoff-board.md` tracks producer/consumer contracts between code, paper, slides, review, rebuttal, artifact, and release work.
+- `memory/phase-dashboard.md` gives the current project-cycle phase, active gate, and next session entry point.
 - `docs/overview.md` gives the current human-readable project overview.
 - `docs/designs/` stores staged method and system design documents.
 - `docs/experiments/` stores cross-component experiment plans before they become code-side run records.
@@ -434,6 +445,7 @@ Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktre
 ## Memory Policy
 
 - project-level durable summaries live in `memory/`
+- claim lifecycle, evidence provenance, phase status, and cross-module handoffs live in root `memory/`
 - component details live in `<component>/.agent/`
 - project-level human-readable docs live in root `docs/`
 - code-side run details live in `code/docs/`

@@ -5,9 +5,11 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 ## Claim Checks
 
 - Does every active major paper claim have at least one linked evidence item?
-- Are unsupported claims marked `planned`, `unsupported`, or `cut`?
+- Are unsupported claims marked `planned`, `evidence-needed`, `provisional`, `parked`, or `cut`?
 - Did new results weaken any existing claim?
 - Is the paper still using stale claims from an abandoned worktree?
+- Are provisional claims still clearly marked and linked to replacement actions?
+- Does each active claim have a next gate?
 
 ## Evidence Checks
 
@@ -16,6 +18,15 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 - Are results marked with certainty?
 - Are negative or failed experiments captured if they changed project direction?
 - Are figures and tables traceable to evidence?
+- Does every paper-facing table, figure, caption, or result sentence have provenance or a missing-provenance action?
+- Are provisional results still visible before submission or internal review?
+
+## Provenance Checks
+
+- Can each `EVD-###` be traced to raw-run, CSV, report, citation, analysis, asset, or prose sources as appropriate?
+- Do aggregation rules exist for paper-facing numbers?
+- Are generated assets linked to the CSV/report/script that produced them?
+- Are stale provenance entries reflected in claim, figure/table, writing-memory, or action state?
 
 ## Risk Checks
 
@@ -23,6 +34,14 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 - Did reviewer simulation create actions?
 - Did rebuttal promises create paper/code actions?
 - Are novelty and baseline risks reflected in related work and experiment plans?
+
+## Phase and Handoff Checks
+
+- Does `memory/phase-dashboard.md` match the current claim/evidence/provenance/risk/action/handoff boards?
+- Is the active phase gate blocked, partial, ready, or done with a concrete reason?
+- Does every ready handoff have a consumer and acceptance check?
+- Does every blocked handoff have an action or accepted reason?
+- Are stale handoffs marked stale rather than silently reused?
 
 ## Worktree Checks
 
@@ -45,6 +64,7 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 - Do real review issues link to rebuttal responses and promised revisions?
 - Are promised revisions tracked until completed?
 - Did rebuttal experiments update evidence and paper claims?
+- Did rebuttal or camera-ready work update provenance, handoffs, and phase status?
 
 ## Volatility Checks
 

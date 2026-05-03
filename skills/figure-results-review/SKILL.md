@@ -32,7 +32,7 @@ Pair this skill with:
 - `experiment-design-planner` when the fix requires new experiments, ablations, controls, or metrics
 - `experiment-report-writer` when raw results need a structured report before figure review
 - `conference-writing-adapter` when the final figure narrative or visual style must be adapted to a target venue
-- `research-project-memory` when claim/evidence/risk/action updates should persist across sessions
+- `research-project-memory` when claim/evidence/provenance/risk/action/handoff updates should persist across sessions
 
 ## Skill Directory Layout
 

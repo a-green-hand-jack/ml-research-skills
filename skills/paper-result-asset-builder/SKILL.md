@@ -156,6 +156,9 @@ After creating assets:
 - use `experiment-story-writer` for result prose
 - update `paper-evidence-board` with asset-to-claim mappings
 - update `paper-writing-memory-manager` when new or changed assets affect captions, result prose, abstract, introduction, limitations, or conclusion
+- update `memory/provenance-board.md` with CSV/report-to-asset traceability, aggregation rules, scripts, and paper locations when project memory exists
+- update `memory/handoff-board.md` with ready handoffs to `figure-results-review`, `table-results-review`, `experiment-story-writer`, or `paper-evidence-board`
+- update `memory/phase-dashboard.md` when the project moves from evidence production to paper asset building or drafting
 
 ## Final Sanity Check
 

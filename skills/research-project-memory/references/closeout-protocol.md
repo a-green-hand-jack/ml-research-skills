@@ -10,7 +10,10 @@ Answer:
 - Which facts were observed, user-stated, inferred, stale, or needing verification?
 - Which claims were added, supported, weakened, revised, or cut?
 - Which evidence appeared or changed?
+- Which provenance links were verified, made provisional, or became stale?
 - Which risks appeared, changed severity, or closed?
+- Which handoffs were produced, consumed, blocked, or invalidated?
+- Did the project phase or active gate change?
 - Which actions are next?
 - Which component should the next session open first?
 
@@ -23,9 +26,12 @@ Usually update:
 
 Update as needed:
 
+- `memory/phase-dashboard.md`
 - `memory/claim-board.md`
 - `memory/evidence-board.md`
+- `memory/provenance-board.md`
 - `memory/risk-board.md`
+- `memory/handoff-board.md`
 - `memory/decision-log.md`
 - component `.agent/` status files
 - worktree `.agent/worktree-status.md`

@@ -212,9 +212,12 @@ The final plan should be runnable by `run-experiment` and later reportable by `e
 If the project uses `research-project-memory`, update:
 
 - `memory/evidence-board.md`: planned `EVD-###` items and `EXP-###` experiment families
-- `memory/claim-board.md`: linked claims, marking unsupported or planned claims honestly
+- `memory/provenance-board.md`: planned source classes, expected CSV/report outputs, and aggregation requirements when known
+- `memory/claim-board.md`: linked claims, marking `planned`, `evidence-needed`, or `provisional` claims honestly
 - `memory/risk-board.md`: baseline, mechanism, metric, seed, compute, and reviewer risks exposed by the design
 - `memory/action-board.md`: runnable next actions, including which experiment to launch first
+- `memory/handoff-board.md`: create a ready handoff to `run-experiment` when the plan is runnable
+- `memory/phase-dashboard.md`: update the active experiment-design or evidence-production gate
 - relevant worktree `.agent/worktree-status.md`: experiment purpose and exit condition if a branch/worktree is involved
 
 Use `planned` status for experiments that have not run. Do not record expected outcomes as observed evidence.

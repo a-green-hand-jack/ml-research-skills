@@ -193,7 +193,7 @@ ml-research-skills/
 
 | Skill | Purpose |
 |---|---|
-| `research-project-memory` | Initialize and maintain hierarchical memory across claims, evidence, risks, actions, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
+| `research-project-memory` | Initialize and maintain hierarchical memory across claim lifecycle, evidence provenance, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision using novelty, feasibility, evidence, and reviewer-risk analysis |
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |

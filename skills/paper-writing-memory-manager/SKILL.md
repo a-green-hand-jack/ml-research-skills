@@ -47,6 +47,7 @@ Do not use this skill to write the prose itself. Use `paper-writing-assistant` a
 - Read `references/impact-propagation.md` when a claim, result, table, figure, caption, title, abstract, or limitation changes.
 - Use templates when initializing missing files under `paper/.agent/writing-memory/`.
 - Read `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/result-asset-provenance.md`, `paper/.agent/provisional-results.md`, and `paper/.agent/consistency-report.md` when present.
+- Read root `memory/claim-board.md`, `memory/evidence-board.md`, `memory/provenance-board.md`, `memory/handoff-board.md`, and `memory/phase-dashboard.md` when present and the writing change affects project-level state.
 - Read target draft files only as needed for the requested section, paragraph, caption, table, or figure.
 
 ## Core Principles
@@ -58,6 +59,7 @@ Do not use this skill to write the prose itself. Use `paper-writing-assistant` a
 - Style and terminology decisions are part of writing memory because they affect future edits.
 - Do not duplicate full paper text or long experiment reports. Store pointers, locations, IDs, and concise decisions.
 - Every substantial writing action should leave a small memory trace: what changed, why, what it affects, and what remains open.
+- If a writing change affects project-level claim lifecycle, evidence provenance, phase gates, or cross-module work, summarize that impact in root `memory/` through `research-project-memory` rather than hiding it in paper-local memory.
 
 ## Step 1 - Locate or Initialize Writing Memory
 
@@ -184,7 +186,10 @@ At the end of a writing session, update `session-notes.md` and `writing-state.md
 - which dependencies were added or invalidated
 - which sections are now stale or stable
 - which evidence gaps remain
+- which project-level provenance, handoff, claim lifecycle, or phase-dashboard updates are needed
 - next recommended action
+
+If project memory exists, create or update `memory/handoff-board.md` when a writing session produces work for another module, such as a missing-evidence request for `paper-evidence-gap-miner`, an asset request for `paper-result-asset-builder`, a new-compute request for `experiment-design-planner`, or a consistency request for `paper-draft-consistency-editor`.
 
 ## Final Sanity Check
 
@@ -196,4 +201,5 @@ Before finalizing:
 - stale locations are explicitly marked after evidence or claim changes
 - style and terminology decisions are recorded
 - open writing threads have next actions
+- project-level handoffs are created when writing needs evidence, assets, diagnosis, new compute, or consistency review
 - other skills know what to do next

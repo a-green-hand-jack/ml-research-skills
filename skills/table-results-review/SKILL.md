@@ -29,7 +29,7 @@ Pair this skill with:
 - `experiment-design-planner` when a table exposes missing controls, seeds, metrics, or ablations
 - `experiment-report-writer` when raw logs need a structured report before table review
 - `conference-writing-adapter` when final table narrative or compactness must match a target venue
-- `research-project-memory` when claim/evidence/risk/action updates should persist across sessions
+- `research-project-memory` when claim/evidence/provenance/risk/action/handoff updates should persist across sessions
 
 ## Core Principles
 

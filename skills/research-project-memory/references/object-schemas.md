@@ -8,11 +8,13 @@ Use stable IDs so claims, evidence, figures, risks, actions, reviews, and worktr
 - `EVD-###`: evidence item
 - `EXP-###`: experiment or run family
 - `FIG-###`: figure or table
+- `PRV-###`: provenance link from source data or analysis to evidence/assets/prose
 - `RSK-###`: risk
 - `ACT-###`: action
 - `DEC-###`: durable decision
 - `WTR-###`: worktree or branch
 - `REV-###`: reviewer or rebuttal issue
+- `HND-###`: cross-module handoff
 
 ## Certainty Labels
 
@@ -28,13 +30,15 @@ Use:
 
 ```yaml
 id: CLM-001
-status: planned | active | revised | supported | weakened | cut
+lifecycle_state: idea | planned | evidence-needed | provisional | active | supported | weakened | revised | parked | cut | final
 text: ""
 paper_location: ""
 claim_type: method | theory | empirical | benchmark | system | analysis | application | limitation
+required_evidence: ""
 supported_by: [EVD-001]
 threatened_by: [RSK-001]
 actions: [ACT-001]
+next_gate: positioning | method | evidence | provenance | writing | review | final
 certainty: user-stated
 last_updated: YYYY-MM-DD
 ```
@@ -44,10 +48,12 @@ last_updated: YYYY-MM-DD
 ```yaml
 id: EVD-001
 kind: experiment | analysis | proof | citation | qualitative | figure | review | rebuttal
+status: needed | planned | available | verified | provisional | stale | contradictory | cut
 summary: ""
 source_paths: []
 supports: [CLM-001]
 weakens: []
+traced_by: [PRV-001]
 visualized_by: [FIG-001]
 limitations: ""
 certainty: observed
@@ -58,7 +64,7 @@ last_updated: YYYY-MM-DD
 
 ```yaml
 id: EXP-001
-status: planned | running | completed | failed | abandoned
+status: planned | submitted | running | completed | failed | abandoned
 hypothesis: ""
 branch_or_worktree: WTR-001
 run_ids: []
@@ -79,7 +85,24 @@ paper_location: ""
 source_paths: []
 shows: [EVD-001]
 supports: [CLM-001]
+traced_by: [PRV-001]
 status: planned | draft | current | stale | cut
+certainty: observed
+last_updated: YYYY-MM-DD
+```
+
+## Provenance
+
+```yaml
+id: PRV-001
+status: planned | available | verified | provisional | stale | cut
+source_class: raw-run | csv | report | analysis | citation | asset | prose
+source_paths: []
+transform: ""
+aggregation: ""
+produces: [EVD-001, FIG-001]
+consumed_by: [CLM-001, "paper/sections/exp.tex"]
+checked_by: agent | user | collaborator | unknown
 certainty: observed
 last_updated: YYYY-MM-DD
 ```
@@ -110,9 +133,45 @@ component: project | paper | code | slides | reviewer | rebuttal
 linked_claims: [CLM-001]
 linked_evidence: [EVD-001]
 linked_risks: [RSK-001]
+linked_handoffs: [HND-001]
 status: todo | doing | blocked | done | cancelled
 next_step: ""
 due: ""
+last_updated: YYYY-MM-DD
+```
+
+## Handoff
+
+```yaml
+id: HND-001
+status: proposed | ready | consumed | blocked | stale | cancelled
+producer: ""
+consumer: ""
+from_component: project | paper | code | slides | reviewer | rebuttal | artifact
+to_component: project | paper | code | slides | reviewer | rebuttal | artifact
+payload: ""
+source_paths: []
+expected_outputs: []
+linked_claims: [CLM-001]
+linked_evidence: [EVD-001]
+linked_actions: [ACT-001]
+acceptance_check: ""
+staleness_trigger: ""
+certainty: observed
+last_updated: YYYY-MM-DD
+```
+
+## Phase Dashboard Entry
+
+```yaml
+phase: idea | positioning | method-design | implementation | experiment-design | evidence-production | paper-asset-building | drafting | internal-review | submission | rebuttal | camera-ready | artifact-release | maintenance
+status: blocked | partial | ready | done
+gate: ""
+linked_claims: [CLM-001]
+linked_evidence: [EVD-001]
+blocking_risks: [RSK-001]
+active_actions: [ACT-001]
+next_phase_trigger: ""
 last_updated: YYYY-MM-DD
 ```
 

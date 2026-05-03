@@ -2,9 +2,9 @@
 
 Track experiments, analyses, proofs, citations, figures, and qualitative evidence.
 
-| ID | Kind | Status | Summary | Source paths | Supports | Weakens | Visualized by | Certainty | Updated |
-|---|---|---|---|---|---|---|---|---|---|
-| EVD-000 | experiment | planned | Fill in the first planned evidence item. | TBD | CLM-000 |  | FIG-000 | user-stated | {{DATE}} |
+| ID | Kind | Status | Summary | Source paths | Supports | Weakens | Traced by | Visualized by | Certainty | Updated |
+|---|---|---|---|---|---|---|---|---|---|---|
+| EVD-000 | experiment | planned | Fill in the first planned evidence item. | TBD | CLM-000 |  | PRV-000 | FIG-000 | user-stated | {{DATE}} |
 
 ## Experiment Families
 
@@ -14,6 +14,6 @@ Track experiments, analyses, proofs, citations, figures, and qualitative evidenc
 
 ## Figures and Tables
 
-| ID | Kind | Status | Paper location | Shows | Source paths | Updated |
-|---|---|---|---|---|---|---|
-| FIG-000 | figure | planned | TBD | EVD-000 | TBD | {{DATE}} |
+| ID | Kind | Status | Paper location | Shows | Source paths | Traced by | Updated |
+|---|---|---|---|---|---|---|---|
+| FIG-000 | figure | planned | TBD | EVD-000 | TBD | PRV-000 | {{DATE}} |

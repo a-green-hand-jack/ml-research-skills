@@ -125,9 +125,12 @@ To view all logged experiments:
 If the parent project has `memory/`, update:
 
 - `memory/evidence-board.md`: add the logged result as an `EVD-###` or link it to an existing `EXP-###`
-- `memory/claim-board.md`: mark affected claims as supported, weakened, or still unsupported
+- `memory/provenance-board.md`: record the source path, confirmation status, and daily-log/paper-facing consumer path
+- `memory/claim-board.md`: move affected claims to `supported`, `weakened`, `provisional`, or `evidence-needed`
 - `memory/risk-board.md`: add or close risks exposed by the result
 - `memory/action-board.md`: add the next experiment/report/writing action from the log entry
+- `memory/handoff-board.md`: create a handoff to `paper-evidence-board`, `paper-result-asset-builder`, or `experiment-story-writer` when the synced result needs paper consumption
+- `memory/phase-dashboard.md`: update the active evidence or drafting gate if this sync changes project readiness
 - `paper/.agent/paper-status.md`: note that `sections/daily_experiments.tex` now contains the result
 - `code/.agent/` or `<code-worktree>/.agent/worktree-status.md`: mark that the result was promoted to paper-facing evidence
 

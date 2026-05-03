@@ -24,7 +24,7 @@ This skill is more specific than `research-project-memory`: it uses project memo
 
 Pair this skill with:
 
-- `research-project-memory` for project-level claim/evidence/risk/action IDs and writeback
+- `research-project-memory` for project-level claim/evidence/provenance/risk/action/handoff IDs and writeback
 - `paper-writing-memory-manager` when claim/evidence changes should mark paper locations stale, update dependencies, or create writing threads
 - `paper-evidence-gap-miner` when a claim lacks evidence and existing result CSVs should be mined before planning new compute
 - `paper-result-asset-builder` when CSV results need to become paper-facing tables, figures, and provenance records
@@ -75,8 +75,11 @@ Find:
 - project root, if different
 - `memory/claim-board.md`
 - `memory/evidence-board.md`
+- `memory/provenance-board.md`
 - `memory/risk-board.md`
 - `memory/action-board.md`
+- `memory/handoff-board.md`
+- `memory/phase-dashboard.md`
 - `paper/.agent/paper-status.md`
 - paper sources such as `main.tex`, `paper.tex`, `sections/*.tex`, figures, tables, and appendix
 
@@ -204,8 +207,11 @@ If the project uses `research-project-memory`, update:
 
 - `memory/claim-board.md`: claim status, wording, paper locations, and weakened/cut claims
 - `memory/evidence-board.md`: evidence source paths, figure/table mappings, stale status, and limitations
+- `memory/provenance-board.md`: traceability from runs, CSVs, reports, citations, figures, tables, captions, and result prose to `EVD-###` and `CLM-###`
 - `memory/risk-board.md`: evidence-gap, writing, novelty, baseline, and reviewer risks
 - `memory/action-board.md`: experiment, diagnosis, rewrite, citation, figure/table, and review actions
+- `memory/handoff-board.md`: evidence gaps, asset-building needs, review fixes, or writing dependencies that must be consumed by another skill
+- `memory/phase-dashboard.md`: active paper/evidence gate when claim support changes enough to move or regress the project phase
 - `paper/.agent/paper-status.md`: current paper section state
 - `paper/.agent/visual-style.md`: paper-facing figure/table style policy when visual conventions are material
 - `paper/.agent/paper-evidence-board.md`: the paper-facing board

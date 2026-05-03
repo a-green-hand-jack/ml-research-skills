@@ -1,6 +1,6 @@
 ---
 name: research-project-memory
-description: Initialize, inspect, and maintain a hierarchical memory system for an ML research project across paper, code, worktrees, slides, reviewer simulation, rebuttal, experiments, claims, evidence, risks, and actions. Use this skill whenever the user wants cross-session project memory, project bootstrapping context, feedback-loop tracking, claim-evidence-risk-action alignment, worktree memory, or consistency between code results, paper writing, slides, reviews, and rebuttal.
+description: Initialize, inspect, and maintain a hierarchical memory system for an ML research project across paper, code, worktrees, slides, reviewer simulation, rebuttal, experiments, claim lifecycle, evidence provenance, risks, actions, handoffs, and phase dashboard state. Use this skill whenever the user wants cross-session project memory, project bootstrapping context, feedback-loop tracking, claim/evidence/provenance/risk/action/handoff alignment, worktree memory, project phase orientation, or consistency between code results, paper writing, slides, reviews, and rebuttal.
 argument-hint: "[project-root] [--bootstrap] [--closeout] [--check]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
@@ -28,8 +28,12 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 ├── references/
 │   ├── closeout-protocol.md
 │   ├── consistency-checks.md
+│   ├── claim-lifecycle-protocol.md
+│   ├── cross-module-handoff-contracts.md
+│   ├── evidence-provenance-protocol.md
 │   ├── memory-architecture.md
 │   ├── object-schemas.md
+│   ├── phase-dashboard-protocol.md
 │   └── writeback-protocol.md
 └── templates/
     ├── component/
@@ -43,6 +47,9 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
         ├── current-status.md
         ├── decision-log.md
         ├── evidence-board.md
+        ├── handoff-board.md
+        ├── phase-dashboard.md
+        ├── provenance-board.md
         ├── project.yaml
         └── risk-board.md
 ```
@@ -50,6 +57,7 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 ## Progressive Loading
 
 - Always read `references/memory-architecture.md`, `references/object-schemas.md`, and `references/writeback-protocol.md`.
+- Read `references/claim-lifecycle-protocol.md`, `references/evidence-provenance-protocol.md`, `references/phase-dashboard-protocol.md`, and `references/cross-module-handoff-contracts.md` when claims, evidence, project phase, paper writing, experiment planning, review, rebuttal, or cross-component handoffs are involved.
 - Read `references/consistency-checks.md` when asked to audit project state, prepare a milestone, submit, write, review, or rebut.
 - Read `references/closeout-protocol.md` before ending a substantial session or updating memory after meaningful work.
 - Use `templates/` as the source of truth when bootstrapping missing memory files.
@@ -59,6 +67,10 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 - Memory is coordination context, not execution truth.
 - Stable claims, decisions, risks, and component mappings belong in repo memory.
 - Volatile facts such as dirty git state, queue state, active jobs, and file existence must be re-verified.
+- Claims move through an explicit lifecycle from idea to final or cut; do not let paper prose silently use unsupported claims.
+- Evidence must keep enough provenance to trace paper-facing tables, figures, captions, and result sentences back to CSVs, reports, runs, citations, analyses, or assets.
+- The project phase dashboard gives the global cycle view; detailed boards still own the underlying claim, evidence, risk, action, provenance, and handoff objects.
+- Cross-module handoffs should be explicit when work moves between idea, method, code, paper, slides, review, rebuttal, artifact, or release modules.
 - Every important claim should link to evidence, a paper location, and current risks.
 - Every reviewer or rebuttal risk should link to an action, a decision to accept the risk, or a reason it is out of scope.
 - Every worktree should have a purpose and an exit condition: merge, continue, park, or kill.
@@ -87,6 +99,9 @@ Then inspect likely memory files:
 - `memory/evidence-board.md`
 - `memory/risk-board.md`
 - `memory/action-board.md`
+- `memory/provenance-board.md`
+- `memory/handoff-board.md`
+- `memory/phase-dashboard.md`
 - `paper/.agent/`
 - `paper/.agent/worktree-index.md`
 - `code/.agent/`
@@ -110,6 +125,9 @@ If the user asks to initialize memory, or if memory is missing and the task depe
 - `templates/memory/evidence-board.md` -> `memory/evidence-board.md`
 - `templates/memory/risk-board.md` -> `memory/risk-board.md`
 - `templates/memory/action-board.md` -> `memory/action-board.md`
+- `templates/memory/provenance-board.md` -> `memory/provenance-board.md`
+- `templates/memory/handoff-board.md` -> `memory/handoff-board.md`
+- `templates/memory/phase-dashboard.md` -> `memory/phase-dashboard.md`
 - `templates/component/component-status.md` -> `<component>/.agent/<component>-status.md`
 - `templates/component/worktree-index.md` -> `<component>/.agent/worktree-index.md` when the component uses worktrees
 - `templates/component/worktree-status.md` -> `<component-worktree>/.agent/worktree-status.md` when a code or paper worktree needs its own memory
@@ -134,6 +152,9 @@ Before substantial work, summarize:
 - active components and paths
 - current claim IDs
 - current evidence IDs and latest reliable result
+- current phase and active gate
+- active provenance gaps and provisional results
+- open cross-module handoffs
 - top risks and blockers
 - active actions and owners
 - stale or missing memory
@@ -153,8 +174,11 @@ Use this routing:
 - durable project decisions and why -> `memory/decision-log.md`
 - paper claims and their status -> `memory/claim-board.md`
 - experiments, analyses, proofs, citations, and figures that support claims -> `memory/evidence-board.md`
+- raw-result, CSV, report, asset, caption, and prose traceability -> `memory/provenance-board.md`
 - reviewer, novelty, baseline, writing, execution, and rebuttal risks -> `memory/risk-board.md`
 - concrete next tasks and owners -> `memory/action-board.md`
+- project phase, active gate, readiness, and next phase trigger -> `memory/phase-dashboard.md`
+- cross-component producer/consumer payloads and acceptance checks -> `memory/handoff-board.md`
 - component-specific state -> `<component>/.agent/<component>-status.md`
 - global worktree registry and root paths -> `memory/component-index.yaml`
 - component-local cross-worktree rollup -> `<component>/.agent/worktree-index.md`
@@ -165,6 +189,7 @@ When in doubt, write a short pointer at the project layer and details in the com
 ## Step 5 - Maintain the Claim-Evidence-Risk-Action Graph
 
 Read `references/object-schemas.md`.
+Read `references/claim-lifecycle-protocol.md` and `references/evidence-provenance-protocol.md` when a claim or evidence item changes.
 
 Use stable IDs:
 
@@ -172,21 +197,33 @@ Use stable IDs:
 - `EVD-###`: evidence item
 - `EXP-###`: experiment or run family
 - `FIG-###`: figure or table
+- `PRV-###`: provenance link from source data or analysis to evidence/assets/prose
 - `RSK-###`: risk
 - `ACT-###`: action
 - `DEC-###`: decision
 - `WTR-###`: worktree
 - `REV-###`: review or rebuttal issue
+- `HND-###`: cross-module handoff
 
 Every major update should preserve links:
 
 ```text
-CLM-001 -> supported_by EVD-003 -> visualized_by FIG-002 -> threatened_by RSK-004 -> resolved_by ACT-007
+CLM-001 -> supported_by EVD-003 -> traced_by PRV-002 -> visualized_by FIG-002 -> threatened_by RSK-004 -> resolved_by ACT-007
 ```
 
-Avoid orphan objects. If a claim has no evidence, mark it as `planned`, `unsupported`, or `cut`.
+Avoid orphan objects. If a claim has no evidence, mark it as `planned`, `evidence-needed`, `provisional`, or `cut`.
 
-## Step 6 - Run Consistency Checks
+## Step 6 - Maintain Phase and Handoff State
+
+Read `references/phase-dashboard-protocol.md` and `references/cross-module-handoff-contracts.md`.
+
+Update `memory/phase-dashboard.md` when a project crosses or regresses across a major phase gate: idea validation, positioning, method design, implementation, experiment design, evidence production, paper asset building, drafting, internal review, submission, rebuttal, camera-ready, artifact release, or maintenance.
+
+Update `memory/handoff-board.md` when one module produces payload another module should consume, such as method design to experiment design, experiment report to paper asset builder, evidence gap miner to experiment design, result asset builder to figure/table review, writing memory to section writers, reviewer simulator to evidence board, rebuttal strategist to experiments/writers, or camera-ready finalizer to artifact/release.
+
+Each handoff should state producer, consumer, payload, source paths, expected output, acceptance check, staleness trigger, linked objects, and status.
+
+## Step 7 - Run Consistency Checks
 
 Read `references/consistency-checks.md` when auditing memory.
 
@@ -194,8 +231,11 @@ Check for:
 
 - paper claims without evidence
 - evidence without a claim or paper location
+- evidence, tables, figures, captions, or result prose without provenance
 - reviewer risks without actions
 - rebuttal promises without paper/code follow-up
+- cross-module handoffs that are ready but unconsumed, blocked without an action, or stale
+- phase dashboard gates that contradict current claim/evidence/provenance/risk/action/handoff boards
 - worktrees without exit condition
 - worktrees missing from the global registry or component worktree index
 - stale results still used in writing
@@ -204,14 +244,17 @@ Check for:
 
 Report mismatches as project risks or actions.
 
-## Step 7 - Close Out the Session
+## Step 8 - Close Out the Session
 
 Read `references/closeout-protocol.md`.
 
 Before ending a substantial session, update:
 
 - `memory/current-status.md`
-- any changed claim/evidence/risk/action board
+- `memory/phase-dashboard.md` if the active phase or gate changed
+- any changed claim/evidence/provenance/risk/action/handoff board
+- `memory/provenance-board.md` if a result, asset, caption, table, figure, or result sentence changed source or verification status
+- `memory/handoff-board.md` if a module produced, consumed, blocked, or invalidated a handoff
 - relevant component status file
 - worktree status file if a code branch direction or paper version policy changed
 - component worktree index and `memory/component-index.yaml` if worktrees were added, closed, parked, merged, or killed
@@ -224,8 +267,11 @@ Closeout should answer: what changed, what is trustworthy, what is stale, what s
 Before finalizing:
 
 - stable and volatile facts are separated
-- new claims link to evidence or are marked unsupported
+- new claims link to evidence or are marked `evidence-needed`, `provisional`, `parked`, or `cut`
 - new evidence links to a claim, component, and source path
+- new evidence has provenance or an action explaining what provenance is missing
+- active phase and next gate are visible when the project is not in an initial state
+- active cross-module handoffs have producer, consumer, acceptance check, and staleness trigger
 - new risks link to actions or accepted-risk decisions
 - worktree memory has a purpose and exit condition
 - active worktrees appear in both the root registry and the relevant component worktree index
