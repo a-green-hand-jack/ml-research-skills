@@ -87,6 +87,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `conference-writing-adapter` | Adapt a paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and project-local writing memory |
 | `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |
 | `experiment-story-writer` | Turn experiment tables, figures, ablations, mixed results, and provisional metrics into claim-aware results prose |
+| `method-section-explainer` | Plan, draft, and revise method sections for notation flow, module ordering, overview figures, algorithm boxes, design rationales, and appendix boundaries |
 | `paper-introduction-argument-writer` | Plan, draft, and revise introductions as venue-aware argument chains with hook, gap, insight, method, evidence, and contribution paragraph roles |
 | `paper-draft-consistency-editor` | Audit and edit a paper draft for internal consistency across title, abstract, intro, method, results, figures, tables, captions, terminology, limitations, and conclusion |
 | `paper-writing-contract-planner` | Create or update a writing contract that locks paper archetype, section order, paragraph roles, claim evidence slots, figure/table jobs, and forbidden claims before drafting |
@@ -128,6 +129,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`conference-writing-adapter`**: Use when a paper needs to be reshaped for a target venue's reviewer expectations. It learns from accepted/oral/spotlight exemplars, diagnoses the paper archetype, and produces section-level or paragraph-level rewrite plans.
 - **`abstract-title-contribution-writer`**: Use when title, abstract, or contribution bullets need to match the paper's highest-level claim, venue positioning, and verified evidence.
 - **`experiment-story-writer`**: Use when tables, figures, ablations, mixed results, or provisional metrics need to become claim-aware results prose.
+- **`method-section-explainer`**: Use when an existing method needs clearer notation flow, module order, overview figure placement, algorithm-box framing, design rationale, or appendix boundaries.
 - **`paper-introduction-argument-writer`**: Use when the introduction needs a clear argument chain, paragraph roles, gap/insight/method/evidence flow, or contribution bullets aligned with the writing contract.
 - **`paper-draft-consistency-editor`**: Use after draft sections exist to align title, abstract, intro, results, figures, tables, captions, terminology, limitations, and conclusion without changing the selected paper story.
 - **`paper-writing-contract-planner`**: Use before detailed drafting to create `paper/.agent/writing-contract.md`, locking section order, paragraph roles, claim/evidence slots, figure/table jobs, related-work boundaries, limitation policy, and forbidden claims.
