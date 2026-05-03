@@ -59,6 +59,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |
 | `experiment-story-writer` | Turn experiment tables, figures, ablations, mixed results, and provisional metrics into claim-aware results prose |
+| `limitations-scope-writer` | Plan, draft, and revise limitations, scope, failure cases, ethics, broader impact, and conclusion caveats as claim-boundary control |
 | `method-section-explainer` | Plan, draft, and revise method sections for notation flow, module ordering, overview figures, algorithm boxes, design rationales, and appendix boundaries |
 | `paper-draft-consistency-editor` | Audit and edit a paper draft for internal consistency across title, abstract, intro, method, results, figures, tables, captions, terminology, limitations, and conclusion |
 | `paper-introduction-argument-writer` | Plan, draft, and revise introductions as venue-aware argument chains with hook, gap, insight, method, evidence, and contribution paragraph roles |
@@ -611,6 +612,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
 | **abstract-title-contribution-writer** | Write title, abstract, and contribution bullets as a calibrated top-level claim/evidence contract |
 | **experiment-story-writer** | Turn figures, tables, ablations, and mixed results into results prose that answers paper claims |
+| **limitations-scope-writer** | Write limitations, scope, failure cases, ethics, and conclusion caveats without undermining supported claims |
 | **method-section-explainer** | Explain methods through notation, overview, modules, equations, algorithm boxes, and appendix boundaries |
 | **paper-writing-contract-planner** | Lock the paper's writing contract before drafting: section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims |
 | **paper-introduction-argument-writer** | Plan and write the introduction as a paragraph-by-paragraph argument from problem to gap, insight, method, evidence, and contributions |
@@ -696,6 +698,7 @@ For the person turning research evidence into a submission:
 | **conference-writing-adapter** | Shape the paper around target-conference writing expectations |
 | **abstract-title-contribution-writer** | Draft title options, abstract move plans, and contribution bullets that match the paper's evidence |
 | **experiment-story-writer** | Map each result paragraph, table, figure, and ablation to a claim-supporting narrative job |
+| **limitations-scope-writer** | Convert limitations, failure cases, and ethics/deployment caveats into precise claim boundaries |
 | **method-section-explainer** | Structure the method section so notation, modules, objectives, algorithm boxes, and rationale appear in reader-friendly order |
 | **paper-writing-contract-planner** | Turn positioning decisions into a reusable `paper/.agent/writing-contract.md` before prose drafting |
 | **paper-introduction-argument-writer** | Build the introduction's argument chain, paragraph jobs, handoff sentences, and contribution bullets |
