@@ -82,6 +82,15 @@ ml-research-skills/
     ├── paper-evidence-board/
     │   ├── SKILL.md
     │   └── references/
+    ├── paper-evidence-gap-miner/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   └── templates/
+    ├── paper-result-asset-builder/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   ├── scripts/
+    │   └── templates/
     ├── paper-positioning-planner/
     │   ├── SKILL.md
     │   └── references/
@@ -198,6 +207,8 @@ ml-research-skills/
 | `figure-results-review` | Review figure assets, LaTeX figure wrappers, plots, captions, visual descriptions, and paper visual style for claim support and reviewer risk |
 | `table-results-review` | Review standalone `tables/*.tex` files, table captions, table descriptions, row/column semantics, numeric provenance, and experiment settings |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
+| `paper-evidence-gap-miner` | Mine existing CSV results, logs, reports, and assets to fill claim evidence gaps before planning new compute |
+| `paper-result-asset-builder` | Build paper-facing tables, figures, wrappers, inventories, and provenance records from CSV experiment outputs |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |

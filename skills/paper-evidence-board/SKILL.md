@@ -25,6 +25,8 @@ This skill is more specific than `research-project-memory`: it uses project memo
 Pair this skill with:
 
 - `research-project-memory` for project-level claim/evidence/risk/action IDs and writeback
+- `paper-evidence-gap-miner` when a claim lacks evidence and existing result CSVs should be mined before planning new compute
+- `paper-result-asset-builder` when CSV results need to become paper-facing tables, figures, and provenance records
 - `conference-writing-adapter` when the board shows structural or paragraph-level writing changes
 - `experiment-design-planner` when the board exposes missing evidence requiring new experiments
 - `result-diagnosis` when new evidence weakens or complicates a claim
@@ -114,7 +116,7 @@ For every evidence item:
 - mark certainty: observed, user-stated, inferred, stale, or needs-verification
 - state limitations
 
-If evidence is only in a daily log or chat note, mark it accordingly and create an action to verify source artifacts.
+If evidence is only in a daily log or chat note, mark it accordingly and create an action to verify source artifacts. If evidence may exist in CSV result files but no paper-facing table or figure exists, route to `paper-evidence-gap-miner` and `paper-result-asset-builder` before marking the gap as requiring new compute.
 
 ## Step 4 - Build Section and Figure/Table Map
 
@@ -142,7 +144,9 @@ Read `references/evidence-gap-triage.md`.
 
 For each gap, decide:
 
-- `new-experiment`: needs `experiment-design-planner`
+- `mine-existing-results`: needs `paper-evidence-gap-miner` to search existing CSVs, logs, reports, and assets before new compute
+- `build-result-asset`: needs `paper-result-asset-builder` to turn reusable CSV evidence into a paper table or figure
+- `new-experiment`: needs `experiment-design-planner` after existing results are insufficient
 - `result-diagnosis`: existing result is ambiguous or contradictory
 - `rewrite`: evidence exists but prose overclaims or hides it
 - `narrow-claim`: evidence supports a smaller claim

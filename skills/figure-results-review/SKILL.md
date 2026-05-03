@@ -24,6 +24,8 @@ Do not use this skill to design experiments from scratch. Use `experiment-design
 
 Pair this skill with:
 
+- `paper-result-asset-builder` when a paper-facing figure needs to be generated or regenerated from CSV result files before visual review
+- `paper-evidence-gap-miner` when the figure review reveals a missing result and existing CSVs may already contain the needed evidence
 - `paper-evidence-board` when figures must be linked to paper claims, sections, reviewer risks, and actions
 - `result-diagnosis` when a plotted result is suspicious, unstable, negative, or contradictory
 - `baseline-selection-audit` when the visual exposes missing, weak, or unfair baselines
@@ -230,7 +232,9 @@ For every issue, route to one or more actions:
 - `rewrite-results-text`: nearby paper prose overclaims or misses the takeaway
 - `define-visual-style`: missing or inconsistent paper visual style policy
 - `restyle-figure`: color, marker, line width, font size, symbol, panel layout, or emphasis
-- `rerun`: missing seeds, variance, baseline, metric, or protocol
+- `build-result-asset`: raw CSV evidence exists but the paper-facing figure or wrapper needs to be generated with provenance
+- `mine-existing-results`: the figure lacks evidence that may already exist in CSVs or reports
+- `rerun`: missing seeds, variance, baseline, metric, or protocol after existing results are checked
 - `diagnose-result`: suspicious, negative, unstable, or contradictory pattern
 - `baseline-audit`: missing or unfair baseline
 - `narrow-claim`: evidence only supports a smaller statement

@@ -55,6 +55,8 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `figure-results-review` | Review figure assets, LaTeX figure wrappers, plots, captions, visual descriptions, and paper visual style for claim support and reviewer risk |
 | `table-results-review` | Review standalone `tables/*.tex` files, table captions, table descriptions, row/column semantics, numeric provenance, and experiment settings |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
+| `paper-evidence-gap-miner` | Mine existing CSV results, logs, reports, and assets to fill claim evidence gaps before planning new compute |
+| `paper-result-asset-builder` | Build paper-facing tables, figures, wrappers, inventories, and provenance records from CSV experiment outputs |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |
@@ -260,6 +262,9 @@ paper/
     ├── visual-style.md
     ├── figure-table-map.md
     ├── writing-contract.md
+    ├── evidence-completion-plan.md
+    ├── result-inventory.md
+    ├── result-asset-provenance.md
     ├── abstract-title-plan.md
     ├── introduction-plan.md
     ├── method-explanation-plan.md
@@ -288,9 +293,10 @@ Primary skills in `paper/`:
 | Paper area | Main artifacts | Primary skills |
 |---|---|---|
 | Paper scaffold | `main.tex`, `sections/`, `venue_preamble.tex`, `macros.tex` | **init-latex-project**, **submit-paper** |
-| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **abstract-title-contribution-writer**, **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer**, **paper-writing-assistant**, **paper-draft-consistency-editor**, **paper-evidence-board** |
-| Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **figure-results-review**, **paper-evidence-board** |
-| Tables | `tables/*.tex` | **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
+| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-evidence-gap-miner**, **abstract-title-contribution-writer**, **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer**, **paper-writing-assistant**, **paper-draft-consistency-editor**, **paper-evidence-board** |
+| CSV-derived result assets | `result-inventory.md`, `result-asset-provenance.md`, paper-facing tables/figures | **paper-evidence-gap-miner**, **paper-result-asset-builder**, **paper-evidence-board** |
+| Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **paper-result-asset-builder**, **figure-results-review**, **paper-evidence-board** |
+| Tables | `tables/*.tex` | **paper-result-asset-builder**, **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
 | Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
 | Pre-submission | anonymity, required sections, mode, compile state | **submit-paper**, **paper-reviewer-simulator** |
 | Reviews and final paper | reviews, rebuttal promises, camera-ready state | **rebuttal-strategist**, **camera-ready-finalizer** |
@@ -373,7 +379,7 @@ Code boundary rules:
 - `experiments/` is runnable logic, not a result archive.
 - `eval/` owns benchmark and baseline evaluation logic.
 - `infra/` owns environment and execution configuration. Moving to a new cluster should mainly add `infra/envs/<cluster>.yaml`.
-- `docs/results/`, `docs/reports/`, and `docs/runs/` are the stable code-side evidence layer. Raw logs, checkpoints, tensorboard caches, wandb runs, and large outputs stay ignored or external.
+- `docs/results/`, `docs/reports/`, and `docs/runs/` are the stable code-side evidence layer. CSV files here are the preferred machine-readable result source for paper-facing tables and figures. Raw logs, checkpoints, tensorboard caches, wandb runs, and large outputs stay ignored or external.
 - `docs/ops/current-status.md` and `docs/ops/decision-log.md` are useful code-repo operational memory, but they are not a cross-worktree registry.
 - `code/.agent/worktree-index.md` is the code component's cross-worktree rollup. `code-worktrees/` holds isolated code branches outside `code/`; each worktree can have its own `.agent/worktree-status.md` and code-side evidence docs.
 
@@ -386,7 +392,7 @@ Primary skills in `code/`:
 | Experiment planning | `docs/experiments/` at root, `experiments/configs/`, run plans | **experiment-design-planner**, **baseline-selection-audit** |
 | Experiment execution | `experiments/`, `infra/envs/`, job scripts, server mappings | **run-experiment**, **remote-project-control** |
 | Results and diagnosis | `docs/results/`, `docs/runs/`, metrics, plots, logs | **result-diagnosis**, **experiment-report-writer** |
-| Paper evidence handoff | stable summaries, figure/table notes, paper pointers | **project-sync**, **figure-results-review**, **table-results-review** |
+| Paper evidence handoff | stable summaries, CSV result files, figure/table notes, paper pointers | **project-sync**, **paper-evidence-gap-miner**, **paper-result-asset-builder**, **figure-results-review**, **table-results-review** |
 | Release and artifact | public repo hygiene, artifact commands, manifests | **release-code**, **artifact-evaluation-prep** |
 
 ### Slides Component
@@ -483,10 +489,11 @@ flowchart TD
         RUN[run-experiment]
         RD[result-diagnosis]
         ERW[experiment-report-writer<br/>code/docs/reports]
-        FRR[figure-results-review<br/>visual style + code/docs/results]
-        TRR[table-results-review<br/>tables/*.tex + provenance]
+        PRAB[paper-result-asset-builder<br/>CSV -> paper assets]
+        FRR[figure-results-review<br/>paper figure audit]
+        TRR[table-results-review<br/>paper table audit]
         PS[project-sync]
-        EDP --> BSA --> RUN --> RD --> ERW --> FRR --> TRR --> PS
+        EDP --> BSA --> RUN --> RD --> ERW --> PRAB --> FRR --> TRR --> PS
         RD --> D
         RD --> P
         FRR --> EDP
@@ -496,6 +503,7 @@ flowchart TD
         PEB[paper-evidence-board]
         CWA[conference-writing-adapter]
         PWCP[paper-writing-contract-planner<br/>writing contract]
+        PEGM[paper-evidence-gap-miner<br/>mine existing CSV evidence]
         ATC[abstract-title-contribution-writer<br/>top-level promise]
         PIA[paper-introduction-argument-writer<br/>intro argument]
         MSE[method-section-explainer<br/>method clarity]
@@ -510,6 +518,9 @@ flowchart TD
         SUB[submit-paper]
         PEB --> P
         P --> CWA --> PWCP
+        PWCP --> PEGM
+        PEGM --> PRAB
+        PEGM --> EDP
         PWCP --> ATC
         PWCP --> PIA
         PWCP --> MSE
@@ -524,6 +535,8 @@ flowchart TD
         LSW --> PWA
         PWA --> PDCE --> PRS
         PWCP --> PEB
+        PEGM --> PEB
+        PRAB --> PEB
         ATC --> PEB
         ESW --> PEB
         LSW --> PEB
@@ -576,9 +589,9 @@ flowchart TD
 
 The most important feedback loops are:
 
-- **Writing to experiments**: `paper-writing-contract-planner`, `experiment-story-writer`, `limitations-scope-writer`, `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, unsupported scope, or claim/evidence gap, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
+- **Writing to results**: `paper-writing-contract-planner`, `experiment-story-writer`, `limitations-scope-writer`, `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, unsupported scope, or claim/evidence gap; `paper-evidence-gap-miner` first checks existing CSVs, logs, reports, and assets; only unresolved gaps route back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
-- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-contract-planner` locks evidence slots and section jobs; `experiment-story-writer` turns verified or clearly provisional evidence into result narrative; `abstract-title-contribution-writer`, `paper-introduction-argument-writer`, `method-section-explainer`, `related-work-positioning-writer`, and `limitations-scope-writer` write the high-risk sections; `paper-writing-assistant` integrates claim-aware prose and placeholder tracking; `paper-draft-consistency-editor` checks that the whole draft still tells the same story.
+- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; CSV result files become the preferred source for paper assets; `paper-result-asset-builder` turns reusable CSV evidence into paper-facing tables, figures, wrappers, inventories, and provenance records; `figure-results-review` and `table-results-review` check those assets; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-contract-planner` locks evidence slots and section jobs; `experiment-story-writer` turns verified or clearly provisional evidence into result narrative; `abstract-title-contribution-writer`, `paper-introduction-argument-writer`, `method-section-explainer`, `related-work-positioning-writer`, and `limitations-scope-writer` write the high-risk sections; `paper-writing-assistant` integrates claim-aware prose and placeholder tracking; `paper-draft-consistency-editor` checks that the whole draft still tells the same story.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
@@ -627,6 +640,7 @@ Use these skills while producing the evidence that will support the paper:
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **advisor-update-writer** | Convert current progress, evidence, risks, and blockers into decision-oriented advisor or lab updates |
 | **research-slide-deck-builder** | Turn project state, reports, figures, and decisions into a template-backed `progress-slides` deck |
+| **paper-result-asset-builder** | Convert CSV result files into paper-facing tables, figures, wrappers, inventories, and provenance records |
 | **figure-results-review** | Check whether figures, captions, result narratives, and visual style support the intended paper claims |
 | **table-results-review** | Check whether standalone tables, captions, row/column semantics, numeric provenance, and experiment settings support the intended paper claims |
 | **project-sync** | Record experiment results from the code repo into the paper repo |
@@ -638,6 +652,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | Skill | Lifecycle role |
 |---|---|
 | **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
+| **paper-evidence-gap-miner** | Mine existing CSV results, logs, reports, and assets for missing claim evidence before planning new compute |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
 | **paper-writing-contract-planner** | Lock the paper's writing contract before drafting: section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims |
@@ -721,6 +736,8 @@ For the person turning research evidence into a submission:
 |---|---|
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
+| **paper-evidence-gap-miner** | Check whether missing claim support can be filled from existing CSVs, logs, reports, or derived assets before asking for new runs |
+| **paper-result-asset-builder** | Turn CSV result outputs into paper-facing tables, figures, wrappers, inventories, and provenance records |
 | **figure-results-review** | Verify that result visuals, captions, and style conventions support the exact paper claims |
 | **table-results-review** | Verify that table values, captions, row/column semantics, and provenance support the exact paper claims |
 | **paper-positioning-planner** | Choose the primary paper story, contribution hierarchy, claim scope, and related-work boundary |
@@ -746,16 +763,20 @@ The writing skills are intentionally layered. Use them as a structured writing w
 | Layer | Purpose | Skills |
 |---|---|---|
 | 1. Positioning and contract | Decide what the paper is allowed to sell and lock section jobs before drafting | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-evidence-board** |
-| 2. Top-level promise | Make title, abstract, and contribution bullets state the same evidence-calibrated claim | **abstract-title-contribution-writer** |
-| 3. Section specialists | Write high-risk sections with section-specific argument recipes | **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer** |
-| 4. Integrated drafting | Turn section plans, evidence, and placeholders into coherent paper prose | **paper-writing-assistant** |
-| 5. Consistency and submission risk | Check that the finished draft still tells one story and is ready for reviewers | **paper-draft-consistency-editor**, **paper-reviewer-simulator**, **citation-coverage-audit**, **citation-audit**, **submit-paper** |
+| 2. Evidence completion | Mine existing CSV results first, then build paper-facing result assets or plan minimal new compute | **paper-evidence-gap-miner**, **paper-result-asset-builder**, **figure-results-review**, **table-results-review** |
+| 3. Top-level promise | Make title, abstract, and contribution bullets state the same evidence-calibrated claim | **abstract-title-contribution-writer** |
+| 4. Section specialists | Write high-risk sections with section-specific argument recipes | **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer** |
+| 5. Integrated drafting | Turn section plans, evidence, and placeholders into coherent paper prose | **paper-writing-assistant** |
+| 6. Consistency and submission risk | Check that the finished draft still tells one story and is ready for reviewers | **paper-draft-consistency-editor**, **paper-reviewer-simulator**, **citation-coverage-audit**, **citation-audit**, **submit-paper** |
 
 The main paper-local writing artifacts live under `paper/.agent/`:
 
 | Artifact | Created or maintained by |
 |---|---|
 | `writing-contract.md` | **paper-writing-contract-planner** |
+| `evidence-completion-plan.md` | **paper-evidence-gap-miner** |
+| `result-inventory.md` | **paper-result-asset-builder** |
+| `result-asset-provenance.md` | **paper-result-asset-builder** |
 | `abstract-title-plan.md` | **abstract-title-contribution-writer** |
 | `introduction-plan.md` | **paper-introduction-argument-writer** |
 | `method-explanation-plan.md` | **method-section-explainer** |
@@ -880,32 +901,34 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 13. experiment-report-writer -> turn experiment evidence into a structured report
 14. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
 15. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
-16. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
-17. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
-18. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
-19. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
-20. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-21. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
-22. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
-23. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
-24. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
-25. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
-26. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
-27. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
-28. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
-29. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
-30. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-31. citation-coverage-audit -> find missing classic, close, and concurrent citations
-32. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-33. submit-paper    -> run a readiness check before a deadline
-34. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-35. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-36. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-37. release-code    -> prepare the public code release when needed
-38. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-39. update-docs     -> refresh docs after meaningful code changes
-40. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-41. add-git-tag     -> mark a milestone
+16. paper-result-asset-builder -> inventory CSV results and build paper-facing tables/figures with provenance
+17. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
+18. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
+19. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
+20. paper-evidence-gap-miner -> mine existing CSVs/logs/reports/assets to fill claim gaps before new compute
+21. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
+22. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+23. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
+24. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
+25. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
+26. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
+27. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
+28. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
+29. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
+30. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
+31. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
+32. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+33. citation-coverage-audit -> find missing classic, close, and concurrent citations
+34. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+35. submit-paper    -> run a readiness check before a deadline
+36. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+37. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+38. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+39. release-code    -> prepare the public code release when needed
+40. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+41. update-docs     -> refresh docs after meaningful code changes
+42. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+43. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -1039,6 +1062,23 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Numeric provenance checks for source values, result logs/configs, aggregation, rounding, seeds, table-generation scripts, and manual edits
 - Routed actions and project-memory writeback for table edits, reruns, result diagnosis, baseline audits, claim narrowing, and caption rewrites
 
+## What `paper-result-asset-builder` Provides
+
+- A CSV-first workflow for turning raw or aggregated experiment results into paper-facing tables, figures, LaTeX wrappers, and provenance records
+- A lightweight `scripts/inventory_csv_results.py` helper for scanning result CSV files without loading large files into context
+- A `paper/.agent/result-inventory.md` map of CSV files, columns, metrics, methods, datasets, seeds, and candidate claim support
+- A `paper/.agent/result-asset-provenance.md` record of source CSVs, filtering, aggregation, uncertainty, rounding, bolding, plotting, manual edits, and paper locations
+- Explicit separation between experiment-time visualizations used for debugging and paper-facing visualizations used to support claims
+- Handoffs to `figure-results-review`, `table-results-review`, `experiment-story-writer`, and `paper-evidence-board`
+
+## What `paper-evidence-gap-miner` Provides
+
+- A `paper/.agent/evidence-completion-plan.md` that classifies claim gaps before any new compute is requested
+- A triage workflow that distinguishes already-supported claims, CSV-supportable gaps, reaggregation needs, slice needs, missing assets, diagnosis needs, claim narrowing, true new compute, and cut/defer cases
+- Result reuse patterns for deriving tables, figures, variance estimates, slice analyses, appendix assets, diagnostics, and limitations from existing CSVs or reports
+- A "补结果 before 补实验" routing policy: search existing results first, build assets second, design new experiments only when necessary
+- Handoffs to `paper-result-asset-builder`, `result-diagnosis`, `paper-writing-contract-planner`, `limitations-scope-writer`, `experiment-design-planner`, `baseline-selection-audit`, and `run-experiment`
+
 ## What `result-diagnosis` Provides
 
 - A post-result triage workflow for negative, surprising, unstable, conflicting, or suspicious experiment outcomes
@@ -1051,7 +1091,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - A paper-facing claim/evidence matrix that links paper locations to experiments, figures, tables, citations, risks, and actions
 - Section, figure/table, and visual-style maps so writing changes, stale results, inconsistent visuals, and unsupported claims are visible before submission
-- Evidence-gap triage that routes issues to new experiments, result diagnosis, rewriting, claim narrowing, citation work, cutting, or accepted risk
+- Evidence-gap triage that routes issues to existing-result mining, CSV-derived asset building, new experiments, result diagnosis, rewriting, claim narrowing, citation work, cutting, or accepted risk
 - Reviewer-risk integration from simulated reviews, citation audits, result diagnosis, and real rebuttal issues
 - Project-memory writeback for claim status, evidence status, paper locations, stale figures, reviewer risks, and paper actions
 

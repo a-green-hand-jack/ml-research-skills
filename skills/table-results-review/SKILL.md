@@ -21,6 +21,8 @@ Do not use this skill for rendered figure assets or plot styling. Use `figure-re
 
 Pair this skill with:
 
+- `paper-result-asset-builder` when a paper-facing table needs to be generated or regenerated from CSV result files before table review
+- `paper-evidence-gap-miner` when the table review reveals a missing comparison, slice, variance, or baseline and existing CSVs may already contain it
 - `paper-evidence-board` when tables must be linked to paper claims, sections, reviewer risks, and actions
 - `baseline-selection-audit` when a comparison table may miss important baselines or use unfair settings
 - `result-diagnosis` when table numbers are surprising, unstable, negative, or contradictory
@@ -186,7 +188,9 @@ For every issue, route to one or more actions:
 - `rewrite-caption`: setup, metric, takeaway, caveat, bolding rule, or claim alignment
 - `write-description`: missing table description or missing provenance record
 - `rewrite-results-text`: nearby paper prose overclaims or misses the takeaway
-- `rerun`: missing seeds, variance, baseline, metric, or protocol
+- `build-result-asset`: raw CSV evidence exists but the paper-facing table needs to be generated with documented aggregation, rounding, and provenance
+- `mine-existing-results`: missing comparison, slice, variance, or baseline may already exist in CSVs or reports
+- `rerun`: missing seeds, variance, baseline, metric, or protocol after existing results are checked
 - `diagnose-result`: suspicious, negative, unstable, or contradictory numbers
 - `baseline-audit`: missing or unfair baseline
 - `narrow-claim`: evidence only supports a smaller statement

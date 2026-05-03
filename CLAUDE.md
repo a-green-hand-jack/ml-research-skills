@@ -83,6 +83,8 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `figure-results-review` | Review figure assets, LaTeX figure wrappers, plots, captions, visual descriptions, and paper visual style for claim support and reviewer risk |
 | `table-results-review` | Review standalone `tables/*.tex` files, table captions, table descriptions, row/column semantics, numeric provenance, and experiment settings |
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
+| `paper-evidence-gap-miner` | Mine existing CSV results, logs, reports, and assets to fill claim evidence gaps before planning new compute |
+| `paper-result-asset-builder` | Build paper-facing tables, figures, wrappers, inventories, and provenance records from CSV experiment outputs |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt a paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and project-local writing memory |
 | `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |
@@ -126,6 +128,8 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`figure-results-review`**: Use before figures, plots, figure captions, or figure result prose enter a paper, slide deck, rebuttal, or advisor update. It checks rendered assets, `figures/*.tex` wrappers, visual descriptions, claim support, visual style, uncertainty, caption wording, and routes fixes to reruns, diagnosis, baseline audit, restyling, or paper evidence updates.
 - **`table-results-review`**: Use before standalone `tables/*.tex` files, table captions, or table result prose enter a paper, slide deck, rebuttal, or advisor update. It checks table descriptions, row/column semantics, numeric provenance, experiment settings, bolding rules, footnotes, caption wording, and routes fixes to reruns, diagnosis, baseline audit, table edits, or paper evidence updates.
 - **`paper-evidence-board`**: Use while writing or reviewing a draft to keep claims, evidence, figures, sections, reviewer risks, and next actions aligned.
+- **`paper-evidence-gap-miner`**: Use when writing exposes a missing result or evidence gap; it checks existing CSVs, logs, reports, and assets before recommending new compute.
+- **`paper-result-asset-builder`**: Use when CSV experiment outputs need to become paper-facing tables, figures, LaTeX wrappers, result inventories, and provenance records.
 - **`paper-positioning-planner`**: Use when deciding what the paper should strategically sell before venue-specific rewriting. It chooses paper archetype, primary/secondary contribution hierarchy, claim scope, target audience, related-work boundary, narrative architecture, and claims to avoid.
 - **`conference-writing-adapter`**: Use when a paper needs to be reshaped for a target venue's reviewer expectations. It learns from accepted/oral/spotlight exemplars, diagnoses the paper archetype, and produces section-level or paragraph-level rewrite plans.
 - **`abstract-title-contribution-writer`**: Use when title, abstract, or contribution bullets need to match the paper's highest-level claim, venue positioning, and verified evidence.
