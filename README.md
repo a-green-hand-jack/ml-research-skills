@@ -259,6 +259,15 @@ paper/
 └── .agent/
     ├── visual-style.md
     ├── figure-table-map.md
+    ├── writing-contract.md
+    ├── abstract-title-plan.md
+    ├── introduction-plan.md
+    ├── method-explanation-plan.md
+    ├── experiment-story-plan.md
+    ├── related-work-plan.md
+    ├── limitations-scope-plan.md
+    ├── consistency-report.md
+    ├── provisional-results.md
     ├── worktree-index.md
     └── paper-status.md
 ```
@@ -279,7 +288,7 @@ Primary skills in `paper/`:
 | Paper area | Main artifacts | Primary skills |
 |---|---|---|
 | Paper scaffold | `main.tex`, `sections/`, `venue_preamble.tex`, `macros.tex` | **init-latex-project**, **submit-paper** |
-| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-writing-assistant**, **related-work-positioning-writer**, **paper-draft-consistency-editor**, **paper-evidence-board** |
+| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **abstract-title-contribution-writer**, **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer**, **paper-writing-assistant**, **paper-draft-consistency-editor**, **paper-evidence-board** |
 | Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **figure-results-review**, **paper-evidence-board** |
 | Tables | `tables/*.tex` | **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
 | Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
@@ -487,16 +496,37 @@ flowchart TD
         PEB[paper-evidence-board]
         CWA[conference-writing-adapter]
         PWCP[paper-writing-contract-planner<br/>writing contract]
-        PWA[paper-writing-assistant<br/>claim-aware prose + provisional results]
+        ATC[abstract-title-contribution-writer<br/>top-level promise]
+        PIA[paper-introduction-argument-writer<br/>intro argument]
+        MSE[method-section-explainer<br/>method clarity]
+        ESW[experiment-story-writer<br/>result narrative]
         RWPW[related-work-positioning-writer<br/>novelty boundary]
+        LSW[limitations-scope-writer<br/>claim scope]
+        PWA[paper-writing-assistant<br/>integrated prose + placeholders]
         PDCE[paper-draft-consistency-editor<br/>draft consistency]
         PRS[paper-reviewer-simulator]
         CCA[citation-coverage-audit]
         CA[citation-audit]
         SUB[submit-paper]
         PEB --> P
-        P --> CWA --> PWCP --> PWA --> RWPW --> PDCE --> PRS
+        P --> CWA --> PWCP
+        PWCP --> ATC
+        PWCP --> PIA
+        PWCP --> MSE
+        PWCP --> ESW
+        PWCP --> RWPW
+        PWCP --> LSW
+        ATC --> PWA
+        PIA --> PWA
+        MSE --> PWA
+        ESW --> PWA
+        RWPW --> PWA
+        LSW --> PWA
+        PWA --> PDCE --> PRS
         PWCP --> PEB
+        ATC --> PEB
+        ESW --> PEB
+        LSW --> PEB
         PWA --> PEB
         RWPW --> CCA
         PDCE --> PEB
@@ -546,9 +576,9 @@ flowchart TD
 
 The most important feedback loops are:
 
-- **Writing to experiments**: `paper-writing-contract-planner`, `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
+- **Writing to experiments**: `paper-writing-contract-planner`, `experiment-story-writer`, `limitations-scope-writer`, `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, unsupported scope, or claim/evidence gap, then routes back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
-- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-contract-planner` locks evidence slots and section jobs; `paper-writing-assistant` turns verified or clearly provisional evidence into claim-aware prose; `paper-draft-consistency-editor` checks that the whole draft still tells the same story.
+- **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; `figure-results-review` checks figures and visual style; `table-results-review` checks standalone `tables/*.tex` files and numeric provenance; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-contract-planner` locks evidence slots and section jobs; `experiment-story-writer` turns verified or clearly provisional evidence into result narrative; `abstract-title-contribution-writer`, `paper-introduction-argument-writer`, `method-section-explainer`, `related-work-positioning-writer`, and `limitations-scope-writer` write the high-risk sections; `paper-writing-assistant` integrates claim-aware prose and placeholder tracking; `paper-draft-consistency-editor` checks that the whole draft still tells the same story.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
@@ -610,14 +640,14 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
-| **abstract-title-contribution-writer** | Write title, abstract, and contribution bullets as a calibrated top-level claim/evidence contract |
-| **experiment-story-writer** | Turn figures, tables, ablations, and mixed results into results prose that answers paper claims |
-| **limitations-scope-writer** | Write limitations, scope, failure cases, ethics, and conclusion caveats without undermining supported claims |
-| **method-section-explainer** | Explain methods through notation, overview, modules, equations, algorithm boxes, and appendix boundaries |
 | **paper-writing-contract-planner** | Lock the paper's writing contract before drafting: section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims |
+| **abstract-title-contribution-writer** | Write title, abstract, and contribution bullets as a calibrated top-level claim/evidence contract |
 | **paper-introduction-argument-writer** | Plan and write the introduction as a paragraph-by-paragraph argument from problem to gap, insight, method, evidence, and contributions |
-| **paper-writing-assistant** | Draft and revise claim-aware prose, map archetypes to evidence recipes, interpret results toward claims, and track provisional result placeholders |
+| **method-section-explainer** | Explain methods through notation, overview, modules, equations, algorithm boxes, and appendix boundaries |
+| **experiment-story-writer** | Turn figures, tables, ablations, and mixed results into results prose that answers paper claims |
 | **related-work-positioning-writer** | Plan and write related work as citation-backed novelty-boundary paragraphs rather than citation lists |
+| **limitations-scope-writer** | Write limitations, scope, failure cases, ethics, and conclusion caveats without undermining supported claims |
+| **paper-writing-assistant** | Draft and revise claim-aware prose, map archetypes to evidence recipes, interpret results toward claims, and track provisional result placeholders |
 | **paper-draft-consistency-editor** | Audit and edit the draft so title, abstract, intro, results, figures, tables, limitations, and conclusion remain internally consistent |
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
@@ -708,6 +738,32 @@ For the person turning research evidence into a submission:
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
 | **submit-paper** | Check final submission readiness |
+
+### Paper Writing Stack
+
+The writing skills are intentionally layered. Use them as a structured writing workflow instead of treating every prose task as generic polishing:
+
+| Layer | Purpose | Skills |
+|---|---|---|
+| 1. Positioning and contract | Decide what the paper is allowed to sell and lock section jobs before drafting | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-evidence-board** |
+| 2. Top-level promise | Make title, abstract, and contribution bullets state the same evidence-calibrated claim | **abstract-title-contribution-writer** |
+| 3. Section specialists | Write high-risk sections with section-specific argument recipes | **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer** |
+| 4. Integrated drafting | Turn section plans, evidence, and placeholders into coherent paper prose | **paper-writing-assistant** |
+| 5. Consistency and submission risk | Check that the finished draft still tells one story and is ready for reviewers | **paper-draft-consistency-editor**, **paper-reviewer-simulator**, **citation-coverage-audit**, **citation-audit**, **submit-paper** |
+
+The main paper-local writing artifacts live under `paper/.agent/`:
+
+| Artifact | Created or maintained by |
+|---|---|
+| `writing-contract.md` | **paper-writing-contract-planner** |
+| `abstract-title-plan.md` | **abstract-title-contribution-writer** |
+| `introduction-plan.md` | **paper-introduction-argument-writer** |
+| `method-explanation-plan.md` | **method-section-explainer** |
+| `experiment-story-plan.md` | **experiment-story-writer** |
+| `related-work-plan.md` | **related-work-positioning-writer** |
+| `limitations-scope-plan.md` | **limitations-scope-writer** |
+| `provisional-results.md` | **paper-writing-assistant** and result-facing writing skills |
+| `consistency-report.md` | **paper-draft-consistency-editor** |
 
 ### Reviewer / Internal Critic
 
@@ -830,21 +886,26 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 19. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
 20. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
 21. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
-22. paper-writing-assistant -> write claim-aware paper prose, enforce archetype evidence recipes, and track provisional result placeholders
-23. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
-24. paper-draft-consistency-editor -> align title, abstract, intro, results, figures, tables, terminology, limitations, and conclusion
-25. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-26. citation-coverage-audit -> find missing classic, close, and concurrent citations
-27. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-28. submit-paper    -> run a readiness check before a deadline
-29. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-30. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-31. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-32. release-code    -> prepare the public code release when needed
-33. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-34. update-docs     -> refresh docs after meaningful code changes
-35. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-36. add-git-tag     -> mark a milestone
+22. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
+23. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
+24. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
+25. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
+26. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
+27. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
+28. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
+29. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
+30. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+31. citation-coverage-audit -> find missing classic, close, and concurrent citations
+32. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+33. submit-paper    -> run a readiness check before a deadline
+34. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+35. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+36. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+37. release-code    -> prepare the public code release when needed
+38. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+39. update-docs     -> refresh docs after meaningful code changes
+40. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+41. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -1033,6 +1094,46 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Figure/table job assignments, related-work boundaries, limitation policy, provisional-result policy, terminology rules, and forbidden claims
 - Update and audit rules for revising the contract after new results, venue changes, reviewer risks, or claim changes
 - A handoff to `paper-writing-assistant` so later prose follows the contract instead of re-deciding the paper structure each time
+
+## What `abstract-title-contribution-writer` Provides
+
+- A `paper/.agent/abstract-title-plan.md` that maps title, abstract moves, and contribution bullets to claims, evidence status, and overclaim risk
+- Abstract patterns for method, benchmark/dataset, empirical study, analysis, systems, theory, application, and negative-result papers
+- Title option generation across method-name, problem-plus-method, finding-led, resource-led, mechanism-led, and conservative scoped styles
+- Contribution bullet rules that tie each bullet to a concrete deliverable, scope, evidence type, and reader value
+- Claim-strength downgrades for top-level wording such as `solves`, `general`, `state-of-the-art`, `robust`, and `explains`
+
+## What `paper-introduction-argument-writer` Provides
+
+- A `paper/.agent/introduction-plan.md` that assigns each introduction paragraph a job, first-sentence role, evidence/citation, claim, handoff, and overclaim risk
+- Argument patterns for method, benchmark/dataset, empirical study, analysis, systems, application, negative-result, and hybrid introductions
+- Paragraph moves for problem openings, gap paragraphs, insight paragraphs, method overviews, evidence summaries, and contribution paragraphs
+- Intro-vs-related-work boundary control so the introduction includes only the closest contrast needed to understand novelty
+- Contribution paragraph and bullet guidance that keeps the intro aligned with the paper's evidence and writing contract
+
+## What `method-section-explainer` Provides
+
+- A `paper/.agent/method-explanation-plan.md` that fixes method subsection order, reader questions, notation, figures, equations, algorithms, and appendix handoffs
+- Structure patterns for algorithmic methods, model architectures, objectives/losses, benchmark construction, systems/tools, theory/setup, and hybrid methods
+- Notation flow rules so symbols are introduced only when useful and before they are used
+- Equation and algorithm-box framing guidance that explains the method instead of replacing prose with formalism
+- Main-text versus appendix boundaries for implementation details, proofs, hyperparameters, preprocessing, and secondary derivations
+
+## What `experiment-story-writer` Provides
+
+- A `paper/.agent/experiment-story-plan.md` that maps each figure, table, ablation, metric, and result paragraph to a claim-supporting narrative job
+- Result section patterns for claim-first main results, benchmark leaderboard analysis, study findings, mechanism ablations, systems performance, and diagnostic/failure-mode papers
+- Paragraph recipes that state the question, setup, comparison, interpretation, caveat, and claim implication
+- Mixed-result writing patterns that narrow scope, qualify mechanism claims, separate baseline-specific outcomes, or turn negative evidence into a limitation claim
+- Searchable provisional-result placeholder rules for writing while experiments are still running
+
+## What `limitations-scope-writer` Provides
+
+- A `paper/.agent/limitations-scope-plan.md` that maps limitations to affected claims, evidence sources, interpretation consequences, and required edits across the paper
+- Limitation patterns for data/benchmark scope, method assumptions, metrics, compute/scale, generalization boundaries, failure modes, theory assumptions, and reproducibility constraints
+- Scope propagation checks for title, abstract, introduction, results, captions, conclusion, and contribution bullets
+- Ethics, broader-impact, deployment, privacy, misuse, and release caveat guidance when venues or topics require it
+- Claim-boundary language that preserves supported claims while preventing unsupported generality, safety, fairness, deployment, or robustness claims
 
 ## What `paper-draft-consistency-editor` Provides
 
