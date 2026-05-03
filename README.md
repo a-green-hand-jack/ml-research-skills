@@ -57,6 +57,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-evidence-gap-miner` | Mine existing CSV results, logs, reports, and assets to fill claim evidence gaps before planning new compute |
 | `paper-result-asset-builder` | Build paper-facing tables, figures, wrappers, inventories, and provenance records from CSV experiment outputs |
+| `paper-writing-memory-manager` | Maintain dynamic writing memory across nonlinear drafting sessions, section status, dependencies, style decisions, edit impact, stale prose, and open writing threads |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |
@@ -261,6 +262,14 @@ paper/
 └── .agent/
     ├── visual-style.md
     ├── figure-table-map.md
+    ├── writing-memory/
+    │   ├── writing-state.md
+    │   ├── section-ledger.md
+    │   ├── dependency-map.md
+    │   ├── edit-impact-log.md
+    │   ├── style-and-terminology.md
+    │   ├── open-writing-threads.md
+    │   └── session-notes.md
     ├── writing-contract.md
     ├── evidence-completion-plan.md
     ├── result-inventory.md
@@ -293,7 +302,7 @@ Primary skills in `paper/`:
 | Paper area | Main artifacts | Primary skills |
 |---|---|---|
 | Paper scaffold | `main.tex`, `sections/`, `venue_preamble.tex`, `macros.tex` | **init-latex-project**, **submit-paper** |
-| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-evidence-gap-miner**, **abstract-title-contribution-writer**, **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer**, **paper-writing-assistant**, **paper-draft-consistency-editor**, **paper-evidence-board** |
+| Paper story and claims | title, abstract, intro, method, experiments, limitations | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-writing-memory-manager**, **paper-evidence-gap-miner**, **abstract-title-contribution-writer**, **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer**, **paper-writing-assistant**, **paper-draft-consistency-editor**, **paper-evidence-board** |
 | CSV-derived result assets | `result-inventory.md`, `result-asset-provenance.md`, paper-facing tables/figures | **paper-evidence-gap-miner**, **paper-result-asset-builder**, **paper-evidence-board** |
 | Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **paper-result-asset-builder**, **figure-results-review**, **paper-evidence-board** |
 | Tables | `tables/*.tex` | **paper-result-asset-builder**, **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
@@ -503,6 +512,7 @@ flowchart TD
         PEB[paper-evidence-board]
         CWA[conference-writing-adapter]
         PWCP[paper-writing-contract-planner<br/>writing contract]
+        PWM[paper-writing-memory-manager<br/>writing memory]
         PEGM[paper-evidence-gap-miner<br/>mine existing CSV evidence]
         ATC[abstract-title-contribution-writer<br/>top-level promise]
         PIA[paper-introduction-argument-writer<br/>intro argument]
@@ -518,23 +528,26 @@ flowchart TD
         SUB[submit-paper]
         PEB --> P
         P --> CWA --> PWCP
-        PWCP --> PEGM
+        PWCP --> PWM
+        PWM --> PEGM
         PEGM --> PRAB
         PEGM --> EDP
-        PWCP --> ATC
-        PWCP --> PIA
-        PWCP --> MSE
-        PWCP --> ESW
-        PWCP --> RWPW
-        PWCP --> LSW
+        PWM --> ATC
+        PWM --> PIA
+        PWM --> MSE
+        PWM --> ESW
+        PWM --> RWPW
+        PWM --> LSW
         ATC --> PWA
         PIA --> PWA
         MSE --> PWA
         ESW --> PWA
         RWPW --> PWA
         LSW --> PWA
+        PWA --> PWM
         PWA --> PDCE --> PRS
         PWCP --> PEB
+        PWM --> PEB
         PEGM --> PEB
         PRAB --> PEB
         ATC --> PEB
@@ -542,6 +555,7 @@ flowchart TD
         LSW --> PEB
         PWA --> PEB
         RWPW --> CCA
+        PDCE --> PWM
         PDCE --> PEB
         PRS --> PEB
         CWA --> CCA --> CA --> SUB
@@ -653,6 +667,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 |---|---|
 | **paper-evidence-board** | Align paper claims, evidence, figures, visual style, sections, reviewer risks, and next actions |
 | **paper-evidence-gap-miner** | Mine existing CSV results, logs, reports, and assets for missing claim evidence before planning new compute |
+| **paper-writing-memory-manager** | Maintain dynamic writing state, section status, dependencies, stale locations, style decisions, edit impact, and open writing threads |
 | **paper-positioning-planner** | Decide what the paper is selling, to whom, with what evidence, and what it must not claim |
 | **conference-writing-adapter** | Adapt structure, narrative, and paragraph-level writing to a target venue |
 | **paper-writing-contract-planner** | Lock the paper's writing contract before drafting: section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims |
@@ -736,6 +751,7 @@ For the person turning research evidence into a submission:
 |---|---|
 | **research-project-memory** | Keep paper claims, evidence, figures, sections, and risks aligned |
 | **paper-evidence-board** | Build and update the paper-facing claim/evidence/figure/section/risk board |
+| **paper-writing-memory-manager** | Keep nonlinear writing state, section status, dependency map, edit impact, style rules, and open threads aligned across sessions |
 | **paper-evidence-gap-miner** | Check whether missing claim support can be filled from existing CSVs, logs, reports, or derived assets before asking for new runs |
 | **paper-result-asset-builder** | Turn CSV result outputs into paper-facing tables, figures, wrappers, inventories, and provenance records |
 | **figure-results-review** | Verify that result visuals, captions, and style conventions support the exact paper claims |
@@ -763,17 +779,19 @@ The writing skills are intentionally layered. Use them as a structured writing w
 | Layer | Purpose | Skills |
 |---|---|---|
 | 1. Positioning and contract | Decide what the paper is allowed to sell and lock section jobs before drafting | **paper-positioning-planner**, **conference-writing-adapter**, **paper-writing-contract-planner**, **paper-evidence-board** |
-| 2. Evidence completion | Mine existing CSV results first, then build paper-facing result assets or plan minimal new compute | **paper-evidence-gap-miner**, **paper-result-asset-builder**, **figure-results-review**, **table-results-review** |
-| 3. Top-level promise | Make title, abstract, and contribution bullets state the same evidence-calibrated claim | **abstract-title-contribution-writer** |
-| 4. Section specialists | Write high-risk sections with section-specific argument recipes | **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer** |
-| 5. Integrated drafting | Turn section plans, evidence, and placeholders into coherent paper prose | **paper-writing-assistant** |
-| 6. Consistency and submission risk | Check that the finished draft still tells one story and is ready for reviewers | **paper-draft-consistency-editor**, **paper-reviewer-simulator**, **citation-coverage-audit**, **citation-audit**, **submit-paper** |
+| 2. Writing memory | Keep nonlinear writing sessions coherent by tracking section status, dependencies, stale locations, style decisions, and open threads | **paper-writing-memory-manager** |
+| 3. Evidence completion | Mine existing CSV results first, then build paper-facing result assets or plan minimal new compute | **paper-evidence-gap-miner**, **paper-result-asset-builder**, **figure-results-review**, **table-results-review** |
+| 4. Top-level promise | Make title, abstract, and contribution bullets state the same evidence-calibrated claim | **abstract-title-contribution-writer** |
+| 5. Section specialists | Write high-risk sections with section-specific argument recipes | **paper-introduction-argument-writer**, **method-section-explainer**, **experiment-story-writer**, **related-work-positioning-writer**, **limitations-scope-writer** |
+| 6. Integrated drafting | Turn section plans, evidence, and placeholders into coherent paper prose | **paper-writing-assistant** |
+| 7. Consistency and submission risk | Check that the finished draft still tells one story and is ready for reviewers | **paper-draft-consistency-editor**, **paper-reviewer-simulator**, **citation-coverage-audit**, **citation-audit**, **submit-paper** |
 
 The main paper-local writing artifacts live under `paper/.agent/`:
 
 | Artifact | Created or maintained by |
 |---|---|
 | `writing-contract.md` | **paper-writing-contract-planner** |
+| `writing-memory/` | **paper-writing-memory-manager** |
 | `evidence-completion-plan.md` | **paper-evidence-gap-miner** |
 | `result-inventory.md` | **paper-result-asset-builder** |
 | `result-asset-provenance.md` | **paper-result-asset-builder** |
@@ -909,26 +927,27 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 21. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
 22. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
 23. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
-24. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
-25. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
-26. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
-27. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
-28. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
-29. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
-30. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
-31. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
-32. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-33. citation-coverage-audit -> find missing classic, close, and concurrent citations
-34. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-35. submit-paper    -> run a readiness check before a deadline
-36. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-37. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-38. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-39. release-code    -> prepare the public code release when needed
-40. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-41. update-docs     -> refresh docs after meaningful code changes
-42. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-43. add-git-tag     -> mark a milestone
+24. paper-writing-memory-manager -> maintain section status, dependency map, style decisions, stale locations, and open writing threads
+25. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
+26. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
+27. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
+28. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
+29. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
+30. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
+31. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
+32. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
+33. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+34. citation-coverage-audit -> find missing classic, close, and concurrent citations
+35. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+36. submit-paper    -> run a readiness check before a deadline
+37. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+38. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+39. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+40. release-code    -> prepare the public code release when needed
+41. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+42. update-docs     -> refresh docs after meaningful code changes
+43. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+44. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -1078,6 +1097,15 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Result reuse patterns for deriving tables, figures, variance estimates, slice analyses, appendix assets, diagnostics, and limitations from existing CSVs or reports
 - A "补结果 before 补实验" routing policy: search existing results first, build assets second, design new experiments only when necessary
 - Handoffs to `paper-result-asset-builder`, `result-diagnosis`, `paper-writing-contract-planner`, `limitations-scope-writer`, `experiment-design-planner`, `baseline-selection-audit`, and `run-experiment`
+
+## What `paper-writing-memory-manager` Provides
+
+- A dynamic `paper/.agent/writing-memory/` state layer for nonlinear paper drafting across sessions
+- `writing-state.md`, `section-ledger.md`, `dependency-map.md`, `edit-impact-log.md`, `style-and-terminology.md`, `open-writing-threads.md`, and `session-notes.md`
+- A dependency map from claims, results, tables, figures, captions, terms, and placeholders to paper locations such as abstract sentences, intro paragraphs, result callouts, captions, limitations, and conclusion
+- Impact propagation rules that mark affected sections stale after claim, evidence, result, asset, caption, notation, related-work, limitation, or terminology changes
+- A writeback protocol for section-specific writers, `paper-writing-assistant`, `paper-evidence-board`, `paper-evidence-gap-miner`, `paper-result-asset-builder`, and `paper-draft-consistency-editor`
+- Session closeout memory so the next writing session can resume from the current focus, unresolved threads, stale locations, and recommended next action
 
 ## What `result-diagnosis` Provides
 

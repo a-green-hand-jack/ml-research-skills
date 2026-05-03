@@ -18,7 +18,7 @@ Use this skill for:
 - writing ethics, broader impact, and deployment caveats when required
 - reducing overclaiming without weakening supported claims
 
-Do not use this skill for hostile review. Use `paper-reviewer-simulator` for reviewer critique. Use `experiment-story-writer` for mixed-result results prose. Use `paper-draft-consistency-editor` for full-draft consistency.
+Do not use this skill for hostile review. Use `paper-reviewer-simulator` for reviewer critique. Use `experiment-story-writer` for mixed-result results prose. Use `paper-writing-memory-manager` to propagate scope changes to title, abstract, intro, results, captions, and conclusion. Use `paper-draft-consistency-editor` for full-draft consistency.
 
 ## Skill Directory Layout
 
@@ -37,7 +37,7 @@ Do not use this skill for hostile review. Use `paper-reviewer-simulator` for rev
 - Always read `references/limitation-patterns.md`.
 - Read `references/ethics-and-scope.md` when writing ethics, broader impact, deployment caveats, data/model risks, or human-subject/domain caveats.
 - Use `templates/limitations-scope-plan.md` when creating `paper/.agent/limitations-scope-plan.md`.
-- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/experiment-story-plan.md`, `paper/.agent/provisional-results.md`, review-risk notes, and current draft sections when present.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/writing-memory/`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/experiment-story-plan.md`, `paper/.agent/provisional-results.md`, review-risk notes, and current draft sections when present.
 
 ## Core Principles
 
@@ -154,3 +154,4 @@ Before finalizing:
 - ethics/broader-impact text does not overpromise safeguards
 - future work is realistic and not used to cover missing required evidence
 - reviewer-risk follow-ups are explicit
+- scope and limitation changes are written back through `paper-writing-memory-manager`

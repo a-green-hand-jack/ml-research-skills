@@ -20,7 +20,7 @@ Use this skill for:
 - forbidding unsupported claims, tone, or result language
 - creating or updating `paper/.agent/writing-contract.md`
 
-Do not use this skill to write full paper prose. Use `paper-writing-assistant` after the contract exists. Use `paper-positioning-planner` first if the primary contribution is still undecided. Use `paper-evidence-board` if the main task is a claim/evidence inventory. Use `experiment-design-planner` when missing evidence needs a runnable experiment plan.
+Do not use this skill to write full paper prose. Use `paper-writing-assistant` after the contract exists. Use `paper-writing-memory-manager` after creating or updating the contract so section status, dependencies, style rules, and open writing threads reflect the new agreement. Use `paper-positioning-planner` first if the primary contribution is still undecided. Use `paper-evidence-board` if the main task is a claim/evidence inventory. Use `experiment-design-planner` when missing evidence needs a runnable experiment plan.
 
 ## Skill Directory Layout
 
@@ -40,6 +40,7 @@ Do not use this skill to write full paper prose. Use `paper-writing-assistant` a
 - Read `references/update-protocol.md` when updating an existing contract or when the draft/results changed.
 - Read `paper-writing-assistant/references/evidence-recipes.md` when available and the contract needs archetype-specific evidence slots.
 - Read `paper-writing-assistant/references/style-selection.md` and `paper-writing-assistant/references/exemplar-index.md` when venue/topic style or exemplar patterns matter.
+- Read or update `paper/.agent/writing-memory/` through `paper-writing-memory-manager` when the contract changes section order, paragraph roles, claim strength, style rules, or forbidden claims.
 - Read `paper-positioning-planner` outputs when present, such as positioning reports, claim decisions, or narrative architecture.
 
 ## Core Principles
@@ -150,6 +151,7 @@ When updating, preserve useful stable decisions and add a compact change note in
 Route unresolved items:
 
 - `paper-writing-assistant`: write or revise sections under the contract
+- `paper-writing-memory-manager`: initialize or update writing memory after contract creation or revision
 - `paper-evidence-board`: synchronize claim/evidence/action IDs
 - `experiment-design-planner`: plan missing evidence slots
 - `baseline-selection-audit`: defend required baselines

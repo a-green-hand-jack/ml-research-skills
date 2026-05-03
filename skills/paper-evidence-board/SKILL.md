@@ -25,6 +25,7 @@ This skill is more specific than `research-project-memory`: it uses project memo
 Pair this skill with:
 
 - `research-project-memory` for project-level claim/evidence/risk/action IDs and writeback
+- `paper-writing-memory-manager` when claim/evidence changes should mark paper locations stale, update dependencies, or create writing threads
 - `paper-evidence-gap-miner` when a claim lacks evidence and existing result CSVs should be mined before planning new compute
 - `paper-result-asset-builder` when CSV results need to become paper-facing tables, figures, and provenance records
 - `conference-writing-adapter` when the board shows structural or paragraph-level writing changes
@@ -116,7 +117,7 @@ For every evidence item:
 - mark certainty: observed, user-stated, inferred, stale, or needs-verification
 - state limitations
 
-If evidence is only in a daily log or chat note, mark it accordingly and create an action to verify source artifacts. If evidence may exist in CSV result files but no paper-facing table or figure exists, route to `paper-evidence-gap-miner` and `paper-result-asset-builder` before marking the gap as requiring new compute.
+If evidence is only in a daily log or chat note, mark it accordingly and create an action to verify source artifacts. If evidence may exist in CSV result files but no paper-facing table or figure exists, route to `paper-evidence-gap-miner` and `paper-result-asset-builder` before marking the gap as requiring new compute. If evidence changes affect existing paper text, route to `paper-writing-memory-manager` to mark dependent title, abstract, sections, captions, limitations, or conclusions stale.
 
 ## Step 4 - Build Section and Figure/Table Map
 

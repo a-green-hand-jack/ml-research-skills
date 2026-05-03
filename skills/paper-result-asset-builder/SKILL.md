@@ -41,7 +41,7 @@ Do not use this skill to decide whether a paper claim is worth making. Use `pape
 - Use `scripts/inventory_csv_results.py` to inspect CSV files before reading large result files into context.
 - Use `templates/result-inventory.md` when creating `paper/.agent/result-inventory.md`.
 - Use `templates/result-asset-provenance.md` when creating `paper/.agent/result-asset-provenance.md`.
-- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/visual-style.md`, `figures/*.tex`, `tables/*.tex`, and current result sections when present.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/writing-memory/`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/visual-style.md`, `figures/*.tex`, `tables/*.tex`, and current result sections when present.
 
 ## Core Principles
 
@@ -155,6 +155,7 @@ After creating assets:
 - use `figure-results-review` for `figures/*.pdf`, `figures/*.png`, and `figures/*.tex`
 - use `experiment-story-writer` for result prose
 - update `paper-evidence-board` with asset-to-claim mappings
+- update `paper-writing-memory-manager` when new or changed assets affect captions, result prose, abstract, introduction, limitations, or conclusion
 
 ## Final Sanity Check
 

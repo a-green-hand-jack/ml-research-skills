@@ -36,7 +36,7 @@ Do not use this skill to generate final paper figures or tables. Use `paper-resu
 
 - Always read `references/gap-triage.md` and `references/result-reuse-patterns.md`.
 - Use `templates/evidence-completion-plan.md` when creating `paper/.agent/evidence-completion-plan.md`.
-- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/result-inventory.md`, `paper/.agent/result-asset-provenance.md`, `paper/.agent/experiment-story-plan.md`, and `paper/.agent/provisional-results.md` when present.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/writing-memory/`, `paper/.agent/result-inventory.md`, `paper/.agent/result-asset-provenance.md`, `paper/.agent/experiment-story-plan.md`, and `paper/.agent/provisional-results.md` when present.
 - Read paper draft files and result CSV inventories before recommending new runs.
 - Pair with `paper-result-asset-builder` when existing CSVs can produce a needed table or figure.
 
@@ -150,6 +150,7 @@ Every gap needs:
 Route by classification:
 
 - `already-supported` -> `paper-evidence-board` or `paper-writing-assistant`
+- `writing-state-update` -> `paper-writing-memory-manager` when the gap changes section status, stale locations, or open writing threads
 - `supportable-from-existing-csv`, `needs-reaggregation`, `needs-slice`, `needs-asset` -> `paper-result-asset-builder`
 - `needs-diagnosis` -> `result-diagnosis`
 - `needs-claim-narrowing` -> `paper-writing-contract-planner`, `limitations-scope-writer`, or `paper-writing-assistant`

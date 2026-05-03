@@ -19,7 +19,7 @@ Use this skill for:
 - explaining design rationales without overclaiming
 - moving implementation details to appendix or experiment setup
 
-Do not use this skill for designing a new algorithm. Use `algorithm-design-planner` for method design. Use `paper-writing-assistant` for broad prose. Use `figure-results-review` for figure quality. Use `paper-draft-consistency-editor` after the section exists.
+Do not use this skill for designing a new algorithm. Use `algorithm-design-planner` for method design. Use `paper-writing-assistant` for broad prose. Use `paper-writing-memory-manager` to record notation, method terminology, overview-figure dependencies, and stale result/caption locations. Use `figure-results-review` for figure quality. Use `paper-draft-consistency-editor` after the section exists.
 
 ## Skill Directory Layout
 
@@ -38,7 +38,7 @@ Do not use this skill for designing a new algorithm. Use `algorithm-design-plann
 - Always read `references/method-structure-patterns.md`.
 - Read `references/notation-and-rationale.md` when writing notation, equations, algorithm boxes, design rationale, or appendix boundaries.
 - Use `templates/method-explanation-plan.md` when creating `paper/.agent/method-explanation-plan.md`.
-- Read local `paper/.agent/writing-contract.md`, algorithm specs, design docs, method notes, `sections/method*.tex`, `sections/approach*.tex`, `figures/*.tex`, and appendix files when present.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/writing-memory/`, algorithm specs, design docs, method notes, `sections/method*.tex`, `sections/approach*.tex`, `figures/*.tex`, and appendix files when present.
 
 ## Core Principles
 
@@ -157,3 +157,4 @@ Before finalizing:
 - overview figure, algorithm box, and text agree
 - results claims are not smuggled into the method section
 - appendix handoffs are explicit
+- notation, terminology, and method-section status are written back through `paper-writing-memory-manager`

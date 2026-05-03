@@ -18,7 +18,7 @@ Use this skill for:
 - reducing overclaiming in high-visibility prose
 - producing several title/abstract positioning variants for a strategic choice
 
-Do not use this skill for detailed section drafting. Use `paper-introduction-argument-writer` for the introduction, `paper-writing-assistant` for broader prose, and `paper-draft-consistency-editor` for full-draft consistency.
+Do not use this skill for detailed section drafting. Use `paper-introduction-argument-writer` for the introduction, `paper-writing-assistant` for broader prose, `paper-writing-memory-manager` to record top-level claim wording and dependency impact, and `paper-draft-consistency-editor` for full-draft consistency.
 
 ## Skill Directory Layout
 
@@ -37,7 +37,7 @@ Do not use this skill for detailed section drafting. Use `paper-introduction-arg
 - Always read `references/abstract-patterns.md`.
 - Read `references/title-contribution-rules.md` when writing titles or contribution bullets.
 - Use `templates/abstract-title-plan.md` when creating `paper/.agent/abstract-title-plan.md`.
-- Read local `paper/.agent/writing-contract.md`, `paper/.agent/introduction-plan.md`, `paper/.agent/paper-evidence-board.md`, and `paper/.agent/provisional-results.md` when present.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/writing-memory/`, `paper/.agent/introduction-plan.md`, `paper/.agent/paper-evidence-board.md`, and `paper/.agent/provisional-results.md` when present.
 - Read current `abstract`, `title`, and contribution text from `main.tex`, `paper.tex`, `sections/abstract.tex`, or `sections/introduction.tex` when revising.
 
 ## Core Principles
@@ -143,4 +143,5 @@ Before finalizing:
 - result numbers match verified or explicitly provisional status
 - venue-required abstract constraints are respected when known
 - title does not oversell generality, novelty, or SOTA
+- top-level wording and dependency changes are recorded with `paper-writing-memory-manager`
 - open issues are routed to `paper-evidence-board`, `paper-introduction-argument-writer`, or `paper-draft-consistency-editor`

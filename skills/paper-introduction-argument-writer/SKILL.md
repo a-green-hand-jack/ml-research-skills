@@ -18,7 +18,7 @@ Use this skill for:
 - deciding what related-work contrast belongs in the introduction
 - making intro wording consistent with the abstract, title, evidence board, and writing contract
 
-Do not use this skill for full-paper review. Use `paper-reviewer-simulator` for adversarial critique. Use `paper-writing-assistant` for broad prose drafting. Use `related-work-positioning-writer` for the full related-work section. Use `paper-writing-contract-planner` first when the paper archetype or claim contract is not settled.
+Do not use this skill for full-paper review. Use `paper-reviewer-simulator` for adversarial critique. Use `paper-writing-assistant` for broad prose drafting. Use `paper-writing-memory-manager` to record introduction paragraph roles, claim dependencies, and stale downstream locations. Use `related-work-positioning-writer` for the full related-work section. Use `paper-writing-contract-planner` first when the paper archetype or claim contract is not settled.
 
 ## Skill Directory Layout
 
@@ -37,7 +37,7 @@ Do not use this skill for full-paper review. Use `paper-reviewer-simulator` for 
 - Always read `references/argument-patterns.md`.
 - Read `references/paragraph-moves.md` when drafting, revising, or diagnosing paragraph-level flow.
 - Use `templates/introduction-plan.md` when creating `paper/.agent/introduction-plan.md`.
-- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/related-work-plan.md`, and `paper/.agent/provisional-results.md` when present.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/writing-memory/`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/related-work-plan.md`, and `paper/.agent/provisional-results.md` when present.
 - Read current draft files such as `main.tex`, `paper.tex`, `sections/introduction.tex`, `sections/intro.tex`, `sections/abstract.tex`, and `sections/related_work.tex` when revising an existing paper.
 
 ## Core Principles
@@ -146,3 +146,4 @@ Before finalizing:
 - contribution bullets are concrete and evidence-backed
 - all provisional result language is searchable and tracked
 - abstract/title alignment issues are routed to `abstract-title-contribution-writer` when needed
+- introduction claim, paragraph-role, or handoff changes are written back through `paper-writing-memory-manager`

@@ -20,7 +20,7 @@ Use this skill for:
 - replacing provisional placeholders with verified results later
 - maintaining a writing ledger of open placeholders, stale result prose, and claim wording decisions
 
-Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-simulator` for acceptance-risk critique. Use `conference-writing-adapter` for venue-level restructuring and paragraph blueprints. Use `paper-evidence-board` when the main task is claim/evidence inventory rather than prose. Use `paper-evidence-gap-miner` when writing reveals a missing result and existing CSVs may already contain the needed evidence. Use `paper-result-asset-builder` when raw CSV results need to become paper-facing tables or figures. Use `experiment-design-planner` only when the gap miner concludes that new compute is required.
+Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-simulator` for acceptance-risk critique. Use `conference-writing-adapter` for venue-level restructuring and paragraph blueprints. Use `paper-writing-memory-manager` before and after nontrivial edits so local prose changes update the global writing state. Use `paper-evidence-board` when the main task is claim/evidence inventory rather than prose. Use `paper-evidence-gap-miner` when writing reveals a missing result and existing CSVs may already contain the needed evidence. Use `paper-result-asset-builder` when raw CSV results need to become paper-facing tables or figures. Use `experiment-design-planner` only when the gap miner concludes that new compute is required.
 
 ## Core Principles
 
@@ -87,13 +87,14 @@ Load micro-patterns by writing action:
 Read local project artifacts as needed:
 
 - `memory/claim-board.md`, `memory/evidence-board.md`, `memory/action-board.md`, and `paper/.agent/paper-evidence-board.md` for project truth
+- `paper/.agent/writing-memory/` for current writing state, section status, dependencies, style decisions, open threads, and edit-impact history
 - `paper/.agent/evidence-completion-plan.md`, `paper/.agent/result-inventory.md`, and `paper/.agent/result-asset-provenance.md` when writing depends on CSV-derived result assets
 - `paper/.agent/provisional-results.md` for temporary result placeholders
 - `paper/.agent/paper-status.md` for active writing status
 - `paper/.agent/visual-style.md` and figure/table maps when result prose depends on figures or tables
 - target paper files such as `main.tex`, `paper.tex`, `sections/*.tex`, `figures/`, `tables/`, and appendix files
 
-Pair with `conference-writing-adapter` when target venue style or section structure is uncertain. Pair with `paper-evidence-board` when writing exposes claim/evidence drift. Pair with `paper-evidence-gap-miner` before asking for new experiments, because existing CSV results may already support the claim. Pair with `paper-result-asset-builder` when result prose needs a paper-facing table or figure generated from CSVs.
+Pair with `conference-writing-adapter` when target venue style or section structure is uncertain. Pair with `paper-writing-memory-manager` whenever a prose edit changes a claim, result interpretation, section status, caption, terminology, or open writing thread. Pair with `paper-evidence-board` when writing exposes claim/evidence drift. Pair with `paper-evidence-gap-miner` before asking for new experiments, because existing CSV results may already support the claim. Pair with `paper-result-asset-builder` when result prose needs a paper-facing table or figure generated from CSVs.
 
 ## Step 1 - Define the Writing Task
 

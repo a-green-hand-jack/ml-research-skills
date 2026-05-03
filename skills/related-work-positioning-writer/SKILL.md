@@ -20,7 +20,7 @@ Use this skill for:
 - revising related work after citation coverage or literature review
 - aligning related work with the writing contract and paper positioning
 
-Do not use this skill to discover all missing citations from scratch. Use `literature-review-sprint` for field mapping and `citation-coverage-audit` for submission-time missing citation checks. Use `citation-audit` for BibTeX and citation correctness. Use `paper-writing-assistant` for general paper prose outside related work.
+Do not use this skill to discover all missing citations from scratch. Use `literature-review-sprint` for field mapping and `citation-coverage-audit` for submission-time missing citation checks. Use `citation-audit` for BibTeX and citation correctness. Use `paper-writing-memory-manager` to record novelty-boundary dependencies and intro/abstract claim impact. Use `paper-writing-assistant` for general paper prose outside related work.
 
 ## Skill Directory Layout
 
@@ -38,7 +38,7 @@ Do not use this skill to discover all missing citations from scratch. Use `liter
 
 - Always read `references/boundary-patterns.md`, `references/paragraph-recipes.md`, and `templates/related-work-plan.md`.
 - Read `paper/.agent/writing-contract.md` when present.
-- Read `paper/.agent/paper-evidence-board.md`, root `memory/claim-board.md`, and root `memory/risk-board.md` when present.
+- Read `paper/.agent/writing-memory/`, `paper/.agent/paper-evidence-board.md`, root `memory/claim-board.md`, and root `memory/risk-board.md` when present.
 - Read outputs from `literature-review-sprint`, `citation-coverage-audit`, `paper-positioning-planner`, and `paper-writing-contract-planner` when available.
 - Use web search for recent or concurrent work if the user asks for current coverage or if novelty depends on recent papers.
 
@@ -137,6 +137,7 @@ If the current directory is the paper repo, save to:
 ```
 
 The plan should be useful to `paper-writing-assistant` and `paper-draft-consistency-editor`.
+Record changed novelty boundaries and affected intro/title/abstract locations through `paper-writing-memory-manager`.
 
 ## Step 6 - Draft or Revise Prose
 

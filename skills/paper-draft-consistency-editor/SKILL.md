@@ -21,7 +21,7 @@ Use this skill for:
 - checking whether the draft follows `paper/.agent/writing-contract.md`
 - producing a consistency report or directly editing narrow inconsistencies
 
-Do not use this skill to decide the paper's positioning from scratch. Use `paper-positioning-planner` for that. Do not use it to write major new prose. Use `paper-writing-assistant` after consistency issues are identified. Do not simulate hostile reviewers; use `paper-reviewer-simulator` for acceptance-risk critique.
+Do not use this skill to decide the paper's positioning from scratch. Use `paper-positioning-planner` for that. Do not use it to write major new prose. Use `paper-writing-memory-manager` to record stale locations, dependency conflicts, and open writing threads found during consistency checks. Use `paper-writing-assistant` after consistency issues are identified. Do not simulate hostile reviewers; use `paper-reviewer-simulator` for acceptance-risk critique.
 
 ## Skill Directory Layout
 
@@ -41,7 +41,7 @@ Do not use this skill to decide the paper's positioning from scratch. Use `paper
 - Read `references/edit-protocol.md` before editing paper source.
 - Use `templates/consistency-report.md` for substantial reports.
 - Read `paper/.agent/writing-contract.md` when present.
-- Read `paper/.agent/paper-evidence-board.md`, `paper/.agent/provisional-results.md`, and root `memory/claim-board.md` / `memory/evidence-board.md` when present.
+- Read `paper/.agent/writing-memory/`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/provisional-results.md`, and root `memory/claim-board.md` / `memory/evidence-board.md` when present.
 - Read figure/table maps or visual-style files when checking figures and tables.
 
 ## Core Principles
@@ -139,6 +139,7 @@ For each issue, choose:
 - `rewrite-request`: needs `paper-writing-assistant`
 - `contract-update`: needs `paper-writing-contract-planner`
 - `evidence-update`: needs `paper-evidence-board`
+- `writing-memory-update`: needs `paper-writing-memory-manager` to record dependency conflicts, stale locations, or closed threads
 - `experiment-action`: needs `experiment-design-planner`
 - `diagnosis`: needs `result-diagnosis`
 - `leave-note`: intentional inconsistency or unresolved decision

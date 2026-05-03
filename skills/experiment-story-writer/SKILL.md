@@ -18,7 +18,7 @@ Use this skill for:
 - marking provisional result placeholders while experiments are running
 - aligning result prose with paper claims and evidence status
 
-Do not use this skill to design new experiments from scratch. Use `paper-result-asset-builder` when raw CSV results still need to become paper-facing tables or figures. Use `paper-evidence-gap-miner` when the result story exposes a missing claim support and existing results should be searched before new compute. Use `experiment-design-planner` for truly new experiment planning, `baseline-selection-audit` for baseline fairness, `figure-results-review` for visual audit, `table-results-review` for table audit, and `paper-evidence-board` for claim/evidence inventory.
+Do not use this skill to design new experiments from scratch. Use `paper-writing-memory-manager` to record result-prose dependencies, stale claim locations, and open result-writing threads. Use `paper-result-asset-builder` when raw CSV results still need to become paper-facing tables or figures. Use `paper-evidence-gap-miner` when the result story exposes a missing claim support and existing results should be searched before new compute. Use `experiment-design-planner` for truly new experiment planning, `baseline-selection-audit` for baseline fairness, `figure-results-review` for visual audit, `table-results-review` for table audit, and `paper-evidence-board` for claim/evidence inventory.
 
 ## Skill Directory Layout
 
@@ -37,7 +37,7 @@ Do not use this skill to design new experiments from scratch. Use `paper-result-
 - Always read `references/result-narrative-patterns.md`.
 - Read `references/mixed-results-and-placeholders.md` when results are negative, mixed, unstable, provisional, or still running.
 - Use `templates/experiment-story-plan.md` when creating `paper/.agent/experiment-story-plan.md`.
-- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/result-inventory.md`, `paper/.agent/result-asset-provenance.md`, `paper/.agent/provisional-results.md`, `paper/.agent/visual-style.md`, and figure/table review reports when present.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/writing-memory/`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/result-inventory.md`, `paper/.agent/result-asset-provenance.md`, `paper/.agent/provisional-results.md`, `paper/.agent/visual-style.md`, and figure/table review reports when present.
 - Read paper files such as `sections/experiments.tex`, `sections/results.tex`, `figures/*.tex`, `tables/*.tex`, and experiment logs or reports under `docs/results/`, `docs/reports/`, or `docs/runs/` when present.
 
 ## Core Principles
@@ -149,3 +149,4 @@ Before finalizing:
 - numbers match verified sources or are marked provisional
 - mixed results are scoped rather than hidden
 - missing blocker evidence is routed first to `paper-evidence-gap-miner`, then to `experiment-design-planner` only if existing CSV results cannot fill the gap
+- result-claim dependencies and stale locations are written back through `paper-writing-memory-manager`
