@@ -1,6 +1,6 @@
 ---
 name: paper-evidence-board
-description: Maintain a paper-facing evidence board that aligns claims, experiments, figures, tables, sections, reviewer risks, and next actions during ML/AI paper writing. Use this skill whenever writing exposes missing experiments, new results require paper changes, reviewer simulation reveals evidence gaps, claims need support checks, figures/tables need mapping to claims, or the user wants a live paper evidence board before submission.
+description: Maintain a paper-facing evidence board. Use to align claims, experiments, figures, tables, sections, reviewer risks, evidence gaps, and next actions during writing.
 argument-hint: "[paper-dir-or-project-root] [--venue <venue>] [--mode build|audit|update|review]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

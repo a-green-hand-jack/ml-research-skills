@@ -1,6 +1,6 @@
 ---
 name: paper-writing-contract-planner
-description: Create or update a paper writing contract before drafting an ML/AI paper. Use when the user wants to lock the paper's venue, positioning, archetype, section order, paragraph roles, claim/evidence slots, figure/table jobs, related-work boundary, limitation policy, forbidden claims, exemplar patterns, or writing rules before using paper-writing-assistant.
+description: Create a paper writing contract before drafting. Use to lock venue, positioning, archetype, section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims.
 argument-hint: "[paper-dir-or-project-root] [--venue <venue>] [--archetype <type>] [--mode create|update|audit]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

@@ -1,6 +1,6 @@
 ---
 name: artifact-evaluation-prep
-description: Prepare a research artifact package for conference artifact evaluation, reproducibility review, badges, supplementary material, or post-acceptance artifact release. Use this skill whenever the user needs install instructions, reviewer-facing reproduction commands, Docker or environment checks, data/checkpoint packaging, hardware/runtime estimates, anonymized or public artifact metadata, artifact evaluation forms, or a claim-to-artifact reproducibility audit for ML/AI venues.
+description: Prepare research artifact packages for evaluation or public release. Use for reproduction commands, environment checks, data packaging, and artifact forms.
 argument-hint: "[project-dir] [--venue <venue>] [--mode audit|package|instructions|smoke-test]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

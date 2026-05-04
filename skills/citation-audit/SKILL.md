@@ -1,6 +1,6 @@
 ---
 name: citation-audit
-description: Run a pre-submission citation and reference audit for LaTeX academic papers. Use this skill whenever the user wants to verify that BibTeX entries are correct, every citation key in TeX resolves, every figure/table/equation/section reference is valid, DOI/arXiv/OpenReview/proceedings metadata matches the cited work, citation claims are supported by the cited paper, or a paper is ready for submission with clean references.
+description: Audit LaTeX citations and references before submission. Use for BibTeX metadata, unresolved keys, invalid labels, DOI/arXiv data, and citation-claim support.
 argument-hint: "[paper-dir] [--main main.tex] [--bib refs.bib] [--metadata] [--claims]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

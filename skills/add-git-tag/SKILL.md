@@ -1,6 +1,6 @@
 ---
 name: add-git-tag
-description: Create an annotated Git tag to mark a project milestone, documenting achievements and next-phase plans. Use when completing a phase, releasing a version, or marking a research checkpoint with a structured summary.
+description: Create annotated Git milestone tags. Use when completing a phase, releasing a version, or marking a research checkpoint.
 allowed-tools: Bash
 ---
 

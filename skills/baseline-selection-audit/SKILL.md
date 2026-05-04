@@ -1,6 +1,6 @@
 ---
 name: baseline-selection-audit
-description: Audit whether an ML or AI paper's experimental baselines are necessary, fair, current, and reviewer-proof. Use this skill whenever the user is planning experiments, comparing methods, choosing baselines, worried about missing SOTA or unfair comparisons, preparing a reviewer-proof experiment section, or converting a literature review into must-have, should-have, optional, and not-comparable baselines.
+description: Audit ML/AI experimental baselines for necessity, fairness, currency, and reviewer risk. Use when choosing baselines or checking SOTA comparisons.
 argument-hint: "[project-dir-or-paper-claim] [--mode plan|audit|rebuttal|camera-ready] [--venue <venue>]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

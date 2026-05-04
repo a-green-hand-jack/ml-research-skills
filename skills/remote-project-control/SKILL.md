@@ -1,6 +1,6 @@
 ---
 name: remote-project-control
-description: Control a server-side SSH/HPC/RunAI project from a local development repo with persistent project memory. Use when the user develops locally, syncs through a Git remote such as GitHub or GitLab, runs on a server such as quest, ibex-vscode, or epfl-haas, wants safe local/git-remote/server sync, wants to inspect server state, submit jobs, start interactive sessions, monitor logs, or recover project context at the start of a new coding session.
+description: Coordinate local, Git remote, and SSH/HPC/RunAI research projects. Use for server state, sync safety, job submission, interactive sessions, logs, and context recovery.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: paper-reviewer-simulator
-description: Simulate target-conference reviewers for an ML/AI paper before submission. Use this skill whenever the user wants a reviewer-style critique, predicted scores, likely reject reasons, rebuttal risks, area-chair style meta-review, adversarial Reviewer 2 feedback, or venue-specific pre-review for conferences such as NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, or similar venues. This skill should dynamically inspect reviewer guidelines, example reviews, accepted papers, and project evidence when available.
+description: Simulate target-conference reviewers for an ML/AI paper. Use for reviewer critique, predicted scores, reject risks, meta-review, and pre-submission risk audit.
 argument-hint: "[paper-dir] [--venue <venue>] [--mode quick|full|adversarial|rebuttal]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

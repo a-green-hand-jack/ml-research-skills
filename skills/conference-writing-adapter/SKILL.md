@@ -1,6 +1,6 @@
 ---
 name: conference-writing-adapter
-description: Adapt an ML paper's writing, structure, positioning, and paragraph-level narrative to a target conference such as NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, or similar venues. Use this skill whenever the user wants to submit, rewrite, polish, restructure, or tailor a paper for a specific conference; asks what good accepted/oral papers at a venue look like; wants reviewer-friendly writing; or wants section-by-section or paragraph-by-paragraph paper guidance. This is a writing and presentation skill, not an experiment-design skill.
+description: Adapt ML/AI paper writing to a target venue. Use for venue style, structure, positioning, reviewer-friendly prose, and section or paragraph guidance.
 allowed-tools: Read, Write, Edit, Bash, Glob, WebFetch, WebSearch
 ---
 

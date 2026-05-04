@@ -1,6 +1,6 @@
 ---
 name: paper-evidence-gap-miner
-description: Mine existing experiment results for evidence gaps exposed during paper writing before planning new compute. Use when a paper claim lacks support, a draft needs additional evidence, results may already exist in CSV files, a table/figure could be derived from prior runs, or the user wants the minimal result-completion plan before running new experiments.
+description: Mine existing results for paper evidence gaps before new compute. Use when claims lack support, CSVs may already contain evidence, or tables/figures can be derived.
 argument-hint: "[project-dir] [--claim <claim-id-or-text>] [--mode mine|audit|plan]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

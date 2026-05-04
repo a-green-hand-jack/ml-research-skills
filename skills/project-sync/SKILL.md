@@ -1,6 +1,6 @@
 ---
 name: project-sync
-description: Sync verified experiment results from the code repo or a code worktree into the paper's daily experiments log and project memory. Use when results in code/docs/results, code/docs/reports, code/docs/runs, worktree docs, logs, or user-confirmed metrics should be promoted into paper-facing evidence.
+description: Sync verified code-side experiment results into paper memory. Use when logs, reports, run docs, or user-confirmed metrics should become paper-facing evidence.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

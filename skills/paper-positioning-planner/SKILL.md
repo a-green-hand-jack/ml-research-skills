@@ -1,6 +1,6 @@
 ---
 name: paper-positioning-planner
-description: Decide what an ML or AI paper should strategically sell before detailed writing or venue-specific polishing. Use this skill whenever the user has an idea, literature map, experiment results, figures, reviewer risks, or a draft and needs to choose the paper's primary contribution, claim scope, paper archetype, target audience, novelty framing, related-work boundary, title/abstract/main-figure story, or claims to avoid before using conference-writing-adapter.
+description: Decide what an ML/AI paper should strategically sell. Use for contribution choice, claim scope, paper archetype, novelty framing, audience, and claims to avoid.
 argument-hint: "[project-dir-or-paper-draft] [--venue <venue>] [--mode early|midproject|draft|revision|rebuttal]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

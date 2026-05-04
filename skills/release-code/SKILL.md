@@ -1,6 +1,6 @@
 ---
 name: release-code
-description: Prepare and publish a research code repository for public release alongside a paper (arXiv, conference, GitHub). Use when the user wants to open-source code, create a GitHub release, package a code submission, make code public, or prepare a reproducibility release.
+description: Prepare research code repositories for public release. Use for open-source cleanup, README/LICENSE/CITATION, GitHub releases, tags, and reproducibility packages.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

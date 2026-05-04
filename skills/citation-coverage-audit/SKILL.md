@@ -1,6 +1,6 @@
 ---
 name: citation-coverage-audit
-description: Audit whether an academic paper cites the necessary classic, closest, and recent concurrent work before submission. Use this skill whenever the user worries that references are incomplete, wants missing citations found, needs related work coverage checked, asks whether a paper cites classic work or recent arXiv/OpenReview work, or wants a citation coverage report for ML/AI venues such as NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, or similar conferences.
+description: Audit whether a paper cites necessary classic, closest, benchmark, and recent work. Use for missing-citation checks and related-work coverage before submission.
 argument-hint: "[paper-dir] [--venue <venue>] [--topic <topic>] [--since YYYY-MM] [--add-bibtex]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

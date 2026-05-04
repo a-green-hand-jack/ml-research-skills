@@ -1,6 +1,6 @@
 ---
 name: limitations-scope-writer
-description: Plan, draft, and revise ML/AI limitations, scope, failure cases, ethics, broader impact, and conclusion caveats so they control claim boundaries without undermining the paper. Use when the user wants limitation wording, scope statements, failure-case interpretation, ethics/broader-impact text, or overclaim reduction.
+description: Draft ML/AI limitations, scope, failure cases, ethics, and conclusion caveats. Use to control claim boundaries and reduce overclaiming.
 argument-hint: "[paper-dir] [--mode plan|draft|revise] [--section limitations|scope|ethics|conclusion]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

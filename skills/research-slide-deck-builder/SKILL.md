@@ -1,6 +1,6 @@
 ---
 name: research-slide-deck-builder
-description: Help a researcher design and write reusable research slide decks for advisor updates, lab meetings, paper reading reports, progress reports, proposal talks, conference talks, or thesis-style presentations. Use this skill when the user asks to make slides, write a slide deck, structure PPT/Slidev content, use the progress-slides template, or decide what each slide should contain.
+description: Design and write reusable research slide decks. Use for advisor updates, lab talks, reading reports, proposals, conference talks, Slidev content, and slide structure.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: algorithm-design-planner
-description: Turn a promising ML/AI research idea into a precise algorithm or method design before implementation. Use this skill whenever the user has an idea or project direction and wants to design the actual method, objective, architecture, inference procedure, assumptions, failure modes, ablations, implementation handoff, or method section plan before coding or experiment design.
+description: Turn an ML/AI research idea into a concrete method design. Use for objectives, architecture, inference, assumptions, ablations, and implementation handoff.
 argument-hint: "[project-dir] [--idea <idea>] [--mode method|objective|architecture|theory|system|revision]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

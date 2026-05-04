@@ -1,6 +1,6 @@
 ---
 name: new-workspace
-description: Create a new Git branch or worktree for code experiments, features, baselines, rebuttal fixes, method revisions, paper venue versions, arXiv releases, or camera-ready paper versions. Use when starting an isolated code direction, creating a project-aware code worktree under code-worktrees, creating a paper version worktree under paper-worktrees, or setting up worktree memory.
+description: Create Git branches or worktrees for research code and paper versions. Use for experiments, baselines, rebuttal fixes, arXiv/camera-ready branches, and worktree memory.
 allowed-tools: Read, Write, Bash, Glob
 ---
 

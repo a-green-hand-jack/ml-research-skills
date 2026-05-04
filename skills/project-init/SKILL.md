@@ -1,6 +1,6 @@
 ---
 name: project-init
-description: Initialize a full ML research project control root with independent paper, code, and optional slide repositories, shared project memory, optional GitHub Project board linkage, root project docs, root-level agent guidance, code and paper worktree policies, and component handoffs. Use when starting a new research project, setting up a project root for agents, connecting paper/code/slides repos, aligning several repos with a GitHub Project board, or replacing a simple paper+code workspace with a lifecycle-aware research project structure.
+description: Initialize an ML research project control root. Use for paper/code/slides repos, shared memory, GitHub Project alignment, agent guidance, worktree policy, and lifecycle handoffs.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

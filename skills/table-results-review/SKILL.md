@@ -1,6 +1,6 @@
 ---
 name: table-results-review
-description: Review ML or AI experiment tables, standalone LaTeX table files, table captions, table descriptions, numeric provenance, result narratives, and paper table style before they are shown in a paper, advisor meeting, slide deck, rebuttal, or submission. Use this skill whenever the user has tables under tables/*.tex, benchmark tables, ablation tables, model-spec tables, metric-definition tables, speed/compute tables, table captions, or wants to audit row/column semantics, bolding rules, footnotes, rounding, source values, and experiment settings.
+description: Review ML/AI result tables, LaTeX table files, captions, provenance, and paper table style. Use for benchmark, ablation, metric, model-spec, and compute tables.
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---
 

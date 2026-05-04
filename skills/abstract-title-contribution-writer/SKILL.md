@@ -1,6 +1,6 @@
 ---
 name: abstract-title-contribution-writer
-description: Draft and revise ML/AI paper titles, abstracts, and contribution lists so the paper's highest-level promise matches its venue, positioning, claims, and evidence. Use when the user wants title options, abstract structure, contribution bullets, claim-strength calibration, or title/abstract/contribution consistency.
+description: Draft ML/AI paper titles, abstracts, and contribution lists. Use for title options, abstract structure, contribution bullets, and claim-strength calibration.
 argument-hint: "[paper-dir] [--venue <venue>] [--archetype <type>] [--mode draft|revise|options]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

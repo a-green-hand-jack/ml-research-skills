@@ -1,6 +1,6 @@
 ---
 name: experiment-story-writer
-description: Turn ML/AI experiment tables, figures, ablations, and metrics into claim-aware results prose. Use when the user wants experiment section structure, result paragraph openings, table/figure narrative, ablation interpretation, mixed-result wording, provisional result placeholders, or evidence-to-claim storytelling.
+description: Turn ML/AI tables, figures, ablations, and metrics into claim-aware results prose. Use for result paragraphs, figure/table narrative, and provisional metrics.
 argument-hint: "[paper-dir] [--section results|experiments|analysis] [--mode plan|draft|revise]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

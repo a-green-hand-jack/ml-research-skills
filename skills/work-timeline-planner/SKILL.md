@@ -1,6 +1,6 @@
 ---
 name: work-timeline-planner
-description: Build a retrospective or forward-looking work timeline from git commits, project docs, user notes, or chat records, then output a Markdown and/or HTML report with a Gantt chart or timeline visualization. Use when the user wants to review past work across one or more projects, explain time allocation to a mentor, summarize what was done in a period, or plan the next phase with a timeline.
+description: Build retrospective or forward-looking work timelines from git history, docs, notes, or chat records. Use for progress summaries, mentor reports, and phase planning.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

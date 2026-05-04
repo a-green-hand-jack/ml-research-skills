@@ -1,6 +1,6 @@
 ---
 name: related-work-positioning-writer
-description: Plan, draft, and revise related work for ML/AI papers as novelty-boundary writing. Use when the user needs closest-work grouping, citation role assignment, related-work paragraph plans, boundary statements, safe novelty wording, or a related-work section that aligns with paper positioning and citation coverage.
+description: Draft ML/AI related work as novelty-boundary writing. Use for closest-work grouping, citation roles, paragraph plans, boundary statements, and safe novelty wording.
 argument-hint: "[paper-dir-or-project-root] [--mode plan|draft|revise|audit] [--venue <venue>]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

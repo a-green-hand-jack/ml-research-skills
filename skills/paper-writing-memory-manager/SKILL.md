@@ -1,6 +1,6 @@
 ---
 name: paper-writing-memory-manager
-description: Maintain a dynamic writing memory for ML/AI papers across nonlinear drafting sessions. Use when writing state, section status, claim-to-text dependencies, edit impact, style/terminology decisions, open writing threads, stale prose, or cross-section change propagation must be tracked while sections, captions, tables, figures, claims, and evidence evolve.
+description: Maintain dynamic writing memory for nonlinear ML/AI paper drafting. Use to track section status, claim-text dependencies, style decisions, stale prose, and edit impact.
 argument-hint: "[paper-dir] [--mode init|snapshot|update|impact|handoff|close-session]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

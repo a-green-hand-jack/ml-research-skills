@@ -1,6 +1,6 @@
 ---
 name: paper-draft-consistency-editor
-description: Audit and edit an ML/AI paper draft for internal consistency after sections exist. Use when the user wants title, abstract, introduction, method, experiments, figures, tables, captions, claims, terminology, limitations, and conclusion to tell the same story without acting as a hostile reviewer.
+description: Edit ML/AI paper drafts for internal consistency. Use after sections exist to align claims, terminology, figures, tables, captions, limitations, and conclusion.
 argument-hint: "[paper-dir] [--mode audit|edit|report] [--scope full|claims|terms|figures|results]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

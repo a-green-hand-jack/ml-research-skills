@@ -1,6 +1,6 @@
 ---
 name: camera-ready-finalizer
-description: Finalize an accepted ML or AI paper for camera-ready submission after reviews, rebuttal, and acceptance. Use this skill whenever the user has an accepted paper, camera-ready deadline, final revision, acceptance email, meta-review, rebuttal promises, author-response commitments, de-anonymization tasks, supplement updates, code links, acknowledgements, final LaTeX checks, or needs to ensure the accepted paper's claims, figures, references, and artifacts are consistent before final submission.
+description: Finalize accepted ML/AI papers for camera-ready submission. Use for de-anonymization, rebuttal promises, supplement updates, final LaTeX checks, and release handoff.
 argument-hint: "[paper-dir] [--venue <venue>] [--mode audit|finalize|check|handoff]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

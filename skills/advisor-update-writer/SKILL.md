@@ -1,6 +1,6 @@
 ---
 name: advisor-update-writer
-description: Write decision-oriented advisor, mentor, lab meeting, or research progress updates from project memory, experiment reports, papers, code changes, logs, and notes. Use this skill whenever the user needs a weekly update, advisor email, meeting note, progress memo, decision request, blocker summary, project status report, or concise research update that connects evidence, risks, options, asks, and next actions.
+description: Write advisor, mentor, lab-meeting, or collaborator updates. Use for weekly updates, progress memos, decision requests, blocker summaries, and next actions.
 argument-hint: "[project-dir] [--audience advisor|lab|collaborator] [--mode weekly|decision|meeting|email]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

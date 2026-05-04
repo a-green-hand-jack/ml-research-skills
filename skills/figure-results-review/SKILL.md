@@ -1,6 +1,6 @@
 ---
 name: figure-results-review
-description: Review ML or AI experiment figures, rendered figure assets, LaTeX figure wrappers, plots, figure captions, visual descriptions, result narratives, and paper visual style before they are shown in a paper, advisor meeting, report, slide deck, rebuttal, or submission. Use this skill whenever the user has experimental plots, figure screenshots, figure captions, draft result sections, paper figures under figures/*.tex plus figures/*.pdf/png, or wants to audit figure style choices such as color, typography, markers, symbols, line widths, sizing, and venue-consistent conventions.
+description: Review ML/AI result figures, captions, LaTeX wrappers, and visual style. Use for paper plots, figure screenshots, result narratives, and venue-ready figure polish.
 argument-hint: "[project-dir-or-results-file] [--mode paper|meeting|slide|rebuttal|diagnosis] [--venue <venue>]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

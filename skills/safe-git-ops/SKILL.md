@@ -1,6 +1,6 @@
 ---
 name: safe-git-ops
-description: "Perform common Git operations safely with sandbox-aware failure handling. Use whenever the user wants to inspect or modify git state, especially for cherry-pick, merge, rebase, commit, branch, stash, or worktree workflows. Always use this skill when the user mentions a Git failure, conflict, cherry-pick, merge issue, worktree, branch checkout problem, lock file, permission denied, operation not permitted, or any case where a sandboxed agent might confuse an environment restriction with a real code conflict. Be proactive: if the task smells like Git state or Git write behavior, use this skill even if the user did not explicitly ask for a 'Git' workflow."
+description: "Perform Git operations safely with sandbox-aware failure handling. Use for commit, push, merge, rebase, stash, worktree, conflicts, lock files, permission errors, or Git state diagnosis."
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

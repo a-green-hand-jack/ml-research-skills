@@ -1,6 +1,6 @@
 ---
 name: rebuttal-strategist
-description: Plan and write strategic rebuttals after real paper reviews arrive. Use this skill whenever the user has OpenReview reviews, reviewer comments, scores, confidence ratings, meta-reviews, author response windows, or wants to decide which experiments to run, infer reviewer intent, draft point-by-point responses, prepare follow-up discussion replies, or improve wording after reviews for ML/AI venues such as NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, or similar conferences.
+description: Plan and write ML/AI rebuttals after real reviews arrive. Use for reviewer intent, response strategy, follow-up experiments, point-by-point replies, and revision promises.
 argument-hint: "[paper-dir] [--venue <venue>] [--openreview <forum-url>] [--mode plan|draft|followup]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

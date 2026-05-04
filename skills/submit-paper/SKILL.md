@@ -1,6 +1,6 @@
 ---
 name: submit-paper
-description: Pre-submission checklist for LaTeX academic papers. Use when the user wants to submit a paper, check submission readiness, prepare camera-ready, switch to final mode, or verify a paper is ready for a conference deadline.
+description: Check LaTeX academic papers before submission. Use for readiness, final mode, camera-ready preparation, source hygiene, and conference deadlines.
 argument-hint: "[project-dir] [--venue <venue>] [--mode <anonymous|camera-ready|arxiv>] [--compile]"
 allowed-tools: Read, Edit, Bash, Glob, Grep
 ---

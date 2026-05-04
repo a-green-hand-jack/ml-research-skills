@@ -1,6 +1,6 @@
 ---
 name: paper-result-asset-builder
-description: Build paper-facing result assets from CSV experiment outputs. Use when the user has raw or aggregated CSV results and wants to inventory available evidence, select rows/slices, aggregate seeds, generate or update LaTeX tables, create publication figures, record provenance, or distinguish paper-facing figures from experiment-time visualizations.
+description: Build paper-facing tables and figures from CSV experiment outputs. Use to inventory evidence, aggregate seeds, select result slices, generate LaTeX assets, and record provenance.
 argument-hint: "[project-dir] [--claim <claim-id-or-text>] [--asset table|figure|inventory|provenance]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

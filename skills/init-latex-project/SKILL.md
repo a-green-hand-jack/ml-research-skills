@@ -1,6 +1,6 @@
 ---
 name: init-latex-project
-description: Initialize LaTeX Academic Project with standard structure, macros, and writing guide. Use when user wants to create a new LaTeX paper project for any conference or journal.
+description: Initialize a LaTeX academic paper project. Use for new conference or journal papers needing templates, macros, venue preambles, and writing guidance.
 argument-hint: <project-name> [target-dir] [--venue <icml|acl|emnlp|naacl|iccv|eccv|neurips|iclr|cvpr|acm>] [--git] [--offline]
 allowed-tools: Read, Write, Bash, Glob, WebSearch, WebFetch
 ---

@@ -1,6 +1,6 @@
 ---
 name: method-section-explainer
-description: Plan, draft, and revise ML/AI method sections for clarity, notation flow, module ordering, algorithm boxes, overview figures, design rationales, and appendix boundaries. Use when the method exists but needs to be explained clearly in paper prose.
+description: Plan and draft ML/AI method sections. Use for notation flow, module ordering, algorithm boxes, overview figures, design rationale, and appendix boundaries.
 argument-hint: "[paper-dir] [--mode plan|draft|revise] [--method-type algorithm|model|system|benchmark|theory]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

@@ -1,6 +1,6 @@
 ---
 name: result-diagnosis
-description: Diagnose surprising, negative, unstable, or ambiguous ML/AI experiment results and decide whether to debug implementation, rerun experiments, change metrics or baselines, revise the algorithm, narrow the paper claim, park, or kill a direction. Use this skill whenever results do not match expectations, a method fails, metrics conflict, seeds vary, baselines beat the method, plots look suspicious, or the user asks what to do next after experimental results.
+description: Diagnose surprising or negative ML/AI results. Use when methods fail, metrics conflict, seeds vary, baselines win, plots look suspicious, or next action is unclear.
 argument-hint: "[project-dir] [--result <summary>] [--mode quick|full|debug|decision]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

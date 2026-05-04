@@ -1,6 +1,6 @@
 ---
 name: paper-introduction-argument-writer
-description: Plan, draft, and revise ML/AI paper introductions as a venue-aware argument chain. Use when the user wants introduction structure, paragraph roles, hook/gap/insight/method/result/contribution flow, contribution bullets, or intro-level claim framing rather than general paper polishing.
+description: Plan and draft ML/AI introductions as venue-aware argument chains. Use for hook, gap, insight, method, result, contribution flow, and paragraph roles.
 argument-hint: "[paper-dir] [--venue <venue>] [--archetype <type>] [--mode plan|draft|revise]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

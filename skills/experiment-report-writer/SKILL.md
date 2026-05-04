@@ -1,6 +1,6 @@
 ---
 name: experiment-report-writer
-description: Write structured experiment report documents from ML/research experiment notes, configs, logs, metrics, tables, and figures. Use this skill whenever the user asks to write an experiment report, research update, mentor update, weekly experiment summary, result analysis document, or presentation-ready experiment writeup, especially when the output should explain motivation, setup, algorithms, metrics, results, figures, interpretation, conclusions, limitations, and next steps.
+description: Write structured experiment reports from notes, configs, logs, metrics, tables, and figures. Use for result analysis, research updates, and presentation-ready summaries.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

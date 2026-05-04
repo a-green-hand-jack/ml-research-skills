@@ -1,6 +1,6 @@
 ---
 name: literature-review-sprint
-description: Guide a focused CS or AI literature review sprint that turns a topic, idea, claim, or project direction into a ranked paper map, closest-work risk assessment, method taxonomy, novelty implications, baseline implications, and next actions. Use this skill whenever the user needs to survey a topic, check novelty, map related work, prepare a project, find canonical or recent papers, decide read/skim/ignore priority, or turn papers into a research direction.
+description: Run a focused CS/AI literature review sprint. Use to survey a topic, map related work, check novelty, rank papers, assess closest-work risk, and derive next actions.
 argument-hint: "[topic-or-project-dir] [--area <area>] [--mode quick|full|novelty|baseline|positioning]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

@@ -1,6 +1,6 @@
 ---
 name: research-idea-validator
-description: Help a CS or AI PhD student turn a rough research idea into a validated next-step decision using the FIVE+C framework. Use this skill whenever the user says they have a research idea, wants to know whether an idea is worth pursuing, needs help choosing between project directions, is preparing to pitch an idea to an advisor or senior student, or feels unsure whether a project is too incremental, too ambitious, already solved, hard to evaluate, or missing resources.
+description: Validate rough CS/AI research ideas with the FIVE+C framework. Use to decide pursue, revise, park, or kill based on novelty, feasibility, evidence, and risks.
 argument-hint: "[idea-notes-or-project-dir] [--area <area>] [--decision pursue|revise|park|kill]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

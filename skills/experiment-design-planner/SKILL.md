@@ -1,6 +1,6 @@
 ---
 name: experiment-design-planner
-description: Design hypothesis-driven ML/AI experiments before running them. Use this skill whenever the user wants to plan experiments, ablations, baselines, metrics, controls, seeds, logging, stop conditions, reviewer-proof evidence, or an experiment matrix for a paper claim before using run-experiment or writing results.
+description: Design hypothesis-driven ML/AI experiments before running. Use for ablations, baselines, metrics, controls, seeds, logging, and claim-evidence matrices.
 argument-hint: "[project-dir] [--claim <claim>] [--mode single|ablation|benchmark|theory|diagnostic]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

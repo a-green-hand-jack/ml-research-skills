@@ -1,6 +1,6 @@
 ---
 name: research-project-memory
-description: Initialize, inspect, and maintain a hierarchical memory system for an ML research project across paper, code, worktrees, slides, reviewer simulation, rebuttal, experiments, claim lifecycle, evidence provenance, risks, actions, handoffs, and phase dashboard state. Use this skill whenever the user wants cross-session project memory, project bootstrapping context, feedback-loop tracking, claim/evidence/provenance/risk/action/handoff alignment, worktree memory, project phase orientation, or consistency between code results, paper writing, slides, reviews, and rebuttal.
+description: Maintain hierarchical ML research project memory. Use for claim, evidence, provenance, risk, action, handoff, worktree, phase, source-visibility, paper/code/slides, review, and rebuttal state.
 argument-hint: "[project-root] [--bootstrap] [--closeout] [--check]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

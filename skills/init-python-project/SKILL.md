@@ -1,6 +1,6 @@
 ---
 name: init-python-project
-description: Initialize Python Project (New or Fork). Use when the user wants to create a new production-ready Python/ML project structure, or fork and enhance an existing project. Uses uv for environment management.
+description: Initialize or enhance a Python/ML project. Use for new repos or forks needing production structure, uv environment setup, and research evidence docs.
 argument-hint: (interactive — no arguments needed, the skill asks questions)
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

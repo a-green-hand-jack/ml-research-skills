@@ -1,6 +1,6 @@
 ---
 name: skill-system-auditor
-description: Audit a skill repository or installed skill collection for global consistency, lifecycle coverage, routing quality, documentation drift, memory writeback coverage, stale future-skill references, broken helper paths, and validation readiness. Use this skill whenever the user asks for a global consistency audit, skill taxonomy review, lifecycle audit, cross-skill routing audit, README or AGENTS inventory consistency check, or maintenance pass over a collection of agent skills.
+description: Audit a skill collection for consistency, lifecycle coverage, routing, documentation drift, memory writeback, stale references, helper paths, and validation readiness.
 argument-hint: "[repo-dir] [--mode audit|fix|report] [--scope lifecycle|docs|routing|memory|all]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
