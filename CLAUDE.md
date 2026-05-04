@@ -104,6 +104,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of citation keys, BibTeX entries, metadata, citation claims, labels, and LaTeX references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
+| `token-usage-auditor` | Audit project token usage from local Codex and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations safely, especially around worktrees, sandboxed writes, and failure diagnosis |
 | `remote-project-control` | Recover project memory and coordinate safe local, Git remote, and SSH/HPC/RunAI server workflows for a research repo |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
@@ -154,4 +155,5 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`remote-project-control`**: Use this before server-heavy work when a repo is edited locally, synced through a Git remote, and run on SSH/HPC/RunAI servers. It establishes repo-native project memory and keeps local / Git remote / server state explicit across sessions. For GitHub Projects, treat `gh project ...` as GitHub API work requiring the `project` token scope, separate from normal Git SSH push.
 - **`init-latex-project`**: Invoked by `project-init` via `scripts/init.sh`. Always expand `~` to the actual home path when calling the script.
 - **`init-python-project`**: Treat `experiments/` as runnable logic. Code-side evidence belongs in `docs/results/`, `docs/reports/`, and `docs/runs/`; raw outputs, logs, checkpoints, tensorboard caches, and wandb runs stay ignored or external. Default Python gates are `uv sync`, `ruff format --check`, `ruff check`, `mypy`, `pytest`, and `pre-commit`, with optional gates for secrets, shell scripts, notebooks, GitHub Actions, configs, and docs links. Mutating format/fix commands run only when requested or documented by policy.
+- **`token-usage-auditor`**: Use when measuring Codex and Claude Code token burn as project attention and cost telemetry. It scans local logs without copying raw prompts into project memory.
 - **`skill-system-auditor`**: Use when maintaining this repository as a collection: inventory drift, lifecycle gaps, routing quality, memory writeback coverage, stale future-skill references, and validation readiness.

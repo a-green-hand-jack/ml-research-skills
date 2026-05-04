@@ -78,6 +78,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
+| `token-usage-auditor` | Audit project token usage from local Codex and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
@@ -678,6 +679,7 @@ flowchart TD
         DOC[update-docs]
         TAG[add-git-tag]
         TL[work-timeline-planner]
+        TOK[token-usage-auditor]
         SSA[skill-system-auditor]
         AU --> EDP
         AU --> SDB
@@ -686,6 +688,8 @@ flowchart TD
         SDB --> TRR
         DOC --> TAG
         TL --> AU
+        TOK --> TL
+        TOK --> AU
     end
 
     M <--> A
@@ -710,7 +714,8 @@ The most important feedback loops are:
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
-- **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
+- **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, `token-usage-auditor`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
+- **Token telemetry to project management**: `token-usage-auditor` reads local Codex and Claude Code logs to summarize attention allocation, fresh token burn, cache reuse, and high-friction sessions without copying raw prompts into project memory.
 
 ### 0. Project Memory and Coordination
 
@@ -812,6 +817,7 @@ Use these skills to keep the project understandable, publishable, and easy to ha
 | **release-code** | Prepare a public research code release with repo hygiene, README, license, citation, and tagging |
 | **skill-system-auditor** | Audit the skill collection itself for lifecycle, routing, memory, documentation, and validation consistency |
 | **work-timeline-planner** | Summarize past work or plan future work from git history, docs, and notes |
+| **token-usage-auditor** | Summarize Codex and Claude Code token burn as project attention, cost, cache reuse, and yield telemetry |
 | **add-git-tag** | Mark a milestone with an annotated git tag |
 
 ### 8. Git Safety
@@ -1046,9 +1052,10 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 39. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
 40. release-code    -> prepare the public code release when needed
 41. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-42. update-docs     -> refresh docs after meaningful code changes
-43. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-44. add-git-tag     -> mark a milestone
+42. token-usage-auditor -> audit Codex/Claude Code token burn and project attention
+43. update-docs     -> refresh docs after meaningful code changes
+44. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+45. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides

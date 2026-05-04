@@ -1,0 +1,4 @@
+interface:
+  display_name: "Token Usage Auditor"
+  short_description: "Audit Codex and Claude Code token usage for a project."
+  default_prompt: "Summarize token usage for this project from local Codex and Claude Code logs."

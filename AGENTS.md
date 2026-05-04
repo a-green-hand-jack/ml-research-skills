@@ -4,7 +4,7 @@ Guidance for AI coding agents working in this repository.
 
 ## Repository Overview
 
-This repo is **ml-research-skills** — a collection of agent skills for ML researchers. Each skill lives under `skills/<skill-name>/` as an instruction bundle centered on `SKILL.md`, with optional `scripts/` and `templates/` directories.
+This repo is **ml-research-skills** — a collection of agent skills for ML researchers. Each skill lives under `skills/<skill-name>/` as an instruction bundle centered on `SKILL.md`, with optional `references/`, `scripts/`, `templates/`, and `agents/` directories.
 
 Skills in this repo are installed with:
 
@@ -159,6 +159,11 @@ ml-research-skills/
     │   ├── SKILL.md
     │   ├── references/
     │   └── templates/
+    ├── token-usage-auditor/
+    │   ├── SKILL.md
+    │   ├── agents/
+    │   ├── references/
+    │   └── scripts/
     ├── project-init/
     │   └── SKILL.md
     ├── project-sync/
@@ -232,6 +237,7 @@ ml-research-skills/
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
+| `token-usage-auditor` | Audit project token usage from local Codex and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
