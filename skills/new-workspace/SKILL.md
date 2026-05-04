@@ -238,6 +238,7 @@ Create or update `.agent/worktree-status.md` with paper-version fields:
   - author-visible / Overleaf: remove or avoid `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, private paths, and agent-only notes
   - conference anonymous: enforce anonymity and venue format; source comments may still be risky if the source is uploaded, so do not rely on them
   - camera-ready: de-anonymize, add acknowledgements/funding, close rebuttal promises, and remove draft-only notes
+- source-format gate: `tex-fmt --check --nowrap --recursive .` when `tex-fmt` is installed; format with `tex-fmt --nowrap --recursive .` only after the user requests it or the project policy requires it
 - Overleaf/GitHub compile status and branch mapping, if used
 
 Do not copy code-side `docs/results/`, `docs/reports/`, or `docs/runs/` conventions into paper worktrees unless the user explicitly wants paper-local notes. Prefer `.agent/` for paper-version memory and root `memory/` for durable cross-version state.
@@ -253,7 +254,7 @@ uv sync
 
 If `uv sync` fails, report the error but do not delete the worktree. The user may still want to inspect or fix the branch.
 
-For paper worktrees, do not install TeX by default. Use the project's compile workflow: local static checks plus GitHub-linked Overleaf unless the user explicitly wants local TeX.
+For paper worktrees, do not install TeX by default. Use the project's compile workflow: local static checks plus `tex-fmt` when available plus GitHub-linked Overleaf unless the user explicitly wants local TeX.
 
 ## Step 9 - Write Worktree Memory
 

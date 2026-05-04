@@ -10,6 +10,22 @@ Do not assume local TeX Live, MacTeX, `pdflatex`, `xelatex`, or `lualatex` is in
 
 Use Overleaf logs and PDF preview as the compile source of truth unless the user explicitly asks for local compilation.
 
+## Source Formatting
+
+If `tex-fmt` is installed, use it as the default LaTeX source-format check:
+
+```bash
+tex-fmt --check --nowrap --recursive .
+```
+
+Do not run formatting silently during submission or release checks. When formatting is requested, run:
+
+```bash
+tex-fmt --nowrap --recursive .
+```
+
+Then review the diff before committing or pushing. Use a project-local `tex-fmt` config if one exists; otherwise keep `--nowrap` so routine formatting does not reflow long prose lines.
+
 ## Paper Version Worktrees
 
 If this paper belongs to a project control root, paper versions may live in sibling worktrees under `../paper-worktrees/`.

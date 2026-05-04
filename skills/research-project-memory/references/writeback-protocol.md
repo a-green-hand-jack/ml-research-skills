@@ -17,10 +17,10 @@ Write the smallest durable update that will help the next session. Do not turn m
 | A concrete task needs to be tracked | `memory/action-board.md` |
 | Project phase, active gate, readiness, stale objects, or next phase trigger changes | `memory/phase-dashboard.md` |
 | One module produces payload another module should consume | `memory/handoff-board.md` |
-| Paper branch/worktree/source package visibility, Overleaf sync audience, allowed/forbidden source files, or cleanup gate changes | `memory/source-visibility-board.md` |
+| Paper branch/worktree/source package visibility, Overleaf sync audience, allowed/forbidden source files, cleanup gate, or source-format gate changes | `memory/source-visibility-board.md` |
 | A concrete task should be visible to collaborators or attached to a PR/issue | GitHub issue/PR/project item plus a short pointer in `memory/action-board.md` when it affects claims, evidence, risks, or worktrees |
 | Paper section status, writing decision, figure location | `paper/.agent/` |
-| Paper version target, template differences, source visibility, cleanup policy, compile workflow | relevant paper worktree `.agent/worktree-status.md` plus durable decisions in `memory/decision-log.md` |
+| Paper version target, template differences, source visibility, cleanup policy, compile workflow, source-format status | relevant paper worktree `.agent/worktree-status.md` plus durable decisions in `memory/decision-log.md` |
 | Code architecture, implementation status, experiment entry point, remote execution pointer | `code/.agent/` or relevant code worktree `.agent/` |
 | Worktree created, merged, parked, killed, or found stale | `memory/component-index.yaml`, `<component>/.agent/worktree-index.md`, and the relevant worktree `.agent/worktree-status.md` |
 | Code-side result summaries, experiment reports, and run pointers | `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, plus project evidence board summaries |
@@ -49,8 +49,8 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `paper-evidence-gap-miner`: write evidence-gap handoffs to experiment design only after checking existing result sources.
 - `paper-result-asset-builder`: write CSV/report-to-figure/table provenance and handoffs to figure/table review or result prose writing.
 - `new-workspace`: write paper worktree source visibility tier, sync target, cleanup gate, and forbidden-file policy when creating paper worktrees.
-- `submit-paper`: write final pre-submission blockers, readiness decisions, source visibility audit status, and cleanup actions for author-visible, anonymous, arXiv, camera-ready, or publisher-visible source.
-- `init-latex-project`: initialize paper-local source hygiene policy and default ignore rules so agent-private files do not enter visible paper source by accident.
+- `submit-paper`: write final pre-submission blockers, readiness decisions, `tex-fmt`/source-format status, source visibility audit status, and cleanup actions for author-visible, anonymous, arXiv, camera-ready, or publisher-visible source.
+- `init-latex-project`: initialize paper-local source hygiene, source-format policy, and default ignore rules so agent-private files do not enter visible paper source by accident.
 - `paper-positioning-planner`: write paper archetype, contribution hierarchy, scoped claims, related-work boundary, and positioning actions.
 - `conference-writing-adapter`: write section mapping, claim wording decisions, and writing risks.
 - `paper-writing-memory-manager`: write stale prose, dependency, provisional-result, and section-state pointers into paper-local memory; summarize cross-component effects through claim, provenance, handoff, or action boards when needed.

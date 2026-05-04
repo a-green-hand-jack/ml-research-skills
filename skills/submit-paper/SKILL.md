@@ -7,7 +7,7 @@ allowed-tools: Read, Edit, Bash, Glob, Grep
 
 # Submit Paper — Pre-Submission Checklist
 
-Run a systematic readiness check on a LaTeX paper project before submitting to a conference. Covers submission mode, mandatory sections, drafting artifacts, bibliography, anonymity, and optional compilation.
+Run a systematic readiness check on a LaTeX paper project before submitting to a conference. Covers submission mode, mandatory sections, drafting artifacts, bibliography, anonymity, source formatting, and optional compilation.
 
 Do not assume the local machine has TeX Live, MacTeX, or another LaTeX distribution installed. Many macOS research workflows edit locally, sync through GitHub, and compile on Overleaf. If `pdflatex`, `xelatex`, or `lualatex` is missing, do not ask the user to install TeX unless they explicitly want local compilation. Use static checks locally and route compile/page-count verification through the GitHub-linked Overleaf project.
 
@@ -75,11 +75,32 @@ The script performs:
 | Mandatory sections | Venue-specific required sections (see below) |
 | Abstract length | ~30–350 words (warns outside range) |
 | Figures & tables | All `\label{fig:*}` and `\label{tab:*}` are `\ref`'d |
+| Source formatting | optional `tex-fmt --check --nowrap --recursive .` when `tex-fmt` is installed |
 | Compilation | optional local LaTeX compile when a compiler exists; otherwise verify PDF/page count in Overleaf |
 
 ---
 
-## Step 4 — Handle Overleaf/GitHub compilation
+## Step 4 — Handle source formatting
+
+If `tex-fmt` is installed, the check script runs it in check mode only:
+
+```bash
+tex-fmt --check --nowrap --recursive .
+```
+
+Treat a formatting mismatch as a warning unless the user or project policy makes formatting a blocking gate. Do not format source silently during a submission check. Offer to run:
+
+```bash
+tex-fmt --nowrap --recursive .
+```
+
+then review the diff before committing or pushing. Use project-local `tex-fmt` config if present. Keep `--nowrap` as the default fallback so formatter runs do not reflow long prose lines unless the project explicitly opts into wrapping.
+
+If `tex-fmt` is missing, do not ask the user to install it just to continue. Report that the optional format check was skipped.
+
+---
+
+## Step 5 — Handle Overleaf/GitHub compilation
 
 Use this workflow when the user says they compile in Overleaf, when the paper repo is linked to Overleaf through GitHub, or when local LaTeX commands are missing.
 
@@ -107,7 +128,7 @@ If project memory exists and the paper source is visible to coauthors, reviewers
 
 ---
 
-## Step 5 — Fix submission mode in venue_preamble.tex
+## Step 6 — Fix submission mode in venue_preamble.tex
 
 After reading the script output, check `venue_preamble.tex` and verify the `\usepackage` option matches what the user said in Step 2.
 
@@ -123,7 +144,7 @@ Ask "Should I update `venue_preamble.tex` to `[mode]` mode?" — then edit if co
 
 ---
 
-## Step 6 — Check source visibility and cleanup
+## Step 7 — Check source visibility and cleanup
 
 Different paper versions have different source hygiene requirements. Source visibility is independent of venue. If the branch is linked to Overleaf/GitHub or visible to coauthors, treat it as `author-visible`, not private.
 
@@ -160,13 +181,14 @@ Use judgment before deleting. Some words such as "description" may be legitimate
 
 ---
 
-## Step 7 — Report findings and action plan
+## Step 8 — Report findings and action plan
 
 Present results in a structured format:
 
 Mention the local/Overleaf compile state explicitly:
 
 - local static-check result
+- `tex-fmt` status: passed, changes needed, or skipped because unavailable
 - Overleaf/GitHub compile status if known, or "pending Overleaf compile" if the user must verify it there
 - whether local LaTeX was skipped because no compiler exists
 - version workspace status: main paper repo or specific paper worktree
@@ -193,11 +215,12 @@ For each failure or warning, provide the **specific file and line** and the **ex
 
 ---
 
-## Step 8 — Offer targeted fixes
+## Step 9 — Offer targeted fixes
 
 For common failures, offer to fix them immediately:
 
 - **Drafting artifacts**: Show the list; ask if you should remove them.
+- **Source formatting**: If `tex-fmt` reports changes, offer to run `tex-fmt --nowrap --recursive .` and then review the diff.
 - **Missing mandatory sections**: Offer to create a placeholder that the user can fill in.
 - **Wrong submission mode**: Offer to edit `venue_preamble.tex`.
 - **Source hygiene issues**: For author-visible/public/submission source, offer to remove or relocate `.agent/`, AGENTS/CLAUDE guidance, internal comments, figure/table descriptions, reviewer notes, TODOs, raw CSVs, plotting scripts, provenance docs, and author comment macros after showing the diff scope.
@@ -302,6 +325,7 @@ arXiv has different packaging requirements from venue submission:
 - Flatten `\input{...}` if using many files (some arXiv setups require a single `.tex`)
 - Switch to `[preprint]` mode (removes venue branding / anonymization)
 - Include all `.sty`, `.bst`, `.cls` files in the zip
+- Run `tex-fmt --check --nowrap --recursive .` if available, then format only after reviewing the expected diff scope
 - Remove internal comments, TODOs, author comment macros, reviewer notes, private paths, and figure/table descriptions from public source
 - Remove any `\usepackage{times}` if it causes font issues on arXiv
 - arXiv compiles with an older TeX Live — check for package compatibility

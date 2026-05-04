@@ -108,9 +108,17 @@ For Overleaf/GitHub projects:
 
 - ensure the paper repo can have a GitHub remote
 - do not ask the user to install TeX Live just to validate edits
-- use local static checks, Git diff review, commit, and push
+- use local static checks, optional `tex-fmt` source-format checks, Git diff review, commit, and push
 - treat Overleaf's compile log and PDF preview as the compile source of truth
 - when compile errors appear in Overleaf, fix source locally and push again
+
+If `tex-fmt` is installed, record it as the default source-format checker:
+
+```bash
+tex-fmt --check --nowrap --recursive .
+```
+
+Do not format generated paper source silently. When the user wants formatting, run `tex-fmt --nowrap --recursive .` and review the diff before committing or pushing. If a project-local `tex-fmt` config exists, use it.
 
 ### 5. Record agent guidance policy
 
@@ -120,7 +128,7 @@ The generated paper repo should include both:
 - `CLAUDE.md`: Claude Code entrypoint with the same effective policy
 - `.gitignore`: paper-specific source visibility defaults that keep `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, provenance ledgers, notebooks, and plotting scripts out of visible paper source unless intentionally force-added
 
-Keep the two agent guidance files semantically aligned. Treat them as local/agent-private guidance by default; if the paper branch is linked to Overleaf or otherwise visible to coauthors, do not push them unless the user explicitly chooses to expose agent guidance.
+Keep the two agent guidance files semantically aligned, including the same `tex-fmt` check/format policy. Treat them as local/agent-private guidance by default; if the paper branch is linked to Overleaf or otherwise visible to coauthors, do not push them unless the user explicitly chooses to expose agent guidance.
 
 ### 6. Record paper version policy when inside a project root
 

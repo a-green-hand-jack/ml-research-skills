@@ -81,7 +81,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
-| `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, and optional compile checks |
+| `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, source formatting, and optional compile checks |
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |
@@ -312,6 +312,7 @@ Paper boundary rules:
 - `figures/*.tex` wraps a rendered figure asset. The figure description, caption, and main-text callout are separate artifacts.
 - `tables/*.tex` is the standalone table source/wrapper. The table description, caption, row/column semantics, and numeric provenance are separate artifacts.
 - Local macOS does not need TeX Live. The default compile path can be local edit -> GitHub push -> Overleaf compile.
+- If `tex-fmt` is installed, use `tex-fmt --check --nowrap --recursive .` as the default paper source-format gate. Run `tex-fmt --nowrap --recursive .` only when formatting is requested or required, then review the diff before push/submission.
 - Paper-facing claims should be backed by evidence links in root `memory/` and, when needed, code-side reports under `code/docs/`.
 - Different paper versions should use paper worktrees under `paper-worktrees/` when they need different templates, venue modes, anonymity rules, arXiv cleanup, or camera-ready edits.
 - Paper source visibility is independent of venue. If `paper/main` syncs to Overleaf through GitHub, treat it as `author-visible`, not private.
@@ -330,7 +331,7 @@ Primary skills in `paper/`:
 | Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **paper-result-asset-builder**, **figure-results-review**, **paper-evidence-board** |
 | Tables | `tables/*.tex` | **paper-result-asset-builder**, **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
 | Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
-| Pre-submission | anonymity, required sections, mode, compile state | **submit-paper**, **paper-reviewer-simulator** |
+| Pre-submission | anonymity, required sections, mode, source formatting, compile state | **submit-paper**, **paper-reviewer-simulator** |
 | Reviews and final paper | reviews, rebuttal promises, camera-ready state | **rebuttal-strategist**, **camera-ready-finalizer** |
 
 ### Paper Worktrees
@@ -714,7 +715,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
-| **submit-paper** | Run final submission readiness checks for format, anonymity, required sections, and compilation |
+| **submit-paper** | Run final submission readiness checks for source formatting, anonymity, required sections, and compilation |
 
 ### 5. Review, Rebuttal, and Revision
 
@@ -802,7 +803,7 @@ For the person turning research evidence into a submission:
 | **paper-draft-consistency-editor** | Check and fix internal consistency across the completed draft without changing the selected paper story |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
-| **submit-paper** | Check final submission readiness |
+| **submit-paper** | Check final submission readiness, including source formatting |
 
 ### Paper Writing Stack
 
@@ -1326,6 +1327,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Drafting artifacts such as TODOs and comment macros
 - Venue-specific required sections and bibliography presence
 - Basic anonymity issues for blind review
+- Optional `tex-fmt --check --nowrap --recursive .` source formatting when `tex-fmt` is installed
 - Optional local compile checks when a LaTeX compiler exists
 - Overleaf/GitHub compile workflow guidance when local TeX Live is not installed
 

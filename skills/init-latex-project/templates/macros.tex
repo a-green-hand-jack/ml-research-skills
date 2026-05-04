@@ -50,13 +50,19 @@
 
 %%% Chinese ###
 \usepackage{CJK}
-\newcommand{\zh}[1]{\begin{CJK}{UTF8}{bsmi}\normalfont\small #1\end{CJK}} % 繁體中文
-\newcommand{\zhs}[1]{\begin{CJK}{UTF8}{gbsn}\normalfont \small#1\end{CJK}}% 簡體中文 
+\newcommand{\zh}[1]{
+  \begin{CJK}{UTF8}{bsmi}\normalfont\small #1
+\end{CJK}} % 繁體中文
+\newcommand{\zhs}[1]{
+  \begin{CJK}{UTF8}{gbsn}\normalfont \small#1
+\end{CJK}}% 簡體中文
 %%%% \begin{CJK}{UTF8}{bsmi}\normalfont 中文\end{CJK} when word missing %%%
 
 %%%Claim%%%
-\newenvironment{claim}{  \begin{mdframed}[linecolor=black!0,backgroundcolor=black!10]\noindent%\itshape
-		\ignorespaces}{\end{mdframed}}
+\newenvironment{claim}{
+  \begin{mdframed}[linecolor=black!0,backgroundcolor=black!10]\noindent%\itshape
+  \ignorespaces}{
+\end{mdframed}}
 
 \let\originalfigure=\figure
 \let\endoriginalfigure=\endfigure
@@ -98,14 +104,16 @@
 
 \def\half{{\frac{1}{2}}}
 
-\newcommand{\bea}{\begin{eqnarray}}
-\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\bea}{
+\begin{eqnarray}}
+  \newcommand{\eea}{
+\end{eqnarray}}
 % \newcommand{\be}{\begin{equation}}
 % \newcommand{\ee}{\end{equation}}
 % \newcommand{\ba}{\begin{align}}
 % \newcommand{\ea}{\end{align}}
 
-\newcommand{\g}{\gamma} 
+\newcommand{\g}{\gamma}
 \newcommand{\G}{\Gamma}
 \newcommand{\m}{\mu}
 %\newcommand{\n}{\nu}
@@ -166,7 +174,6 @@
 \newcommand*{\colorC}[1]{\textcolor{colorC}{#1}}
 \newcommand*{\colorD}[1]{\textcolor{colorD}{#1}}
 
-
 % \let\tilde\widetilde
 % \let\hat\widehat
 
@@ -196,9 +203,6 @@
 \newcommand{\calX}{\mathcal{X}}
 \newcommand{\calY}{\mathcal{Y}}
 \newcommand{\calZ}{\mathcal{Z}}
-
-
-
 
 \newcommand{\bA}{\mathbf{A}}
 \newcommand{\bB}{\mathbf{B}}
@@ -248,15 +252,14 @@
 \newcommand{\diag}{\mathop{\rm{diag}}}
 \newcommand{\Max}{\mathop{\rm Max}}
 \newcommand{\Min}{\mathop{\rm Min}}
-\newcommand{\argmin}{\mathop{\mathrm{argmin}}}  
-\newcommand{\argmax}{\mathop{\mathrm{argmax}}}  
+\newcommand{\argmin}{\mathop{\mathrm{argmin}}}
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
 \newcommand{\Var}{\mathop{\mathrm{Var}}}
 \newcommand{\Sigmoid}{\mathop{\rm{Sigmoid}}}
 \newcommand{\Softmax}{\mathop{\rm{Softmax}}}
 \newcommand{\Sparsemax}{\mathop{\rm{Sparsemax}}}
 \newcommand{\Sign}{\mathop{\rm{Sign}}}
 \newcommand{\lse}{\mathop{\rm{lse}}}
-
 
 \newcommand{\sA}{\mathsf{A}}
 \newcommand{\sB}{\mathsf{B}}
@@ -315,7 +318,7 @@
   \thm@postskip\thm@preskip
 }
 \makeatother
-% 
+%
 % \usepackage[standard,hyperref,amsmath]{ntheorem}
 \makeatletter
 \newcommand{\prismmaybeboxenvironment}[1]{%
@@ -379,7 +382,6 @@
 \prismmaybecrefname{problem}{Problem}{Problems}
 \prismmaybecrefname{property}{Property}{Properties}
 
-
 \numberwithin{equation}{section}
 
 %=== footnote without marker ===
@@ -398,52 +400,52 @@
 \makeatletter
 % Only define these macros if they are not already provided by another package
 \@ifundefined{widebar}{%
-\let\save@mathaccent\mathaccent
-\newcommand*\if@single[3]{%
+  \let\save@mathaccent\mathaccent
+  \newcommand*\if@single[3]{%
     \setbox0\hbox{${\mathaccent"0362{#1}}^H$}%
     \setbox2\hbox{${\mathaccent"0362{\kern0pt#1}}^H$}%
     \ifdim\ht0=\ht2 #3\else #2\fi
-}
-%The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
-\newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
-%If there's a superscript following the bar, then no negative kern may follow the bar;
-%an additional {} makes sure that the superscript is high enough in this case:
-\newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
-%Use a separate algorithm for single symbols:
-\newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
-\newcommand*\wide@bar@[3]{%
+  }
+  %The bar will be moved to the right by a half of \macc@kerna, which is computed by amsmath:
+  \newcommand*\rel@kern[1]{\kern#1\dimexpr\macc@kerna}
+  %If there's a superscript following the bar, then no negative kern may follow the bar;
+  %an additional {} makes sure that the superscript is high enough in this case:
+  \newcommand*\widebar[1]{\@ifnextchar^{{\wide@bar{#1}{0}}}{\wide@bar{#1}{1}}}
+  %Use a separate algorithm for single symbols:
+  \newcommand*\wide@bar[2]{\if@single{#1}{\wide@bar@{#1}{#2}{1}}{\wide@bar@{#1}{#2}{2}}}
+  \newcommand*\wide@bar@[3]{%
     \begingroup
     \def\mathaccent##1##2{%
-        %Enable nesting of accents:
-        \let\mathaccent\save@mathaccent
-        %If there's more than a single symbol, use the first character instead (see below):
-        \if#32 \let\macc@nucleus\first@char \fi
-        %Determine the italic correction:
-        \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
-        \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
-        \dimen@\wd\tw@
-        \advance\dimen@-\wd\z@
-        %Now \dimen@ is the italic correction of the symbol.
-        \divide\dimen@ 3
-        \@tempdima\wd\tw@
-        \advance\@tempdima-\scriptspace
-        %Now \@tempdima is the width of the symbol.
-        \divide\@tempdima 10
-        \advance\dimen@-\@tempdima
-        %Now \dimen@ = (italic correction / 3) - (Breite / 10)
-        \ifdim\dimen@>\z@ \dimen@0pt\fi
-        %The bar will be shortened in the case \dimen@<0 !
-        \rel@kern{0.6}\kern-\dimen@
-        \if#31
-        \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
-        \advance\dimen@0.4\dimexpr\macc@kerna
-        %Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
-        \let\final@kern#2%
-        \ifdim\dimen@<\z@ \let\final@kern1\fi
-        \if\final@kern1 \kern-\dimen@\fi
-        \else
-        \overline{\rel@kern{-0.6}\kern\dimen@#1}%
-        \fi
+      %Enable nesting of accents:
+      \let\mathaccent\save@mathaccent
+      %If there's more than a single symbol, use the first character instead (see below):
+      \if#32 \let\macc@nucleus\first@char \fi
+      %Determine the italic correction:
+      \setbox\z@\hbox{$\macc@style{\macc@nucleus}_{}$}%
+      \setbox\tw@\hbox{$\macc@style{\macc@nucleus}{}_{}$}%
+      \dimen@\wd\tw@
+      \advance\dimen@-\wd\z@
+      %Now \dimen@ is the italic correction of the symbol.
+      \divide\dimen@ 3
+      \@tempdima\wd\tw@
+      \advance\@tempdima-\scriptspace
+      %Now \@tempdima is the width of the symbol.
+      \divide\@tempdima 10
+      \advance\dimen@-\@tempdima
+      %Now \dimen@ = (italic correction / 3) - (Breite / 10)
+      \ifdim\dimen@>\z@ \dimen@0pt\fi
+      %The bar will be shortened in the case \dimen@<0 !
+      \rel@kern{0.6}\kern-\dimen@
+      \if#31
+      \overline{\rel@kern{-0.6}\kern\dimen@\macc@nucleus\rel@kern{0.4}\kern\dimen@}%
+      \advance\dimen@0.4\dimexpr\macc@kerna
+      %Place the combined final kern (-\dimen@) if it is >0 or if a superscript follows:
+      \let\final@kern#2%
+      \ifdim\dimen@<\z@ \let\final@kern1\fi
+      \if\final@kern1 \kern-\dimen@\fi
+      \else
+      \overline{\rel@kern{-0.6}\kern\dimen@#1}%
+      \fi
     }%
     \macc@depth\@ne
     \let\math@bgroup\@empty \let\math@egroup\macc@set@skewchar
@@ -464,19 +466,18 @@
     \macc@nested@a\relax111{\first@char}%
     \fi
     \endgroup
-    }
+  }
 }{}
 \makeatother
 
-
-%%% sin, cos parentheses %%% 
+%%% sin, cos parentheses %%%
 \makeatletter
 \newcommand*{\redefinesymbolwitharg}[1]{%
   \expandafter\let\csname ltx#1\expandafter\endcsname\csname #1\endcsname
   \@namedef{#1}{\@ifnextchar{^}{\@nameuse{#1@}}{\@nameuse{#1@}^{}}}%
   \expandafter\def\csname #1@\endcsname^##1##2{%
-     \csname ltx#1\endcsname\ifx!##1!\else^{##1}\fi\mathopen{}\mathclose\bgroup\left(##2\aftergroup\egroup\right)
-     }%
+    \csname ltx#1\endcsname\ifx!##1!\else^{##1}\fi\mathopen{}\mathclose\bgroup\left(##2\aftergroup\egroup\right)
+  }%
 }
 \makeatother
 \newcommand{\sinp}[1]{\sin\left(#1\right)}
@@ -485,4 +486,4 @@
 % standard operator behavior and is hard to reason about across venues.
 % \redefinesymbolwitharg{sin}
 % \redefinesymbolwitharg{cos}
-%%% sin, cos parentheses %%% 
+%%% sin, cos parentheses %%%

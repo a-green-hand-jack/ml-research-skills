@@ -235,7 +235,7 @@ ml-research-skills/
 | `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
-| `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project |
+| `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project, including source formatting when `tex-fmt` is available |
 | `release-code` | Prepare and publish a research code repository for public release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs update and refresh affected documentation |

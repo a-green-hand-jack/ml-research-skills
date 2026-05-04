@@ -25,7 +25,7 @@ Use these phases:
 | `paper-asset-building` | Convert results into paper tables/figures | provenance-tracked assets |
 | `drafting` | Write sections from contract and evidence | section completeness and provisional result tracking |
 | `internal-review` | Simulate reviewers and check consistency | must-fix risk list |
-| `submission` | Prepare the final submission package | compile/readiness/anonymity/citation gates |
+| `submission` | Prepare the final submission package | compile/readiness/anonymity/citation/source-format gates |
 | `rebuttal` | Respond to real reviews | promised actions and response strategy |
 | `camera-ready` | Finalize accepted paper | fulfilled promises and final evidence lock |
 | `artifact-release` | Package artifact/code/reproduction | reproducible artifact and public release |
@@ -62,6 +62,6 @@ Before moving forward:
 - `evidence-production` -> important claims have verified or explicitly provisional evidence.
 - `drafting` -> writing contract and writing memory exist for active sections.
 - `internal-review` -> consistency editor and reviewer simulator issues have actions or accepted-risk decisions.
-- `submission` -> citation, anonymity, formatting, and evidence checks have no fatal blocker.
+- `submission` -> citation, anonymity, source-format, and evidence checks have no fatal blocker.
 - `camera-ready` -> rebuttal promises are fulfilled or explicitly resolved.
 - `artifact-release` -> reproduction path and release obligations are clear.

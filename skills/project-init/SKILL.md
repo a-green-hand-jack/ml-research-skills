@@ -264,6 +264,7 @@ The root guidance must state:
 - paper worktrees live under `paper-worktrees/` by default for venue, arXiv, and camera-ready versions
 - paper source visibility tiers are `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, and `publisher-artifact`
 - if `paper/main` syncs to Overleaf through GitHub, it is `author-visible`; do not put `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer strategy, or private paths into that visible source
+- if `tex-fmt` is installed, paper formatting gates use `tex-fmt --check --nowrap --recursive .`; run `tex-fmt --nowrap --recursive .` only when formatting is requested and review the diff before push/submission
 - root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
 - `code/docs/` is for code-side result summaries, run records, implementation reports, and server execution notes
 - experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
@@ -292,6 +293,8 @@ If creating a new paper repo, use `init-latex-project` at:
 If connecting an existing paper repo, clone or record its path and remote. Then inspect whether it is linked to Overleaf or visible to coauthors before creating or tracking agent-private files.
 
 Ensure the paper workspace has both `paper/AGENTS.md` and `paper/CLAUDE.md` when agents will edit it, but treat these as agent-private guidance by default. If the active branch is `author-visible`, `anonymous-submission`, `public-preprint`, or `camera-ready-public`, keep these files untracked, ignored, or in an `agent-private` worktree rather than pushing them to the visible source. Keep them aligned with the same paper-local compile, venue, source hygiene, figure, table, and memory rules.
+
+When `tex-fmt` is available, record it in the paper-local guidance as the source-format checker. Formatting status belongs with paper worktree/source-visibility state; it is not a substitute for Overleaf compile evidence.
 
 ### Code
 

@@ -18,7 +18,25 @@ If a local LaTeX compiler is missing, do not ask the user to install TeX unless 
 
 ---
 
-## 0.0 Source Visibility
+## 0.0 Source Formatting
+
+If `tex-fmt` is installed, use it as the default LaTeX source-format check:
+
+```bash
+tex-fmt --check --nowrap --recursive .
+```
+
+Do not run formatting silently during submission or release checks. When formatting is requested, run:
+
+```bash
+tex-fmt --nowrap --recursive .
+```
+
+Then review the diff before committing or pushing. Use a project-local `tex-fmt` config if one exists; otherwise keep `--nowrap` so routine formatting does not reflow long prose lines.
+
+---
+
+## 0.1 Source Visibility
 
 This file and `AGENTS.md` are agent-private guidance by default. If the current branch syncs to Overleaf through GitHub, treat the branch as `author-visible`, not private.
 
@@ -28,7 +46,7 @@ Allowed visible paper source usually includes `main.tex`, `venue_preamble.tex`, 
 
 ---
 
-## 0.1 Paper Version Worktrees and Source Hygiene
+## 0.2 Paper Version Worktrees and Source Hygiene
 
 If this paper belongs to a project control root, paper versions may live in sibling worktrees under `../paper-worktrees/`.
 

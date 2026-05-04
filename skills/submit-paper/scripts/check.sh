@@ -258,7 +258,23 @@ TAB_COUNT=$(echo "$TAB_LABELS" | grep -c "." || true)
   && pass "All figure/table labels referenced ($FIG_COUNT fig, $TAB_COUNT tab)" \
   || true  # individual warns already printed
 
-# ── 8. PDF compilation (optional) ─────────────────────────────────────────────
+# ── 8. Source formatting ─────────────────────────────────────────────────────
+section "Source Formatting"
+
+if command -v tex-fmt &>/dev/null; then
+  TEX_FMT_LOG=$(mktemp)
+  if tex-fmt --check --nowrap --recursive . > "$TEX_FMT_LOG" 2>&1; then
+    pass "tex-fmt check passed"
+  else
+    warn "tex-fmt found source formatting changes; run: tex-fmt --nowrap --recursive ."
+    head -20 "$TEX_FMT_LOG" | sed 's/^/      /'
+  fi
+  rm -f "$TEX_FMT_LOG"
+else
+  info "tex-fmt not installed; skipping optional source formatting check"
+fi
+
+# ── 9. PDF compilation (optional) ─────────────────────────────────────────────
 if $DO_COMPILE; then
   section "Compilation"
 

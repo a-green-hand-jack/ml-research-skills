@@ -61,6 +61,7 @@ Each entry should record:
 - allowed paths
 - forbidden paths
 - cleanup gate
+- source-format gate and latest `tex-fmt` status, when available
 - linked worktree ID
 - latest audit status
 
@@ -95,6 +96,14 @@ TODO, FIXME, internal, private path, reviewer note, response note, author commen
 ```
 
 Use judgment for legitimate prose. The audit is a gate, not a blind deletion script.
+
+When `tex-fmt` is installed, include a non-mutating source-format check:
+
+```text
+tex-fmt --check --nowrap --recursive .
+```
+
+Run `tex-fmt --nowrap --recursive .` only when formatting is requested or the project policy makes formatting a required cleanup action, then review the diff before pushing or packaging visible source.
 
 ## Relationship To Code Release
 
