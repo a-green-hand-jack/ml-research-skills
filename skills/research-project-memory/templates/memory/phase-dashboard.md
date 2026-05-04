@@ -17,13 +17,13 @@
 | idea | partial | pursue/revise/park/kill decision | CLM-000 | EVD-000 | RSK-000 | ACT-000 |
 | positioning | blocked | primary contribution and forbidden claims |  |  |  |  |
 | method-design | blocked | implementable design and experiment implications |  |  |  |  |
-| implementation | blocked | runnable method and baseline setup |  |  |  |  |
+| implementation | blocked | runnable method, baseline setup, and code toolchain gates |  |  |  |  |
 | experiment-design | blocked | experiment matrix and baseline policy |  |  |  |  |
 | evidence-production | blocked | verified evidence or revised claims |  |  |  |  |
 | paper-asset-building | blocked | provenance-tracked tables and figures |  |  |  |  |
 | drafting | blocked | section completeness and provisional result tracking |  |  |  |  |
 | internal-review | blocked | must-fix risk list |  |  |  |  |
-| submission | blocked | compile, anonymity, citation, and evidence readiness |  |  |  |  |
+| submission | blocked | compile, anonymity, citation, source-format, and evidence readiness |  |  |  |  |
 | rebuttal | blocked | promised actions and response strategy |  |  |  |  |
 | camera-ready | blocked | fulfilled promises and final evidence lock |  |  |  |  |
 | artifact-release | blocked | reproducible artifact and public release |  |  |  |  |

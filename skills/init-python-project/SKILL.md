@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 # Initialize Python Project
 
-Help the user create a production-ready Python project or upgrade an existing one without inlining large file bodies inside this skill. Use the bundled references and templates as the source of truth.
+Help the user create a production-ready Python project or upgrade an existing one without inlining large file bodies inside this skill. Use the bundled references and templates as the source of truth. Treat the Python toolchain as an explicit gate: default to non-mutating checks, run format/fix commands only when requested or required, and record the actual commands in repo guidance.
 
 ## Skill Directory Layout
 
@@ -72,6 +72,7 @@ Ask the user in a single message:
 4. For both:
    - GitHub repository URL for the target repo, if available
    - Author name and email
+   - Existing toolchain policy, if any: `ruff`, `black`, `isort`, `mypy`, `pyright`, `pytest`, `pre-commit`, CI, or custom commands
 
 Wait for the answer before continuing.
 
@@ -206,24 +207,29 @@ touch tests/outputs/.gitkeep
 
 Only create placeholders for directories that actually exist in the chosen project type.
 
-#### 2A.6 Install and verify
+#### 2A.6 Install and verify toolchain gates
 
 For ML projects:
 
 ```bash
+uv sync
 uv pip install -e ".[dev,ml]"
 ```
 
 For non-ML projects:
 
 ```bash
+uv sync
 uv pip install -e ".[dev]"
 ```
 
-Run an initial test:
+Run the default non-mutating gates. Omit paths that do not exist in the chosen project type:
 
 ```bash
-pytest tests/ -v
+uv run ruff format --check src tests experiments scripts
+uv run ruff check src tests experiments scripts
+uv run mypy src
+uv run pytest tests -v
 ```
 
 If there are no tests yet, create a placeholder test and rerun:
@@ -233,8 +239,10 @@ cat > tests/test_placeholder.py <<'EOF'
 def test_placeholder():
     assert True
 EOF
-pytest tests/
+uv run pytest tests/
 ```
+
+Do not run `uv run ruff format ...` or `uv run ruff check --fix ...` silently. Use those mutating commands only when the user requests formatting/fixes or a documented project policy requires them, then review the diff.
 
 #### 2A.7 Initialize git and optional remote
 
@@ -277,6 +285,7 @@ Produce a concise report showing:
 - Existing structure
 - Missing high-value components
 - Whether the repo is already installable
+- Which toolchain gates already exist
 - Whether docs/test isolation are missing
 
 Then ask whether to:
@@ -298,6 +307,7 @@ When the user approves edits, use the templates under `templates/common/` to fil
 - `pyproject.toml` if migrating from `requirements.txt`
 
 Do not force the full ML layout onto an existing repo unless the user explicitly wants that migration.
+Preserve an existing healthy toolchain. Do not replace `black`, `isort`, `pyright`, `pre-commit`, or CI commands just because the new scaffold defaults to `ruff`, `mypy`, and `pytest`.
 
 ## Template Application Rules
 
@@ -315,6 +325,7 @@ Report:
 ✓ Project type: <new|fork> / <ml|web|lib|general>
 ✓ Common scaffolding applied
 ✓ UV environment configured
+✓ Toolchain gates configured: format / lint / type-check / test
 ✓ Git status: initialized / existing repo reused
 ✓ Remote: <configured or skipped>
 
@@ -326,7 +337,11 @@ Next steps:
 3. Fill in project-specific settings
 4. Start implementing in src/<package_name>/
 5. Put stable experiment summaries in docs/results/, reports in docs/reports/, and run pointers in docs/runs/
-6. Run pytest before the next commit
+6. Run the toolchain gates before the next commit:
+   `uv run ruff format --check src tests experiments scripts`
+   `uv run ruff check src tests experiments scripts`
+   `uv run mypy src`
+   `uv run pytest tests -v`
 ```
 
 ## Important Notes
@@ -335,3 +350,4 @@ Next steps:
 - Keep this `SKILL.md` focused on orchestration; the detailed file content should live in `templates/` and `references/`.
 - `experiments/` is runnable experiment logic, not a result archive. Raw outputs, checkpoints, logs, and wandb/tensorboard caches should stay in ignored paths or external storage, with small pointers in `docs/runs/`.
 - When this code repo belongs to a project control root, prefer sibling code worktrees under `<ProjectName>/code-worktrees/` instead of nested worktrees inside `code/`.
+- When this code repo belongs to a project control root, record toolchain gate commands in root `memory/project.yaml` and component guidance. Gate status is stale unless verified in the current branch/worktree.

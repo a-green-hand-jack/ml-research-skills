@@ -71,7 +71,26 @@ python scripts/train.py
 ### Testing
 
 ```bash
-pytest tests/
+uv run pytest tests -v
+```
+
+### Toolchain Gates
+
+Run non-mutating gates before commit, push, experiment submission, release, or artifact handoff:
+
+```bash
+uv sync
+uv run ruff format --check src tests experiments scripts
+uv run ruff check src tests experiments scripts
+uv run mypy src
+uv run pytest tests -v
+```
+
+Run mutating format/fix commands only when requested or required by project policy, then review the diff:
+
+```bash
+uv run ruff format src tests experiments scripts
+uv run ruff check --fix src tests experiments scripts
 ```
 
 ## Experiment Evidence
@@ -89,9 +108,9 @@ Raw outputs, checkpoints, logs, tensorboard caches, and wandb runs should stay i
 ### Code Quality
 
 ```bash
-black src/ tests/
-ruff check src/ tests/
-mypy src/
+uv run ruff format --check src tests experiments scripts
+uv run ruff check src tests experiments scripts
+uv run mypy src
 ```
 
 ## Authors

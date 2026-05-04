@@ -15,6 +15,31 @@ memory_policy:
   require_certainty_labels: true
   reverify_volatile_state_before_action: true
   track_paper_source_visibility: true
+  track_toolchain_gates: true
+
+toolchain_gates:
+  policy: check-before-mutate
+  code:
+    environment_check: "uv sync"
+    format_check: "uv run ruff format --check src tests experiments scripts"
+    lint_check: "uv run ruff check src tests experiments scripts"
+    type_check: "uv run mypy src"
+    test_check: "uv run pytest tests -v"
+    mutate_only_when_requested:
+      - "uv run ruff format src tests experiments scripts"
+      - "uv run ruff check --fix src tests experiments scripts"
+  paper:
+    source_format_check: "tex-fmt --check --nowrap --recursive ."
+    submission_check: "bash <submit-paper-skill-dir>/scripts/check.sh \"$PAPER_DIR\""
+    compile_truth: "Overleaf/GitHub or local LaTeX compile log"
+    mutate_only_when_requested:
+      - "tex-fmt --nowrap --recursive ."
+  coordination:
+    git_status_check: "git status --short --branch"
+    whitespace_check: "git diff --check"
+    github_auth_check: "gh auth status"
+    github_pr_check: "gh pr checks"
+  notes: "Preserve component-specific existing toolchains when they differ; record overrides in component guidance or worktree status."
 
 github_project:
   enabled: false

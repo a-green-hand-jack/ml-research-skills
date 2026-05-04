@@ -24,7 +24,7 @@ Purpose: the project-level source of coordination truth.
 
 Files:
 
-- `project.yaml`: stable project identity, components, policies, and current target
+- `project.yaml`: stable project identity, components, policies, toolchain gates, and current target
 - `component-index.yaml`: paths and roles for paper, code, code worktrees, paper worktrees, slides, reviewer, rebuttal, artifact, component memory, and the global worktree registry
 - `current-status.md`: session-to-session working state
 - `decision-log.md`: durable decisions and why they were made
@@ -36,6 +36,8 @@ Files:
 - `handoff-board.md`: producer/consumer contracts when work moves between idea, method, code, paper, slides, review, rebuttal, artifact, or release modules
 - `phase-dashboard.md`: project-cycle phase, readiness gate, stale objects, and next session entry point
 - `source-visibility-board.md`: paper source visibility tiers, audiences, sync targets, allowed/forbidden files, and cleanup gates
+
+Toolchain gate defaults such as `uv`, `ruff`, `mypy`, `pytest`, `tex-fmt`, `git`, and `gh` live in `project.yaml`. Component-specific overrides live in component guidance or worktree status.
 
 Project memory should be committed when it is useful for collaborators and not private.
 

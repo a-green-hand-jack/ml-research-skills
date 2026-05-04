@@ -70,8 +70,8 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `literature-review-sprint` | Turn a topic or project direction into a ranked literature map with closest-work, baseline, novelty, and positioning implications |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates and official style files |
-| `init-python-project` | Create a production-ready Python/ML code repo with uv, pytest, black, ruff, mypy, code-side evidence docs, and remote workflow memory |
-| `project-init` | Initialize a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, and code/paper worktree policy |
+| `init-python-project` | Create a production-ready Python/ML code repo with uv, ruff, mypy, pytest, code-side evidence docs, and remote workflow memory |
+| `project-init` | Initialize a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, toolchain gates, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
 | `new-workspace` | Create a git branch or project-aware component worktree for code experiments, paper venue versions, arXiv releases, and camera-ready paper versions |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
@@ -153,5 +153,5 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`safe-git-ops`**: Use this for general Git work, especially when an agent might confuse sandbox failures with merge conflicts or when shared worktree metadata makes write paths non-obvious.
 - **`remote-project-control`**: Use this before server-heavy work when a repo is edited locally, synced through a Git remote, and run on SSH/HPC/RunAI servers. It establishes repo-native project memory and keeps local / Git remote / server state explicit across sessions. For GitHub Projects, treat `gh project ...` as GitHub API work requiring the `project` token scope, separate from normal Git SSH push.
 - **`init-latex-project`**: Invoked by `project-init` via `scripts/init.sh`. Always expand `~` to the actual home path when calling the script.
-- **`init-python-project`**: Treat `experiments/` as runnable logic. Code-side evidence belongs in `docs/results/`, `docs/reports/`, and `docs/runs/`; raw outputs, logs, checkpoints, tensorboard caches, and wandb runs stay ignored or external.
+- **`init-python-project`**: Treat `experiments/` as runnable logic. Code-side evidence belongs in `docs/results/`, `docs/reports/`, and `docs/runs/`; raw outputs, logs, checkpoints, tensorboard caches, and wandb runs stay ignored or external. Default Python gates are `uv sync`, `ruff format --check`, `ruff check`, `mypy`, and `pytest`, with mutating format/fix commands run only when requested or documented by policy.
 - **`skill-system-auditor`**: Use when maintaining this repository as a collection: inventory drift, lifecycle gaps, routing quality, memory writeback coverage, stale future-skill references, and validation readiness.

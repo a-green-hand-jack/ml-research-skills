@@ -35,6 +35,7 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 │   ├── object-schemas.md
 │   ├── paper-source-visibility-protocol.md
 │   ├── phase-dashboard-protocol.md
+│   ├── toolchain-gates-protocol.md
 │   └── writeback-protocol.md
 └── templates/
     ├── component/
@@ -61,6 +62,7 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 - Always read `references/memory-architecture.md`, `references/object-schemas.md`, and `references/writeback-protocol.md`.
 - Read `references/claim-lifecycle-protocol.md`, `references/evidence-provenance-protocol.md`, `references/phase-dashboard-protocol.md`, and `references/cross-module-handoff-contracts.md` when claims, evidence, project phase, paper writing, experiment planning, review, rebuttal, or cross-component handoffs are involved.
 - Read `references/paper-source-visibility-protocol.md` when paper branches, Overleaf/GitHub sync, collaborator-visible source, anonymous submission source, arXiv, camera-ready source packages, or paper worktree cleanup are involved.
+- Read `references/toolchain-gates-protocol.md` when code, paper, docs, Git, GitHub, remote, release, or artifact quality gates are configured, changed, or checked.
 - Read `references/consistency-checks.md` when asked to audit project state, prepare a milestone, submit, write, review, or rebut.
 - Read `references/closeout-protocol.md` before ending a substantial session or updating memory after meaningful work.
 - Use `templates/` as the source of truth when bootstrapping missing memory files.
@@ -83,6 +85,7 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 - Component-local memory is a rollup, not a replacement for project memory. `code/docs/ops/current-status.md` and `code/docs/ops/decision-log.md` can record code operational state, but cross-component and cross-worktree coordination should still be visible in root `memory/` and component `.agent/` indexes.
 - Cross-worktree state has three levels: global registry in `memory/component-index.yaml`, component rollup in `<component>/.agent/worktree-index.md`, and leaf status in each `<component-worktree>/.agent/worktree-status.md`.
 - GitHub Projects, when configured, are a collaborator-facing cloud board for issues, PRs, blockers, and roadmap/status views across component repos. They do not replace root `memory/`, component `.agent/`, or worktree memory.
+- Toolchain gates are first-class project policy. Prefer non-mutating checks by default, run mutating format/fix commands only when requested or required, and record which checks gate commit, push, submission, release, or artifact handoff.
 - Mark certainty: `observed`, `user-stated`, `inferred`, `stale`, or `needs-verification`.
 - Write memory at the most specific layer that will help the next session.
 
@@ -116,6 +119,7 @@ Then inspect likely memory files:
 - `reviewer/.agent/`
 - `rebuttal/.agent/`
 - GitHub Project URL/number in `memory/project.yaml`, if configured
+- toolchain gates in `memory/project.yaml`, if configured
 
 If the project uses another layout, adapt the component paths but keep the same memory roles.
 
@@ -178,6 +182,7 @@ Use this routing:
 
 - whole-project identity, target venue, component paths, memory policy -> `memory/project.yaml`
 - GitHub Project board owner, URL, number, scope, and sync policy -> `memory/project.yaml`
+- toolchain gate policy and default commands -> `memory/project.yaml`
 - current focus, active milestone, next session entry point -> `memory/current-status.md`
 - durable project decisions and why -> `memory/decision-log.md`
 - paper claims and their status -> `memory/claim-board.md`
@@ -214,6 +219,7 @@ Use stable IDs:
 - `REV-###`: review or rebuttal issue
 - `HND-###`: cross-module handoff
 - `VIS-###`: paper source visibility surface or policy
+- `GATE-###`: toolchain gate or required project check
 
 Every major update should preserve links:
 

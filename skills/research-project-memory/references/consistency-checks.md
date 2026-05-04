@@ -38,6 +38,8 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 ## Phase and Handoff Checks
 
 - Does `memory/phase-dashboard.md` match the current claim/evidence/provenance/risk/action/handoff boards?
+- Does `memory/project.yaml` list the active toolchain gates for code, paper, coordination, release, and artifact work?
+- Are gate statuses fresh enough for the current operation, or are they stale/needs-verification?
 - Is the active phase gate blocked, partial, ready, or done with a concrete reason?
 - Does every ready handoff have a consumer and acceptance check?
 - Does every blocked handoff have an action or accepted reason?
@@ -75,6 +77,7 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 - Did rebuttal experiments update evidence and paper claims?
 - Did rebuttal or camera-ready work update provenance, handoffs, and phase status?
 - Did rebuttal, submission, arXiv, or camera-ready work update source visibility and cleanup status?
+- Did toolchain changes update project memory, component guidance, and relevant worktree status?
 
 ## Volatility Checks
 

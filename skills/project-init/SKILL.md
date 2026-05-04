@@ -84,6 +84,7 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 - Project memory stores durable cross-component state; root `docs/` stores project-level design and planning artifacts; code docs store code-side implementation, run, and result details.
 - Root Git is optional. If enabled, do not accidentally commit nested component repos unless the user explicitly wants submodules.
 - A GitHub Project is optional cloud coordination. It tracks collaborator-facing issues, PRs, blockers, and roadmap views across component repos; it does not replace root `memory/`, component `.agent/`, or repo-native evidence docs.
+- Toolchain gates are explicit project policy. Code, paper, Git/GitHub, remote execution, release, and artifact workflows should record their check commands, mutation rules, and freshness expectations instead of relying on ad hoc agent memory.
 
 ## Step 1 - Gather Project Information
 
@@ -103,6 +104,10 @@ Ask for these fields in one message:
    - whether component repos should be submodules or ignored by root Git
    - whether GitHub/GitLab repos should be created now, and if so whether `gh auth status` is valid
    - whether to create or link one GitHub Project board for this research project
+   - whether default toolchain gates should be enabled:
+     - code: `uv`, `ruff`, `mypy`, `pytest`
+     - paper: `tex-fmt`, `submit-paper`, Overleaf/GitHub compile evidence
+     - coordination: `git`, `gh`, GitHub Project/PR checks
 6. Worktree policy:
    - default sibling root: `<ProjectName>/code-worktrees/`
    - default paper sibling root: `<ProjectName>/paper-worktrees/`
@@ -232,6 +237,35 @@ components:
 
 Root memory should store pointers to code-side evidence, not duplicate detailed run logs.
 
+Record default toolchain gates in `memory/project.yaml`:
+
+```yaml
+toolchain_gates:
+  policy: check-before-mutate
+  code:
+    environment_check: "uv sync"
+    format_check: "uv run ruff format --check src tests experiments scripts"
+    lint_check: "uv run ruff check src tests experiments scripts"
+    type_check: "uv run mypy src"
+    test_check: "uv run pytest tests -v"
+    mutate_only_when_requested:
+      - "uv run ruff format src tests experiments scripts"
+      - "uv run ruff check --fix src tests experiments scripts"
+  paper:
+    source_format_check: "tex-fmt --check --nowrap --recursive ."
+    submission_check: "bash <submit-paper-skill-dir>/scripts/check.sh \"$PAPER_DIR\""
+    compile_truth: "Overleaf/GitHub or local LaTeX compile log"
+    mutate_only_when_requested:
+      - "tex-fmt --nowrap --recursive ."
+  coordination:
+    git_status_check: "git status --short --branch"
+    whitespace_check: "git diff --check"
+    github_auth_check: "gh auth status"
+    github_pr_check: "gh pr checks"
+```
+
+Preserve existing component-specific tools when connecting an existing repo. For example, if a code repo already uses `black`, `isort`, `pyright`, `pre-commit`, or CI-specific commands, record those actual commands instead of forcing the default scaffold policy. For non-ML repos, omit default paths such as `experiments` or `scripts` when they do not exist.
+
 If a GitHub Project board exists, record it in `memory/project.yaml`:
 
 ```yaml
@@ -265,6 +299,8 @@ The root guidance must state:
 - paper source visibility tiers are `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, and `publisher-artifact`
 - if `paper/main` syncs to Overleaf through GitHub, it is `author-visible`; do not put `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer strategy, or private paths into that visible source
 - if `tex-fmt` is installed, paper formatting gates use `tex-fmt --check --nowrap --recursive .`; run `tex-fmt --nowrap --recursive .` only when formatting is requested and review the diff before push/submission
+- code gates use `uv sync`, `uv run ruff format --check`, `uv run ruff check`, `uv run mypy src`, and `uv run pytest tests -v` unless the code repo documents an existing alternative
+- mutating format/fix commands such as `ruff format`, `ruff check --fix`, and `tex-fmt` format mode require an explicit request or documented project policy, followed by diff review
 - root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
 - `code/docs/` is for code-side result summaries, run records, implementation reports, and server execution notes
 - experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
@@ -313,6 +349,8 @@ code/docs/results/
 code/docs/reports/
 code/docs/runs/
 ```
+
+When initializing or connecting a code repo, record its toolchain gates in `code/AGENTS.md`, `code/CLAUDE.md`, and `memory/project.yaml`. Default new-code gates are `uv sync`, `uv run ruff format --check src tests experiments scripts`, `uv run ruff check src tests experiments scripts`, `uv run mypy src`, and `uv run pytest tests -v`. If an existing repo already has CI, `pre-commit`, `black`, `isort`, `pyright`, or custom commands, preserve and document those commands.
 
 If connecting an existing code repo, do not force a full scaffold. Add missing high-value memory/docs paths only after reporting gaps.
 
@@ -469,6 +507,7 @@ Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktre
 - project-level durable summaries live in `memory/`
 - claim lifecycle, evidence provenance, phase status, and cross-module handoffs live in root `memory/`
 - paper source visibility and cleanup gates live in root `memory/source-visibility-board.md`
+- toolchain gate defaults live in root `memory/project.yaml`; component-specific overrides live in component guidance or worktree status
 - component details live in `<component>/.agent/`
 - project-level human-readable docs live in root `docs/`
 - code-side run details live in `code/docs/`
@@ -489,6 +528,7 @@ Components:
   slides: <created|connected|skipped>
   reviewer/rebuttal/artifact state: <created|deferred>
   GitHub Project: <created|linked|deferred|not requested>
+  Toolchain gates: <configured|deferred|inherited from existing repos>
 
 Code worktree root:
   <ProjectName>/code-worktrees/
@@ -514,6 +554,7 @@ Before finishing:
 - root and component Git remotes have been inspected separately when GitHub/GitLab setup is involved
 - `gh auth status` or equivalent hosting CLI auth has been checked before attempting repo creation
 - GitHub Project setup is either recorded in `memory/project.yaml` and `PROJECT.md`, or explicitly deferred as an action/blocker
+- toolchain gate defaults are recorded in `memory/project.yaml`, or existing component-specific gates are documented as inherited
 - `gh` token has the `project` scope before `gh project ...` commands are attempted
 - `code-worktrees/` policy is recorded
 - `paper-worktrees/` policy is recorded

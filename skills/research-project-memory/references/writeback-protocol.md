@@ -8,6 +8,7 @@ Write the smallest durable update that will help the next session. Do not turn m
 |---|---|
 | Project identity, target venue, component paths, memory policy | `memory/project.yaml` |
 | GitHub Project owner, title, URL, number, visibility, and sync policy | `memory/project.yaml`; optionally `memory/component-index.yaml` for linked repos |
+| Toolchain gate policy, required checks, formatter/linter/test command changes, or CI/PR check policy | `memory/project.yaml`; component guidance or worktree status for local overrides |
 | Current focus, active milestone, top blockers, next session entry point | `memory/current-status.md` |
 | Durable rationale for choosing a direction, baseline policy, venue, architecture, or workflow | `memory/decision-log.md` |
 | A paper or project claim is added, revised, supported, weakened, or cut | `memory/claim-board.md` |
@@ -44,6 +45,8 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `experiment-report-writer`: write completed evidence summaries, result decisions, stale/updated claims, and a handoff to paper-facing asset or writing work when results are ready; code-side reports usually belong in `code/docs/reports/` or a code worktree's `docs/reports/`.
 - `advisor-update-writer`: write advisor decisions, feedback-derived actions, current status changes, and newly raised risks.
 - `project-init`: write GitHub Project board metadata and sync policy when the user creates or links a board.
+- `project-init`: write toolchain gate defaults for code, paper, coordination, release, and artifact workflows.
+- `init-python-project`: write code-side toolchain gate commands in repo guidance and record project-level defaults when inside a project control root.
 - `figure-results-review`: write figure/table evidence status, visual/statistical reviewer risks, caption actions, and claim-scope changes.
 - `paper-evidence-board`: write paper-facing claim/evidence/figure/section alignment and open evidence gaps.
 - `paper-evidence-gap-miner`: write evidence-gap handoffs to experiment design only after checking existing result sources.

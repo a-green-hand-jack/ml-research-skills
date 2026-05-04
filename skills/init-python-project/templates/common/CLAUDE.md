@@ -31,8 +31,29 @@ This project uses a strict layered structure. Dependencies flow one way only.
 ## Development Principles
 
 1. Keep tests close to the modules they cover.
-2. Format with `black`, lint with `ruff`, type-check with `mypy`.
+2. Use the toolchain gates below before commit, push, experiment submission, release, or artifact handoff.
 3. Prefer editable installs and absolute imports.
 4. Update docs when structure or behavior changes.
 5. Use the `remote-project-control` skill before sync, remote submission, monitoring, or artifact inspection workflows.
 6. If this repo is part of a project control root, prefer sibling code worktrees under `../code-worktrees/` rather than nested worktrees inside this repo.
+
+## Toolchain Gates
+
+Default to check-before-mutate. Run non-mutating gates first:
+
+```bash
+uv sync
+uv run ruff format --check src tests experiments scripts
+uv run ruff check src tests experiments scripts
+uv run mypy src
+uv run pytest tests -v
+```
+
+Run mutating commands only when requested or required by project policy, then review the diff:
+
+```bash
+uv run ruff format src tests experiments scripts
+uv run ruff check --fix src tests experiments scripts
+```
+
+If this repo documents different tools such as `black`, `isort`, `pyright`, `pre-commit`, or CI-specific commands, follow the documented repo-local toolchain and update this section.

@@ -44,7 +44,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
-| `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, code-side evidence docs, and remote-workflow memory scaffolding |
+| `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, `uv`/`ruff`/`mypy`/`pytest` gates, code-side evidence docs, and remote-workflow memory scaffolding |
 | `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, optional GitHub Project board linkage, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
@@ -247,6 +247,42 @@ Use certainty labels whenever memory may become stale:
 Rule of thumb: root `memory/` stores durable coordination, component `.agent/` stores local rollups, repo-native docs store operational detail, and worktree status files store branch/version leaf state. Do not hide important cross-skill state only in a report, only in a paper comment, or only in a terminal transcript.
 
 GitHub Project integration is deliberately narrower than project memory. Mirror only actionable work that benefits from GitHub visibility, such as issues, PRs, blockers, owner/status, and target dates. Do not use GitHub Project fields as the only copy of claim rationale, private reviewer-risk notes, experiment interpretation, arXiv source-cleanup policy, or detailed provenance.
+
+### Project Toolchain Gates
+
+Toolchain gates make project tools part of the lifecycle rather than optional agent habits. The default policy is check-before-mutate: run non-mutating checks automatically when they are cheap and available; run formatters or auto-fixers only when requested or required by project policy; review the diff after any mutating command.
+
+Default code gates:
+
+```bash
+uv sync
+uv run ruff format --check src tests experiments scripts
+uv run ruff check src tests experiments scripts
+uv run mypy src
+uv run pytest tests -v
+```
+
+For non-ML or existing repos, omit paths that do not exist and preserve the repo's documented tools.
+
+Use mutating code commands only after an explicit request or documented policy:
+
+```bash
+uv run ruff format src tests experiments scripts
+uv run ruff check --fix src tests experiments scripts
+```
+
+Default paper gates:
+
+```bash
+tex-fmt --check --nowrap --recursive .
+bash <submit-paper-skill-dir>/scripts/check.sh "$PAPER_DIR"
+```
+
+Use `tex-fmt --nowrap --recursive .` only when formatting is requested or required, then review the diff. Paper compile truth still comes from Overleaf/GitHub or a local LaTeX compile log.
+
+Default coordination gates include `git status --short --branch`, `git diff --check`, `gh auth status`, and PR/CI checks such as `gh pr checks` when GitHub is in use. `git` and `gh` are toolchain components too: `git` owns source history and worktree boundaries, while GitHub/GitHub Project owns collaborator-visible issues, PRs, release records, and board state.
+
+Stable gate policy belongs in `memory/project.yaml` under `toolchain_gates`. Component-specific overrides belong in `code/AGENTS.md`, `paper/AGENTS.md`, component `.agent/` files, or worktree status files. Preserve existing healthy tools such as `black`, `isort`, `pyright`, `pre-commit`, or CI-specific commands instead of forcing the default scaffold tools.
 
 ### Paper Repo
 
@@ -688,9 +724,9 @@ Use these skills when starting the project control root, creating or connecting 
 
 | Skill | Lifecycle role |
 |---|---|
-| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, optional GitHub Project linkage, paired root `AGENTS.md`/`CLAUDE.md`, and code/paper worktree policy |
+| **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, optional GitHub Project linkage, paired root `AGENTS.md`/`CLAUDE.md`, toolchain gates, and code/paper worktree policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
-| **init-python-project** | Scaffold or enhance the code repo with ML architecture, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
+| **init-python-project** | Scaffold or enhance the code repo with ML architecture, `uv`/`ruff`/`mypy`/`pytest` gates, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
 | **remote-project-control** | Coordinate local editing, Git remote sync, and server execution on SSH/HPC environments |
 
@@ -926,9 +962,9 @@ For the person designing the overall research project, repo structure, and colla
 | **research-idea-validator** | Decide whether a rough idea should become a project and what must change before investing |
 | **literature-review-sprint** | Establish the literature map, closest-work risk, baseline expectations, and open gap before method design |
 | **algorithm-design-planner** | Define the method design before implementation and experiment planning |
-| **project-init** | Create the project control root and connect paper, code, slides, memory, root docs, review, rebuttal, artifact, and code/paper worktree policy |
+| **project-init** | Create the project control root and connect paper, code, slides, memory, root docs, review, rebuttal, artifact, toolchain gates, and code/paper worktree policy |
 | **init-latex-project** | Define the paper scaffold and venue template |
-| **init-python-project** | Define the code repo structure, experiment-entry architecture, and code-side evidence docs |
+| **init-python-project** | Define the code repo structure, experiment-entry architecture, code-side evidence docs, and Python toolchain gates |
 | **research-slide-deck-builder** | Define the slides component as a multi-deck workspace and keep it tied to the external `progress-slides` template |
 | **new-workspace** | Isolate code directions or paper versions with branches and component worktrees |
 | **remote-project-control** | Establish local / Git remote / server execution conventions |
@@ -1049,7 +1085,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A four-layer ML project structure: `src/`, `experiments/`, `eval/`, and `infra/`
 - Code-side evidence paths: `docs/results/`, `docs/reports/`, and `docs/runs/`
 - `uv`-based Python project setup with editable installs
-- Development tooling: pytest, black, ruff, and mypy
+- Development tooling and gates: `uv`, `ruff format --check`, `ruff check`, `mypy`, and `pytest`
 - Project docs scaffolding under `docs/`
 - Remote workflow bootstrap files under `infra/remote-projects.yaml`, `docs/ops/`, and `.agent/`
 - Editor configuration for Claude Code / Cursor / VS Code

@@ -89,3 +89,26 @@ For ML projects, make the distinction explicit:
 - `docs/runs/` contains run pointers, job IDs, commit/config references, and short metric summaries.
 
 Raw outputs, checkpoints, logs, tensorboard caches, and wandb runs should be ignored or stored externally, with pointers from `docs/runs/`.
+
+## Default Toolchain Gates
+
+For new projects, make the gate commands explicit in `README.md`, `AGENTS.md`, and `CLAUDE.md`.
+
+Default ML code gates:
+
+```bash
+uv sync
+uv run ruff format --check src tests experiments scripts
+uv run ruff check src tests experiments scripts
+uv run mypy src
+uv run pytest tests -v
+```
+
+For non-ML projects, omit paths that do not exist. Use mutating commands only when requested or required:
+
+```bash
+uv run ruff format src tests experiments scripts
+uv run ruff check --fix src tests experiments scripts
+```
+
+If the user asks for `black`, `isort`, `pyright`, `pre-commit`, or another tool, document that policy instead of mixing competing formatters without a reason.

@@ -16,6 +16,7 @@ Use stable IDs so claims, evidence, figures, risks, actions, reviews, and worktr
 - `REV-###`: reviewer or rebuttal issue
 - `HND-###`: cross-module handoff
 - `VIS-###`: paper source visibility surface or policy
+- `GATE-###`: toolchain gate or required project check
 
 ## Certainty Labels
 
@@ -73,6 +74,23 @@ metrics: []
 supports: [CLM-001]
 outputs: []
 decision: continue | rerun | write | revise-method | park | kill
+certainty: observed
+last_updated: YYYY-MM-DD
+```
+
+## Toolchain Gate
+
+```yaml
+id: GATE-001
+component: root | code | paper | slides | artifact | release
+stage: pre-commit | pre-push | pre-experiment | pre-submission | camera-ready | artifact-release | release
+command: ""
+scope: []
+mutates_files: false
+required: true
+status: passed | failed | skipped | blocked | needs-verification
+evidence: "command output, CI check, Overleaf log, PR check, or remote scheduler state"
+next_action: ""
 certainty: observed
 last_updated: YYYY-MM-DD
 ```

@@ -32,6 +32,27 @@ This project uses a strict four-layer structure. Dependencies flow one way only.
 - If this repo is part of a project control root, prefer sibling code worktrees under `../code-worktrees/` rather than nested worktrees inside this repo.
 - Keep cross-worktree rollups in `.agent/worktree-index.md` when this repo uses sibling worktrees.
 
+## Toolchain Gates
+
+Default to check-before-mutate. Run non-mutating gates before commit, push, experiment submission, release, or artifact handoff:
+
+```bash
+uv sync
+uv run ruff format --check src tests experiments scripts
+uv run ruff check src tests experiments scripts
+uv run mypy src
+uv run pytest tests -v
+```
+
+Run mutating commands only when requested or required by project policy, then review the diff:
+
+```bash
+uv run ruff format src tests experiments scripts
+uv run ruff check --fix src tests experiments scripts
+```
+
+If this repo documents different tools such as `black`, `isort`, `pyright`, `pre-commit`, or CI-specific commands, follow the documented repo-local toolchain and update this section.
+
 ## Compatibility
 
 Also keep `CLAUDE.md` aligned with this file. If the two files disagree, stop and ask which policy should be canonical before editing.

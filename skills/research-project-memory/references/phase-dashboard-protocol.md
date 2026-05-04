@@ -19,7 +19,7 @@ Use these phases:
 | `idea` | Decide whether the project direction is worth pursuing | pursue/revise/park/kill decision |
 | `positioning` | Decide what the paper sells and to whom | primary contribution and forbidden claims |
 | `method-design` | Specify method, assumptions, and ablations | implementable design and experiment implications |
-| `implementation` | Build reliable code path | runnable method and baseline setup |
+| `implementation` | Build reliable code path | runnable method, baseline setup, and code toolchain gates |
 | `experiment-design` | Plan evidence against claims | experiment matrix and baseline policy |
 | `evidence-production` | Produce and diagnose results | verified evidence or revised claims |
 | `paper-asset-building` | Convert results into paper tables/figures | provenance-tracked assets |
@@ -59,6 +59,7 @@ Before moving forward:
 
 - `positioning` -> paper has a primary contribution and claim boundaries.
 - `method-design` -> method spec has implementation and experiment handoffs.
+- `implementation` -> code toolchain gates are configured and current for the active branch/worktree.
 - `evidence-production` -> important claims have verified or explicitly provisional evidence.
 - `drafting` -> writing contract and writing memory exist for active sections.
 - `internal-review` -> consistency editor and reviewer simulator issues have actions or accepted-risk decisions.
