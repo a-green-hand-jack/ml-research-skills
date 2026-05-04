@@ -321,6 +321,26 @@ Paper boundary rules:
 - arXiv/public-source worktrees must remove internal comments, figure/table descriptions in TeX comments, reviewer notes, TODOs, author-comment macros, and private paths from public source.
 - Conference worktrees must enforce venue mode and anonymity. Camera-ready worktrees must de-anonymize, add acknowledgements/funding, and remove draft-only notes.
 
+### LaTeX Source Formatting
+
+This repository treats `tex-fmt` as the default LaTeX source formatter when it is available locally. It is a source hygiene gate, not a compile check.
+
+Use check mode before submission, arXiv packaging, camera-ready cleanup, or pushing an author-visible Overleaf branch:
+
+```bash
+tex-fmt --check --nowrap --recursive .
+```
+
+Use format mode only when formatting is requested or required by project policy:
+
+```bash
+tex-fmt --nowrap --recursive .
+```
+
+Then review the diff before committing or pushing. The default policy uses `--nowrap` so routine formatting does not reflow prose lines in paper sections. If a paper repo has a project-local `tex-fmt` config, follow that config instead.
+
+`tex-fmt` does not replace LaTeX compilation. Local macOS workflows can still rely on Overleaf/GitHub for compile logs, page count, overfull boxes, bibliography rendering, and final PDF inspection.
+
 Primary skills in `paper/`:
 
 | Paper area | Main artifacts | Primary skills |
@@ -1327,7 +1347,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Drafting artifacts such as TODOs and comment macros
 - Venue-specific required sections and bibliography presence
 - Basic anonymity issues for blind review
-- Optional `tex-fmt --check --nowrap --recursive .` source formatting when `tex-fmt` is installed
+- Optional `tex-fmt --check --nowrap --recursive .` source formatting when `tex-fmt` is installed; see "LaTeX Source Formatting"
 - Optional local compile checks when a LaTeX compiler exists
 - Overleaf/GitHub compile workflow guidance when local TeX Live is not installed
 
