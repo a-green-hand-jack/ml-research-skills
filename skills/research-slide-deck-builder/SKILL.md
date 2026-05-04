@@ -85,9 +85,12 @@ slides/
 │   ├── 2026-05-02-advisor-plan.md
 │   ├── 2026-05-09-lab-update.md
 │   ├── 2026-05-15-result-review.md
-│   └── neurips-rebuttal-risk-review.md
+│   ├── neurips-rebuttal-risk-review.md
+│   ├── assets/               # deck-local assets when Slidev root is decks/
+│   ├── setup/
+│   └── styles/
 ├── assets/
-│   └── <deck-or-shared-assets>
+│   └── <shared-or-root-deck-assets>
 ├── templates/
 ├── snippets/
 └── .agent/
@@ -104,7 +107,7 @@ Use this policy:
 - Do not overwrite an old meeting deck just because a new advisor/lab update starts.
 - Keep reusable single-slide fragments in `snippets/`; keep full historical decks in `decks/`.
 - Keep generated output in `dist/` or ignored export paths, not as the source of truth.
-- For deck-specific assets, prefer `assets/<deck-id>/...`; for reusable assets, use `assets/shared/...`.
+- For deck-specific assets, prefer assets under the active Slidev root. If the entry is `decks/<deck-id>.md`, use `decks/assets/<deck-id>/...` and reference it from the deck as `./assets/<deck-id>/...`. Use `assets/shared/...` only for assets proven to resolve from the active entry.
 - If the template CLI only writes `slides.md`, initialize there first and then move or copy the finalized source into `decks/<deck-id>.md`, or use its `--out decks/<deck-id>.md` option when available.
 
 Record deck memory:
@@ -122,7 +125,7 @@ Record deck memory:
 - Figures are evidence, not decoration. Explain axes, setup, and takeaway.
 - Keep slide titles specific. Avoid generic titles like "Results", "Method", or "Experiments".
 - Put dense details in backup slides instead of shrinking text.
-- Build success is not visual success. A Slidev deck can compile while the browser view still has overflow, broken frontmatter, missing assets, or slides that are too dense to present.
+- Build success is not visual success. A Slidev deck can compile while the browser view still has overflow, broken frontmatter, missing assets, unreadable code highlighting, top-heavy layouts, or slides that are too dense to present.
 
 ## Deck Contract
 
@@ -278,6 +281,22 @@ class: text-center
 - Title metadata should include the project name so exported PDF/browser titles are recognizable.
 - When the deck source is under `decks/`, run Slidev against that file, such as `npx slidev decks/2026-05-02-advisor-plan.md`, instead of assuming the default `slides.md` is the target.
 
+Slidev root, assets, and styling guardrails:
+
+- Identify the active Slidev root from the entry file before writing paths. For `slides/decks/<deck-id>.md`, the root may be `slides/decks/`, not `slides/`.
+- Keep standalone meeting assets deck-local under the active root, such as `slides/decks/assets/<deck-id>/figure.png`, and reference them as `./assets/<deck-id>/figure.png` from `slides/decks/<deck-id>.md`.
+- Do not depend on live code-worktree paths for meeting decks. Copy stable, presentation-ready figures into the deck-local asset directory.
+- Put deck-wide CSS under the active Slidev root, such as `slides/decks/styles/index.css`, and load it from `slides/decks/setup/main.ts` with `import '../styles/index.css'`.
+- Do not rely on one large Markdown `<style>` block for deck-wide styling; it can fail to apply consistently across slides.
+- For code or pipeline slides, check Shiki-highlighted nested spans. If local styles become unreadable, override the specific slide block's `pre`, `code`, and `code span` colors.
+- For result figures, inspect real image dimensions before choosing layout:
+
+```bash
+sips -g pixelWidth -g pixelHeight <figure>.png
+```
+
+- Size figure-pair slides separately from ordinary image grids. Two scientific plots often need a larger vertical budget than generic card images.
+
 ### 5. Use Project Evidence Correctly
 
 - Pull stable figures from `code/docs/results/`, `code/docs/reports/`, paper figures, or user-provided assets.
@@ -301,13 +320,17 @@ Before finishing:
 
 - run the template's preview/build command when dependencies are available
 - confirm the deck opens locally; do not treat `npm run build` alone as proof that the slides are visually usable
-- check that all image paths resolve
+- check that all image paths resolve in browser preview, not only in the Markdown source
+- confirm global CSS is loaded from the active Slidev root
 - check that text is readable in 16:9 presentation view
 - check that each result slide explains setup, metric, and interpretation
 - visually inspect the first slide, second slide, and final three slides because title, framing, and closeout mistakes are high impact
+- screenshot representative slides at 16:9: one text-heavy/context slide, one table or metric slide, one two-figure slide, one code or pipeline slide, and one backup slide if backup uses a different layout
 - when possible, export PNG/PDF through the template's export command, Slidev browser export UI, or `slidev export --format png`; Slidev CLI export requires Playwright/`playwright-chromium`
 - if PNG/PDF export is blocked by missing Playwright or Chromium, record the missing dependency and use browser preview screenshots or manual browser inspection instead
 - check tables, code blocks, three-column layouts, question boxes, and takeaway boxes for overflow
+- treat excessive top-heavy whitespace as a layout bug even when nothing overflows; redistribute content with slide-specific classes instead of stacking every element near the top
+- verify scientific figures are large enough for visual inspection, especially side-by-side plots
 - update `slides/.agent/slides-status.md` and `slides/.agent/deck-index.md` with deck path, purpose, audience, source evidence, build status, visual validation status, stale evidence risks, known unchecked risks, and follow-up actions when using a project-control-root layout
 - for important or reusable decks, also write `slides/.agent/decks/<deck-id>.md`
 
@@ -323,9 +346,14 @@ Final checklist:
 - [ ] Code blocks are <= 3 lines unless in backup.
 - [ ] Tables fit within 16:9 width.
 - [ ] No literal `layout:` or `class:` frontmatter is rendered as body text.
+- [ ] Deck-local assets resolve from the active Slidev root.
+- [ ] Global CSS is imported from the active Slidev root, not only embedded in Markdown.
+- [ ] Result figure dimensions were inspected before final sizing.
 - [ ] Internal code names are replaced in audience-facing text where appropriate.
 - [ ] Preview/build passes, or missing dependency is recorded.
-- [ ] PNG/PDF visual export or browser visual inspection completed.
+- [ ] Representative 16:9 screenshots, PNG/PDF export, or browser visual inspection completed.
+- [ ] Code blocks remain readable after syntax highlighting.
+- [ ] Figure slides are readable and not undersized.
 - [ ] `slides/.agent/slides-status.md` and `slides/.agent/deck-index.md` updated when project memory is present.
 ```
 
@@ -368,7 +396,7 @@ When creating a new deck in an existing slides component, default to:
 
 ```text
 slides/decks/<YYYY-MM-DD>-<audience-or-purpose>-<slug>.md
-slides/assets/<deck-id>/...
+slides/decks/assets/<deck-id>/...
 slides/.agent/deck-index.md
 slides/.agent/decks/<deck-id>.md
 ```

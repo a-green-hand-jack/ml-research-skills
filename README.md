@@ -518,10 +518,13 @@ slides/
 │   ├── 2026-05-02-advisor-plan.md
 │   ├── 2026-05-09-lab-update.md
 │   ├── 2026-05-15-result-review.md
-│   └── <venue-or-event>-<purpose>.md
+│   ├── <venue-or-event>-<purpose>.md
+│   ├── assets/               # deck-local assets for decks/*.md entries
+│   ├── setup/
+│   └── styles/
 ├── assets/
 │   ├── shared/
-│   └── <deck-id>/
+│   └── <root-deck-assets>/
 ├── templates/
 ├── snippets/
 └── .agent/
@@ -535,18 +538,18 @@ Slides boundary rules:
 
 - `decks/` stores stable source decks for real meetings, lab talks, result reviews, rebuttal discussions, proposals, and conference talks.
 - `slides.md` is only the active default deck, a temporary staging target for template tooling, or a sample/index deck.
-- `assets/<deck-id>/` stores deck-specific figures or media; `assets/shared/` stores reusable visual assets.
+- `decks/assets/<deck-id>/` stores deck-specific figures or media for `decks/<deck-id>.md` entries; `assets/shared/` stores reusable assets only when they resolve from the active Slidev entry.
 - `snippets/` stores reusable single-slide fragments. It is not a historical deck archive.
 - `.agent/deck-index.md` records deck history, audience, purpose, source evidence, validation status, and follow-up.
 - `.agent/decks/<deck-id>.md` stores optional per-deck memory for important decks.
-- Run Slidev against the target deck file, for example `npx slidev decks/2026-05-02-advisor-plan.md`.
+- Run Slidev against the target deck file, for example `npx slidev decks/2026-05-02-advisor-plan.md`; validate browser screenshots because build success alone is not visual validation.
 
 Primary skills in `slides/`:
 
 | Slides area | Main artifacts | Primary skills |
 |---|---|---|
 | Slides component setup | `slides/`, `templates/`, `snippets/`, `package.json` | **project-init**, **research-slide-deck-builder** |
-| Deck creation | `decks/<deck-id>.md`, `assets/<deck-id>/` | **research-slide-deck-builder**, **advisor-update-writer**, **experiment-report-writer** |
+| Deck creation | `decks/<deck-id>.md`, `decks/assets/<deck-id>/`, `decks/styles/` when `decks/` is the Slidev root | **research-slide-deck-builder**, **advisor-update-writer**, **experiment-report-writer** |
 | Visual/table reuse | paper figures, code-side plots, result tables | **figure-results-review**, **table-results-review** |
 | Deck memory | `.agent/slides-status.md`, `.agent/deck-index.md`, `.agent/decks/` | **research-slide-deck-builder**, **research-project-memory** |
 | Presentation rehearsal | final deck, speaker notes, Q&A risks | **presentation-dry-run** |
@@ -1169,7 +1172,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Template-compatible writing guidance for slide source, speaker notes, figures, evidence provenance, backup slides, and `slides/.agent/` memory
 - Deck-contract checks for project title, narrative scope, allowed terms, banned terms, and one-sentence claim before writing Slidev source
 - Slidev syntax guardrails for deck-level and per-slide frontmatter so `layout:` and `class:` metadata do not render as body text
-- Visual validation guidance beyond build success, including browser preview, PNG/PDF export when Playwright is available, overflow checks, and `slides/.agent/slides-status.md` closeout
+- Slidev active-root guidance for deck-local assets, global CSS under `decks/styles/`, figure dimension inspection, Shiki/code readability, and representative browser screenshots
+- Visual validation guidance beyond build success, including browser preview, PNG/PDF export when Playwright is available, overflow/top-heavy layout checks, and `slides/.agent/slides-status.md` closeout
 
 ## What `figure-results-review` Provides
 
