@@ -62,6 +62,36 @@ Do not modify production code.
 Write findings to .agent/code-reviews/<change-id>/review.md.
 ```
 
+For automated strong isolation, prefer a one-shot CLI session instead of an in-process subagent.
+
+Codex:
+
+```bash
+codex exec --ephemeral \
+  -C . \
+  -s workspace-write \
+  "$(cat .agent/code-reviews/<change-id>/reviewer-prompt.md)"
+```
+
+Claude Code:
+
+```bash
+claude -p "$(cat .agent/code-reviews/<change-id>/reviewer-prompt.md)" \
+  --no-session-persistence \
+  --permission-mode acceptEdits
+```
+
+For stricter Claude Code scripting, add `--bare` only when the prompt explicitly supplies every needed context path, because bare mode skips automatic project and skill discovery:
+
+```bash
+claude -p "$(cat .agent/code-reviews/<change-id>/reviewer-prompt.md)" \
+  --no-session-persistence \
+  --bare \
+  --add-dir .
+```
+
+Do not use `claude --continue`, `claude --resume`, `codex resume`, or `codex fork` for a first-pass review. Those are useful for continuing work, but they weaken the reviewer/writer context boundary.
+
 4. The writer then reads `review.md`, fixes the code, and records responses in `fix-log.md`.
 
 5. For high-risk changes, run a second fresh review after fixes.
