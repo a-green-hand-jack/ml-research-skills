@@ -264,6 +264,7 @@ mkdir -p "$DEST"/{sections,figures,tables,bib}
 cp "$TEMPLATES/macros.tex" "$DEST/macros.tex"
 cp "$TEMPLATES/AGENTS.md"  "$DEST/AGENTS.md"
 cp "$TEMPLATES/CLAUDE.md"  "$DEST/CLAUDE.md"
+cp "$TEMPLATES/gitignore"  "$DEST/.gitignore"
 
 # Copy venue-specific main.tex (all use \input{venue_preamble})
 if [[ -n "$VENUE" && -f "$TEMPLATES/venues/$VENUE/main.tex" ]]; then
@@ -515,3 +516,4 @@ echo "  2. Edit main.tex — fill in authors and affiliations"
 if [[ -n "$VENUE" ]]; then
   echo "  3. Check venue_preamble.tex — verify style files are present"
 fi
+echo "  Note: .gitignore keeps .agent/, AGENTS.md, CLAUDE.md, CSVs, internal result docs, and plotting scripts out of visible paper source by default."

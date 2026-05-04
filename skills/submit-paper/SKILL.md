@@ -45,6 +45,7 @@ Ask the user **in a single message**:
 2. **Deadline**: When is the deadline? (helps prioritize what to fix)
 3. **Compile workflow**: Is this paper compiled locally or in Overleaf through GitHub? If unknown, assume Overleaf/GitHub for macOS users.
 4. **Version workspace**: Is this the main `paper/` repo or a `paper-worktrees/` version for a specific venue/arXiv/camera-ready target?
+5. **Source visibility**: Is this source `agent-private`, `author-visible` through Overleaf/coauthors, `anonymous-submission`, `public-preprint`, `camera-ready-public`, or `publisher-artifact`?
 
 If venue can be inferred from `venue_preamble.tex` (Step 3 will read it), skip asking.
 
@@ -102,6 +103,8 @@ git -C "$PAPER_DIR" status --short --branch
 
 Do not block submission readiness solely because local `pdflatex` is unavailable.
 
+If project memory exists and the paper source is visible to coauthors, reviewers, arXiv, publisher, or artifact readers, update `memory/source-visibility-board.md` with the tier, sync target, cleanup gate, audit status, and cleanup actions.
+
 ---
 
 ## Step 5 — Fix submission mode in venue_preamble.tex
@@ -122,15 +125,30 @@ Ask "Should I update `venue_preamble.tex` to `[mode]` mode?" — then edit if co
 
 ## Step 6 — Check source visibility and cleanup
 
-Different paper versions have different source hygiene requirements.
+Different paper versions have different source hygiene requirements. Source visibility is independent of venue. If the branch is linked to Overleaf/GitHub or visible to coauthors, treat it as `author-visible`, not private.
 
-| Version | Source visibility | Required cleanup |
+| Visibility tier | Typical source surface | Required cleanup |
 |---|---|---|
-| Anonymous conference | Usually private to submission system, but may be uploaded | Enforce anonymization, remove author-identifying text, check acknowledgements and self-citations |
-| arXiv / preprint | Public LaTeX source may be visible | Remove TODOs, author comments, reviewer notes, hidden comments, internal figure/table descriptions, anonymization leftovers, and non-public paths |
-| Camera-ready | Publisher/source package may be archived | De-anonymize, add acknowledgements/funding, remove draft-only notes, close rebuttal promises |
+| `agent-private` | local/private draft worktree | May contain agent state, internal notes, plotting scripts, CSVs, and provenance; should not be pushed to Overleaf/public remotes |
+| `author-visible` | main branch linked to Overleaf/GitHub | Exclude `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer strategy, private paths, and agent-only notes |
+| `anonymous-submission` | venue submission source/PDF | Enforce anonymization, remove identity leaks, avoid internal comments because source may be uploaded |
+| `public-preprint` | arXiv/public source | Remove TODOs, author comments, reviewer notes, hidden comments, internal figure/table descriptions, anonymization leftovers, agent files, provenance docs, scripts, CSVs, and non-public paths |
+| `camera-ready-public` | publisher/final source package | De-anonymize, add acknowledgements/funding, remove draft-only notes, close rebuttal promises, exclude agent/private files |
 
-For arXiv/public-source worktrees, do not leave internal audit artifacts in `.tex` comments. This includes figure descriptions, table descriptions, provenance notes, reviewer-response notes, TODOs, and author comment macros. Keep those in `paper/.agent/`, root `memory/`, or private docs, not in the public source package.
+For author-visible, anonymous, arXiv, camera-ready, or publisher-visible source, do not leave internal audit artifacts in the source tree. This includes `.agent/`, `AGENTS.md`, `CLAUDE.md`, figure descriptions, table descriptions, provenance notes, reviewer-response notes, TODOs, raw CSVs, internal result docs, plotting scripts, notebooks, private paths, and author comment macros. Keep those in root `memory/`, code-side docs, or an `agent-private` paper worktree, not in visible source.
+
+Check for forbidden files in visible source:
+
+```bash
+find "$PAPER_DIR" -maxdepth 3 \( \
+  -path "$PAPER_DIR/.agent" -o \
+  -name "AGENTS.md" -o -name "CLAUDE.md" -o \
+  -name "*.csv" -o -name "*.ipynb" -o \
+  -path "*/docs/results/*" -o -path "*/docs/reports/*" -o -path "*/docs/runs/*" -o \
+  -path "*/scripts/*" -o -path "*/plot_scripts/*" -o \
+  -iname "*provenance*" -o -iname "*result-inventory*" -o -iname "*writing-memory*" \
+\) -print
+```
 
 Check for risky source text:
 
@@ -152,7 +170,7 @@ Mention the local/Overleaf compile state explicitly:
 - Overleaf/GitHub compile status if known, or "pending Overleaf compile" if the user must verify it there
 - whether local LaTeX was skipped because no compiler exists
 - version workspace status: main paper repo or specific paper worktree
-- source hygiene status for anonymous, arXiv, or camera-ready mode
+- source visibility tier and source hygiene status for author-visible, anonymous, arXiv, camera-ready, or publisher-visible mode
 
 ```
 ## Submission Readiness: <venue> — <mode>
@@ -182,7 +200,7 @@ For common failures, offer to fix them immediately:
 - **Drafting artifacts**: Show the list; ask if you should remove them.
 - **Missing mandatory sections**: Offer to create a placeholder that the user can fill in.
 - **Wrong submission mode**: Offer to edit `venue_preamble.tex`.
-- **Source hygiene issues**: For arXiv/public source, offer to remove internal comments, figure/table descriptions, reviewer notes, TODOs, and author comment macros from `.tex` files after showing the diff scope.
+- **Source hygiene issues**: For author-visible/public/submission source, offer to remove or relocate `.agent/`, AGENTS/CLAUDE guidance, internal comments, figure/table descriptions, reviewer notes, TODOs, raw CSVs, plotting scripts, provenance docs, and author comment macros after showing the diff scope.
 - **Empty bib file**: Remind user to add references to `bib/refs.bib`.
 
 Do **not** auto-fix without confirmation.

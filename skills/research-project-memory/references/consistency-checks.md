@@ -50,6 +50,15 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 - Does it have an exit condition?
 - Is any stale worktree still influencing paper text or slides?
 - Has a merged/killed worktree updated project memory?
+- Does every paper worktree have a source visibility tier, audience, sync target, cleanup gate, and forbidden-file policy?
+
+## Source Visibility Checks
+
+- If `paper/main` is linked to Overleaf or visible to coauthors, is it marked `author-visible` rather than private?
+- Do author-visible, anonymous, arXiv, camera-ready, or publisher source surfaces exclude `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer/rebuttal notes, private paths, and provenance ledgers?
+- Are internal result inventories, writing memory, and paper asset provenance stored in root/private memory or agent-private worktrees rather than visible source?
+- Does every visible paper source surface have a cleanup gate before push, submission, arXiv, camera-ready, or release?
+- Are public-source audits recorded in `memory/source-visibility-board.md`?
 
 ## Paper/Slide Checks
 
@@ -65,6 +74,7 @@ Use these checks before writing, review simulation, rebuttal, submission, camera
 - Are promised revisions tracked until completed?
 - Did rebuttal experiments update evidence and paper claims?
 - Did rebuttal or camera-ready work update provenance, handoffs, and phase status?
+- Did rebuttal, submission, arXiv, or camera-ready work update source visibility and cleanup status?
 
 ## Volatility Checks
 

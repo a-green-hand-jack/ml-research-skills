@@ -39,4 +39,13 @@ Check:
 - metadata fields in submission system
 - copyright/license forms if applicable
 
+## Source Visibility
+
+For camera-ready or publisher-visible source, check:
+
+- no `.agent/`, `AGENTS.md`, `CLAUDE.md`, internal memory, raw CSVs, internal result docs, plotting scripts, notebooks, provenance ledgers, reviewer/rebuttal scratch, or private paths are included
+- source files are de-anonymized where required
+- source package contains only public-clean LaTeX, paper-facing figures/tables, bibliography, style files, supplement, and approved artifact/release links
+- `memory/source-visibility-board.md` records the final visibility tier and audit status when project memory exists
+
 Route detailed LaTeX checks to `citation-audit` and format readiness to `submit-paper`.

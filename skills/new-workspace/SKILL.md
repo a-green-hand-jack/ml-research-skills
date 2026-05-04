@@ -34,6 +34,7 @@ Pair this skill with:
 - Avoid nested worktrees inside `code/` or `paper/` unless the user explicitly requires that layout.
 - Every research worktree should have a purpose, linked claim/risk/experiment, and exit condition.
 - Paper worktrees should also record target venue/version, submission mode, template/style differences, cleanup requirements, and source-visibility assumptions.
+- Paper source visibility is independent of venue. A paper worktree may be `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, or `publisher-artifact`.
 - `experiments/` is runnable logic; stable result summaries belong in `docs/results/`, reports in `docs/reports/`, and run pointers in `docs/runs/`.
 - Code worktrees get their own `.venv/` after `uv sync`. Paper worktrees do not need a local TeX install by default; Overleaf/GitHub compile may be the source of truth.
 
@@ -48,6 +49,7 @@ Ask the user for:
   - paper: `venue`, `submission`, `arxiv`, `camera-ready`, `rebuttal`, `paper-fix`, or custom
 - branch name without prefix
 - target repo path, if not obvious
+- for paper workspaces: source visibility tier, audience, sync target, and cleanup gate
 - whether to write worktree memory
 
 If running inside `<ProjectName>/`, prefer the `code/` repo for experiment, baseline, debug, and rebuttal implementation work.
@@ -113,6 +115,8 @@ Examples:
 - `venue/icml`
 - `arxiv/v1`
 - `camera-ready/neurips`
+- `private/draft`
+- `overleaf/main-clean`
 
 The worktree directory name should be filesystem-friendly:
 
@@ -219,9 +223,19 @@ Create or update `.agent/worktree-status.md` with paper-version fields:
 - target venue or release: NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, arXiv, camera-ready
 - submission mode: anonymous, preprint, camera-ready, rebuttal, or internal
 - style/template differences from main paper
-- source visibility: private conference source, public arXiv source, camera-ready publisher source
+- source visibility tier:
+  - `agent-private`: may contain `.agent/`, `AGENTS.md`, `CLAUDE.md`, writing memory, provenance notes, internal result docs, CSVs, and plotting scripts; should not sync to Overleaf/public remotes
+  - `author-visible`: coauthor/Overleaf-visible; must exclude `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal docs, plotting scripts, reviewer strategy, and private paths
+  - `anonymous-submission`: venue/source-upload-visible; must enforce anonymity and exclude agent/private files
+  - `public-preprint`: arXiv/public source; must be public-clean
+  - `camera-ready-public`: final accepted public/publisher source; must be de-anonymized and public-clean
+  - `publisher-artifact`: final public source plus artifact/release-facing files only
+- audience and sync target: none, Overleaf-GitHub, GitHub, submission-system, arXiv, publisher, or artifact
+- allowed paths and forbidden paths
+- cleanup gate: before-push, before-submission, before-arxiv, before-camera-ready, or before-release
 - cleanup requirements:
   - arXiv/public source: remove TODOs, author comments, reviewer notes, internal figure/table descriptions in TeX comments, hidden notes, and anonymization leftovers
+  - author-visible / Overleaf: remove or avoid `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, private paths, and agent-only notes
   - conference anonymous: enforce anonymity and venue format; source comments may still be risky if the source is uploaded, so do not rely on them
   - camera-ready: de-anonymize, add acknowledgements/funding, close rebuttal promises, and remove draft-only notes
 - Overleaf/GitHub compile status and branch mapping, if used
@@ -259,6 +273,7 @@ Include:
 - linked claims, experiments, risks, or reviewer issues
 - expected difference from main branch
 - for paper worktrees: target venue/version, template/style differences, source cleanup policy, and public/private source assumptions
+- for paper worktrees: source visibility tier, audience, sync target, allowed/forbidden file policy, and cleanup gate
 - result/output paths
 - exit condition: merge, continue, park, or kill
 - next verification step
@@ -267,6 +282,7 @@ If project memory exists, also add a short pointer to:
 
 - `memory/component-index.yaml`: known worktree path
 - `<component>/.agent/worktree-index.md`: component-local active worktree rollup
+- `memory/source-visibility-board.md`: source visibility tier and cleanup gate for paper worktrees or visible branches
 - `memory/action-board.md`: next action for the worktree
 - `memory/current-status.md`: only if this is the active focus
 
@@ -326,5 +342,6 @@ If `.worktree-links` does not exist, offer to create:
 - `git worktree list` shows the expected path
 - code evidence paths exist for code worktrees
 - paper version policy is recorded for paper worktrees
+- paper source visibility policy is recorded for paper worktrees, especially Overleaf/coauthor-visible and public-source branches
 - worktree memory records purpose and exit condition when relevant
 - project memory is updated only with durable pointers, not logs

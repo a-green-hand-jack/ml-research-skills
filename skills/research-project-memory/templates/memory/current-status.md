@@ -16,6 +16,7 @@
 - Latest evidence:
 - Provenance/provisional-result status:
 - Open handoffs:
+- Paper source visibility:
 - Current paper state:
 - Current code state:
 

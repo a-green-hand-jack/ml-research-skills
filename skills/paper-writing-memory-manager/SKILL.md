@@ -55,6 +55,7 @@ Do not use this skill to write the prose itself. Use `paper-writing-assistant` a
 - Writing is nonlinear; memory must preserve active threads, stale areas, and dependencies across sessions.
 - A local edit can have global consequences. Record semantic impact, not just textual diff.
 - The dependency map should make cross-section consistency tractable.
+- Writing memory is agent-private. If the active paper branch is Overleaf/coauthor-visible, anonymous-submission, arXiv/public, or camera-ready public source, ensure `.agent/` is ignored/untracked or use an `agent-private` paper worktree/root memory instead.
 - Section status should distinguish `stable`, `draft`, `stale`, `blocked`, `missing`, and `needs-review`.
 - Style and terminology decisions are part of writing memory because they affect future edits.
 - Do not duplicate full paper text or long experiment reports. Store pointers, locations, IDs, and concise decisions.

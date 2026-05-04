@@ -20,6 +20,7 @@ Default local workflow assumption: on macOS, do not assume TeX Live or MacTeX is
 ├── templates/
 │   ├── macros.tex                  # Full math macro library
 │   ├── main.tex                    # Generic arXiv/whitepaper template
+│   ├── gitignore                   # Paper-source hygiene defaults
 │   ├── AGENTS.md                   # Universal/Codex writing rules
 │   ├── CLAUDE.md                   # Writing rules for AI agents
 │   └── venues/
@@ -117,8 +118,9 @@ The generated paper repo should include both:
 
 - `AGENTS.md`: universal/Codex entrypoint for paper-local writing, compile, figure, table, and source hygiene rules
 - `CLAUDE.md`: Claude Code entrypoint with the same effective policy
+- `.gitignore`: paper-specific source visibility defaults that keep `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, provenance ledgers, notebooks, and plotting scripts out of visible paper source unless intentionally force-added
 
-Keep the two files semantically aligned. If one file is shorter, it must clearly point to the other as the canonical paper-local policy.
+Keep the two agent guidance files semantically aligned. Treat them as local/agent-private guidance by default; if the paper branch is linked to Overleaf or otherwise visible to coauthors, do not push them unless the user explicitly chooses to expose agent guidance.
 
 ### 6. Record paper version policy when inside a project root
 
@@ -132,6 +134,8 @@ Use paper worktrees for:
 - making paper-only rebuttal edits with a clear exit condition
 
 For arXiv or any public-source release, keep internal figure/table descriptions, experimental provenance notes, reviewer notes, TODOs, author-comment macros, private paths, and hidden comments out of the released `.tex` source. Store that descriptive/provenance material in `.agent/`, root `memory/`, or private project docs instead.
+
+If the main paper branch is linked to Overleaf/GitHub, treat it as `author-visible`: paper source and paper-facing assets are allowed, but `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, notebooks, reviewer strategy, and private paths should stay in root/private memory or an `agent-private` paper worktree.
 
 For anonymous conference submissions, enforce venue anonymity and formatting mode. Do not assume source comments are safe if the venue requires source upload.
 

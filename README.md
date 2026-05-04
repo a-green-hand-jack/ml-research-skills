@@ -39,7 +39,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 
 | Skill | What it does |
 |---|---|
-| `research-project-memory` | Initialize and maintain hierarchical project memory across claim lifecycle, evidence provenance, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviews, and rebuttal |
+| `research-project-memory` | Initialize and maintain hierarchical project memory across claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviews, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
@@ -111,7 +111,8 @@ A full project is a control root with independent component repositories:
 │   ├── risk-board.md
 │   ├── action-board.md
 │   ├── handoff-board.md
-│   └── phase-dashboard.md
+│   ├── phase-dashboard.md
+│   └── source-visibility-board.md
 ├── docs/                   # project-level docs, not code-side run archives
 │   ├── overview.md
 │   ├── designs/
@@ -145,6 +146,7 @@ Root ownership rules:
 - Do not treat `slides/slides.md` as the whole presentation history. Stable meeting/talk decks belong under `slides/decks/`, with deck registry memory in `slides/.agent/deck-index.md`.
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
 - Root `memory/` also owns the system-level protocols: claim lifecycle, evidence provenance, cross-module handoffs, and the project phase dashboard.
+- Root `memory/source-visibility-board.md` tracks which paper source surfaces are agent-private, author-visible, submission-visible, arXiv/public, camera-ready, or publisher/artifact-visible.
 - Cross-worktree memory has three layers: global registry in `memory/component-index.yaml`, component rollups in `paper/.agent/worktree-index.md` and `code/.agent/worktree-index.md`, and leaf status in each worktree's `.agent/worktree-status.md`.
 
 Optional GitHub Project alignment:
@@ -161,7 +163,7 @@ Primary skills by root area:
 | Area | Main artifacts | Primary skills |
 |---|---|---|
 | Root setup | `PROJECT.md`, paired root `AGENTS.md`/`CLAUDE.md`, component repos, root docs | **project-init**, **research-project-memory** |
-| Root memory | claims, evidence, provenance, risks, actions, handoffs, phase dashboard, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
+| Root memory | claims, evidence, provenance, risks, actions, handoffs, phase dashboard, source visibility, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
 | Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
 | Cloud coordination | GitHub Project board, repo issues, PRs, public task status | **project-init**, **remote-project-control**, **safe-git-ops** |
@@ -174,7 +176,7 @@ Memory is layered:
 
 | Layer | Location | Purpose | Examples |
 |---|---|---|---|
-| Project memory | `memory/` | Shared coordination state across paper, code, slides, review, rebuttal, artifact, and worktrees | `project.yaml`, `component-index.yaml`, `claim-board.md`, `evidence-board.md`, `provenance-board.md`, `risk-board.md`, `action-board.md`, `handoff-board.md`, `phase-dashboard.md` |
+| Project memory | `memory/` | Shared coordination state across paper, code, slides, review, rebuttal, artifact, and worktrees | `project.yaml`, `component-index.yaml`, `claim-board.md`, `evidence-board.md`, `provenance-board.md`, `risk-board.md`, `action-board.md`, `handoff-board.md`, `phase-dashboard.md`, `source-visibility-board.md` |
 | Cloud coordination | GitHub Project | Optional collaborator-facing task board across component repos | issues, PRs, draft items, roadmap/board/table views, custom fields |
 | Component memory | `<component>/.agent/` | Component-local state that is too detailed for root boards but still useful across sessions | `paper/.agent/paper-status.md`, `paper/.agent/figure-table-map.md`, `code/.agent/worktree-index.md`, `slides/.agent/deck-index.md` |
 | Repo-native ops memory | `code/docs/ops/` and similar component docs | Operational notes native to a repo; useful but not a cross-component registry | `code/docs/ops/current-status.md`, `code/docs/ops/decision-log.md` |
@@ -198,6 +200,7 @@ The four system-level protocols are:
 | Evidence provenance | `memory/provenance-board.md` | Traces raw runs, CSVs, reports, analyses, citations, figures, tables, captions, and result prose back to source evidence |
 | Project phase dashboard | `memory/phase-dashboard.md` | Gives the global project-cycle phase, active gate, readiness, stale objects, and next session entry point |
 | Cross-module handoff contracts | `memory/handoff-board.md` | Makes producer/consumer payloads explicit when work moves between idea, method, code, paper, slides, review, rebuttal, artifact, or release modules |
+| Paper source visibility | `memory/source-visibility-board.md` | Separates agent-private, author-visible/Overleaf, anonymous submission, arXiv/public, camera-ready, and publisher/artifact source surfaces |
 
 | Skill family | Reads from memory | Writes back |
 |---|---|---|
@@ -247,15 +250,16 @@ GitHub Project integration is deliberately narrower than project memory. Mirror 
 
 ### Paper Repo
 
-The paper repo is the paper-facing source of truth: claims, narrative, figures, tables, captions, citations, submission mode, and final PDF state.
+The paper repo is the paper-facing source of truth: claims, narrative, figures, tables, captions, citations, submission mode, source visibility, and final PDF state.
 
 ```text
 paper/
 ├── main.tex                 # paper entry point
 ├── venue_preamble.tex       # venue mode and style package hook
 ├── macros.tex               # shared math and author macros
-├── AGENTS.md                # universal/Codex paper-local guidance
-├── CLAUDE.md                # Claude Code paper-local guidance, aligned with AGENTS.md
+├── AGENTS.md                # agent-private paper-local guidance; do not push to visible source by default
+├── CLAUDE.md                # agent-private Claude Code guidance; aligned with AGENTS.md
+├── .gitignore               # ignores agent/private files for visible paper source by default
 ├── sections/
 │   ├── title.tex
 │   ├── abstract.tex
@@ -275,7 +279,7 @@ paper/
 │   └── table_name.tex       # standalone table wrapper and table source
 ├── bib/
 │   └── refs.bib
-└── .agent/
+└── .agent/                  # agent-private paper memory; do not push to visible source by default
     ├── visual-style.md
     ├── figure-table-map.md
     ├── writing-memory/
@@ -310,6 +314,9 @@ Paper boundary rules:
 - Local macOS does not need TeX Live. The default compile path can be local edit -> GitHub push -> Overleaf compile.
 - Paper-facing claims should be backed by evidence links in root `memory/` and, when needed, code-side reports under `code/docs/`.
 - Different paper versions should use paper worktrees under `paper-worktrees/` when they need different templates, venue modes, anonymity rules, arXiv cleanup, or camera-ready edits.
+- Paper source visibility is independent of venue. If `paper/main` syncs to Overleaf through GitHub, treat it as `author-visible`, not private.
+- Author-visible, anonymous-submission, arXiv/public, camera-ready, and publisher-visible paper source must exclude `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, notebooks, reviewer/rebuttal scratch, private paths, and agent-only provenance ledgers unless the user explicitly cleans and publishes them.
+- Agent-private paper state belongs in root `memory/`, private component `.agent/`, untracked local files, or an `agent-private` paper worktree.
 - arXiv/public-source worktrees must remove internal comments, figure/table descriptions in TeX comments, reviewer notes, TODOs, author-comment macros, and private paths from public source.
 - Conference worktrees must enforce venue mode and anonymity. Camera-ready worktrees must de-anonymize, add acknowledgements/funding, and remove draft-only notes.
 
@@ -348,6 +355,15 @@ Use them when:
 - making paper-only rebuttal edits with a clear exit condition
 
 Each paper worktree should have `.agent/worktree-status.md` recording target venue/release, submission mode, template/style differences, source visibility, cleanup requirements, compile workflow, and exit condition.
+
+Paper source visibility tiers:
+
+- `agent-private`: researcher and agents; used for private drafting, writing memory, plotting/provenance work; must not sync to a visible remote unless intentionally private.
+- `author-visible`: coauthors / Overleaf collaborators; typical `main` Overleaf/GitHub branch; excludes `.agent/`, `AGENTS.md`, `CLAUDE.md`, CSVs, internal docs, plotting scripts, and private paths by default.
+- `anonymous-submission`: reviewers / submission system; conference source/PDF; excludes identity leaks, agent/private files, and internal comments.
+- `public-preprint`: public / arXiv; arXiv source; excludes TODOs, reviewer notes, provenance docs, scripts, CSVs, and private paths.
+- `camera-ready-public`: publisher / public; accepted final source; excludes draft/rebuttal scratch, agent state, and private assets.
+- `publisher-artifact`: publisher/artifact readers; final paper + artifact links; excludes private intermediate files and research memory.
 
 ### Code Repo
 
@@ -482,7 +498,7 @@ The collection is a feedback system, not a one-way pipeline. `research-project-m
 
 ```mermaid
 flowchart TD
-    M[research-project-memory<br/>claim/evidence/provenance/risk/action/handoff graph]
+    M[research-project-memory<br/>claim/evidence/provenance/visibility/risk/action/handoff graph]
 
     subgraph A[Idea, Literature, and Method Design]
         I[research-idea-validator]
@@ -633,7 +649,7 @@ Use this skill to keep feedback loops between idea, algorithm, experiments, writ
 
 | Skill | Lifecycle role |
 |---|---|
-| **research-project-memory** | Maintain hierarchical memory and claim/evidence/provenance/risk/action/handoff links across project components |
+| **research-project-memory** | Maintain hierarchical memory and claim/evidence/provenance/visibility/risk/action/handoff links across project components |
 
 ### 1. Idea Validation and Project Shaping
 
@@ -969,10 +985,10 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 ## What `research-project-memory` Provides
 
 - Hierarchical project memory across root `memory/`, component `.agent/` folders, repo-native operational docs, and worktree status files
-- Claim/evidence/provenance/risk/action/handoff tracking with stable IDs such as `CLM-001`, `EVD-001`, `PRV-001`, `RSK-001`, `ACT-001`, and `HND-001`
-- Templates for project boards: claims, evidence, provenance, risks, actions, handoffs, phase dashboard, decisions, current status, and component index
+- Claim/evidence/provenance/risk/action/handoff/source-visibility tracking with stable IDs such as `CLM-001`, `EVD-001`, `PRV-001`, `RSK-001`, `ACT-001`, `HND-001`, and `VIS-001`
+- Templates for project boards: claims, evidence, provenance, risks, actions, handoffs, phase dashboard, source visibility, decisions, current status, and component index
 - Component and worktree rollups: `<component>/.agent/<component>-status.md`, `<component>/.agent/worktree-index.md`, and `<component-worktree>/.agent/worktree-status.md`
-- Consistency checks for unsupported claims, stale or missing provenance, reviewer risks without actions, blocked handoffs, phase-gate drift, rebuttal promises, and worktrees without exit conditions
+- Consistency checks for unsupported claims, stale or missing provenance, reviewer risks without actions, blocked handoffs, source-visibility leaks, phase-gate drift, rebuttal promises, and worktrees without exit conditions
 - A shared writeback protocol for other skills after idea validation, experiment design, runs, writing, review simulation, and rebuttal
 - Integration guidance in core research-loop skills so results, reviews, citations, rebuttals, and remote runs can update the same project memory graph
 
@@ -1104,6 +1120,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A `paper/.agent/result-inventory.md` map of CSV files, columns, metrics, methods, datasets, seeds, and candidate claim support
 - A `paper/.agent/result-asset-provenance.md` record of source CSVs, filtering, aggregation, uncertainty, rounding, bolding, plotting, manual edits, and paper locations
 - Explicit separation between experiment-time visualizations used for debugging and paper-facing visualizations used to support claims
+- Visibility-aware asset handling: paper-facing `figures/` and `tables/` may be visible, but CSVs, notebooks, plotting scripts, debug plots, and provenance ledgers remain private unless explicitly cleaned for release
 - Handoffs to `figure-results-review`, `table-results-review`, `experiment-story-writer`, and `paper-evidence-board`
 
 ## What `paper-evidence-gap-miner` Provides

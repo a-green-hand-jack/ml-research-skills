@@ -14,6 +14,7 @@ memory_policy:
   keep_private_paths_out_of_shared_memory: true
   require_certainty_labels: true
   reverify_volatile_state_before_action: true
+  track_paper_source_visibility: true
 
 github_project:
   enabled: false
@@ -32,6 +33,9 @@ components:
     memory_path: paper/.agent
     worktree_index_path: paper/.agent/worktree-index.md
     worktree_root: paper-worktrees
+    default_visibility_tier: author-visible
+    overleaf_linked: unknown
+    private_agent_state_policy: keep-out-of-visible-source
     status: planned
   code:
     path: code
@@ -70,3 +74,4 @@ id_counters:
   decision: 0
   worktree: 0
   review: 0
+  visibility: 0

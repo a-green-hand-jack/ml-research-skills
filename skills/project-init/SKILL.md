@@ -41,7 +41,8 @@ Default shape:
 │   ├── risk-board.md
 │   ├── action-board.md
 │   ├── handoff-board.md
-│   └── phase-dashboard.md
+│   ├── phase-dashboard.md
+│   └── source-visibility-board.md
 ├── paper/                 # independent LaTeX git repo
 ├── code/                  # independent Python/ML git repo
 ├── code-worktrees/         # sibling worktree root for code repo branches
@@ -79,6 +80,7 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 - Code worktrees should not be nested inside `code/` by default. Use the sibling root `code-worktrees/` so Git, IDEs, search tools, and agents do not confuse worktrees with normal source files.
 - The paper component owns paper source, venue templates, submission modes, arXiv/public-source cleanup, camera-ready revisions, and paper worktrees.
 - Paper worktrees should not be nested inside `paper/` by default. Use the sibling root `paper-worktrees/` for venue retargeting, arXiv releases, rebuttal paper edits, and camera-ready branches.
+- Paper source visibility is independent of venue. If `paper/main` is linked to Overleaf or visible to coauthors, treat it as `author-visible`, not private; keep agent-private files out of that branch.
 - Project memory stores durable cross-component state; root `docs/` stores project-level design and planning artifacts; code docs store code-side implementation, run, and result details.
 - Root Git is optional. If enabled, do not accidentally commit nested component repos unless the user explicitly wants submodules.
 - A GitHub Project is optional cloud coordination. It tracks collaborator-facing issues, PRs, blockers, and roadmap views across component repos; it does not replace root `memory/`, component `.agent/`, or repo-native evidence docs.
@@ -106,6 +108,10 @@ Ask for these fields in one message:
    - default paper sibling root: `<ProjectName>/paper-worktrees/`
    - server worktree root, if different
    - branch naming conventions, if any
+   - paper source visibility policy:
+     - whether `paper/main` is linked to Overleaf/GitHub
+     - whether `paper/main` is `author-visible` or `agent-private`
+     - where `.agent/`, AGENTS/CLAUDE guidance, raw CSVs, plotting scripts, and internal result docs should live
 
 Wait for the user's answers before creating files.
 
@@ -187,6 +193,7 @@ Use `research-project-memory` templates or equivalent files to create:
 - `memory/action-board.md`
 - `memory/handoff-board.md`
 - `memory/phase-dashboard.md`
+- `memory/source-visibility-board.md`
 
 The component index should record:
 
@@ -205,10 +212,13 @@ components:
     path: paper
     worktree_root: paper-worktrees
     worktree_index_path: paper/.agent/worktree-index.md
+    default_visibility_tier: author-visible
+    source_visibility_board: memory/source-visibility-board.md
     owns:
       - paper claims and narrative
       - figures and tables selected for submission
       - venue/arXiv/camera-ready versions
+      - source visibility and cleanup policy
   slides:
     path: slides
     status: optional
@@ -252,6 +262,8 @@ The root guidance must state:
 - use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component repos
 - code worktrees live under `code-worktrees/` by default
 - paper worktrees live under `paper-worktrees/` by default for venue, arXiv, and camera-ready versions
+- paper source visibility tiers are `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, and `publisher-artifact`
+- if `paper/main` syncs to Overleaf through GitHub, it is `author-visible`; do not put `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer strategy, or private paths into that visible source
 - root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
 - `code/docs/` is for code-side result summaries, run records, implementation reports, and server execution notes
 - experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
@@ -260,6 +272,7 @@ The root guidance must state:
 - cross-worktree rollups live in `code/.agent/worktree-index.md`, `paper/.agent/worktree-index.md`, and root `memory/component-index.yaml`
 - GitHub Project, when configured, is the collaborator-facing board for issues, PRs, blockers, targets, and roadmap views; root `memory/` remains the durable research memory
 - arXiv/public-source paper worktrees must remove TODOs, internal comments, hidden figure/table descriptions, reviewer-response notes, and author-comment macros before source release
+- author-visible Overleaf branches must exclude agent-private files even if the paper is not yet public
 - anonymous conference paper worktrees must enforce venue anonymity and formatting rules
 - project memory gets durable claim/evidence/provenance/risk/action/handoff summaries
 - project memory tracks claim lifecycle, evidence provenance, cross-module handoffs, and phase dashboard state
@@ -276,9 +289,9 @@ If creating a new paper repo, use `init-latex-project` at:
 <ProjectName>/paper/
 ```
 
-If connecting an existing paper repo, clone or record its path and remote. Then create `paper/.agent/` if missing.
+If connecting an existing paper repo, clone or record its path and remote. Then inspect whether it is linked to Overleaf or visible to coauthors before creating or tracking agent-private files.
 
-Ensure the paper repo has both `paper/AGENTS.md` and `paper/CLAUDE.md` when agents will edit it. `AGENTS.md` is the universal/Codex entrypoint; `CLAUDE.md` is the Claude Code entrypoint. Keep them aligned with the same paper-local compile, venue, source hygiene, figure, table, and memory rules.
+Ensure the paper workspace has both `paper/AGENTS.md` and `paper/CLAUDE.md` when agents will edit it, but treat these as agent-private guidance by default. If the active branch is `author-visible`, `anonymous-submission`, `public-preprint`, or `camera-ready-public`, keep these files untracked, ignored, or in an `agent-private` worktree rather than pushing them to the visible source. Keep them aligned with the same paper-local compile, venue, source hygiene, figure, table, and memory rules.
 
 ### Code
 
@@ -341,12 +354,15 @@ worktree path:        <ProjectName>/paper-worktrees/<version-type>-<venue-or-nam
 Use paper worktrees for:
 
 - different conference targets with different templates or style files
+- agent-private drafting when the main branch is Overleaf/coauthor-visible
 - arXiv/preprint releases where LaTeX source may become public
 - camera-ready versions after acceptance
 - paper-only rebuttal edits that should not disturb the main submission branch
 
 Paper version hygiene:
 
+- agent-private: may contain `.agent/`, `AGENTS.md`, `CLAUDE.md`, writing memory, provenance, internal result docs, CSVs, and plotting scripts; should not sync to visible remotes
+- author-visible / Overleaf: exclude `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer strategy, private paths, and agent-only notes
 - arXiv/public source: remove TODOs, internal figure/table descriptions in TeX comments, reviewer notes, hidden comments, author-comment macros, and anonymization leftovers
 - anonymous conference: enforce anonymity, venue mode, and formatting; do not assume source comments are safe if source is uploaded
 - camera-ready: de-anonymize, add acknowledgements/funding, close rebuttal promises, and remove draft-only notes
@@ -355,6 +371,7 @@ Record this in:
 
 - `memory/project.yaml`
 - `memory/component-index.yaml`
+- `memory/source-visibility-board.md`
 - `<ProjectName>/AGENTS.md`
 - `<ProjectName>/CLAUDE.md`
 - `code/docs/ops/current-status.md` when server execution is involved
@@ -407,6 +424,7 @@ Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktre
 - `memory/provenance-board.md` tracks source-to-paper evidence provenance from runs, CSVs, reports, citations, assets, captions, and prose.
 - `memory/handoff-board.md` tracks producer/consumer contracts between code, paper, slides, review, rebuttal, artifact, and release work.
 - `memory/phase-dashboard.md` gives the current project-cycle phase, active gate, and next session entry point.
+- `memory/source-visibility-board.md` tracks paper source visibility tiers, audiences, sync targets, allowed/forbidden files, and cleanup gates.
 - `docs/overview.md` gives the current human-readable project overview.
 - `docs/designs/` stores staged method and system design documents.
 - `docs/experiments/` stores cross-component experiment plans before they become code-side run records.
@@ -440,12 +458,14 @@ Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktre
 - every research or paper-version worktree needs `.agent/worktree-status.md`
 - exit condition: merge, continue, park, or kill
 - paper version worktrees must record target venue/release, submission mode, template/style differences, source visibility, cleanup requirements, and compile workflow
+- paper source surfaces must record visibility tier, audience, sync target, allowed/forbidden files, cleanup gate, and audit status
 - component worktree indexes live at `code/.agent/worktree-index.md` and `paper/.agent/worktree-index.md`
 
 ## Memory Policy
 
 - project-level durable summaries live in `memory/`
 - claim lifecycle, evidence provenance, phase status, and cross-module handoffs live in root `memory/`
+- paper source visibility and cleanup gates live in root `memory/source-visibility-board.md`
 - component details live in `<component>/.agent/`
 - project-level human-readable docs live in root `docs/`
 - code-side run details live in `code/docs/`
@@ -494,6 +514,7 @@ Before finishing:
 - `gh` token has the `project` scope before `gh project ...` commands are attempted
 - `code-worktrees/` policy is recorded
 - `paper-worktrees/` policy is recorded
+- paper source visibility policy is recorded, especially whether `paper/main` is `author-visible` through Overleaf/GitHub
 - there is no top-level `experiments/` directory unless the user explicitly requested it
 - root `docs/` has a clear project-level role and is not confused with `code/docs/`
 - code-side evidence paths are inside `code/docs/`

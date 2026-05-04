@@ -17,12 +17,15 @@ components:
     memory_path: paper/.agent
     worktree_index_path: paper/.agent/worktree-index.md
     worktree_root: paper-worktrees
+    default_visibility_tier: author-visible
+    source_visibility_board: memory/source-visibility-board.md
     owns:
       - paper sections
       - claims in prose
       - figures and tables
       - venue writing decisions
       - venue/arXiv/camera-ready paper worktrees
+      - paper source visibility and cleanup policy
   - name: code
     path: code
     memory_path: code/.agent
@@ -71,5 +74,5 @@ worktrees:
   code_root: code-worktrees
   paper_root: paper-worktrees
   # Entry fields: id, component, branch, path, status, leaf_memory,
-  # component_index, linked_ids, exit_condition.
+  # component_index, linked_ids, source_visibility, exit_condition.
   entries: []

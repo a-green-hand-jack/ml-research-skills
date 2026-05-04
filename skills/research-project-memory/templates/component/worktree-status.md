@@ -11,6 +11,7 @@
 - Parent branch:
 - Component: code / paper
 - Worktree type: experiment / baseline / debug / rebuttal / venue / arxiv / camera-ready / paper-fix / other
+- Source visibility tier: agent-private / author-visible / anonymous-submission / public-preprint / camera-ready-public / publisher-artifact / not-applicable
 
 ## Purpose
 
@@ -27,7 +28,12 @@ Use this section for paper worktrees.
 - Target venue or release:
 - Submission mode: anonymous / preprint / camera-ready / rebuttal / internal
 - Template or style differences:
-- Source visibility: private / uploaded source / public arXiv source
+- Source visibility tier: agent-private / author-visible / anonymous-submission / public-preprint / camera-ready-public / publisher-artifact
+- Audience:
+- Sync target: none / Overleaf-GitHub / GitHub / submission-system / arXiv / publisher / artifact
+- Allowed paths:
+- Forbidden paths:
+- Cleanup gate: before-push / before-submission / before-arxiv / before-camera-ready / before-release
 - Cleanup required:
 - Compile workflow: local / Overleaf-GitHub / unknown
 

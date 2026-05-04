@@ -48,6 +48,7 @@ Do not use this skill to decide whether a paper claim is worth making. Use `pape
 - Paper assets exist to support claims, not to dump all available results.
 - CSV files are source evidence; paper tables and figures are curated views over those sources.
 - Experiment-time visualizations and paper-facing visualizations are different artifacts.
+- Paper-facing assets may be visible to coauthors, reviewers, arXiv, or publishers; CSVs, plotting scripts, notebooks, provenance ledgers, and internal diagnostic plots are private unless explicitly cleaned for that audience.
 - Every table or figure needs source CSV paths, filtering rules, aggregation rules, metric direction, rounding, styling, and claim mapping.
 - Prefer reusing existing CSV results before asking for new compute.
 - Never silently hand-enter numbers without provenance.
@@ -120,6 +121,7 @@ For tables:
 - define bolding/underlining and missing-value rules
 - include metric direction arrows when appropriate
 - output standalone `tables/<name>.tex`
+- keep the source CSVs and generation scripts outside author-visible/public paper source unless the project explicitly chooses to release them
 
 For figures:
 
@@ -127,6 +129,7 @@ For figures:
 - apply `paper/.agent/visual-style.md` when present
 - export stable paper assets such as `figures/<name>.pdf` and optionally `figures/<name>.png`
 - output a LaTeX wrapper `figures/<name>.tex` with caption and label scaffolding
+- keep private plotting code, notebooks, and debug plots out of author-visible/public source by default
 
 ## Step 4 - Record Provenance
 
@@ -157,6 +160,7 @@ After creating assets:
 - update `paper-evidence-board` with asset-to-claim mappings
 - update `paper-writing-memory-manager` when new or changed assets affect captions, result prose, abstract, introduction, limitations, or conclusion
 - update `memory/provenance-board.md` with CSV/report-to-asset traceability, aggregation rules, scripts, and paper locations when project memory exists
+- update `memory/source-visibility-board.md` or route to `submit-paper` when generated assets are intended for an author-visible, anonymous, arXiv, camera-ready, or publisher-visible source surface
 - update `memory/handoff-board.md` with ready handoffs to `figure-results-review`, `table-results-review`, `experiment-story-writer`, or `paper-evidence-board`
 - update `memory/phase-dashboard.md` when the project moves from evidence production to paper asset building or drafting
 
@@ -171,3 +175,4 @@ Before finalizing:
 - table/figure job maps to a claim or reviewer question
 - missing results are routed to `paper-evidence-gap-miner`
 - provenance is saved or returned
+- private source files such as CSVs, notebooks, plotting scripts, and provenance ledgers are not placed in visible paper source unless intentionally cleaned

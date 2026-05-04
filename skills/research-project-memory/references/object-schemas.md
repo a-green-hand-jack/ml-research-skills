@@ -15,6 +15,7 @@ Use stable IDs so claims, evidence, figures, risks, actions, reviews, and worktr
 - `WTR-###`: worktree or branch
 - `REV-###`: reviewer or rebuttal issue
 - `HND-###`: cross-module handoff
+- `VIS-###`: paper source visibility surface or policy
 
 ## Certainty Labels
 
@@ -157,6 +158,26 @@ linked_evidence: [EVD-001]
 linked_actions: [ACT-001]
 acceptance_check: ""
 staleness_trigger: ""
+certainty: observed
+last_updated: YYYY-MM-DD
+```
+
+## Source Visibility
+
+```yaml
+id: VIS-001
+surface: paper | paper-worktree | source-package | overleaf-branch
+path: ""
+branch: ""
+visibility_tier: agent-private | author-visible | anonymous-submission | public-preprint | camera-ready-public | publisher-artifact
+audience: []
+sync_target: none | Overleaf-GitHub | GitHub | submission-system | arXiv | publisher | artifact
+allowed_paths: []
+forbidden_paths: []
+cleanup_gate: before-push | before-submission | before-arxiv | before-camera-ready | before-release
+linked_worktree: WTR-001
+audit_status: not-started | needs-verification | blocked | passed | failed
+last_audited: YYYY-MM-DD
 certainty: observed
 last_updated: YYYY-MM-DD
 ```

@@ -1,0 +1,36 @@
+# Paper source hygiene.
+# By default, this repository may be linked to Overleaf or shared with coauthors.
+# Keep agent/private research state out of visible paper source.
+
+.agent/
+AGENTS.md
+CLAUDE.md
+
+# Internal result/provenance material belongs in root memory, code/docs, or an agent-private worktree.
+docs/results/
+docs/reports/
+docs/runs/
+results/
+outputs/
+*.csv
+*provenance*
+*result-inventory*
+*writing-memory*
+
+# Plotting/generation scripts are private unless intentionally cleaned and force-added.
+scripts/
+plot_scripts/
+notebooks/
+*.ipynb
+
+# Local build/editor noise.
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+.DS_Store

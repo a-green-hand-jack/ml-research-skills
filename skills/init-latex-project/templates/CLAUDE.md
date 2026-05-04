@@ -18,6 +18,16 @@ If a local LaTeX compiler is missing, do not ask the user to install TeX unless 
 
 ---
 
+## 0.0 Source Visibility
+
+This file and `AGENTS.md` are agent-private guidance by default. If the current branch syncs to Overleaf through GitHub, treat the branch as `author-visible`, not private.
+
+Do not push these files, `.agent/`, raw CSVs, internal result docs, plotting scripts, notebooks, reviewer strategy, private paths, or provenance ledgers to author-visible, anonymous submission, arXiv, camera-ready, or publisher-visible source unless the user explicitly asks and the files have been cleaned for that audience.
+
+Allowed visible paper source usually includes `main.tex`, `venue_preamble.tex`, `macros.tex`, `sections/`, `figures/`, `tables/`, and `bib/`.
+
+---
+
 ## 0.1 Paper Version Worktrees and Source Hygiene
 
 If this paper belongs to a project control root, paper versions may live in sibling worktrees under `../paper-worktrees/`.

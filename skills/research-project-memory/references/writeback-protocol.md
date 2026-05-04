@@ -17,6 +17,7 @@ Write the smallest durable update that will help the next session. Do not turn m
 | A concrete task needs to be tracked | `memory/action-board.md` |
 | Project phase, active gate, readiness, stale objects, or next phase trigger changes | `memory/phase-dashboard.md` |
 | One module produces payload another module should consume | `memory/handoff-board.md` |
+| Paper branch/worktree/source package visibility, Overleaf sync audience, allowed/forbidden source files, or cleanup gate changes | `memory/source-visibility-board.md` |
 | A concrete task should be visible to collaborators or attached to a PR/issue | GitHub issue/PR/project item plus a short pointer in `memory/action-board.md` when it affects claims, evidence, risks, or worktrees |
 | Paper section status, writing decision, figure location | `paper/.agent/` |
 | Paper version target, template differences, source visibility, cleanup policy, compile workflow | relevant paper worktree `.agent/worktree-status.md` plus durable decisions in `memory/decision-log.md` |
@@ -47,6 +48,9 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `paper-evidence-board`: write paper-facing claim/evidence/figure/section alignment and open evidence gaps.
 - `paper-evidence-gap-miner`: write evidence-gap handoffs to experiment design only after checking existing result sources.
 - `paper-result-asset-builder`: write CSV/report-to-figure/table provenance and handoffs to figure/table review or result prose writing.
+- `new-workspace`: write paper worktree source visibility tier, sync target, cleanup gate, and forbidden-file policy when creating paper worktrees.
+- `submit-paper`: write final pre-submission blockers, readiness decisions, source visibility audit status, and cleanup actions for author-visible, anonymous, arXiv, camera-ready, or publisher-visible source.
+- `init-latex-project`: initialize paper-local source hygiene policy and default ignore rules so agent-private files do not enter visible paper source by accident.
 - `paper-positioning-planner`: write paper archetype, contribution hierarchy, scoped claims, related-work boundary, and positioning actions.
 - `conference-writing-adapter`: write section mapping, claim wording decisions, and writing risks.
 - `paper-writing-memory-manager`: write stale prose, dependency, provisional-result, and section-state pointers into paper-local memory; summarize cross-component effects through claim, provenance, handoff, or action boards when needed.
@@ -54,9 +58,8 @@ Write the smallest durable update that will help the next session. Do not turn m
 - `citation-coverage-audit`: write missing-citation risks and actions.
 - `citation-audit`: write correctness risks and blocking fixes.
 - `rebuttal-strategist`: write review issues, response plan, promised revisions, and post-rebuttal actions.
-- `camera-ready-finalizer`: write final accepted-paper state, fulfilled promises, final claim/evidence status, residual risks, and release/artifact handoff actions.
+- `camera-ready-finalizer`: write final accepted-paper state, fulfilled promises, final claim/evidence status, residual risks, release/artifact handoff actions, final source visibility, and public-clean source/package status.
 - `artifact-evaluation-prep`: write artifact readiness, claim-to-artifact coverage, smoke-test status, package blockers, and reviewer-instruction actions.
-- `submit-paper`: write final pre-submission blockers and readiness decisions.
 - `release-code`: write public-release readiness, release blockers, tags, and reproducibility handoff.
 - `skill-system-auditor`: write skill-system roadmap decisions, lifecycle coverage conclusions, audit reports, stale-doc fixes, and next hardening actions.
 - `remote-project-control`: write remote execution state in its own files and summarize linked experiment state in project memory when needed.

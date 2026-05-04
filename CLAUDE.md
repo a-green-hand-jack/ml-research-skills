@@ -65,7 +65,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 | Skill | Purpose |
 |---|---|
-| `research-project-memory` | Initialize and maintain hierarchical memory across claim lifecycle, evidence provenance, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
+| `research-project-memory` | Initialize and maintain hierarchical memory across claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill project decision using novelty, feasibility, evidence, and reviewer-risk analysis |
 | `literature-review-sprint` | Turn a topic or project direction into a ranked literature map with closest-work, baseline, novelty, and positioning implications |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
@@ -115,7 +115,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 ## Key Design Patterns
 
-- **`research-project-memory`**: Use as the project-level coordination layer. It maintains memory boards for claim lifecycle, evidence provenance, risks, actions, handoffs, phase dashboard, decisions, components, and worktrees so experiment, writing, review, and rebuttal feedback loops stay aligned.
+- **`research-project-memory`**: Use as the project-level coordination layer. It maintains memory boards for claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, decisions, components, and worktrees so experiment, writing, review, and rebuttal feedback loops stay aligned.
 - **`research-idea-validator`**: Use at the start of a project or when a direction is uncertain. It applies the FIVE+C framework to decide pursue/revise/park/kill, then routes to literature review, algorithm design, experiment design, or project setup.
 - **`literature-review-sprint`**: Use before method lock-in or after novelty doubts arise. It builds a ranked map of canonical, closest, recent, baseline, and positioning-relevant papers, then converts the map into project decisions and memory updates.
 - **`algorithm-design-planner`**: Use after idea validation and before coding/experiment design. It turns a research idea into a method spec, failure-mode map, ablation implications, implementation handoff, and paper-method bridge.

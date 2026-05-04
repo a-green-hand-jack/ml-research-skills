@@ -18,6 +18,7 @@ Use this skill when:
 - final figures, tables, captions, appendix, supplement, and references must be synchronized
 - new rebuttal experiments or reviewer-requested edits must be integrated cleanly
 - the paper needs a final claim/evidence/citation/code-release consistency pass before upload
+- camera-ready or publisher-visible source must be cleaned of agent-private files, internal result docs, plotting scripts, raw CSVs, reviewer/rebuttal scratch, and private paths
 
 Do not use this skill for pre-submission readiness. Use `submit-paper` before initial submission. Use `rebuttal-strategist` while reviews are still active. Use `release-code` for the public code repository after paper-facing obligations are clear.
 
@@ -70,6 +71,7 @@ Pair this skill with:
 - The final output should leave a clear handoff to release, artifact evaluation, tagging, and archival memory.
 - Do not assume local TeX Live or MacTeX exists. If the project compiles through Overleaf linked to GitHub, use local static checks, push changes, and treat Overleaf's compile log/PDF as the final compile evidence.
 - Prefer a dedicated paper worktree under `paper-worktrees/` for camera-ready finalization when the main paper branch must preserve the submitted or arXiv state.
+- Treat final camera-ready source as `camera-ready-public` or `publisher-artifact` unless the user explicitly says the source package remains private.
 
 ## Step 1 - Recover Acceptance Context
 
@@ -170,6 +172,7 @@ Check:
 - labels, references, figures, tables, algorithms, equations, and appendices
 - stale TODOs, comments, draft macros, anonymization text, or hidden placeholders
 - public or publisher-visible source hygiene: no internal figure/table descriptions, reviewer notes, private paths, or draft-only comments in `.tex` files
+- public or publisher-visible tree hygiene: no `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, notebooks, provenance ledgers, reviewer/rebuttal scratch, or private paths in the source package
 - final title, abstract, author metadata, and PDF filename
 - final link reachability if links are included
 
@@ -223,6 +226,7 @@ Update:
 - `memory/evidence-board.md`: final paper-ready evidence and artifact links
 - `memory/risk-board.md`: any residual accepted risks
 - `memory/action-board.md`: final blockers, release tasks, artifact tasks, and tag tasks
+- `memory/source-visibility-board.md`: final source visibility tier, cleanup gate, public-clean audit status, and remaining source-package blockers
 - `paper/.agent/`: camera-ready status, final metadata, final PDF path, final upload notes
 - `rebuttal/.agent/`: promise fulfillment status and accepted outcome
 
@@ -237,5 +241,6 @@ Before finalizing:
 - figures/tables/captions/supplement/code links are consistent
 - final references and labels are clean or routed to `citation-audit`
 - final format is clean or routed to `submit-paper`
+- final source visibility is clean or routed to `submit-paper` / source cleanup
 - code/artifact/release obligations are routed
 - project memory records the accepted/camera-ready state

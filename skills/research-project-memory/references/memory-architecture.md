@@ -35,6 +35,7 @@ Files:
 - `action-board.md`: concrete tasks linked to claims, evidence, risks, or components
 - `handoff-board.md`: producer/consumer contracts when work moves between idea, method, code, paper, slides, review, rebuttal, artifact, or release modules
 - `phase-dashboard.md`: project-cycle phase, readiness gate, stale objects, and next session entry point
+- `source-visibility-board.md`: paper source visibility tiers, audiences, sync targets, allowed/forbidden files, and cleanup gates
 
 Project memory should be committed when it is useful for collaborators and not private.
 
@@ -55,6 +56,7 @@ Keep in project memory instead:
 - private reviewer-risk notes
 - detailed experiment provenance
 - paper worktree source-visibility and arXiv cleanup policies
+- author-visible Overleaf branch policy and public-source cleanup gates
 - decisions that must survive even if GitHub fields or views are reorganized
 
 Recommended `memory/project.yaml` fields:
@@ -95,7 +97,7 @@ Recommended component memory files:
 
 For code, `code/docs/ops/current-status.md` and `code/docs/ops/decision-log.md` are useful repo-native operational memory. They are not enough by themselves for cross-worktree coordination because they do not naturally list sibling worktrees, paper versions, or project-level claim/evidence/provenance/risk/action/handoff links. Use them alongside `code/.agent/worktree-index.md` and root `memory/component-index.yaml`.
 
-For paper, `.agent/paper-status.md`, `.agent/figure-table-map.md`, and `.agent/worktree-index.md` should carry writing state, figure/table mapping, and venue/arXiv/camera-ready version state. Public-source cleanup decisions should be summarized here or in root memory, not hidden in released `.tex` comments.
+For paper, `.agent/paper-status.md`, `.agent/figure-table-map.md`, and `.agent/worktree-index.md` should carry writing state, figure/table mapping, and venue/arXiv/camera-ready version state only when the source surface is private enough to hold agent memory. If `paper/main` is linked to Overleaf or visible to collaborators, treat it as `author-visible`; keep `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, plotting scripts, internal result docs, and reviewer strategy out of that visible source surface. Public-source cleanup decisions should be summarized in root memory and private component memory, not hidden in released `.tex` comments.
 
 ## Layer 4: Worktree / Branch Memory
 
@@ -130,7 +132,9 @@ Every paper worktree should additionally state:
 - target venue or release, such as NeurIPS, ICML, ICLR, CVPR, ACL, EMNLP, arXiv, or camera-ready
 - submission mode: anonymous, preprint, camera-ready, rebuttal, or internal
 - style/template differences from the main paper branch
-- source visibility: private conference source, uploaded submission source, public arXiv source, or publisher source
+- source visibility tier: `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, or `publisher-artifact`
+- audience and sync target, such as none, Overleaf-GitHub, submission system, arXiv, publisher, or artifact
+- allowed and forbidden file classes for that visibility tier
 - cleanup requirements for source release or anonymity
 - compile workflow, especially GitHub-linked Overleaf status
 
