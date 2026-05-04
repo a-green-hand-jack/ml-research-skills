@@ -164,6 +164,12 @@ ml-research-skills/
     │   ├── agents/
     │   ├── references/
     │   └── scripts/
+    ├── code-reviewer/
+    │   ├── SKILL.md
+    │   ├── agents/
+    │   ├── references/
+    │   ├── scripts/
+    │   └── templates/
     ├── project-init/
     │   └── SKILL.md
     ├── project-sync/
@@ -207,6 +213,7 @@ ml-research-skills/
 | `project-init` | Create a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, toolchain gates, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or project-aware component worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, and camera-ready paper versions |
+| `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles so core implementations can be audited without sharing the writer's chat context |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |

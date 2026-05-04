@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Reviewer"
+  short_description: "Run isolated code reviews from review bundles."
+  default_prompt: "Review this change from a fresh-context review bundle and write findings to .agent/code-reviews/."

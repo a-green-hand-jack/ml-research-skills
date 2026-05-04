@@ -48,6 +48,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, optional GitHub Project board linkage, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
+| `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles so core implementations can be audited without sharing the writer's chat context |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
@@ -745,6 +746,7 @@ Use these skills when starting the project control root, creating or connecting 
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `uv`/`ruff`/`mypy`/`pytest`/`pre-commit` gates, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
+| **code-reviewer** | Create and review fresh-context bundles for core algorithm or production-code changes before merge |
 | **remote-project-control** | Coordinate local editing, Git remote sync, and server execution on SSH/HPC environments |
 
 ### 3. Experiment Execution, Evidence Capture, and Research Updates
