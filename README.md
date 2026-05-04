@@ -2,7 +2,7 @@
 
 Agent skills for the full ML research workflow: initializing paper and code repos, running experiments, syncing results, updating docs, checking paper readiness, preparing releases, and tagging milestones.
 
-![ML Research Project Lifecycle: How Skills Collaborate Over Time](asset/project-lifecycle.png)
+![ML Research Skills System: Tool-Calling and Memory-Orchestrated Workflow](asset/project-lifecycle.png)
 
 ## Install
 
