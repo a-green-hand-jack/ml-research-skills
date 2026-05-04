@@ -8,6 +8,8 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 Prepare a research code repository for public release: audit for security issues, generate missing assets (README, citation, license), tag the version, and create a GitHub release.
 
+Release uses project toolchain gates as evidence, not as decoration. Prefer non-mutating checks first. Run mutating format/fix commands only when requested or required by project policy, then review the diff.
+
 ## Skill Directory Layout
 
 ```
@@ -46,6 +48,10 @@ git -C "$(git rev-parse --show-toplevel)" log --all --oneline | head -5
 grep -rI --include="*.py" --include="*.yaml" --include="*.json" --include="*.env" \
   -E "(password|secret|api_key|token|credential|private_key)\s*=\s*['\"][^'\"]{6}" \
   "$(git rev-parse --show-toplevel)" 2>/dev/null | head -20
+
+# Prefer dedicated scanners when available
+command -v gitleaks >/dev/null && gitleaks dir --no-banner --redact "$(git rev-parse --show-toplevel)"
+command -v detect-secrets >/dev/null && detect-secrets scan "$(git rev-parse --show-toplevel)"
 ```
 
 #### 2b. Large files check
@@ -78,9 +84,27 @@ git -C "$(git rev-parse --show-toplevel)" status --short
 git -C "$(git rev-parse --show-toplevel)" log --oneline -5
 ```
 
+#### 2f. Toolchain and source hygiene gates
+
+Run available non-mutating gates and report skipped tools explicitly:
+
+```bash
+ROOT="$(git rev-parse --show-toplevel)"
+command -v pre-commit >/dev/null && pre-commit run --all-files || true
+command -v shellcheck >/dev/null && find "$ROOT" -name "*.sh" -not -path "*/.git/*" -print0 | xargs -0 shellcheck || true
+command -v shfmt >/dev/null && shfmt -d "$ROOT" || true
+command -v actionlint >/dev/null && actionlint "$ROOT/.github/workflows"/*.yml "$ROOT/.github/workflows"/*.yaml 2>/dev/null || true
+command -v nbstripout >/dev/null && find "$ROOT" -name "*.ipynb" -not -path "*/.git/*" -print0 | xargs -0 nbstripout --dry-run || true
+command -v lychee >/dev/null && lychee --no-progress "$ROOT/README.md" "$ROOT/docs/**/*.md" || true
+command -v taplo >/dev/null && find "$ROOT" -name "*.toml" -not -path "*/.git/*" -print0 | xargs -0 taplo fmt --check || true
+command -v yamllint >/dev/null && yamllint "$ROOT" || true
+```
+
+Treat failed required gates as release blockers. Treat missing optional tools as skipped unless the project policy requires them.
+
 Report audit findings to the user as a checklist:
 - 🔴 **BLOCKER** — must fix before release (secrets found, credentials, large binaries)
-- 🟡 **WARNING** — recommended to address (missing README, no license, no .gitignore)
+- 🟡 **WARNING** — recommended to address (missing README, no license, no .gitignore, skipped optional hygiene gates)
 - 🟢 **OK** — already in good shape
 
 Ask the user to fix any blockers before continuing.
@@ -190,6 +214,11 @@ Present the user with a condensed checklist grouped by category. For each item, 
 🔐 Security
   ✅ No secrets detected
   ✅ No large files in git history
+
+🧰 Toolchain gates
+  ✅ pre-commit / ruff / pytest release gates passed
+  ⚠️  lychee skipped — not installed
+  ❌ gitleaks found possible secret in config.yaml
 
 📦 Reproducibility
   ✅ requirements.txt / pyproject.toml present

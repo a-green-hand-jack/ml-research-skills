@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 # Initialize Python Project
 
-Help the user create a production-ready Python project or upgrade an existing one without inlining large file bodies inside this skill. Use the bundled references and templates as the source of truth. Treat the Python toolchain as an explicit gate: default to non-mutating checks, run format/fix commands only when requested or required, and record the actual commands in repo guidance.
+Help the user create a production-ready Python project or upgrade an existing one without inlining large file bodies inside this skill. Use the bundled references and templates as the source of truth. Treat the Python toolchain as an explicit gate: default to non-mutating checks, run format/fix commands only when requested or required, and record the actual commands in repo guidance. Use `pre-commit` as the optional local gate runner for code, shell, secrets, notebooks, configs, GitHub Actions, and docs links.
 
 ## Skill Directory Layout
 
@@ -72,7 +72,7 @@ Ask the user in a single message:
 4. For both:
    - GitHub repository URL for the target repo, if available
    - Author name and email
-   - Existing toolchain policy, if any: `ruff`, `black`, `isort`, `mypy`, `pyright`, `pytest`, `pre-commit`, CI, or custom commands
+   - Existing toolchain policy, if any: `ruff`, `black`, `isort`, `mypy`, `pyright`, `pytest`, `pre-commit`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, CI, or custom commands
 
 Wait for the answer before continuing.
 
@@ -161,6 +161,7 @@ Write these common files from `templates/common/`:
 - `README.md`
 - `AGENTS.md`
 - `CLAUDE.md`
+- `.pre-commit-config.yaml`
 - `pyproject.toml`
 - `tests/conftest.py`
 - `docs/outlines/project_plan.md`
@@ -230,6 +231,7 @@ uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
 uv run mypy src
 uv run pytest tests -v
+uv run pre-commit run --all-files
 ```
 
 If there are no tests yet, create a placeholder test and rerun:
@@ -242,7 +244,7 @@ EOF
 uv run pytest tests/
 ```
 
-Do not run `uv run ruff format ...` or `uv run ruff check --fix ...` silently. Use those mutating commands only when the user requests formatting/fixes or a documented project policy requires them, then review the diff.
+Do not run `uv run ruff format ...`, `uv run ruff check --fix ...`, `shfmt -w`, `nbstripout` without `--dry-run`, or other mutating fix commands silently. Use mutating commands only when the user requests formatting/fixes or a documented project policy requires them, then review the diff.
 
 #### 2A.7 Initialize git and optional remote
 
@@ -301,13 +303,14 @@ When the user approves edits, use the templates under `templates/common/` to fil
 - `.env.example`
 - `AGENTS.md`
 - `CLAUDE.md`
+- `.pre-commit-config.yaml`
 - `tests/conftest.py`
 - docs templates
 - `.vscode/settings.json`
 - `pyproject.toml` if migrating from `requirements.txt`
 
 Do not force the full ML layout onto an existing repo unless the user explicitly wants that migration.
-Preserve an existing healthy toolchain. Do not replace `black`, `isort`, `pyright`, `pre-commit`, or CI commands just because the new scaffold defaults to `ruff`, `mypy`, and `pytest`.
+Preserve an existing healthy toolchain. Do not replace `black`, `isort`, `pyright`, `pre-commit`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, or CI commands just because the new scaffold defaults to `ruff`, `mypy`, `pytest`, and local `pre-commit` hooks.
 
 ## Template Application Rules
 
@@ -325,7 +328,7 @@ Report:
 ✓ Project type: <new|fork> / <ml|web|lib|general>
 ✓ Common scaffolding applied
 ✓ UV environment configured
-✓ Toolchain gates configured: format / lint / type-check / test
+✓ Toolchain gates configured: format / lint / type-check / test / secrets / shell / notebooks / configs / docs links
 ✓ Git status: initialized / existing repo reused
 ✓ Remote: <configured or skipped>
 
@@ -342,6 +345,7 @@ Next steps:
    `uv run ruff check src tests experiments scripts`
    `uv run mypy src`
    `uv run pytest tests -v`
+   `uv run pre-commit run --all-files`
 ```
 
 ## Important Notes

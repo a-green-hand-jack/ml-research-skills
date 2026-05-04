@@ -55,6 +55,7 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
             self.assertEqual(proc.returncode, 0, proc.stderr or proc.stdout)
             self.assertTrue((target_dir / ".gitignore").is_file())
             self.assertTrue((target_dir / ".env.example").is_file())
+            self.assertTrue((target_dir / ".pre-commit-config.yaml").is_file())
             self.assertTrue((target_dir / "pyproject.toml").is_file())
             self.assertFalse((target_dir / "pyproject.toml.tmpl").exists())
             self.assertTrue((target_dir / "experiments" / "config.py").is_file())
@@ -74,6 +75,9 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
             readme = (target_dir / "README.md").read_text(encoding="utf-8")
             claude = (target_dir / "CLAUDE.md").read_text(encoding="utf-8")
             pyproject = (target_dir / "pyproject.toml").read_text(encoding="utf-8")
+            pre_commit = (target_dir / ".pre-commit-config.yaml").read_text(
+                encoding="utf-8"
+            )
             train_script = (target_dir / "scripts" / "train.py").read_text(encoding="utf-8")
             remote_manifest = (target_dir / "infra" / "remote-projects.yaml").read_text(
                 encoding="utf-8"
@@ -90,6 +94,7 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
                 readme,
                 claude,
                 pyproject,
+                pre_commit,
                 train_script,
                 remote_manifest,
                 current_status,
@@ -100,6 +105,9 @@ class ScaffoldNewProjectSmokeTest(unittest.TestCase):
 
             self.assertIn("demo-ml", readme)
             self.assertIn("demo_ml", pyproject)
+            self.assertIn("gitleaks", pre_commit)
+            self.assertIn("shellcheck", pre_commit)
+            self.assertIn("ruff format --check", pre_commit)
             self.assertIn("from demo_ml.data import load_data", train_script)
             self.assertIn(str(target_dir), remote_manifest)
             self.assertIn("/path/to/demo-ml", remote_manifest)

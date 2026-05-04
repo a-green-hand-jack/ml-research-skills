@@ -32,6 +32,7 @@ Use `template_manifest.json` as the source of truth for which templates belong t
   - `templates/common/README.md`
   - `templates/common/AGENTS.md`
   - `templates/common/CLAUDE.md`
+  - `templates/common/.pre-commit-config.yaml`
   - `templates/common/pyproject.toml.tmpl`
   - `templates/common/tests/conftest.py`
   - `templates/common/docs/outlines/project_plan.md`
@@ -102,6 +103,7 @@ uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
 uv run mypy src
 uv run pytest tests -v
+uv run pre-commit run --all-files
 ```
 
 For non-ML projects, omit paths that do not exist. Use mutating commands only when requested or required:
@@ -112,3 +114,5 @@ uv run ruff check --fix src tests experiments scripts
 ```
 
 If the user asks for `black`, `isort`, `pyright`, `pre-commit`, or another tool, document that policy instead of mixing competing formatters without a reason.
+
+The default `.pre-commit-config.yaml` uses local hooks so the commands stay aligned with the repo's installed tools. It checks Python formatting/lint/type/test gates, shell scripts with `shellcheck` and `shfmt` when installed, secrets with `gitleaks` when installed, notebooks with `nbstripout` when installed, GitHub Actions with `actionlint` when installed, TOML/YAML config with `taplo`/`yamllint` when installed, and docs links with `lychee` when installed.

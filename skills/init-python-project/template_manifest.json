@@ -24,6 +24,7 @@
       "templates/common/README.md",
       "templates/common/AGENTS.md",
       "templates/common/CLAUDE.md",
+      "templates/common/.pre-commit-config.yaml",
       "templates/common/pyproject.toml.tmpl",
       "templates/common/tests/conftest.py",
       "templates/common/docs/outlines/project_plan.md",

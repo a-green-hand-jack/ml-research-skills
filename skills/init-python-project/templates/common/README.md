@@ -84,6 +84,7 @@ uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
 uv run mypy src
 uv run pytest tests -v
+uv run pre-commit run --all-files
 ```
 
 Run mutating format/fix commands only when requested or required by project policy, then review the diff:
@@ -92,6 +93,15 @@ Run mutating format/fix commands only when requested or required by project poli
 uv run ruff format src tests experiments scripts
 uv run ruff check --fix src tests experiments scripts
 ```
+
+The bundled `.pre-commit-config.yaml` also checks optional project hygiene when tools are installed:
+
+- secrets: `gitleaks`
+- shell scripts: `shellcheck`, `shfmt`
+- notebooks: `nbstripout`
+- GitHub Actions: `actionlint`
+- TOML/YAML configs: `taplo`, `yamllint`
+- docs links: `lychee`
 
 ## Experiment Evidence
 
@@ -111,6 +121,7 @@ Raw outputs, checkpoints, logs, tensorboard caches, and wandb runs should stay i
 uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
 uv run mypy src
+uv run pre-commit run --all-files
 ```
 
 ## Authors

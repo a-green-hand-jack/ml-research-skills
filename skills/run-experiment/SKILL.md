@@ -12,6 +12,7 @@ Submit an ML experiment to a compute environment — local machine, SLURM HPC (I
 Generates a **reproducible job script** in `jobs/` that is committed alongside the code, then provides the exact submit command to run.
 
 Pair this skill with `research-project-memory` when a launched job should be linked to a planned experiment, evidence item, worktree, or project action.
+Pair this skill with project toolchain gates when generated job scripts should be checked before launch. Use `shellcheck` and `shfmt` when available, but do not require the user to install them just to generate a draft script.
 
 Terminology:
 
@@ -158,6 +159,20 @@ mkdir -p <output-dir>
 Write the filled-in script to `jobs/<job-name>.sh` (or `-runai.sh` / `-local.sh`).
 
 Show the user the full generated script for review.
+
+### 5.1 Check generated shell script gates
+
+After writing the job script and before offering to launch it, run non-mutating shell gates when the tools are available:
+
+```bash
+command -v shellcheck >/dev/null && shellcheck jobs/<job-name>.sh || true
+command -v shfmt >/dev/null && shfmt -d jobs/<job-name>.sh || true
+bash -n jobs/<job-name>.sh
+```
+
+Report whether each gate passed, failed, or was skipped because the tool is not installed. Treat `bash -n` failures as blockers before launch. Treat `shellcheck` and `shfmt -d` failures as warnings unless the project policy marks them required.
+
+Do not run `shfmt -w` silently. If formatting is requested or required by policy, run `shfmt -w jobs/<job-name>.sh` and review the diff before submitting.
 
 ### 6. Show the submit command and ask to launch
 

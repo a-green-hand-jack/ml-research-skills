@@ -22,9 +22,21 @@ uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
 uv run mypy src
 uv run pytest tests -v
+uv run pre-commit run --all-files
 ```
 
 Use `ruff format` / `ruff check --fix` only after the user requests formatting/fixes or project policy requires them. If an existing repo already uses `black`, `isort`, `pyright`, `pre-commit`, or another checker, preserve the existing toolchain and record the actual commands instead of forcing the default scaffold policy.
+
+`pre-commit` is the preferred local gate runner when a repo has several file types. It can coordinate Python checks plus optional checks for:
+
+- secrets: `gitleaks` or `detect-secrets`
+- shell scripts and job scripts: `shellcheck`, `shfmt`
+- notebooks: `nbstripout`, optionally `nbqa`
+- GitHub Actions: `actionlint`
+- TOML/YAML configs: `taplo`, `yamllint`
+- documentation links: `lychee`
+
+Treat these tools as optional unless `memory/project.yaml`, component guidance, CI, or release policy marks them required. Missing optional tools should be reported as `skipped`; missing required tools should create an action.
 
 Paper repos:
 
@@ -46,6 +58,23 @@ gh pr checks
 ```
 
 Use `safe-git-ops` for commits, pushes, branch operations, worktrees, merges, rebases, tags, and sandbox-sensitive failures. Use `gh` only for collaborator-facing issues, PRs, releases, and GitHub Project fields that should be visible outside private research memory.
+
+Shell and config gates:
+
+```text
+shellcheck jobs/*.sh scripts/*.sh
+shfmt -d jobs scripts
+taplo fmt --check pyproject.toml
+yamllint .
+actionlint .github/workflows/*.yml
+```
+
+Docs and notebook gates:
+
+```text
+nbstripout --dry-run notebooks/*.ipynb
+lychee --no-progress README.md docs/**/*.md
+```
 
 Remote execution:
 

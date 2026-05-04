@@ -1,0 +1,88 @@
+default_install_hook_types: [pre-commit, pre-push]
+
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-format-check
+        name: ruff format check
+        entry: uv run ruff format --check src tests experiments scripts
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: ruff-check
+        name: ruff lint
+        entry: uv run ruff check src tests experiments scripts
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: mypy
+        name: mypy
+        entry: uv run mypy src
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: pytest
+        name: pytest
+        entry: uv run pytest tests -v
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: shellcheck
+        name: shellcheck
+        entry: bash -c 'if command -v shellcheck >/dev/null; then shellcheck "$@"; else echo "shellcheck not installed; skipping"; fi' --
+        language: system
+        types: [shell]
+        stages: [pre-commit]
+
+      - id: shfmt-check
+        name: shfmt check
+        entry: bash -c 'if command -v shfmt >/dev/null; then shfmt -d "$@"; else echo "shfmt not installed; skipping"; fi' --
+        language: system
+        types: [shell]
+        stages: [pre-commit]
+
+      - id: gitleaks
+        name: gitleaks secret scan
+        entry: bash -c 'if command -v gitleaks >/dev/null; then gitleaks dir --no-banner --redact .; else echo "gitleaks not installed; skipping"; fi'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
+
+      - id: nbstripout-check
+        name: notebook output check
+        entry: bash -c 'if command -v nbstripout >/dev/null; then nbstripout --dry-run "$@"; else echo "nbstripout not installed; skipping"; fi' --
+        language: system
+        files: \.ipynb$
+        stages: [pre-commit]
+
+      - id: actionlint
+        name: GitHub Actions lint
+        entry: bash -c 'if command -v actionlint >/dev/null; then actionlint "$@"; else echo "actionlint not installed; skipping"; fi' --
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+        stages: [pre-commit]
+
+      - id: taplo-check
+        name: TOML format check
+        entry: bash -c 'if command -v taplo >/dev/null; then taplo fmt --check "$@"; else echo "taplo not installed; skipping"; fi' --
+        language: system
+        files: \.toml$
+        stages: [pre-commit]
+
+      - id: yamllint
+        name: YAML lint
+        entry: bash -c 'if command -v yamllint >/dev/null; then yamllint "$@"; else echo "yamllint not installed; skipping"; fi' --
+        language: system
+        files: \.ya?ml$
+        stages: [pre-commit]
+
+      - id: lychee
+        name: link check
+        entry: bash -c 'if command -v lychee >/dev/null; then lychee --no-progress README.md docs/**/*.md; else echo "lychee not installed; skipping"; fi'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

@@ -25,9 +25,19 @@ toolchain_gates:
     lint_check: "uv run ruff check src tests experiments scripts"
     type_check: "uv run mypy src"
     test_check: "uv run pytest tests -v"
+    local_gate_runner: "uv run pre-commit run --all-files"
     mutate_only_when_requested:
       - "uv run ruff format src tests experiments scripts"
       - "uv run ruff check --fix src tests experiments scripts"
+  optional_hygiene:
+    secret_scan: "gitleaks dir --no-banner --redact ."
+    shell_lint: "shellcheck jobs/*.sh scripts/*.sh"
+    shell_format_check: "shfmt -d jobs scripts"
+    notebook_output_check: "nbstripout --dry-run notebooks/*.ipynb"
+    github_actions_lint: "actionlint .github/workflows/*.yml"
+    toml_format_check: "taplo fmt --check pyproject.toml"
+    yaml_lint: "yamllint ."
+    link_check: "lychee --no-progress README.md docs/**/*.md"
   paper:
     source_format_check: "tex-fmt --check --nowrap --recursive ."
     submission_check: "bash <submit-paper-skill-dir>/scripts/check.sh \"$PAPER_DIR\""

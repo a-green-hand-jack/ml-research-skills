@@ -42,6 +42,7 @@ uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
 uv run mypy src
 uv run pytest tests -v
+uv run pre-commit run --all-files
 ```
 
 Run mutating commands only when requested or required by project policy, then review the diff:
@@ -50,6 +51,8 @@ Run mutating commands only when requested or required by project policy, then re
 uv run ruff format src tests experiments scripts
 uv run ruff check --fix src tests experiments scripts
 ```
+
+The bundled `.pre-commit-config.yaml` is a local gate runner. It uses project/system tools when available for secrets (`gitleaks`), shell (`shellcheck`, `shfmt`), notebooks (`nbstripout`), GitHub Actions (`actionlint`), TOML/YAML (`taplo`, `yamllint`), and docs links (`lychee`). Missing optional tools are reported as skipped unless project policy makes them required.
 
 If this repo documents different tools such as `black`, `isort`, `pyright`, `pre-commit`, or CI-specific commands, follow the documented repo-local toolchain and update this section.
 

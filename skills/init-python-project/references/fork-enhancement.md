@@ -33,6 +33,8 @@ Check what already exists before writing anything:
    - Is linting checked with `ruff check`, `flake8`, or another linter?
    - Is type checking configured with `mypy`, `pyright`, or another checker?
    - Are tests and CI/PR checks documented?
+   - Is `pre-commit` configured as a local gate runner?
+   - Are secret, shell, notebook, config, workflow, and link checks present when the repo has those file types?
 
 ## Enhancement Rules
 
@@ -40,4 +42,4 @@ Check what already exists before writing anything:
 - Reuse the common templates under `templates/common/` to fill gaps.
 - If migrating from `requirements.txt`, offer to create a `pyproject.toml` using `templates/common/pyproject.toml.tmpl`.
 - Show the user a concise analysis report before bulk edits when the repo already has substantial structure.
-- Preserve an existing healthy toolchain. Do not replace `black`, `isort`, `pyright`, `pre-commit`, or CI commands just because the new scaffold defaults to `ruff`, `mypy`, and `pytest`.
+- Preserve an existing healthy toolchain. Do not replace `black`, `isort`, `pyright`, `pre-commit`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, or CI commands just because the new scaffold defaults to `ruff`, `mypy`, `pytest`, and local `pre-commit` hooks.

@@ -105,9 +105,10 @@ Ask for these fields in one message:
    - whether GitHub/GitLab repos should be created now, and if so whether `gh auth status` is valid
    - whether to create or link one GitHub Project board for this research project
    - whether default toolchain gates should be enabled:
-     - code: `uv`, `ruff`, `mypy`, `pytest`
+     - code: `uv`, `ruff`, `mypy`, `pytest`, `pre-commit`
      - paper: `tex-fmt`, `submit-paper`, Overleaf/GitHub compile evidence
      - coordination: `git`, `gh`, GitHub Project/PR checks
+     - optional hygiene: `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, `taplo`, `yamllint`, `lychee`
 6. Worktree policy:
    - default sibling root: `<ProjectName>/code-worktrees/`
    - default paper sibling root: `<ProjectName>/paper-worktrees/`
@@ -248,9 +249,19 @@ toolchain_gates:
     lint_check: "uv run ruff check src tests experiments scripts"
     type_check: "uv run mypy src"
     test_check: "uv run pytest tests -v"
+    local_gate_runner: "uv run pre-commit run --all-files"
     mutate_only_when_requested:
       - "uv run ruff format src tests experiments scripts"
       - "uv run ruff check --fix src tests experiments scripts"
+  optional_hygiene:
+    secret_scan: "gitleaks dir --no-banner --redact ."
+    shell_lint: "shellcheck jobs/*.sh scripts/*.sh"
+    shell_format_check: "shfmt -d jobs scripts"
+    notebook_output_check: "nbstripout --dry-run notebooks/*.ipynb"
+    github_actions_lint: "actionlint .github/workflows/*.yml"
+    toml_format_check: "taplo fmt --check pyproject.toml"
+    yaml_lint: "yamllint ."
+    link_check: "lychee --no-progress README.md docs/**/*.md"
   paper:
     source_format_check: "tex-fmt --check --nowrap --recursive ."
     submission_check: "bash <submit-paper-skill-dir>/scripts/check.sh \"$PAPER_DIR\""
@@ -264,7 +275,7 @@ toolchain_gates:
     github_pr_check: "gh pr checks"
 ```
 
-Preserve existing component-specific tools when connecting an existing repo. For example, if a code repo already uses `black`, `isort`, `pyright`, `pre-commit`, or CI-specific commands, record those actual commands instead of forcing the default scaffold policy. For non-ML repos, omit default paths such as `experiments` or `scripts` when they do not exist.
+Preserve existing component-specific tools when connecting an existing repo. For example, if a code repo already uses `black`, `isort`, `pyright`, `pre-commit`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, or CI-specific commands, record those actual commands instead of forcing the default scaffold policy. For non-ML repos, omit default paths such as `experiments` or `scripts` when they do not exist.
 
 If a GitHub Project board exists, record it in `memory/project.yaml`:
 
@@ -299,8 +310,9 @@ The root guidance must state:
 - paper source visibility tiers are `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, and `publisher-artifact`
 - if `paper/main` syncs to Overleaf through GitHub, it is `author-visible`; do not put `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer strategy, or private paths into that visible source
 - if `tex-fmt` is installed, paper formatting gates use `tex-fmt --check --nowrap --recursive .`; run `tex-fmt --nowrap --recursive .` only when formatting is requested and review the diff before push/submission
-- code gates use `uv sync`, `uv run ruff format --check`, `uv run ruff check`, `uv run mypy src`, and `uv run pytest tests -v` unless the code repo documents an existing alternative
-- mutating format/fix commands such as `ruff format`, `ruff check --fix`, and `tex-fmt` format mode require an explicit request or documented project policy, followed by diff review
+- code gates use `uv sync`, `uv run ruff format --check`, `uv run ruff check`, `uv run mypy src`, `uv run pytest tests -v`, and `uv run pre-commit run --all-files` unless the code repo documents an existing alternative
+- optional hygiene gates include `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, `taplo`, `yamllint`, and `lychee` when the relevant files and tools exist
+- mutating format/fix commands such as `ruff format`, `ruff check --fix`, `shfmt -w`, `nbstripout` without `--dry-run`, and `tex-fmt` format mode require an explicit request or documented project policy, followed by diff review
 - root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
 - `code/docs/` is for code-side result summaries, run records, implementation reports, and server execution notes
 - experiment results live under `code/docs/results/`, `code/docs/reports/`, `code/docs/runs/`, or the same paths inside a code worktree
@@ -350,7 +362,7 @@ code/docs/reports/
 code/docs/runs/
 ```
 
-When initializing or connecting a code repo, record its toolchain gates in `code/AGENTS.md`, `code/CLAUDE.md`, and `memory/project.yaml`. Default new-code gates are `uv sync`, `uv run ruff format --check src tests experiments scripts`, `uv run ruff check src tests experiments scripts`, `uv run mypy src`, and `uv run pytest tests -v`. If an existing repo already has CI, `pre-commit`, `black`, `isort`, `pyright`, or custom commands, preserve and document those commands.
+When initializing or connecting a code repo, record its toolchain gates in `code/AGENTS.md`, `code/CLAUDE.md`, and `memory/project.yaml`. Default new-code gates are `uv sync`, `uv run ruff format --check src tests experiments scripts`, `uv run ruff check src tests experiments scripts`, `uv run mypy src`, `uv run pytest tests -v`, and `uv run pre-commit run --all-files`. If an existing repo already has CI, `pre-commit`, `black`, `isort`, `pyright`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, or custom commands, preserve and document those commands.
 
 If connecting an existing code repo, do not force a full scaffold. Add missing high-value memory/docs paths only after reporting gaps.
 

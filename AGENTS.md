@@ -198,7 +198,7 @@ ml-research-skills/
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
-| `init-python-project` | Create or enhance a production-ready Python/ML code repo using `uv`, `ruff`, `mypy`, and `pytest`, with code-side evidence docs and remote workflow memory |
+| `init-python-project` | Create or enhance a production-ready Python/ML code repo using `uv`, `ruff`, `mypy`, `pytest`, and `pre-commit`, with code-side evidence docs and remote workflow memory |
 | `project-init` | Create a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, toolchain gates, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or project-aware component worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, and camera-ready paper versions |

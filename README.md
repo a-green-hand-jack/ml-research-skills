@@ -44,7 +44,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
-| `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, `uv`/`ruff`/`mypy`/`pytest` gates, code-side evidence docs, and remote-workflow memory scaffolding |
+| `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, `uv`/`ruff`/`mypy`/`pytest`/`pre-commit` gates, code-side evidence docs, and remote-workflow memory scaffolding |
 | `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, optional GitHub Project board linkage, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
@@ -260,6 +260,7 @@ uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
 uv run mypy src
 uv run pytest tests -v
+uv run pre-commit run --all-files
 ```
 
 For non-ML or existing repos, omit paths that do not exist and preserve the repo's documented tools.
@@ -270,6 +271,17 @@ Use mutating code commands only after an explicit request or documented policy:
 uv run ruff format src tests experiments scripts
 uv run ruff check --fix src tests experiments scripts
 ```
+
+`pre-commit` is the default local gate runner for mixed project hygiene. The scaffolded config checks Python gates plus optional tools when installed:
+
+- `gitleaks` or `detect-secrets`: secret scanning before push/release
+- `shellcheck` / `shfmt`: shell and job script lint/format checks
+- `actionlint`: GitHub Actions workflow lint
+- `nbstripout`: notebook output hygiene
+- `taplo` / `yamllint`: TOML/YAML config hygiene
+- `lychee`: README/docs link checking
+
+Missing optional tools are reported as skipped unless project policy marks them required.
 
 Default paper gates:
 
@@ -282,7 +294,7 @@ Use `tex-fmt --nowrap --recursive .` only when formatting is requested or requir
 
 Default coordination gates include `git status --short --branch`, `git diff --check`, `gh auth status`, and PR/CI checks such as `gh pr checks` when GitHub is in use. `git` and `gh` are toolchain components too: `git` owns source history and worktree boundaries, while GitHub/GitHub Project owns collaborator-visible issues, PRs, release records, and board state.
 
-Stable gate policy belongs in `memory/project.yaml` under `toolchain_gates`. Component-specific overrides belong in `code/AGENTS.md`, `paper/AGENTS.md`, component `.agent/` files, or worktree status files. Preserve existing healthy tools such as `black`, `isort`, `pyright`, `pre-commit`, or CI-specific commands instead of forcing the default scaffold tools.
+Stable gate policy belongs in `memory/project.yaml` under `toolchain_gates`. Component-specific overrides belong in `code/AGENTS.md`, `paper/AGENTS.md`, component `.agent/` files, or worktree status files. Preserve existing healthy tools such as `black`, `isort`, `pyright`, `pre-commit`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, or CI-specific commands instead of forcing the default scaffold tools.
 
 ### Paper Repo
 
@@ -726,7 +738,7 @@ Use these skills when starting the project control root, creating or connecting 
 |---|---|
 | **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, optional GitHub Project linkage, paired root `AGENTS.md`/`CLAUDE.md`, toolchain gates, and code/paper worktree policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
-| **init-python-project** | Scaffold or enhance the code repo with ML architecture, `uv`/`ruff`/`mypy`/`pytest` gates, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
+| **init-python-project** | Scaffold or enhance the code repo with ML architecture, `uv`/`ruff`/`mypy`/`pytest`/`pre-commit` gates, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
 | **remote-project-control** | Coordinate local editing, Git remote sync, and server execution on SSH/HPC environments |
 
@@ -1085,7 +1097,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A four-layer ML project structure: `src/`, `experiments/`, `eval/`, and `infra/`
 - Code-side evidence paths: `docs/results/`, `docs/reports/`, and `docs/runs/`
 - `uv`-based Python project setup with editable installs
-- Development tooling and gates: `uv`, `ruff format --check`, `ruff check`, `mypy`, and `pytest`
+- Development tooling and gates: `uv`, `ruff format --check`, `ruff check`, `mypy`, `pytest`, and `pre-commit`
+- Optional hygiene gates for secrets, shell scripts, notebooks, GitHub Actions, TOML/YAML configs, and docs links
 - Project docs scaffolding under `docs/`
 - Remote workflow bootstrap files under `infra/remote-projects.yaml`, `docs/ops/`, and `.agent/`
 - Editor configuration for Claude Code / Cursor / VS Code
