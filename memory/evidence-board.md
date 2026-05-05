@@ -10,6 +10,7 @@ Track evidence for project-level skill-system claims.
 | EVD-004 | implementation | verified | `sidecar-task-runner` creates prompt/input/output/model/decision artifacts and was used for a read-only cleanup preflight. | `skills/sidecar-task-runner/`, `tests/test_sidecar_task_runner.py` | CLM-003 |  | PRV-003 | observed | 2026-05-05 |
 | EVD-005 | implementation | verified | `token-usage-auditor` reads Codex, Claude Code, and `.agent/sidecars/*/model.json` usage metadata without copying raw prompts. | `skills/token-usage-auditor/`, `tests/test_token_usage_auditor.py` | CLM-004 |  | PRV-004 | observed | 2026-05-05 |
 | EVD-006 | validation | verified | Repository validation and targeted unit tests passed before recent commits. | `scripts/validate_skills.py`, `tests/` | CLM-005 |  | PRV-001 | observed | 2026-05-05 |
+| EVD-007 | qualitative | available | User-provided LaTeX layout debugging summary distilled into a durable skill protocol for local, screenshot-driven paper layout fixes. | `skills/submit-paper/references/layout-debugging.md`, `skills/camera-ready-finalizer/references/final-submission-audit.md`, `skills/figure-results-review/SKILL.md`, `skills/table-results-review/SKILL.md` | CLM-006 |  | PRV-001 | user-stated | 2026-05-05 |
 
 ## Figures and Assets
 

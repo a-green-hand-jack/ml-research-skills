@@ -92,11 +92,11 @@ components:
     status: active
 
 id_counters:
-  claim: 5
-  evidence: 6
+  claim: 6
+  evidence: 7
   risk: 5
-  action: 5
-  decision: 5
+  action: 6
+  decision: 6
   provenance: 4
   handoff: 3
   visibility: 1

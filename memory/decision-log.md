@@ -51,3 +51,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `init-latex-project`, `submit-paper`, local private memory.
 - Revisit when: a repo intentionally standardizes dev containers or CI images.
 - Certainty: user-stated
+
+## DEC-006 - Treat LaTeX Layout Debugging As Local, Visual, Reversible Optimization
+
+- Date: 2026-05-05
+- Decision: Encode paper layout correction as a page/object-first workflow: localize the screenshot or affected object, make one small prose/float/page-break change, compile through the configured backend, inspect visually, and avoid broad global tuning unless the whole paper has a documented style issue.
+- Why: User experience showed that short lines, floats, page breaks, and prose length interact; one-shot global `\sloppy`, `\emergencystretch`, paragraph, or float spacing changes can destabilize unrelated pages.
+- Alternatives considered: treat layout as a global LaTeX parameter problem; treat it as pure writing rather than writing/float/page optimization.
+- Affects: `skills/submit-paper/`, `skills/camera-ready-finalizer/`, `skills/figure-results-review/`, `skills/table-results-review/`.
+- Revisit when: a project has a deliberate venue-wide layout policy or a class/style file issue that truly requires global tuning.
+- Certainty: user-stated

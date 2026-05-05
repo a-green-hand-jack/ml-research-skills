@@ -21,7 +21,7 @@
 | implementation | partial | skills and helper scripts exist and pass focused checks | CLM-002, CLM-003, CLM-004, CLM-005 | EVD-003, EVD-004, EVD-005 | RSK-005 | ACT-005 |
 | internal-review | partial | periodic skill-system audit and isolated reviews catch drift | CLM-002, CLM-005 | EVD-003 | RSK-001, RSK-005 | ACT-003 |
 | artifact-release | partial | install command succeeds for Codex and Claude Code | CLM-005 | EVD-006 | RSK-001 | ACT-005 |
-| maintenance | partial | docs, memory, sidecars, tags, and telemetry remain current | CLM-001, CLM-003, CLM-004 | EVD-004, EVD-006 | RSK-003, RSK-004 | ACT-001, ACT-004 |
+| maintenance | partial | docs, memory, sidecars, tags, telemetry, and paper-layout protocols remain current | CLM-001, CLM-003, CLM-004, CLM-006 | EVD-004, EVD-006, EVD-007 | RSK-003, RSK-004 | ACT-001, ACT-004, ACT-006 |
 
 ## Stale Or Regressed Objects
 

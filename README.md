@@ -95,7 +95,7 @@ Local sidecar runs live under `.agent/sidecars/` and are ignored by git; commit 
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
-| `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, source formatting, and configured compile-backend handoff |
+| `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, source formatting, layout debugging, and configured compile-backend handoff |
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |
@@ -813,7 +813,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
-| **submit-paper** | Run final submission readiness checks for source formatting, anonymity, required sections, and Overleaf/GitHub compile handoff |
+| **submit-paper** | Run final submission readiness checks for source formatting, layout debugging, anonymity, required sections, and Overleaf/GitHub compile handoff |
 
 ### 5. Review, Rebuttal, and Revision
 
@@ -903,7 +903,7 @@ For the person turning research evidence into a submission:
 | **paper-draft-consistency-editor** | Check and fix internal consistency across the completed draft without changing the selected paper story |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
-| **submit-paper** | Check final submission readiness, including source formatting and Overleaf/GitHub compile handoff |
+| **submit-paper** | Check final submission readiness, including source formatting, local layout debugging, and Overleaf/GitHub compile handoff |
 
 ### Paper Writing Stack
 

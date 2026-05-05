@@ -40,6 +40,7 @@ Pair this skill with:
 - Bolding, underlining, arrows, missing values, and footnotes must have explicit rules.
 - Numeric provenance matters. Record where values came from, how they were aggregated, how they were rounded, and whether they were manually edited.
 - A strong table caption states the setup, comparison, metric, key parameter, and takeaway without becoming a full experiment report.
+- When a table causes paper layout trouble, first localize the affected page and table source. Prefer local table/prose/placement fixes over global float spacing or paragraph settings; route broader submission-layout debugging to `submit-paper`.
 
 ## Step 1 - Recover Table Context
 
@@ -132,6 +133,7 @@ Check:
 - main results and ablations are not mixed in a confusing way
 - appendix tables do not hide essential comparisons
 - caption, label, row/column names, and paper callout match the table source
+- table placement does not rely on fragile wrap behavior near a page boundary; `[H]` still may leave vertical skips, so fix local whitespace in or around the table before changing global settings
 
 Flag any issue that could cause a reviewer to misread the result.
 

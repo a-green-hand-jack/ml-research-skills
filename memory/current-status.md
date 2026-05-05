@@ -19,6 +19,7 @@
 - `add-git-tag` can use read-only sidecar proposal generation while preserving human gates for tag creation and push.
 - `asset/` images are tracked; `docs/slides/` scratch notes were deleted on 2026-05-05.
 - Local `.agent/sidecars/` artifacts are private/local and excluded from this repo's tracked files.
+- `submit-paper` now includes a screenshot/page/object-first LaTeX layout debugging protocol, with short pointers from camera-ready, figure review, and table review skills.
 
 ## Top Open Risks
 
@@ -33,6 +34,7 @@
 - `ACT-002`: Add sidecar execution contracts gradually to high-value mechanical skills.
 - `ACT-003`: Periodically run `skill-system-auditor` against this repo.
 - `ACT-004`: Keep token telemetry tied to artifacts and outcomes, not treated as quality by itself.
+- `ACT-006`: Keep LaTeX layout debugging guidance aligned across paper submission, camera-ready, figure, and table review skills.
 
 ## Needs Verification Next Session
 

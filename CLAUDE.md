@@ -115,7 +115,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `remote-project-control` | Recover project memory and coordinate safe local, Git remote, and SSH/HPC/RunAI server workflows for a research repo |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
-| `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, source formatting, and compile-backend handoff |
+| `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, source formatting, local layout debugging, and compile-backend handoff |
 | `run-experiment` | Submit an ML experiment to local, SLURM, or RunAI environments with reproducible job scripts in `jobs/` |
 | `release-code` | Prepare and publish a research code repository for public release: security audit, generate README/LICENSE/CITATION.cff, tag version, create GitHub release |
 | `skill-system-auditor` | Audit the skill collection for inventory, lifecycle, routing, memory-writeback, documentation, and validation consistency |

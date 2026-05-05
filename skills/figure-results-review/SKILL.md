@@ -72,6 +72,7 @@ Pair this skill with:
 - Paper figures should share a deliberate visual language. Style choices are part of writing because they control what reviewers notice first.
 - A beautiful plot that does not support the claim should be revised or cut.
 - New results must update claims, writing, reviewer risks, and next actions.
+- When a figure causes paper layout trouble, first localize the affected page and figure wrapper. Prefer local wrapper/prose/placement fixes over global float spacing or paragraph settings; route broader submission-layout debugging to `submit-paper`.
 
 ## Step 1 - Recover Evidence Context
 
@@ -165,6 +166,7 @@ Check:
 - whether figure size works for one-column, two-column, slide, or appendix usage
 - whether captions and labels match the actual plotted data
 - whether figure wrapper width, cropping, subfigure order, and labels match the rendered asset and visual description
+- whether the wrapper creates local whitespace, page-bottom instability, or fragile wrap behavior that should be fixed near this figure rather than by global LaTeX tuning
 
 Flag any issue that could cause a reviewer to misread the result.
 

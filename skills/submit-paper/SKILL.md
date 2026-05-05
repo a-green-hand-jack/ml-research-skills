@@ -15,6 +15,8 @@ Use static checks locally by default. Run local LaTeX compilation only when the 
 
 Paper versions may live in separate worktrees. If the project has `paper-worktrees/`, prefer checking the specific version worktree for the target venue, arXiv release, or camera-ready submission rather than mutating the main `paper/` branch.
 
+When the task involves layout debugging, float placement, overfull/underfull boxes, short lines, page breaks, or screenshot-based formatting feedback, read `references/layout-debugging.md` before proposing fixes. Prefer page/object-specific local changes over one-shot global parameter tuning.
+
 ---
 
 ## Step 1 — Locate the LaTeX project
@@ -196,6 +198,7 @@ Mention the local/Overleaf compile state explicitly:
 - whether local LaTeX was skipped because the backend is non-local, unknown, or unavailable
 - version workspace status: main paper repo or specific paper worktree
 - source visibility tier and source hygiene status for author-visible, anonymous, arXiv, camera-ready, or publisher-visible mode
+- layout debugging status when relevant: affected page/object, local fix attempted, compile backend, visual inspection result, and later-page recheck needs
 
 ```
 ## Submission Readiness: <venue> — <mode>
@@ -227,6 +230,7 @@ For common failures, offer to fix them immediately:
 - **Missing mandatory sections**: Offer to create a placeholder that the user can fill in.
 - **Wrong submission mode**: Offer to edit `venue_preamble.tex`.
 - **Source hygiene issues**: For author-visible/public/submission source, offer to remove or relocate `.agent/`, AGENTS/CLAUDE guidance, internal comments, figure/table descriptions, reviewer notes, TODOs, raw CSVs, plotting scripts, provenance docs, and author comment macros after showing the diff scope.
+- **Layout, float, and short-line issues**: Use `references/layout-debugging.md`; first identify the page/object, then prefer local wording edits, local float spacing, object movement, or `\Needspace` / `\FloatBarrier` over global `\sloppy`, `\emergencystretch`, or paragraph/float spacing changes.
 - **Empty bib file**: Remind user to add references to `bib/refs.bib`.
 
 Do **not** auto-fix without confirmation.
