@@ -61,3 +61,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/submit-paper/`, `skills/camera-ready-finalizer/`, `skills/figure-results-review/`, `skills/table-results-review/`.
 - Revisit when: a project has a deliberate venue-wide layout policy or a class/style file issue that truly requires global tuning.
 - Certainty: user-stated
+
+## DEC-007 - Maintain Visual Assets As Indexed Documentation Artifacts
+
+- Date: 2026-05-06
+- Decision: Keep public diagrams under `asset/` with semantic filenames and a maintained `asset/README.md` index; update README links and memory figure inventory whenever a diagram is added, replaced, renamed, or materially repurposed.
+- Why: The repo now uses several architecture diagrams with different scopes. Without an index, future agents can easily reuse the wrong image, create near-duplicates, or leave README and memory references stale.
+- Alternatives considered: rely on file names only; keep visual roles implicit in README placement.
+- Affects: `asset/`, README.md, AGENTS.md, CLAUDE.md, `skills/project-init/SKILL.md`, `memory/evidence-board.md`.
+- Revisit when: source prompts, editable diagrams, or an automated image optimization pipeline is added.
+- Certainty: observed

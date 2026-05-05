@@ -46,6 +46,7 @@ toolchain_gates:
         - README.md
         - AGENTS.md
         - CLAUDE.md
+        - asset/README.md
   sidecar:
     default_model: gpt-5.3-codex-spark
     default_sandbox: read-only
@@ -95,8 +96,8 @@ id_counters:
   claim: 6
   evidence: 7
   risk: 5
-  action: 7
-  decision: 6
+  action: 8
+  decision: 7
   provenance: 4
   handoff: 3
   visibility: 1

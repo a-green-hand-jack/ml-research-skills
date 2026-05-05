@@ -60,6 +60,8 @@ Default shape:
     └── timelines/
 ```
 
+This structure is the textual source of truth for the project anatomy visual maintained in the repository README and `asset/project-anatomy.png`. If the layout changes, update the skill text and visual documentation together.
+
 Do not create a top-level `experiments/` directory by default. Experiment execution, run summaries, result reports, and raw artifact pointers belong inside `code/` or the relevant code worktree.
 
 Root-level `docs/` is still useful, but it is project-level documentation, not a replacement for code-side evidence. Use it for staged method designs, cross-component experiment plans, project overviews, audits, timelines, and handoffs that coordinate `paper/`, `code/`, `slides/`, review, rebuttal, and artifact work.

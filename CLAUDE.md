@@ -28,6 +28,10 @@ All files are instruction documents for AI agents — not executable code. Skill
 
 This repo has shared project memory in `memory/`. Before substantial maintenance, read `memory/current-status.md`; after durable skill-system decisions, update the smallest relevant board such as `decision-log.md`, `action-board.md`, `risk-board.md`, `claim-board.md`, or `phase-dashboard.md`. Local sidecar artifacts belong under `.agent/sidecars/` and are ignored by git.
 
+## Visual Assets
+
+Public diagrams live under `asset/`, with roles and maintenance rules in `asset/README.md`. When adding, replacing, or renaming diagrams, keep filenames semantic, update README links, and refresh `memory/evidence-board.md` plus `memory/current-status.md` if the visual system changes materially.
+
 ## Testing Changes
 
 No automated tests. To validate a change:

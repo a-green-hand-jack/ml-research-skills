@@ -6,6 +6,7 @@ Agent skills for the full ML research workflow: initializing paper and code repo
 
 Additional visual panels:
 
+- [Visual asset index](asset/README.md)
 - [ML project anatomy](asset/project-anatomy.png)
 - [Tool-calling loop](asset/tool-calling-loop.png)
 - [Memory project bus](asset/memory-project-bus.png)

@@ -18,6 +18,7 @@
 - `token-usage-auditor` supports Codex, Claude Code, and repo-local sidecar metadata.
 - `add-git-tag` can use read-only sidecar proposal generation while preserving human gates for tag creation and push.
 - `asset/` images are tracked with semantic file names; README embeds the system overview, execution loop, project anatomy, memory bus, workspace architecture, infra/audit layer, and detailed workflow panels.
+- `asset/README.md` indexes each public diagram's role, README placement, and maintenance rules.
 - Local `.agent/sidecars/` artifacts are private/local and excluded from this repo's tracked files.
 - `submit-paper` now includes a screenshot/page/object-first LaTeX layout debugging protocol, with short pointers from camera-ready, figure review, and table review skills.
 
@@ -36,6 +37,7 @@
 - `ACT-004`: Keep token telemetry tied to artifacts and outcomes, not treated as quality by itself.
 - `ACT-006`: Keep LaTeX layout debugging guidance aligned across paper submission, camera-ready, figure, and table review skills.
 - `ACT-007`: Keep README visual panels aligned with renamed `asset/` files.
+- `ACT-008`: Use `asset/README.md` as the entry point before changing public diagram assets.
 
 ## Needs Verification Next Session
 
@@ -46,4 +48,4 @@
 
 ## Next Step
 
-- Review, commit, and push the visual asset rename and README figure placement update.
+- Review, commit, push, and reinstall after the visual asset maintenance rule update because `project-init` changed.

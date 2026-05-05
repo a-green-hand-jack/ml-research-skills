@@ -8,6 +8,8 @@ This repo is **ml-research-skills** — a collection of agent skills for ML rese
 
 The repo also has shared project memory under `memory/`. Start from `memory/current-status.md` before substantial maintenance work, and update the smallest relevant board after durable workflow, routing, validation, or architecture decisions. Keep local sidecar artifacts under `.agent/sidecars/`; they are ignored and should not be committed unless explicitly sanitized and requested.
 
+Visual documentation assets live under `asset/`. Before adding, replacing, or renaming a figure, read `asset/README.md`; keep filenames semantic, update README links, and refresh the figure inventory in `memory/evidence-board.md` plus `memory/current-status.md` when the visual system changes materially.
+
 Skills in this repo are installed with:
 
 ```bash
@@ -35,6 +37,9 @@ ml-research-skills/
 ├── README.md
 ├── CLAUDE.md
 ├── AGENTS.md
+├── asset/
+│   ├── README.md
+│   └── *.png
 ├── memory/
 │   ├── project.yaml
 │   ├── current-status.md
