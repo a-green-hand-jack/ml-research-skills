@@ -285,7 +285,7 @@ if $DO_COMPILE; then
   command -v lualatex &>/dev/null && [[ -z "$LATEX_CMD" ]] && LATEX_CMD="lualatex"
 
   if [[ -z "$LATEX_CMD" ]]; then
-    warn "No local LaTeX compiler found (latexmk/pdflatex/xelatex/lualatex) — skipping local compile; commit/push and use Overleaf/GitHub workflow"
+    warn "No local LaTeX compiler found (latexmk/pdflatex/xelatex/lualatex) — skipping local compile; use the configured Overleaf/GitHub, CI, or other remote compile backend"
   else
     COMPILE_LOG=$(mktemp)
     if [[ "$LATEX_CMD" == "latexmk" ]]; then
@@ -336,7 +336,7 @@ if $DO_COMPILE; then
   fi
 else
   section "Compilation"
-  info "Skipped local compile. For Overleaf-linked papers, commit/push and use Overleaf as the compile source of truth. Pass --compile only when local compilation is explicitly requested and a compiler is installed."
+  info "Skipped local compile. Use the project/worktree compile backend for PDF evidence. Pass --compile only when local compilation is part of the policy or explicitly requested and a compiler is installed."
 fi
 
 # ── Summary ────────────────────────────────────────────────────────────────────

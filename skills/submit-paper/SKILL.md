@@ -9,9 +9,9 @@ allowed-tools: Read, Edit, Bash, Glob, Grep
 
 Run a systematic readiness check on a LaTeX paper project before submitting to a conference. Covers submission mode, mandatory sections, drafting artifacts, bibliography, anonymity, source formatting, and optional compilation.
 
-Do not assume the local machine has TeX Live, MacTeX, or another LaTeX distribution installed. Many macOS research workflows edit locally, sync through GitHub, and compile on Overleaf. If `latexmk`, `pdflatex`, `xelatex`, `lualatex`, or `tectonic` is missing, do not ask the user to install TeX unless they explicitly want local compilation. Use static checks locally and route compile/page-count verification through the GitHub-linked Overleaf project.
+Do not record local TeX availability as shared project state. Whether `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, or `tlmgr` exists is a runtime fact about one user's machine. The durable project state is the compile backend for the paper or worktree: `local`, `Overleaf-GitHub`, `CI`, or `unknown`.
 
-Default paper-edit closeout is: local static checks -> diff review -> commit and push when requested -> Overleaf compile -> use Overleaf logs/PDF for follow-up fixes. Do not run local LaTeX compile commands merely because paper source changed.
+Use static checks locally by default. Run local LaTeX compilation only when the project compile backend is `local` or the user explicitly requests local compilation, and only after detecting an available compiler at runtime. For `Overleaf-GitHub` or `CI` backends, use pushed source plus remote logs/PDF artifacts as compile evidence.
 
 Paper versions may live in separate worktrees. If the project has `paper-worktrees/`, prefer checking the specific version worktree for the target venue, arXiv release, or camera-ready submission rather than mutating the main `paper/` branch.
 
@@ -45,7 +45,7 @@ Ask the user **in a single message**:
 
 1. **Submission type**: Initial submission (anonymous) / Camera-ready / arXiv preprint?
 2. **Deadline**: When is the deadline? (helps prioritize what to fix)
-3. **Compile workflow**: Is this paper compiled locally or in Overleaf through GitHub? If unknown, assume Overleaf/GitHub for macOS users.
+3. **Compile backend**: Is this paper verified by local compile, Overleaf through GitHub, CI, or an unknown workflow?
 4. **Version workspace**: Is this the main `paper/` repo or a `paper-worktrees/` version for a specific venue/arXiv/camera-ready target?
 5. **Source visibility**: Is this source `agent-private`, `author-visible` through Overleaf/coauthors, `anonymous-submission`, `public-preprint`, `camera-ready-public`, or `publisher-artifact`?
 
@@ -65,7 +65,7 @@ bash <submit-paper-skill-dir>/scripts/check.sh "$PAPER_DIR" [--compile]
 
 **Important**: Resolve `<submit-paper-skill-dir>` as the installed directory for this skill and use the absolute path to `check.sh`.
 
-Only pass `--compile` when the user explicitly asked for local compilation and a local LaTeX compiler exists. If no compiler exists, run the script without `--compile`; it still performs the useful static checks.
+Only pass `--compile` when the compile backend is `local` or the user explicitly asked for local compilation. The script detects available compilers at runtime. If no compiler exists, run the script without `--compile`; it still performs the useful static checks.
 
 The script performs:
 | Check | What it looks for |
@@ -78,7 +78,7 @@ The script performs:
 | Abstract length | ~30–350 words (warns outside range) |
 | Figures & tables | All `\label{fig:*}` and `\label{tab:*}` are `\ref`'d |
 | Source formatting | optional `tex-fmt --check --nowrap --recursive .` when `tex-fmt` is installed |
-| Compilation | optional local LaTeX compile when a compiler exists; otherwise verify PDF/page count in Overleaf |
+| Compilation | optional local LaTeX compile for local-compile workflows; otherwise verify PDF/page count through Overleaf or CI |
 
 ---
 
@@ -104,7 +104,7 @@ If `tex-fmt` is missing, do not ask the user to install it just to continue. Rep
 
 ## Step 5 — Handle Overleaf/GitHub compilation
 
-Use this workflow when the user says they compile in Overleaf, when the paper repo is linked to Overleaf through GitHub, or when local LaTeX commands are missing.
+Use this workflow when the project compile backend is `Overleaf-GitHub` or the user asks to publish changes for Overleaf. Do not choose this solely because the current machine lacks TeX; if the backend is unknown, ask or report that compile verification is pending.
 
 1. Confirm the local paper repo has a GitHub remote:
 
@@ -124,7 +124,7 @@ git -C "$PAPER_DIR" status --short --branch
 
 4. If Overleaf reports errors, use the Overleaf log text or screenshots as the compile evidence. Fix the LaTeX source locally, then push again.
 
-Do not block submission readiness solely because local `latexmk`, `pdflatex`, `xelatex`, `lualatex`, or `tectonic` is unavailable.
+Do not block submission readiness solely because local `latexmk`, `pdflatex`, `xelatex`, `lualatex`, or `tectonic` is unavailable unless the project compile backend is explicitly `local`. For non-local backends, use Overleaf or CI compile evidence.
 
 If project memory exists and the paper source is visible to coauthors, reviewers, arXiv, publisher, or artifact readers, update `memory/source-visibility-board.md` with the tier, sync target, cleanup gate, audit status, and cleanup actions.
 
@@ -191,8 +191,9 @@ Mention the local/Overleaf compile state explicitly:
 
 - local static-check result
 - `tex-fmt` status: passed, changes needed, or skipped because unavailable
-- Overleaf/GitHub compile status if known, or "pending Overleaf compile" if the user must verify it there
-- whether local LaTeX was skipped because no compiler exists
+- compile backend: local, Overleaf-GitHub, CI, or unknown
+- compile status if known, or "pending remote compile" when Overleaf/CI evidence is required
+- whether local LaTeX was skipped because the backend is non-local, unknown, or unavailable
 - version workspace status: main paper repo or specific paper worktree
 - source visibility tier and source hygiene status for author-visible, anonymous, arXiv, camera-ready, or publisher-visible mode
 

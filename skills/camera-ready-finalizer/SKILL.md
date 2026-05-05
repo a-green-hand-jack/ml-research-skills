@@ -69,7 +69,7 @@ Pair this skill with:
 - New post-acceptance edits should reduce risk, not reopen novelty or evaluation disputes.
 - The main paper, appendix, supplement, metadata, and code links must tell the same story.
 - The final output should leave a clear handoff to release, artifact evaluation, tagging, and archival memory.
-- Do not assume local TeX Live or MacTeX exists. If the project compiles through Overleaf linked to GitHub, use local static checks, push changes, and treat Overleaf's compile log/PDF as the final compile evidence.
+- Do not record local TeX availability as durable paper state. Use the project/worktree compile backend (`local`, `Overleaf-GitHub`, `CI`, or `unknown`) to decide where final compile evidence comes from.
 - Prefer a dedicated paper worktree under `paper-worktrees/` for camera-ready finalization when the main paper branch must preserve the submitted or arXiv state.
 - Treat final camera-ready source as `camera-ready-public` or `publisher-artifact` unless the user explicitly says the source package remains private.
 
@@ -178,7 +178,7 @@ Check:
 
 Use `citation-audit` and `submit-paper` for detailed checks when needed.
 
-If local `pdflatex`, `xelatex`, or `lualatex` is unavailable, do not block on local compilation. Confirm the GitHub remote, push the camera-ready source when requested, and ask the user to compile in Overleaf. Use Overleaf logs or screenshots to drive any final LaTeX fixes.
+If the compile backend is `local`, detect the compiler at runtime before compiling. If the backend is `Overleaf-GitHub`, confirm the GitHub remote, push the camera-ready source when requested, and ask the user to compile in Overleaf. If the backend is `CI`, use CI logs and artifacts. Use remote logs or screenshots to drive any final LaTeX fixes.
 
 ## Step 7 - Prepare Release and Artifact Handoff
 

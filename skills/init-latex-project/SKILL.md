@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Bash, Glob, WebSearch, WebFetch
 
 Set up a complete LaTeX academic paper project from the standard template.
 
-Default local workflow assumption: on macOS, do not assume TeX Live or MacTeX is installed. The common workflow is to edit the repo locally, push to GitHub, and compile in Overleaf through its GitHub sync. Skills should not require local `latexmk`, `pdflatex`, `xelatex`, or `lualatex` for normal writing or submission checks unless the user explicitly wants local compilation and a compiler is actually installed.
+Do not encode local machine TeX availability in this skill or in generated shared paper source. Whether `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, or `tlmgr` exists is a runtime fact about one user's machine, not durable project state. The durable project state is the paper's compile backend: `local`, `Overleaf-GitHub`, `CI`, or `unknown`.
 
 ## Skill Directory Layout
 
@@ -102,7 +102,9 @@ After the script runs, ask the user if they want to:
 
 ### 4. Record the compile workflow
 
-Ask whether the paper will compile locally or in Overleaf through GitHub. If the user is on macOS and has not said otherwise, assume Overleaf/GitHub.
+Ask whether the paper will compile locally, in Overleaf through GitHub, in CI, or by an unknown workflow. Do not infer the project compile backend solely from the current user's OS or installed tools.
+
+Record the selected compile backend in project/worktree memory when available, such as `.agent/worktree-status.md` or root memory. Do not record absolute local tool paths or "this machine has/does not have TeX" in committed shared paper source.
 
 For Overleaf/GitHub projects:
 
@@ -112,6 +114,12 @@ For Overleaf/GitHub projects:
 - use local static checks, optional `tex-fmt` source-format checks, Git diff review, commit, and push
 - treat Overleaf's compile log and PDF preview as the compile source of truth
 - when compile errors appear in Overleaf, fix source locally and push again
+
+For local-compile projects:
+
+- detect available compilers at runtime with `command -v`, but do not commit the detected paths
+- run local compilation only when the project policy or user request says local compile is the verification path
+- if the expected compiler is missing on the current machine, report the mismatch and ask whether to use Overleaf/GitHub, CI, or install local tooling
 
 If `tex-fmt` is installed, record it as the default source-format checker:
 

@@ -4,19 +4,20 @@
 
 ---
 
-## 0. Local vs Overleaf Compile Workflow
+## 0. Compile Workflow
 
-Do not assume the local machine has TeX Live, MacTeX, `pdflatex`, `xelatex`, or `lualatex` installed. The default workflow is:
+Do not record machine-specific TeX availability or absolute tool paths in committed project docs. Whether `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, or `tlmgr` exists is a runtime fact about one user's machine, not durable paper state.
 
-1. Edit LaTeX source locally.
-2. Review `git diff`.
-3. Commit and push to GitHub when the user asks.
-4. Compile in Overleaf through the GitHub-linked project.
-5. Use Overleaf logs and PDF preview as the compile source of truth.
+The durable paper state is the compile backend for this project or worktree:
 
-If a local LaTeX compiler is missing, do not ask the user to install TeX unless they explicitly want local compilation. Continue with static source checks and push the changes for Overleaf validation.
+- `local`: compile locally when the requested compiler is available
+- `Overleaf-GitHub`: commit/push, then use Overleaf logs and PDF preview as compile evidence
+- `CI`: push and use CI logs/artifacts as compile evidence
+- `unknown`: run static checks and ask before attempting local compile or publishing
 
-Default paper-edit closeout:
+If project memory exists, read `.agent/worktree-status.md` or root memory for the compile backend. If it is missing, ask or proceed with static checks only.
+
+Common Overleaf-linked paper-edit closeout:
 
 1. Run local static/source checks that do not require TeX.
 2. Review `git diff`.
@@ -24,13 +25,13 @@ Default paper-edit closeout:
 4. Let Overleaf compile the pushed branch.
 5. Use Overleaf log text, screenshots, or PDF preview for any follow-up fixes.
 
-Do not run `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, `tlmgr`, or TeX package installation commands as a reflex after editing paper source. If local compile verification is explicitly requested, first check whether a compiler exists:
+Do not run `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, `tlmgr`, or TeX package installation commands as a reflex after editing paper source. If local compile verification is part of the project policy or explicitly requested, first check whether a compiler exists:
 
 ```bash
 command -v latexmk || command -v pdflatex || command -v xelatex || command -v lualatex || command -v tectonic
 ```
 
-If no compiler exists, skip local compilation and say that Overleaf/GitHub is the compile path.
+If no compiler exists, skip local compilation and report that the current machine cannot perform the requested local compile. Then use the configured Overleaf/GitHub or CI path if one exists, or ask for the desired compile backend.
 
 ---
 
