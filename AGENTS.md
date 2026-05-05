@@ -6,6 +6,8 @@ Guidance for AI coding agents working in this repository.
 
 This repo is **ml-research-skills** — a collection of agent skills for ML researchers. Each skill lives under `skills/<skill-name>/` as an instruction bundle centered on `SKILL.md`, with optional `references/`, `scripts/`, `templates/`, and `agents/` directories.
 
+The repo also has shared project memory under `memory/`. Start from `memory/current-status.md` before substantial maintenance work, and update the smallest relevant board after durable workflow, routing, validation, or architecture decisions. Keep local sidecar artifacts under `.agent/sidecars/`; they are ignored and should not be committed unless explicitly sanitized and requested.
+
 Skills in this repo are installed with:
 
 ```bash
@@ -33,6 +35,19 @@ ml-research-skills/
 ├── README.md
 ├── CLAUDE.md
 ├── AGENTS.md
+├── memory/
+│   ├── project.yaml
+│   ├── current-status.md
+│   ├── decision-log.md
+│   ├── action-board.md
+│   ├── risk-board.md
+│   ├── phase-dashboard.md
+│   ├── claim-board.md
+│   ├── evidence-board.md
+│   ├── provenance-board.md
+│   ├── handoff-board.md
+│   ├── component-index.yaml
+│   └── source-visibility-board.md
 └── skills/
     ├── add-git-tag/
     │   └── SKILL.md
@@ -249,7 +264,7 @@ ml-research-skills/
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
-| `token-usage-auditor` | Audit project token usage from local Codex and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
+| `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |

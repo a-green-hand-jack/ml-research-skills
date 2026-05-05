@@ -35,6 +35,17 @@ npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -s r
 
 With the default local setup used in this repo, Codex installs under `~/.agents/skills/` and Claude Code reads from `~/.claude/skills/`, often via symlinks created by `npx skills`.
 
+## Project Memory
+
+This repository maintains its own shared project memory under `memory/`. Treat it as the durable coordination layer for the skill system itself:
+
+- `memory/current-status.md` is the next-session entry point.
+- `memory/decision-log.md` records durable architecture and workflow decisions.
+- `memory/action-board.md`, `memory/risk-board.md`, and `memory/phase-dashboard.md` track maintenance work and gates.
+- `memory/claim-board.md`, `memory/evidence-board.md`, and `memory/provenance-board.md` connect skill-system claims to commits, tests, assets, and sidecar evidence.
+
+Local sidecar runs live under `.agent/sidecars/` and are ignored by git; commit only sanitized, durable conclusions into `memory/`.
+
 ## Skills
 
 | Skill | What it does |
@@ -80,7 +91,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown and/or HTML work timelines from git history, docs, and notes, with Mermaid or richer Gantt visualizations for review and planning |
-| `token-usage-auditor` | Audit project token usage from local Codex and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
+| `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |

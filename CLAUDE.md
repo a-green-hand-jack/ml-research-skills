@@ -24,6 +24,10 @@ npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -s r
 
 All files are instruction documents for AI agents — not executable code. Skills are deployed to the target agent's global skill home, typically `~/.agents/skills/` for Codex and `~/.claude/skills/` for Claude Code.
 
+## Project Memory
+
+This repo has shared project memory in `memory/`. Before substantial maintenance, read `memory/current-status.md`; after durable skill-system decisions, update the smallest relevant board such as `decision-log.md`, `action-board.md`, `risk-board.md`, `claim-board.md`, or `phase-dashboard.md`. Local sidecar artifacts belong under `.agent/sidecars/` and are ignored by git.
+
 ## Testing Changes
 
 No automated tests. To validate a change:
@@ -106,7 +110,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
 | `citation-audit` | Run a pre-submission audit of citation keys, BibTeX entries, metadata, citation claims, labels, and LaTeX references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
-| `token-usage-auditor` | Audit project token usage from local Codex and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
+| `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations safely, especially around worktrees, sandboxed writes, and failure diagnosis |
 | `remote-project-control` | Recover project memory and coordinate safe local, Git remote, and SSH/HPC/RunAI server workflows for a research repo |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |

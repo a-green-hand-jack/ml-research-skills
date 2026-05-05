@@ -1,0 +1,103 @@
+# Stable project memory for ml-research-skills.
+
+project:
+  name: ml-research-skills
+  root: /Users/jieke/Projects/project-skills
+  repository: a-green-hand-jack/ml-research-skills
+  purpose: Agent skill system for the full ML research lifecycle.
+  research_question: "How can artifact-driven skills, memory, tool use, and sidecar agents make ML research projects faster, better coordinated, and easier to audit?"
+  positioning: "A public skill collection plus durable project memory for planning, execution, review, writing, release, and lifecycle telemetry."
+  target_milestone: "Sidecar-orchestrated skill workflows and self-maintaining project memory."
+  status: active
+  certainty: observed
+  last_updated: "2026-05-05"
+
+memory_policy:
+  commit_shared_memory: true
+  keep_private_paths_out_of_shared_memory: true
+  require_certainty_labels: true
+  reverify_volatile_state_before_action: true
+  local_sidecar_artifacts_private: true
+  notes: "Public memory records durable workflow decisions and artifact pointers. Raw agent transcripts, local machine facts, and private session logs stay outside the repo."
+
+toolchain_gates:
+  policy: check-before-mutate
+  root:
+    skill_schema_check:
+      command: "python3 scripts/validate_skills.py"
+      required: true
+      mutates_files: false
+    python_smoke_tests:
+      command: "python3 -m unittest -v tests.test_sidecar_task_runner tests.test_token_usage_auditor tests.test_code_reviewer_bundle tests.test_init_python_project_scaffold"
+      required: true
+      mutates_files: false
+    whitespace_check:
+      command: "git diff --check"
+      required: true
+      mutates_files: false
+    install_check:
+      command: "npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -y"
+      required_after_skill_changes: true
+      mutates_files: true
+  docs:
+    inventory_sync:
+      required: true
+      surfaces:
+        - README.md
+        - AGENTS.md
+        - CLAUDE.md
+  sidecar:
+    default_model: gpt-5.3-codex-spark
+    default_sandbox: read-only
+    artifact_root: .agent/sidecars
+    commit_sidecar_artifacts: false
+
+github_project:
+  enabled: false
+  sync_policy: none
+
+components:
+  root_docs:
+    path: .
+    owns:
+      - README.md
+      - AGENTS.md
+      - CLAUDE.md
+      - asset/
+    status: active
+  skills:
+    path: skills
+    owns:
+      - skill instructions
+      - agents/openai.yaml metadata
+      - scripts and templates bundled with skills
+    status: active
+  validation:
+    path: tests
+    owns:
+      - smoke tests for skill helper scripts
+      - repository validator coverage
+    status: active
+  memory:
+    path: memory
+    owns:
+      - project status
+      - decisions
+      - claims
+      - evidence
+      - risks
+      - actions
+      - provenance
+      - phase dashboard
+    status: active
+
+id_counters:
+  claim: 5
+  evidence: 6
+  risk: 5
+  action: 5
+  decision: 5
+  provenance: 4
+  handoff: 3
+  visibility: 1
+  gate: 4
