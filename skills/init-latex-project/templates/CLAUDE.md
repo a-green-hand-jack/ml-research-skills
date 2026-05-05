@@ -16,6 +16,22 @@ Do not assume the local machine has TeX Live, MacTeX, `pdflatex`, `xelatex`, or 
 
 If a local LaTeX compiler is missing, do not ask the user to install TeX unless they explicitly want local compilation. Continue with static source checks and push the changes for Overleaf validation.
 
+Default paper-edit closeout:
+
+1. Run local static/source checks that do not require TeX.
+2. Review `git diff`.
+3. Commit and push when the user asks to publish changes.
+4. Let Overleaf compile the pushed branch.
+5. Use Overleaf log text, screenshots, or PDF preview for any follow-up fixes.
+
+Do not run `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, `tlmgr`, or TeX package installation commands as a reflex after editing paper source. If local compile verification is explicitly requested, first check whether a compiler exists:
+
+```bash
+command -v latexmk || command -v pdflatex || command -v xelatex || command -v lualatex || command -v tectonic
+```
+
+If no compiler exists, skip local compilation and say that Overleaf/GitHub is the compile path.
+
 ---
 
 ## 0.0 Source Formatting

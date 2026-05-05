@@ -10,6 +10,22 @@ Do not assume local TeX Live, MacTeX, `pdflatex`, `xelatex`, or `lualatex` is in
 
 Use Overleaf logs and PDF preview as the compile source of truth unless the user explicitly asks for local compilation.
 
+Default paper-edit closeout:
+
+1. Run local static/source checks that do not require TeX.
+2. Review `git diff`.
+3. Commit and push when the user asks to publish changes.
+4. Let Overleaf compile the pushed branch.
+5. Use Overleaf log text, screenshots, or PDF preview for any follow-up fixes.
+
+Do not run `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, `tlmgr`, or TeX package installation commands as a reflex after editing paper source. If local compile verification is explicitly requested, first check whether a compiler exists:
+
+```bash
+command -v latexmk || command -v pdflatex || command -v xelatex || command -v lualatex || command -v tectonic
+```
+
+If no compiler exists, skip local compilation and say that Overleaf/GitHub is the compile path.
+
 ## Source Formatting
 
 If `tex-fmt` is installed, use it as the default LaTeX source-format check:

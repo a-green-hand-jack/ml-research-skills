@@ -5,9 +5,9 @@
 #   bash check.sh [project-dir] [--compile]
 #
 # Flags:
-#   --compile   Run local LaTeX + bibtex to check compilation, page count,
-#               overfull boxes, and undefined refs. If no compiler is installed,
-#               skip local compilation and use Overleaf/GitHub workflow.
+#   --compile   Run local LaTeX + bibtex only when the user explicitly wants
+#               local compilation and a compiler is installed. If no compiler
+#               is installed, skip local compilation and use Overleaf/GitHub.
 #               Skipped by default (static analysis only).
 
 set -euo pipefail
@@ -279,21 +279,27 @@ if $DO_COMPILE; then
   section "Compilation"
 
   LATEX_CMD=""
-  command -v pdflatex &>/dev/null && LATEX_CMD="pdflatex"
-  command -v xelatex  &>/dev/null && LATEX_CMD="xelatex"
-  command -v lualatex &>/dev/null && LATEX_CMD="lualatex"
+  command -v latexmk  &>/dev/null && [[ -z "$LATEX_CMD" ]] && LATEX_CMD="latexmk"
+  command -v pdflatex &>/dev/null && [[ -z "$LATEX_CMD" ]] && LATEX_CMD="pdflatex"
+  command -v xelatex  &>/dev/null && [[ -z "$LATEX_CMD" ]] && LATEX_CMD="xelatex"
+  command -v lualatex &>/dev/null && [[ -z "$LATEX_CMD" ]] && LATEX_CMD="lualatex"
 
   if [[ -z "$LATEX_CMD" ]]; then
-    warn "No LaTeX compiler found (pdflatex/xelatex/lualatex) — skipping local compile; use Overleaf/GitHub workflow"
+    warn "No local LaTeX compiler found (latexmk/pdflatex/xelatex/lualatex) — skipping local compile; commit/push and use Overleaf/GitHub workflow"
   else
     COMPILE_LOG=$(mktemp)
-    info "Running: $LATEX_CMD -interaction=nonstopmode main.tex"
+    if [[ "$LATEX_CMD" == "latexmk" ]]; then
+      COMPILE_COMMAND=(latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex)
+    else
+      COMPILE_COMMAND=("$LATEX_CMD" -interaction=nonstopmode -halt-on-error main.tex)
+    fi
+    info "Running: ${COMPILE_COMMAND[*]}"
 
-    if $LATEX_CMD -interaction=nonstopmode -halt-on-error main.tex > "$COMPILE_LOG" 2>&1; then
+    if "${COMPILE_COMMAND[@]}" > "$COMPILE_LOG" 2>&1; then
       pass "Compilation succeeded"
 
       # Run bibtex if .aux exists
-      if [[ -f "main.aux" ]] && grep -q "\\\\bibdata" main.aux 2>/dev/null; then
+      if [[ "$LATEX_CMD" != "latexmk" && -f "main.aux" ]] && grep -q "\\\\bibdata" main.aux 2>/dev/null; then
         bibtex main >> "$COMPILE_LOG" 2>&1 || true
         $LATEX_CMD -interaction=nonstopmode main.tex >> "$COMPILE_LOG" 2>&1 || true
         $LATEX_CMD -interaction=nonstopmode main.tex >> "$COMPILE_LOG" 2>&1 || true
@@ -330,7 +336,7 @@ if $DO_COMPILE; then
   fi
 else
   section "Compilation"
-  info "Skipped local compile (pass --compile only when a local LaTeX compiler is available)"
+  info "Skipped local compile. For Overleaf-linked papers, commit/push and use Overleaf as the compile source of truth. Pass --compile only when local compilation is explicitly requested and a compiler is installed."
 fi
 
 # ── Summary ────────────────────────────────────────────────────────────────────

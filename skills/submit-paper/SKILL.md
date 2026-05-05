@@ -9,7 +9,9 @@ allowed-tools: Read, Edit, Bash, Glob, Grep
 
 Run a systematic readiness check on a LaTeX paper project before submitting to a conference. Covers submission mode, mandatory sections, drafting artifacts, bibliography, anonymity, source formatting, and optional compilation.
 
-Do not assume the local machine has TeX Live, MacTeX, or another LaTeX distribution installed. Many macOS research workflows edit locally, sync through GitHub, and compile on Overleaf. If `pdflatex`, `xelatex`, or `lualatex` is missing, do not ask the user to install TeX unless they explicitly want local compilation. Use static checks locally and route compile/page-count verification through the GitHub-linked Overleaf project.
+Do not assume the local machine has TeX Live, MacTeX, or another LaTeX distribution installed. Many macOS research workflows edit locally, sync through GitHub, and compile on Overleaf. If `latexmk`, `pdflatex`, `xelatex`, `lualatex`, or `tectonic` is missing, do not ask the user to install TeX unless they explicitly want local compilation. Use static checks locally and route compile/page-count verification through the GitHub-linked Overleaf project.
+
+Default paper-edit closeout is: local static checks -> diff review -> commit and push when requested -> Overleaf compile -> use Overleaf logs/PDF for follow-up fixes. Do not run local LaTeX compile commands merely because paper source changed.
 
 Paper versions may live in separate worktrees. If the project has `paper-worktrees/`, prefer checking the specific version worktree for the target venue, arXiv release, or camera-ready submission rather than mutating the main `paper/` branch.
 
@@ -63,7 +65,7 @@ bash <submit-paper-skill-dir>/scripts/check.sh "$PAPER_DIR" [--compile]
 
 **Important**: Resolve `<submit-paper-skill-dir>` as the installed directory for this skill and use the absolute path to `check.sh`.
 
-Only pass `--compile` when a local LaTeX compiler exists or the user explicitly asked for a local compile attempt. If no compiler exists, run the script without `--compile`; it still performs the useful static checks.
+Only pass `--compile` when the user explicitly asked for local compilation and a local LaTeX compiler exists. If no compiler exists, run the script without `--compile`; it still performs the useful static checks.
 
 The script performs:
 | Check | What it looks for |
@@ -111,7 +113,7 @@ git -C "$PAPER_DIR" remote -v
 git -C "$PAPER_DIR" status --short --branch
 ```
 
-2. If the user asks to publish the changes for Overleaf, commit and push through normal Git flow. Do not commit unrelated user changes without checking the diff.
+2. If the user asks to publish the changes for Overleaf, commit and push through normal Git flow. Do not commit unrelated user changes without checking the diff. This is the normal compile handoff for Overleaf-linked papers.
 
 3. Tell the user to compile the synced branch in Overleaf. Treat Overleaf as the source of PDF truth for:
    - clean compile status
@@ -122,7 +124,7 @@ git -C "$PAPER_DIR" status --short --branch
 
 4. If Overleaf reports errors, use the Overleaf log text or screenshots as the compile evidence. Fix the LaTeX source locally, then push again.
 
-Do not block submission readiness solely because local `pdflatex` is unavailable.
+Do not block submission readiness solely because local `latexmk`, `pdflatex`, `xelatex`, `lualatex`, or `tectonic` is unavailable.
 
 If project memory exists and the paper source is visible to coauthors, reviewers, arXiv, publisher, or artifact readers, update `memory/source-visibility-board.md` with the tier, sync target, cleanup gate, audit status, and cleanup actions.
 

@@ -83,7 +83,7 @@ With the default local setup used in this repo, Codex installs under `~/.agents/
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
-| `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, source formatting, and optional compile checks |
+| `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, source formatting, and Overleaf/GitHub compile handoff by default |
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |
@@ -292,7 +292,7 @@ tex-fmt --check --nowrap --recursive .
 bash <submit-paper-skill-dir>/scripts/check.sh "$PAPER_DIR"
 ```
 
-Use `tex-fmt --nowrap --recursive .` only when formatting is requested or required, then review the diff. Paper compile truth still comes from Overleaf/GitHub or a local LaTeX compile log.
+Use `tex-fmt --nowrap --recursive .` only when formatting is requested or required, then review the diff. Paper compile truth comes from Overleaf/GitHub by default; local compile is only for projects with an installed compiler and an explicit local-compile request.
 
 Default coordination gates include `git status --short --branch`, `git diff --check`, `gh auth status`, and PR/CI checks such as `gh pr checks` when GitHub is in use. `git` and `gh` are toolchain components too: `git` owns source history and worktree boundaries, while GitHub/GitHub Project owns collaborator-visible issues, PRs, release records, and board state.
 
@@ -361,7 +361,8 @@ Paper boundary rules:
 - Sections hold paper prose. They should not become experiment logs.
 - `figures/*.tex` wraps a rendered figure asset. The figure description, caption, and main-text callout are separate artifacts.
 - `tables/*.tex` is the standalone table source/wrapper. The table description, caption, row/column semantics, and numeric provenance are separate artifacts.
-- Local macOS does not need TeX Live. The default compile path can be local edit -> GitHub push -> Overleaf compile.
+- Local macOS does not need TeX Live. The default compile path is local edit -> static checks -> Git diff review -> commit/push when requested -> Overleaf compile.
+- Do not run `latexmk`, `pdflatex`, `xelatex`, `lualatex`, `tectonic`, `tlmgr`, or package-install commands as a reflex after paper edits. If local TeX is missing, push the source and use Overleaf logs/PDF as compile evidence.
 - If `tex-fmt` is installed, use `tex-fmt --check --nowrap --recursive .` as the default paper source-format gate. Run `tex-fmt --nowrap --recursive .` only when formatting is requested or required, then review the diff before push/submission.
 - Paper-facing claims should be backed by evidence links in root `memory/` and, when needed, code-side reports under `code/docs/`.
 - Different paper versions should use paper worktrees under `paper-worktrees/` when they need different templates, venue modes, anonymity rules, arXiv cleanup, or camera-ready edits.
@@ -389,7 +390,7 @@ tex-fmt --nowrap --recursive .
 
 Then review the diff before committing or pushing. The default policy uses `--nowrap` so routine formatting does not reflow prose lines in paper sections. If a paper repo has a project-local `tex-fmt` config, follow that config instead.
 
-`tex-fmt` does not replace LaTeX compilation. Local macOS workflows can still rely on Overleaf/GitHub for compile logs, page count, overfull boxes, bibliography rendering, and final PDF inspection.
+`tex-fmt` does not replace LaTeX compilation. Local macOS workflows should rely on Overleaf/GitHub for compile logs, page count, overfull boxes, bibliography rendering, and final PDF inspection unless the project explicitly opts into local compilation.
 
 Primary skills in `paper/`:
 
@@ -793,7 +794,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
-| **submit-paper** | Run final submission readiness checks for source formatting, anonymity, required sections, and compilation |
+| **submit-paper** | Run final submission readiness checks for source formatting, anonymity, required sections, and Overleaf/GitHub compile handoff |
 
 ### 5. Review, Rebuttal, and Revision
 
@@ -882,7 +883,7 @@ For the person turning research evidence into a submission:
 | **paper-draft-consistency-editor** | Check and fix internal consistency across the completed draft without changing the selected paper story |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
-| **submit-paper** | Check final submission readiness, including source formatting |
+| **submit-paper** | Check final submission readiness, including source formatting and Overleaf/GitHub compile handoff |
 
 ### Paper Writing Stack
 
@@ -1103,6 +1104,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Venue-specific templates for `icml`, `acl`, `emnlp`, `naacl`, `iccv`, `eccv`, `neurips`, `iclr`, `cvpr`, and `acm`
 - Support for generic non-venue projects by using the default template without `--venue`
 - A helper script that downloads official style files where needed and writes `venue_preamble.tex`
+- Paper-local `AGENTS.md` and `CLAUDE.md` policy that defaults to static checks, commit/push, and Overleaf/GitHub compilation instead of local TeX installation
 
 ## What `init-python-project` Provides
 
@@ -1410,8 +1412,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Venue-specific required sections and bibliography presence
 - Basic anonymity issues for blind review
 - Optional `tex-fmt --check --nowrap --recursive .` source formatting when `tex-fmt` is installed; see "LaTeX Source Formatting"
-- Optional local compile checks when a LaTeX compiler exists
-- Overleaf/GitHub compile workflow guidance when local TeX Live is not installed
+- Optional local compile checks only when a LaTeX compiler exists and the user explicitly requests local compilation
+- Overleaf/GitHub compile workflow guidance as the default macOS path when local TeX Live is not installed
 
 ## What `release-code` Provides
 
@@ -1460,4 +1462,4 @@ To validate a skill end-to-end:
 - [Claude Code](https://claude.ai/code) or another compatible agent runtime
 - [npx skills](https://github.com/vercel-labs/skills)
 - For Python-related skills: [uv](https://docs.astral.sh/uv/)
-- For LaTeX-related skills: local TeX is optional; macOS workflows may use GitHub-linked Overleaf for compilation
+- For LaTeX-related skills: local TeX is optional; macOS workflows default to GitHub-linked Overleaf for compilation, with local compile skipped unless explicitly requested and available
