@@ -54,7 +54,7 @@ class SessionSummary:
     def finalize_usage(self) -> dict[str, int]:
         usage = {key: int(self.usage.get(key, 0)) for key in USAGE_FIELDS}
 
-        if self.agent == "codex":
+        if self.agent.startswith("codex"):
             total_context = usage["total_tokens"]
             if total_context == 0:
                 total_context = usage["input_tokens"] + usage["output_tokens"]
@@ -107,6 +107,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--claude-root", default="~/.claude/projects", help="Claude Code projects root.")
     parser.add_argument("--no-codex", action="store_true", help="Skip Codex logs.")
     parser.add_argument("--no-claude", action="store_true", help="Skip Claude Code logs.")
+    parser.add_argument("--no-sidecars", action="store_true", help="Skip repo-local .agent/sidecars model metadata.")
     return parser.parse_args()
 
 
@@ -269,11 +270,52 @@ def collect_claude_file(path: Path, project_root: Path, since: datetime | None, 
     return summary
 
 
+def collect_sidecar_model_file(path: Path, project_root: Path, since: datetime | None, until: datetime | None) -> SessionSummary | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+
+    created_at = payload.get("created_at")
+    if isinstance(created_at, str) and not in_window(created_at, since, until):
+        return None
+
+    repo = payload.get("repo")
+    cwd = repo if isinstance(repo, str) else str(project_root)
+    summary = SessionSummary(
+        agent="codex-sidecar",
+        source_file=str(path),
+        project_root=str(project_root),
+        session_id=f"sidecar:{payload.get('task_id')}" if payload.get("task_id") else None,
+        cwd=cwd,
+        started_at=created_at if isinstance(created_at, str) else None,
+        ended_at=created_at if isinstance(created_at, str) else None,
+        model_provider=payload.get("model_provider") if isinstance(payload.get("model_provider"), str) else "openai",
+        model=payload.get("model") if isinstance(payload.get("model"), str) else None,
+    )
+
+    usage = payload.get("usage") or {}
+    if isinstance(usage, dict) and any(isinstance(usage.get(key), int) for key in USAGE_FIELDS):
+        summary.add_usage(usage)
+
+    return summary
+
+
 def collect_sessions(args: argparse.Namespace) -> list[SessionSummary]:
     project_root = resolve_path(args.project_root)
     since = parse_timestamp(args.since)
     until = parse_until(args.until)
     sessions: list[SessionSummary] = []
+
+    if not args.no_sidecars:
+        sidecar_root = project_root / ".agent" / "sidecars"
+        if sidecar_root.exists():
+            for path in sorted(sidecar_root.glob("*/model.json")):
+                summary = collect_sidecar_model_file(path, project_root, since, until)
+                if summary is not None:
+                    sessions.append(summary)
 
     if not args.no_codex:
         codex_root = resolve_path(args.codex_root)

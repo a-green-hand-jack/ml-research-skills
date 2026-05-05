@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: Run isolated code reviews for core algorithm or production code changes. Use when the user asks for a fresh-context reviewer, writer/reviewer separation, code review, implementation audit, review bundle, independent review, or review artifacts under `.agent/code-reviews/`.
+description: Run isolated code reviews for core algorithm or production code changes. Use when the user asks for a fresh-context reviewer, writer/reviewer separation, Spark pre-review, code review, implementation audit, review bundle, independent review, or review artifacts under `.agent/code-reviews/`.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
@@ -26,11 +26,21 @@ Run code review as an isolated artifact-driven workflow. The reviewer should jud
 
 The reviewer must not inherit the writer's chat context. Use one of these patterns:
 
+- Spark pre-review: run a bounded `gpt-5.3-codex-spark` sidecar as a fast first-pass scanner, then let the main agent triage its findings.
 - Strong isolation: start a new Codex or Claude Code session and give it only the review bundle path.
 - Cross-agent isolation: Codex writes and Claude Code reviews, or Claude Code writes and Codex reviews.
 - Subagent isolation: use a fresh subagent only if it does not fork the current writer context.
 
 The reviewer input is the bundle, not the writer conversation.
+
+## Execution Contract
+
+- Default runner: main agent prepares bundles, applies fixes, and owns merge decisions.
+- Sidecar eligible: yes, for first-pass review, missing-test scans, diff summaries, and docs/code mismatch checks.
+- Suggested sidecar model: `gpt-5.3-codex-spark` via `codex exec --ephemeral`.
+- Sidecar permissions: `workspace-write` only to write review artifacts; otherwise `read-only` plus `-o`.
+- Strong reviewer required: core algorithm changes, public API changes, security/privacy-sensitive code, broad refactors, or any Spark finding the main agent cannot confidently resolve.
+- Required artifacts: `.agent/code-reviews/<change-id>/review.md` and `fix-log.md`; optional sidecar telemetry under `.agent/sidecars/<task-id>/`.
 
 ## Bundle Workflow
 
@@ -64,6 +74,19 @@ Write findings to .agent/code-reviews/<change-id>/review.md.
 
 For automated strong isolation, prefer a one-shot CLI session instead of an in-process subagent.
 
+Spark pre-review:
+
+```bash
+codex exec --ephemeral \
+  -m gpt-5.3-codex-spark \
+  -C . \
+  -s workspace-write \
+  -o .agent/code-reviews/<change-id>/spark-output.md \
+  "$(cat .agent/code-reviews/<change-id>/reviewer-prompt.md)"
+```
+
+Treat Spark output as a fast issue candidate list, not final approval. The main agent should copy accepted findings into `review.md` or record rejected findings in `fix-log.md` / `decision.md`. For high-risk changes, run a strong fresh reviewer after Spark and after fixes.
+
 Codex:
 
 ```bash
@@ -92,7 +115,7 @@ claude -p "$(cat .agent/code-reviews/<change-id>/reviewer-prompt.md)" \
 
 Do not use `claude --continue`, `claude --resume`, `codex resume`, or `codex fork` for a first-pass review. Those are useful for continuing work, but they weaken the reviewer/writer context boundary.
 
-4. The writer then reads `review.md`, fixes the code, and records responses in `fix-log.md`.
+4. The writer then reads `review.md` and any `spark-output.md`, fixes the code, and records responses in `fix-log.md`.
 
 5. For high-risk changes, run a second fresh review after fixes.
 

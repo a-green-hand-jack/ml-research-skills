@@ -19,10 +19,12 @@ class TokenUsageAuditorSmokeTest(unittest.TestCase):
             project.mkdir()
             codex_root = root / "codex"
             claude_root = root / "claude"
+            sidecar_dir = project / ".agent/sidecars/docs-scan"
             codex_session = codex_root / "2026/05/04/rollout-test.jsonl"
             claude_session = claude_root / "-tmp-project/session.jsonl"
             codex_session.parent.mkdir(parents=True)
             claude_session.parent.mkdir(parents=True)
+            sidecar_dir.mkdir(parents=True)
 
             codex_records = [
                 {
@@ -77,6 +79,26 @@ class TokenUsageAuditorSmokeTest(unittest.TestCase):
                 "\n".join([json.dumps(claude_record), json.dumps(claude_record)]),
                 encoding="utf-8",
             )
+            (sidecar_dir / "model.json").write_text(
+                json.dumps(
+                    {
+                        "task_id": "docs-scan",
+                        "created_at": "2026-05-04T12:00:00Z",
+                        "runner": "codex-cli",
+                        "model_provider": "openai",
+                        "model": "gpt-5.3-codex-spark",
+                        "repo": str(project),
+                        "usage": {
+                            "input_tokens": 50,
+                            "cached_input_tokens": 10,
+                            "output_tokens": 12,
+                            "reasoning_output_tokens": 2,
+                            "total_tokens": 62,
+                        },
+                    }
+                ),
+                encoding="utf-8",
+            )
 
             proc = subprocess.run(
                 [
@@ -103,6 +125,8 @@ class TokenUsageAuditorSmokeTest(unittest.TestCase):
             self.assertEqual(by_agent["claude-code"]["fresh_tokens"], 115)
             self.assertEqual(by_agent["claude-code"]["total_context_tokens"], 145)
             self.assertEqual(by_agent["claude-code"]["usage_events"], 1)
+            self.assertEqual(by_agent["codex-sidecar"]["fresh_tokens"], 52)
+            self.assertEqual(by_agent["codex-sidecar"]["total_context_tokens"], 62)
             self.assertNotIn("should not be copied", proc.stdout)
 
 

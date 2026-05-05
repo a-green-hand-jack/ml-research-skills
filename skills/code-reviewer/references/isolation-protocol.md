@@ -44,6 +44,19 @@ End with verdict: request changes, acceptable with nits, or approve.
 
 The strongest low-friction workflow is to launch the reviewer from the command line as a one-shot session. The user does not need to manually open another chat window; the writer can prepare the bundle and then invoke a fresh reviewer process.
 
+Spark pre-review command:
+
+```bash
+codex exec --ephemeral \
+  -m gpt-5.3-codex-spark \
+  -C <repo> \
+  -s workspace-write \
+  -o <repo>/.agent/code-reviews/<change-id>/spark-output.md \
+  "$(cat <repo>/.agent/code-reviews/<change-id>/reviewer-prompt.md)"
+```
+
+Use Spark pre-review for quick scans, missing-test discovery, and issue candidate generation. It is not the final reviewer for high-risk algorithmic, security, privacy, or public API changes. The writer or main agent must triage Spark findings and either promote them into `review.md`, fix them directly, or record why they were rejected.
+
 Codex preferred command:
 
 ```bash

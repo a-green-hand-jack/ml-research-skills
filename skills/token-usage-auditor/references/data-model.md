@@ -6,7 +6,7 @@ Use this schema when converting collector output into project memory.
 
 ```yaml
 session_id: string
-agent: codex | claude-code
+agent: codex | codex-sidecar | claude-code
 source_file: string
 project_root: string
 cwd: string | null
@@ -39,6 +39,7 @@ artifacts:
   reports: [string]
   paper_sections: [string]
   memory_updates: [string]
+  sidecar_runs: [string]
 
 outcome: shipped | synthesized | diagnosed | blocked | abandoned | unknown
 notes: string
@@ -51,6 +52,7 @@ notes: string
 - `cached_tokens`: prompt-cache reads or cached input. This measures context reuse and should not be treated as equal to fresh work.
 - `reasoning_output_tokens`: keep separate when reported. Do not add it again if the provider's `output_tokens` already includes reasoning.
 - `confidence`: use `exact` for provider-reported token fields, `inferred` for phase/task labels, `manual` for user-entered estimates, and `unknown` when the basis is unclear.
+- `codex-sidecar`: session summaries derived from `.agent/sidecars/*/model.json`. Exact usage exists only if Codex CLI token numbers were copied into the metadata; otherwise the run still counts as a lifecycle artifact with zero known token fields.
 
 ## Interpretation
 

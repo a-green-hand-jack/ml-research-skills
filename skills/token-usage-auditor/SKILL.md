@@ -1,12 +1,12 @@
 ---
 name: token-usage-auditor
-description: Audit project token usage from local Codex and Claude Code logs. Use when the user asks to measure token burn, token consumption, project attention, agent usage, Codex/Claude Code usage, token efficiency, or lifecycle telemetry for a project.
+description: Audit project token usage from local Codex, Codex sidecar, and Claude Code logs. Use when the user asks to measure token burn, token consumption, project attention, agent usage, Codex/Claude Code usage, sidecar usage, token efficiency, or lifecycle telemetry for a project.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
 # Token Usage Auditor
 
-Measure token usage as project telemetry: where agent attention went, how much fresh work versus cached context was spent, and which sessions should be tied back to project phases and artifacts.
+Measure token usage as project telemetry: where agent attention went, how much fresh work versus cached context was spent, and which sessions or sidecar runs should be tied back to project phases and artifacts.
 
 ## Skill Directory Layout
 
@@ -23,6 +23,7 @@ Measure token usage as project telemetry: where agent attention went, how much f
 
 - Treat token usage as attention and cost telemetry, not as quality by itself.
 - Prefer local exact logs for Codex and Claude Code before asking the user for estimates.
+- Include `.agent/sidecars/*/model.json` metadata, because ephemeral sidecar runs may not persist normal session logs.
 - Keep raw prompts and message text out of project memory by default; record only session metadata, usage totals, classification, and artifact links.
 - Preserve agent-specific token fields. Do not collapse prompt cache reads, cache creation, fresh input, reasoning output, and normal output into one unexplained number.
 - Mark inferred phase/task labels with confidence. Do not invent artifact links when no commit, report, run, or paper section can be tied to a session.
@@ -60,12 +61,14 @@ The script is read-only with respect to Codex and Claude Code logs. It writes on
    - Include `--since` and `--until` when the user asks for a week, month, phase, or release window.
    - Use `--format markdown` for discussion and `--format json` when updating project memory.
    - Use `--codex-root` or `--claude-root` only when logs live outside the defaults.
+   - Use `--no-sidecars` only when the user wants raw agent-session logs without sidecar metadata.
 
 3. Interpret the report.
    - `total_context_tokens`: all context observed by the agent, including cached reads when the provider reports them.
    - `fresh_tokens`: non-cached input plus cache creation plus output. Use this as the closer proxy for incremental cost/effort.
    - `cached_tokens`: prompt-cache reads or cached input. Use this as context reuse, not equal fresh work.
-   - `session_count`: number of project-matched local sessions.
+   - `session_count`: number of project-matched local sessions or recorded sidecar runs.
+   - `codex-sidecar`: repo-local `.agent/sidecars/*/model.json` records. Exact token fields appear only when the sidecar run copied Codex CLI usage into `model.json`.
 
 4. Add project labels only when supported.
    - `phase`: idea, literature, design, implementation, experiment, diagnosis, writing, rebuttal, release, maintenance, tooling, project-management.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sidecar Task Runner"
+  short_description: "Run bounded one-shot Codex sidecar tasks."
+  default_prompt: "Create a sidecar task bundle, run a one-shot Codex Spark sidecar if useful, and record the output under .agent/sidecars/."

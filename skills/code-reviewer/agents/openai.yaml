@@ -1,4 +1,4 @@
 interface:
   display_name: "Code Reviewer"
-  short_description: "Run isolated code reviews from review bundles."
-  default_prompt: "Review this change from a fresh-context review bundle and write findings to .agent/code-reviews/."
+  short_description: "Run isolated code reviews and Spark pre-reviews."
+  default_prompt: "Prepare or review a fresh-context code review bundle, using a Codex Spark pre-review when useful, and write findings to .agent/code-reviews/."
