@@ -10,6 +10,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-004 | todo | agent | telemetry | Tie token reports to artifacts, accepted findings, and shipped outcomes. | CLM-004, DEC-004 | Extend reports when more sidecar/model usage data is available. |  | 2026-05-05 |
 | ACT-005 | todo | agent | validation | Keep smoke tests aligned with helper scripts that create repo artifacts. | CLM-005, RSK-001 | Add focused tests whenever a skill gains or changes a script. |  | 2026-05-05 |
 | ACT-006 | done | agent | paper-skills | Encode user-tested LaTeX layout debugging protocol into submission and paper asset review skills. | DEC-006, EVD-007 | Reuse the protocol during future screenshot/page-specific layout fixes. |  | 2026-05-05 |
+| ACT-007 | done | agent | root-docs | Rename visual assets semantically and embed the useful panels in README at their relevant architecture sections. | FIG-001, PRV-003 | Keep README image links synchronized with `asset/` names during future visual updates. |  | 2026-05-06 |
 
 ## Blocked Actions
 

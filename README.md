@@ -2,7 +2,18 @@
 
 Agent skills for the full ML research workflow: initializing paper and code repos, running experiments, syncing results, updating docs, checking paper readiness, preparing releases, and tagging milestones.
 
-![ML Research Skills System: Tool-Calling and Memory-Orchestrated Workflow](asset/project-lifecycle.png)
+![ML Research Skills System: Tool-Calling and Memory-Orchestrated Workflow](asset/system-overview.png)
+
+Additional visual panels:
+
+- [ML project anatomy](asset/project-anatomy.png)
+- [Tool-calling loop](asset/tool-calling-loop.png)
+- [Memory project bus](asset/memory-project-bus.png)
+- [Workspace and component architecture](asset/workspace-component-architecture.png)
+- [Infrastructure, ops, and audit layer](asset/infra-ops-audit-layer.png)
+- [Detailed tool-memory workflow map](asset/tool-memory-workflow.png)
+- [Lifecycle skills overview variant](asset/lifecycle-skills-overview.png)
+- [Lifecycle system collage variant](asset/lifecycle-system-collage.png)
 
 ## Install
 
@@ -45,6 +56,12 @@ This repository maintains its own shared project memory under `memory/`. Treat i
 - `memory/claim-board.md`, `memory/evidence-board.md`, and `memory/provenance-board.md` connect skill-system claims to commits, tests, assets, and sidecar evidence.
 
 Local sidecar runs live under `.agent/sidecars/` and are ignored by git; commit only sanitized, durable conclusions into `memory/`.
+
+## Core Execution Loop
+
+Every skill invocation follows the same loop: read the current memory state, decide the next bounded action, call the right skill or tool, write durable outputs back to memory, then evaluate whether to advance, branch, or loop.
+
+![Core Architecture: Tool-Calling Loop](asset/tool-calling-loop.png)
 
 ## Skills
 
@@ -105,6 +122,8 @@ Local sidecar runs live under `.agent/sidecars/` and are ignored by git; commit 
 
 This section describes the static shape of a research project managed by these skills. It is different from the lifecycle map below: the lifecycle map explains how skills call each other over time, while this view explains where artifacts live and which skills mainly operate in each area.
 
+![ML Project Anatomy: Components, Memory, and Skill Maintenance Across the Lifecycle](asset/project-anatomy.png)
+
 ### Control Root
 
 A full project is a control root with independent component repositories:
@@ -163,6 +182,8 @@ Root ownership rules:
 - Root `memory/source-visibility-board.md` tracks which paper source surfaces are agent-private, author-visible, submission-visible, arXiv/public, camera-ready, or publisher/artifact-visible.
 - Cross-worktree memory has three layers: global registry in `memory/component-index.yaml`, component rollups in `paper/.agent/worktree-index.md` and `code/.agent/worktree-index.md`, and leaf status in each worktree's `.agent/worktree-status.md`.
 
+![Workspace and Component Architecture](asset/workspace-component-architecture.png)
+
 Optional GitHub Project alignment:
 
 - A GitHub Project is the cloud planning board for one research project, not a replacement for the control root or any component repo.
@@ -185,6 +206,8 @@ Primary skills by root area:
 ### Memory System
 
 The memory system is the project bus that lets independent skills act coherently across sessions. A skill should not only finish its immediate task; when it changes project state, it should leave a small, durable pointer so the next skill can pick up the claim, evidence, risk, action, component, or worktree that changed.
+
+![Memory System: The Project Bus](asset/memory-project-bus.png)
 
 Memory is layered:
 
@@ -265,6 +288,8 @@ GitHub Project integration is deliberately narrower than project memory. Mirror 
 ### Project Toolchain Gates
 
 Toolchain gates make project tools part of the lifecycle rather than optional agent habits. The default policy is check-before-mutate: run non-mutating checks automatically when they are cheap and available; run formatters or auto-fixers only when requested or required by project policy; review the diff after any mutating command.
+
+![Infrastructure, Ops, and Audit Layer](asset/infra-ops-audit-layer.png)
 
 Default code gates:
 
@@ -579,6 +604,8 @@ Primary skills in `slides/`:
 ## Lifecycle Categories
 
 These skills are organized around the lifecycle of an ML research project: set up the workspace, run and summarize experiments, shape the paper for submission, handle review and rebuttal, then maintain or release the project.
+
+![Detailed Tool-Memory Workflow Map](asset/tool-memory-workflow.png)
 
 ### Skill Relationship Map
 

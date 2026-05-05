@@ -8,7 +8,7 @@
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before commit/push.
-- Last updated: 2026-05-05.
+- Last updated: 2026-05-06.
 
 ## Latest Reliable State
 
@@ -17,7 +17,7 @@
 - `code-reviewer` supports Spark pre-review plus strong isolated review.
 - `token-usage-auditor` supports Codex, Claude Code, and repo-local sidecar metadata.
 - `add-git-tag` can use read-only sidecar proposal generation while preserving human gates for tag creation and push.
-- `asset/` images are tracked; `docs/slides/` scratch notes were deleted on 2026-05-05.
+- `asset/` images are tracked with semantic file names; README embeds the system overview, execution loop, project anatomy, memory bus, workspace architecture, infra/audit layer, and detailed workflow panels.
 - Local `.agent/sidecars/` artifacts are private/local and excluded from this repo's tracked files.
 - `submit-paper` now includes a screenshot/page/object-first LaTeX layout debugging protocol, with short pointers from camera-ready, figure review, and table review skills.
 
@@ -35,6 +35,7 @@
 - `ACT-003`: Periodically run `skill-system-auditor` against this repo.
 - `ACT-004`: Keep token telemetry tied to artifacts and outcomes, not treated as quality by itself.
 - `ACT-006`: Keep LaTeX layout debugging guidance aligned across paper submission, camera-ready, figure, and table review skills.
+- `ACT-007`: Keep README visual panels aligned with renamed `asset/` files.
 
 ## Needs Verification Next Session
 
@@ -45,4 +46,4 @@
 
 ## Next Step
 
-- Commit and push this initial `memory/` bootstrap, then use it as the entry point for future skill-system changes.
+- Review, commit, and push the visual asset rename and README figure placement update.

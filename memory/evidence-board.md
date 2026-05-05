@@ -16,4 +16,4 @@ Track evidence for project-level skill-system claims.
 
 | ID | Kind | Status | Location | Shows | Source paths | Traced by | Updated |
 |---|---|---|---|---|---|---|---|
-| FIG-001 | figure | current | README workflow overview | lifecycle architecture | `asset/project-lifecycle.png`, tracked generated PNG variants under `asset/` | PRV-003 | 2026-05-05 |
+| FIG-001 | figure | current | README visual overview set | system overview, lifecycle workflow, project anatomy, memory bus, workspace architecture, tool loop, infra/audit layer, and lifecycle variants | `asset/system-overview.png`, `asset/tool-memory-workflow.png`, `asset/project-anatomy.png`, `asset/memory-project-bus.png`, `asset/workspace-component-architecture.png`, `asset/tool-calling-loop.png`, `asset/infra-ops-audit-layer.png`, `asset/lifecycle-skills-overview.png`, `asset/lifecycle-system-collage.png` | PRV-003 | 2026-05-06 |
