@@ -28,7 +28,7 @@ toolchain_gates:
       required: true
       mutates_files: false
     python_smoke_tests:
-      command: "python3 -m unittest -v tests.test_sidecar_task_runner tests.test_token_usage_auditor tests.test_code_reviewer_bundle tests.test_init_python_project_scaffold"
+      command: "python3 -m unittest -v tests.test_sidecar_task_runner tests.test_token_usage_auditor tests.test_code_reviewer_bundle tests.test_init_python_project_scaffold tests.test_latex_layout_issue_bundler"
       required: true
       mutates_files: false
     whitespace_check:
@@ -93,12 +93,12 @@ components:
     status: active
 
 id_counters:
-  claim: 6
-  evidence: 7
+  claim: 7
+  evidence: 8
   risk: 5
-  action: 8
+  action: 9
   decision: 7
-  provenance: 4
+  provenance: 5
   handoff: 3
   visibility: 1
   gate: 4

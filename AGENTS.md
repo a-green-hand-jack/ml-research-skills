@@ -73,6 +73,9 @@ ml-research-skills/
     │   ├── SKILL.md
     │   ├── scripts/
     │   └── templates/
+    ├── latex-layout-issue-bundler/
+    │   ├── SKILL.md
+    │   └── scripts/
     ├── init-python-project/
     │   └── SKILL.md
     ├── new-workspace/
@@ -233,6 +236,7 @@ ml-research-skills/
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
+| `latex-layout-issue-bundler` | Create reproducible `.agent/layout-issues/` bundles from PDF pages, crops, source snippets, and compile logs so agents can debug LaTeX layout without manual screenshots |
 | `init-python-project` | Create or enhance a production-ready Python/ML code repo using `uv`, `ruff`, `mypy`, `pytest`, and `pre-commit`, with code-side evidence docs and remote workflow memory |
 | `project-init` | Create a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, toolchain gates, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |

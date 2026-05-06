@@ -12,7 +12,7 @@
 
 ## Latest Reliable State
 
-- 50 skills are present and installable.
+- 51 skills are present and installable.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `code-reviewer` supports Spark pre-review plus strong isolated review.
 - `token-usage-auditor` supports Codex, Claude Code, and repo-local sidecar metadata.
@@ -21,6 +21,7 @@
 - `asset/README.md` indexes each public diagram's role, README placement, and maintenance rules.
 - Local `.agent/sidecars/` artifacts are private/local and excluded from this repo's tracked files.
 - `submit-paper` now includes a screenshot/page/object-first LaTeX layout debugging protocol, with short pointers from camera-ready, figure review, and table review skills.
+- `latex-layout-issue-bundler` now creates `.agent/layout-issues/` bundles so PDF layout problems can be handed to agents without manual screenshots.
 
 ## Top Open Risks
 
@@ -38,6 +39,7 @@
 - `ACT-006`: Keep LaTeX layout debugging guidance aligned across paper submission, camera-ready, figure, and table review skills.
 - `ACT-007`: Keep README visual panels aligned with renamed `asset/` files.
 - `ACT-008`: Use `asset/README.md` as the entry point before changing public diagram assets.
+- `ACT-009`: Use `latex-layout-issue-bundler` before screenshot-based LaTeX layout debugging when a rendered PDF is available.
 
 ## Needs Verification Next Session
 
@@ -48,4 +50,4 @@
 
 ## Next Step
 
-- Review, commit, push, and reinstall after the visual asset maintenance rule update because `project-init` changed.
+- Commit, push, and reinstall after adding `latex-layout-issue-bundler`.

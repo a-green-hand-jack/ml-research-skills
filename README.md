@@ -73,6 +73,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
+| `latex-layout-issue-bundler` | Create repo-local PDF page, crop, source-snippet, compile-log, and prompt bundles for page-specific LaTeX layout debugging without manual screenshots |
 | `init-python-project` | Create or enhance a production-ready Python/ML code repo with four-layer architecture, `uv`/`ruff`/`mypy`/`pytest`/`pre-commit` gates, code-side evidence docs, and remote-workflow memory scaffolding |
 | `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, optional GitHub Project board linkage, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
@@ -441,7 +442,7 @@ Primary skills in `paper/`:
 | Figures | `figures/*.pdf`, `figures/*.png`, `figures/*.tex` | **paper-result-asset-builder**, **figure-results-review**, **paper-evidence-board** |
 | Tables | `tables/*.tex` | **paper-result-asset-builder**, **table-results-review**, **baseline-selection-audit**, **paper-evidence-board** |
 | Citations | `bib/refs.bib`, citation claims, related-work coverage | **citation-coverage-audit**, **citation-audit** |
-| Pre-submission | anonymity, required sections, mode, source formatting, compile state | **submit-paper**, **paper-reviewer-simulator** |
+| Pre-submission | anonymity, required sections, mode, source formatting, layout issue bundles, compile state | **latex-layout-issue-bundler**, **submit-paper**, **paper-reviewer-simulator** |
 | Reviews and final paper | reviews, rebuttal promises, camera-ready state | **rebuttal-strategist**, **camera-ready-finalizer** |
 
 ### Paper Worktrees
@@ -673,6 +674,7 @@ flowchart TD
         PRS[paper-reviewer-simulator]
         CCA[citation-coverage-audit]
         CA[citation-audit]
+        LLB[latex-layout-issue-bundler<br/>PDF page/crop/source bundle]
         SUB[submit-paper]
         PEB --> P
         P --> CWA --> PWCP
@@ -706,7 +708,7 @@ flowchart TD
         PDCE --> PWM
         PDCE --> PEB
         PRS --> PEB
-        CWA --> CCA --> CA --> SUB
+        CWA --> CCA --> CA --> LLB --> SUB
     end
 
     subgraph E[Real Reviews, Rebuttal, and Finalization]
@@ -794,6 +796,7 @@ Use these skills when starting the project control root, creating or connecting 
 |---|---|
 | **project-init** | Create the project control root with independent `paper/`, `code/`, optional `slides/`, shared `memory/`, root `docs/` for project-level designs/plans, optional GitHub Project linkage, paired root `AGENTS.md`/`CLAUDE.md`, toolchain gates, and code/paper worktree policy |
 | **init-latex-project** | Scaffold the paper repo with venue-aware LaTeX structure |
+| **latex-layout-issue-bundler** | Capture PDF pages, crops, source snippets, and compile-log excerpts into `.agent/layout-issues/` bundles for reproducible layout debugging |
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `uv`/`ruff`/`mypy`/`pytest`/`pre-commit` gates, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
 | **sidecar-task-runner** | Run bounded one-shot Codex sidecar tasks for fast scans, pre-reviews, milestone proposals, and other low/medium-risk helper work |
@@ -841,6 +844,7 @@ Use these skills while turning results into a submission and reducing reviewer r
 | **paper-reviewer-simulator** | Simulate target-conference reviewers and rank likely rejection risks |
 | **citation-coverage-audit** | Find missing classic, closest, benchmark, and recent concurrent citations |
 | **citation-audit** | Verify existing citation keys, BibTeX metadata, references, and citation claims |
+| **latex-layout-issue-bundler** | Replace manual layout screenshots with reproducible PDF page/crop/source/log bundles |
 | **submit-paper** | Run final submission readiness checks for source formatting, layout debugging, anonymity, required sections, and Overleaf/GitHub compile handoff |
 
 ### 5. Review, Rebuttal, and Revision
@@ -931,6 +935,7 @@ For the person turning research evidence into a submission:
 | **paper-draft-consistency-editor** | Check and fix internal consistency across the completed draft without changing the selected paper story |
 | **citation-coverage-audit** | Find missing classic, close, benchmark, and concurrent citations |
 | **citation-audit** | Verify citation correctness, BibTeX metadata, and LaTeX references |
+| **latex-layout-issue-bundler** | Capture page-specific PDF layout problems as reusable issue bundles before asking an agent to fix them |
 | **submit-paper** | Check final submission readiness, including source formatting, local layout debugging, and Overleaf/GitHub compile handoff |
 
 ### Paper Writing Stack
@@ -1443,6 +1448,14 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Metadata verification guidance for DOI, arXiv, OpenReview, proceedings, publisher, and venue information
 - Citation-claim auditing to check whether cited papers actually support nearby prose
 - A pre-submission report format that separates blocking issues, important issues, warnings, and unresolved author decisions
+
+## What `latex-layout-issue-bundler` Provides
+
+- A deterministic script that creates `.agent/layout-issues/<issue-id>/` bundles for page-specific LaTeX layout problems
+- PDF page rendering and crop extraction when `pdftoppm` and ImageMagick are available locally
+- Page text extraction when `pdftotext` is available locally
+- Source snippet and compile-log excerpt capture without requiring local compile as the project policy
+- A ready-to-hand-off `prompt.md` that tells the fixing agent to make local, reversible layout changes and verify the same page
 
 ## What `run-experiment` Provides
 

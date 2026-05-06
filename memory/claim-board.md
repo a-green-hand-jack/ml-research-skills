@@ -10,6 +10,7 @@ Track project-level claims about this skill system. These are architecture and w
 | CLM-004 | active | Token usage can act as project attention and friction telemetry when interpreted with artifacts and outcomes. | system | `token-usage-auditor` supports Codex, Claude Code, and sidecar metadata. | `skills/token-usage-auditor/` | EVD-005 | RSK-003 | telemetry | user-stated | 2026-05-05 |
 | CLM-005 | supported | Explicit toolchain gates reduce skill, docs, and helper-script drift. | system | Validator and focused smoke tests pass after recent workflow changes. | `scripts/`, `tests/`, docs | EVD-006 | RSK-001, RSK-005 | validation | observed | 2026-05-05 |
 | CLM-006 | active | Paper layout debugging should be handled as local, visual, reversible optimization over prose, floats, and page breaks. | system | User-tested protocol is encoded in paper-readiness skills and used in future layout fixes. | `skills/submit-paper/references/layout-debugging.md` | EVD-007 | RSK-004 | maintenance | user-stated | 2026-05-05 |
+| CLM-007 | active | Reproducible layout issue bundles reduce manual screenshot friction for LaTeX paper debugging. | system | A bundler skill and smoke test create `.agent/layout-issues/` artifacts with prompt, source, log, and optional PDF page/crop context. | `skills/latex-layout-issue-bundler/` | EVD-008 | RSK-004 | validation | user-stated | 2026-05-06 |
 
 ## Cut or Superseded Claims
 
