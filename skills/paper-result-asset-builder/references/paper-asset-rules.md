@@ -19,6 +19,32 @@ Paper-facing visualizations:
 
 Do not directly paste experiment-time plots into the paper unless they pass paper-facing checks.
 
+## Style Contract Rules
+
+Paper-facing figures should be generated from a style contract, not from ad hoc notebook defaults.
+
+Preferred files:
+
+```text
+paper/.agent/visual-style.md
+code/config/plot_style.yaml
+```
+
+The Markdown file records rationale, user/project preferences, lessons, and exceptions. The YAML file is the machine-readable plotting contract.
+
+Before generating a figure, check:
+
+- final insertion width in LaTeX
+- plotting `figsize` in inches
+- axis label, tick label, legend, annotation, and panel-label sizes in points
+- line width, marker size, and hatch density
+- method-to-color and method-to-marker mapping
+- metric direction arrows and units
+- export format and raster DPI when applicable
+- whether `bbox_inches='tight'` is allowed for this asset
+
+Generate the plot close to its final inserted size whenever practical. Avoid creating an oversized asset that LaTeX later shrinks heavily.
+
 ## Table Asset Rules
 
 A paper table should have:
@@ -43,6 +69,7 @@ A paper figure should have:
 - stable caption and label
 - visual style aligned with the paper
 - readable labels and legends at final size
+- explicit typography, sizing, color/marker, and export settings from the style contract
 - source CSV and plotting provenance
 - paper callout sentence
 

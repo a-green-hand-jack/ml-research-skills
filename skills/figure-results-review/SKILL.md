@@ -39,6 +39,8 @@ Pair this skill with:
 ```text
 <installed-skill-dir>/
 ├── SKILL.md
+├── templates/
+│   └── visual-style.md
 └── references/
     ├── caption-and-narrative.md
     ├── claim-support.md
@@ -46,13 +48,15 @@ Pair this skill with:
     ├── paper-visual-style.md
     ├── report-template.md
     ├── statistical-evidence.md
+    ├── style-memory.md
     └── visual-integrity.md
 ```
 
 ## Progressive Loading
 
 - Always read `references/claim-support.md`, `references/visual-integrity.md`, and `references/statistical-evidence.md`.
-- Read `references/paper-visual-style.md` when figures are intended for a paper, slide deck, rebuttal, camera-ready, or venue-specific rewrite.
+- Read `references/paper-visual-style.md` and `references/style-memory.md` when figures are intended for a paper, slide deck, rebuttal, camera-ready, or venue-specific rewrite.
+- Use `templates/visual-style.md` when initializing `paper/.agent/visual-style.md`.
 - Read `references/caption-and-narrative.md` when revising captions, result prose, slide text, or paper figure callouts.
 - Read `references/report-template.md` before writing the final review.
 - Read `references/memory-writeback.md` when the project has `memory/`, component `.agent/` folders, or the user asks for persistent project memory.
@@ -70,6 +74,7 @@ Pair this skill with:
 - Statistical uncertainty, seeds, and variance matter when the claim depends on small differences.
 - Compute, data, baseline, and protocol fairness must be visible when they affect interpretation.
 - Paper figures should share a deliberate visual language. Style choices are part of writing because they control what reviewers notice first.
+- Visual style should evolve as memory: record one-off lessons, promote repeated preferences into project contracts, and only then generalize them into reusable skill rules.
 - A beautiful plot that does not support the claim should be revised or cut.
 - New results must update claims, writing, reviewer risks, and next actions.
 - When a figure causes paper layout trouble, first localize the affected page and figure wrapper. Prefer local wrapper/prose/placement fixes over global float spacing or paragraph settings; route broader submission-layout debugging to `submit-paper`.
@@ -172,7 +177,7 @@ Flag any issue that could cause a reviewer to misread the result.
 
 ## Step 6 - Audit Paper Visual Style
 
-Read `references/paper-visual-style.md` when the output is paper-facing.
+Read `references/paper-visual-style.md` and `references/style-memory.md` when the output is paper-facing.
 
 Check:
 
@@ -185,7 +190,17 @@ Check:
 - whether the main method is recognizable without relying only on color
 - whether theorem/method symbols in plots match the paper notation
 
-If the paper has no visual style policy, propose one and record it in `paper/.agent/` or `.agent/conference-writing/project-style.md` when appropriate.
+If the paper has no visual style policy, propose one from `templates/visual-style.md` and record it in `paper/.agent/visual-style.md` or `.agent/conference-writing/project-style.md` when appropriate.
+
+For typography and final sizing, check the contract rather than the notebook preview:
+
+- final LaTeX insertion width, such as `\columnwidth`, `\linewidth`, or `\textwidth`
+- generated figure size in inches
+- axis label, tick label, legend, annotation, and panel-label sizes in points
+- whether LaTeX scales the asset enough to distort the intended typography hierarchy
+- whether code-side `plot_style.yaml` and paper-side `visual-style.md` agree when both exist
+
+If a style issue is discovered, classify it as `lesson`, `preference`, `project contract`, or `reusable skill rule candidate` before writing it back.
 
 ## Step 7 - Audit Statistical and Experimental Evidence
 
@@ -233,6 +248,7 @@ For every issue, route to one or more actions:
 - `write-description`: missing visual description or missing provenance record
 - `rewrite-results-text`: nearby paper prose overclaims or misses the takeaway
 - `define-visual-style`: missing or inconsistent paper visual style policy
+- `record-style-lesson`: new typography, sizing, legend, marker, color, export, or wrapper lesson should be appended to style memory before becoming a hard rule
 - `restyle-figure`: color, marker, line width, font size, symbol, panel layout, or emphasis
 - `build-result-asset`: raw CSV evidence exists but the paper-facing figure or wrapper needs to be generated with provenance
 - `mine-existing-results`: the figure lacks evidence that may already exist in CSVs or reports
@@ -264,6 +280,7 @@ The report must include:
 - claim-support status
 - visual integrity issues
 - visual style policy and consistency issues
+- new style lessons or preference-to-contract promotions
 - statistical evidence issues
 - caption and narrative fixes
 - reviewer-risk forecast
@@ -281,6 +298,7 @@ Update the smallest useful set of entries:
 - `memory/risk-board.md`: reviewer risks from visual ambiguity, missing uncertainty, weak baselines, or overclaiming
 - `memory/action-board.md`: figure edits, reruns, caption fixes, result diagnosis, or claim revisions
 - `paper/.agent/`: figure map, asset/wrapper pairings, paper locations, visual descriptions, caption state, provenance gaps, and stale visual warnings
+- `paper/.agent/visual-style.md` or `paper/.agent/style-lessons.md`: style lessons, preferences, and project contracts for typography, sizing, encodings, exports, and wrapper behavior
 - `.agent/conference-writing/project-style.md`: venue-facing figure style decisions when conference adaptation is active
 - worktree `.agent/worktree-status.md`: result-generation or plotting tasks and exit conditions
 
@@ -302,6 +320,7 @@ Before finalizing:
 - main comparison is easy to find
 - axes, units, legends, captions, and labels are unambiguous
 - colors, markers, fonts, symbols, and figure sizes are consistent across the paper
+- style lessons are recorded at the right promotion level rather than silently becoming broad rules
 - uncertainty is present or the lack of uncertainty is justified
 - baseline and compute fairness are visible when relevant
 - overclaims are narrowed

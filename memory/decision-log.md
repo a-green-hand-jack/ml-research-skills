@@ -81,3 +81,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/safe-git-ops/`, `skills/sidecar-task-runner/`, README.md, AGENTS.md, CLAUDE.md, `memory/project.yaml`.
 - Revisit when: sidecar classification is slower than direct inspection or misses meaningful high-risk changes.
 - Certainty: user-stated
+
+## DEC-009 - Treat Paper Visual Style As Evolvable Memory
+
+- Date: 2026-05-06
+- Decision: Manage figure and table style through a promotion ladder: lesson -> preference -> project contract -> reusable skill rule.
+- Why: Paper figure typography, line spacing, legend size, axis labels, colors, markers, exports, and wrapper behavior are too detailed and user/project-specific to fully specify upfront, but they still need durable memory so agents stop rediscovering the same fixes.
+- Alternatives considered: hard-code one universal figure style; leave all style choices to ad hoc plotting scripts and visual inspection.
+- Affects: `skills/figure-results-review/`, `skills/paper-result-asset-builder/`, README.md, AGENTS.md, CLAUDE.md.
+- Revisit when: project-local style memories become noisy or are not actually read before figure generation.
+- Certainty: user-stated

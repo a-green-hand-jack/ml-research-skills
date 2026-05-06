@@ -31,6 +31,12 @@
 - Generation script/command:
 - Plot type or table type:
 - Visual style source:
+- Final LaTeX insertion width:
+- Generated figure size:
+- Font sizes:
+- Line/marker sizes:
+- Export format and DPI:
+- Style contract deviations:
 - Manual edits:
 
 ## Paper Integration

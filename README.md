@@ -370,6 +370,7 @@ paper/
 │   └── refs.bib
 └── .agent/                  # agent-private paper memory; do not push to visible source by default
     ├── visual-style.md
+    ├── style-lessons.md
     ├── figure-table-map.md
     ├── writing-memory/
     │   ├── writing-state.md
@@ -1239,7 +1240,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A separate visual-description layer so agents first record what the image actually shows before writing or judging the paper caption
 - Plotting-parameter and experiment-parameter provenance checks for figure interpretation and reproducibility
 - Visual integrity checks for axes, labels, units, legends, missing values, scales, and main-comparison salience
-- Paper visual style policy checks for palette, marker and symbol mapping, typography, figure sizing, line widths, and venue-facing consistency
+- Paper visual style policy checks for palette, marker and symbol mapping, typography, figure sizing, line widths, venue-facing consistency, and style-memory promotion from lesson to preference to project contract
 - Statistical evidence checks for seeds, uncertainty, effect size, metric definitions, compute reporting, and efficiency claims
 - Caption and narrative fixes that align setup, metric, comparison, takeaway, and caveat with the evidence
 - Routed actions and project-memory writeback for reruns, result diagnosis, baseline audits, claim narrowing, caption rewrites, visual restyling, and figure edits

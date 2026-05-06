@@ -15,6 +15,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-009 | done | agent | paper-skills | Add `latex-layout-issue-bundler` to generate reproducible PDF page/crop/source/log bundles for LaTeX layout debugging. | CLM-007, EVD-008 | Use before manual screenshot-based layout debugging. |  | 2026-05-06 |
 | ACT-010 | done | agent | paper-skills | Encode wraptable/wrapfig right-side object layout lessons into LaTeX layout and table review guidance. | CLM-006, EVD-009 | Reuse during right-side wrapped table/algorithm layout tuning. |  | 2026-05-06 |
 | ACT-011 | done | agent | git-workflow | Add risk-tiered commit paths and a sidecar precommit classifier to speed routine commit/push closeout. | DEC-008, CLM-008, EVD-010 | Use Fast Path for small text/docs changes and sidecar classification for non-trivial closeouts. |  | 2026-05-06 |
+| ACT-012 | done | agent | paper-skills | Add evolvable style memory and plot-style contract templates for paper figures. | DEC-009, CLM-009, EVD-011 | Use `visual-style.md`, optional `style-lessons.md`, and `plot_style.yaml` before generating or reviewing paper figures. |  | 2026-05-06 |
 
 ## Blocked Actions
 

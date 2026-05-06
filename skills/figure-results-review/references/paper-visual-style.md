@@ -4,7 +4,7 @@ Use this when figures are being prepared for a paper, slide deck, rebuttal, or c
 
 ## Style Policy
 
-Create a compact style policy when the paper has more than one figure:
+Create a compact style policy when the paper has more than one figure. Use the bundled `templates/visual-style.md` when initializing a project-local file.
 
 ```markdown
 # Paper Visual Style Policy
@@ -27,6 +27,12 @@ Create a compact style policy when the paper has more than one figure:
 - Tick label size:
 - Legend size:
 - Caption dependency:
+- Body font size:
+- Final figure width:
+- Figure export size:
+- Line width:
+- Marker size:
+- Raster/vector export policy:
 
 ## Layout
 - One-column figures:
@@ -39,7 +45,18 @@ Create a compact style policy when the paper has more than one figure:
 - Which symbols must match paper notation:
 ```
 
-Save project-local policy in `paper/.agent/visual-style.md` or `.agent/conference-writing/project-style.md` when venue adaptation is active.
+Save project-local policy in `paper/.agent/visual-style.md` or `.agent/conference-writing/project-style.md` when venue adaptation is active. When code generation needs the same contract, keep `code/config/plot_style.yaml` aligned with the paper-local Markdown policy.
+
+## Evolving Style Memory
+
+Do not force every new preference into the global style policy immediately. Use `references/style-memory.md` and record style knowledge as:
+
+- `lesson`: one observed problem and fix
+- `preference`: repeated local habit or user taste
+- `project contract`: rule that plotting scripts and wrappers should follow for this paper
+- `reusable skill rule candidate`: rule worth promoting after it works across projects
+
+This matters because figure style is partly venue-specific, paper-specific, and user-specific.
 
 ## Visual Language Checks
 
@@ -56,11 +73,28 @@ Save project-local policy in `paper/.agent/visual-style.md` or `.agent/conferenc
 
 Check final rendered size, not only the plotting notebook:
 
+- The asset is generated close to its final LaTeX inserted size.
+- A one-column figure uses the final `\columnwidth` / `\linewidth` width as the plotting width when practical.
+- A full-width figure uses the final `\textwidth` width as the plotting width when practical.
+- The paper does not rely on heavy LaTeX downscaling of oversized plots.
 - Axis labels are readable in final one-column or two-column placement.
 - Tick labels do not collide or require rotation unless necessary.
 - Legends do not cover data and are not far from the relevant curve.
 - Panel labels use stable ordering and match the caption.
 - Line widths and marker sizes remain visible after PDF scaling.
+- Axis labels, ticks, legends, annotations, and panel labels follow a deliberate hierarchy relative to body text.
+
+Default starting point for a 10pt ML paper, to be adjusted by final PDF inspection:
+
+```text
+axis label: 8.5-9.5pt
+tick label: 7-8pt
+legend: 7-8pt
+annotation: 7-8pt
+panel label: 9-10pt
+line width: 1.0-1.5pt
+marker size: 3-5pt
+```
 
 ## Symbol and Notation Consistency
 

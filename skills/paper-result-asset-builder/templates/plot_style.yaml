@@ -1,0 +1,57 @@
+# Machine-readable plotting style contract for paper-facing result assets.
+# Keep this aligned with paper/.agent/visual-style.md.
+
+venue: ""
+body_font_pt: 10
+body_baseline_skip_pt: null
+
+figure_size:
+  one_column_width_in: null
+  full_width_in: null
+  appendix_width_in: null
+  default_aspect_ratio: 0.62
+
+typography:
+  axis_label_pt: 8.5
+  tick_label_pt: 7
+  legend_pt: 7
+  annotation_pt: 7
+  panel_label_pt: 9
+
+marks:
+  line_width_pt: 1.1
+  marker_size_pt: 3.5
+  errorbar_line_width_pt: 0.8
+  capsize_pt: 2
+
+export:
+  preferred_format: pdf
+  raster_dpi: 300
+  bbox_inches: null
+  transparent: false
+  use_latex_text: false
+  font_family: serif
+
+encodings:
+  proposed_method:
+    color: ""
+    marker: ""
+    line_style: "-"
+  main_baseline:
+    color: ""
+    marker: ""
+    line_style: "-"
+  secondary_baseline:
+    color: ""
+    marker: ""
+    line_style: "--"
+  ablation:
+    color: ""
+    marker: ""
+    line_style: ":"
+
+rules:
+  metric_direction_arrows: true
+  avoid_color_only_encoding: true
+  generate_at_final_inserted_size: true
+  avoid_heavy_latex_downscaling: true

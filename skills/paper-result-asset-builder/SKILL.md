@@ -31,6 +31,7 @@ Do not use this skill to decide whether a paper claim is worth making. Use `pape
 │   ├── csv-result-contract.md
 │   └── paper-asset-rules.md
 └── templates/
+    ├── plot_style.yaml
     ├── result-inventory.md
     └── result-asset-provenance.md
 ```
@@ -41,7 +42,8 @@ Do not use this skill to decide whether a paper claim is worth making. Use `pape
 - Use `scripts/inventory_csv_results.py` to inspect CSV files before reading large result files into context.
 - Use `templates/result-inventory.md` when creating `paper/.agent/result-inventory.md`.
 - Use `templates/result-asset-provenance.md` when creating `paper/.agent/result-asset-provenance.md`.
-- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/writing-memory/`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/visual-style.md`, `figures/*.tex`, `tables/*.tex`, and current result sections when present.
+- Use `templates/plot_style.yaml` when initializing `code/config/plot_style.yaml` for paper-facing figure generation.
+- Read local `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/writing-memory/`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/visual-style.md`, `paper/.agent/style-lessons.md`, `code/config/plot_style.yaml`, `figures/*.tex`, `tables/*.tex`, and current result sections when present.
 
 ## Core Principles
 
@@ -50,6 +52,7 @@ Do not use this skill to decide whether a paper claim is worth making. Use `pape
 - Experiment-time visualizations and paper-facing visualizations are different artifacts.
 - Paper-facing assets may be visible to coauthors, reviewers, arXiv, or publishers; CSVs, plotting scripts, notebooks, provenance ledgers, and internal diagnostic plots are private unless explicitly cleaned for that audience.
 - Every table or figure needs source CSV paths, filtering rules, aggregation rules, metric direction, rounding, styling, and claim mapping.
+- Figure styling should come from a paper/project contract when one exists. Do not invent per-script font sizes, legend sizes, colors, or export formats when `paper/.agent/visual-style.md` or `code/config/plot_style.yaml` already defines them.
 - Prefer reusing existing CSV results before asking for new compute.
 - Never silently hand-enter numbers without provenance.
 - If the asset requires a missing result, route to `paper-evidence-gap-miner` before inventing placeholders.
@@ -126,7 +129,9 @@ For tables:
 For figures:
 
 - choose plot type based on the claim: bar, line, scatter, heatmap, Pareto frontier, calibration curve, slice plot, qualitative grid, or appendix diagnostic
-- apply `paper/.agent/visual-style.md` when present
+- apply `paper/.agent/visual-style.md` and `code/config/plot_style.yaml` when present; if both exist, treat the Markdown file as the paper-facing rationale and the YAML file as the machine-readable generation contract
+- generate plots at the final inserted size whenever practical, so LaTeX does not heavily scale fonts, line widths, markers, or legend spacing
+- set axis labels, tick labels, legend, annotations, panel labels, line width, marker size, export format, and DPI from the style contract or record that they are intentionally local
 - export stable paper assets such as `figures/<name>.pdf` and optionally `figures/<name>.png`
 - output a LaTeX wrapper `figures/<name>.tex` with caption and label scaffolding
 - keep private plotting code, notebooks, and debug plots out of author-visible/public source by default
@@ -146,6 +151,7 @@ For every asset, record:
 - filtering and aggregation code or exact rules
 - rounding and bolding rules
 - plotting parameters and visual style decisions
+- style contract source, including any deviations from `paper/.agent/visual-style.md` or `code/config/plot_style.yaml`
 - manual edits, if any
 - claim IDs and paper locations
 - uncertainty or missing provenance
@@ -171,6 +177,7 @@ Before finalizing:
 - every number or plotted point traces back to a CSV source
 - filtering and aggregation rules are explicit
 - paper-facing visual style is separate from experiment-time visualization
+- figure typography, size, legend, line width, marker size, and export format follow the style contract or have explicit local exceptions
 - output files are paper-ready assets, not raw debug plots
 - table/figure job maps to a claim or reviewer question
 - missing results are routed to `paper-evidence-gap-miner`

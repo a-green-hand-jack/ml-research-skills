@@ -24,6 +24,7 @@
 - `submit-paper` and `table-results-review` now include a specific `wraptable` / `wrapfig` right-side object protocol: tune `[N]`, avoid nested floating `table`, use compact inline caption/label handling, and adjust width/font/spacing locally.
 - `latex-layout-issue-bundler` now creates `.agent/layout-issues/` bundles so PDF layout problems can be handed to agents without manual screenshots.
 - `safe-git-ops` now uses Fast / Skill / Code / Risk commit paths, and `sidecar-task-runner` has a read-only `precommit-classifier` preset to recommend minimal validation and reinstall scope.
+- `figure-results-review` and `paper-result-asset-builder` now support evolvable style memory: lessons can become preferences, project contracts, and eventually reusable skill rules.
 
 ## Top Open Risks
 
@@ -44,6 +45,7 @@
 - `ACT-009`: Use `latex-layout-issue-bundler` before screenshot-based LaTeX layout debugging when a rendered PDF is available.
 - `ACT-010`: Reuse wraptable/wrapfig right-side object guidance during local paper layout tuning.
 - `ACT-011`: Use sidecar-assisted risk-tiered commit closeout to avoid full validation/reinstall on low-risk changes.
+- `ACT-012`: Use visual-style and plot-style contracts before generating or reviewing paper figures.
 
 ## Needs Verification Next Session
 
@@ -54,4 +56,4 @@
 
 ## Next Step
 
-- Commit, push, and targeted reinstall after adding sidecar-assisted fast commit closeout.
+- Commit, push, and targeted reinstall after adding paper visual style memory.
