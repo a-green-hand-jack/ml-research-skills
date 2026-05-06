@@ -12,6 +12,7 @@ Track evidence for project-level skill-system claims.
 | EVD-006 | validation | verified | Repository validation and targeted unit tests passed before recent commits. | `scripts/validate_skills.py`, `tests/` | CLM-005 |  | PRV-001 | observed | 2026-05-05 |
 | EVD-007 | qualitative | available | User-provided LaTeX layout debugging summary distilled into a durable skill protocol for local, screenshot-driven paper layout fixes. | `skills/submit-paper/references/layout-debugging.md`, `skills/camera-ready-finalizer/references/final-submission-audit.md`, `skills/figure-results-review/SKILL.md`, `skills/table-results-review/SKILL.md` | CLM-006 |  | PRV-001 | user-stated | 2026-05-05 |
 | EVD-008 | implementation | verified | `latex-layout-issue-bundler` creates reproducible `.agent/layout-issues/` bundles with prompt, manifest, source snippet, compile-log excerpt, and optional PDF page/crop/text artifacts. | `skills/latex-layout-issue-bundler/`, `tests/test_latex_layout_issue_bundler.py` | CLM-007 |  | PRV-005 | observed | 2026-05-06 |
+| EVD-009 | qualitative | available | User-provided wraptable/wrapfig layout lesson distilled into rules for line-count tuning, non-floating inline table blocks, compact captions, local width/font/spacing choices, and visual iteration. | `skills/submit-paper/references/layout-debugging.md`, `skills/table-results-review/SKILL.md` | CLM-006 |  | PRV-001 | user-stated | 2026-05-06 |
 
 ## Figures and Assets
 

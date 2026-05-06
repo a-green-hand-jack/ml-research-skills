@@ -94,9 +94,9 @@ components:
 
 id_counters:
   claim: 7
-  evidence: 8
+  evidence: 9
   risk: 5
-  action: 9
+  action: 10
   decision: 7
   provenance: 5
   handoff: 3

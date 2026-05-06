@@ -21,6 +21,7 @@
 - `asset/README.md` indexes each public diagram's role, README placement, and maintenance rules.
 - Local `.agent/sidecars/` artifacts are private/local and excluded from this repo's tracked files.
 - `submit-paper` now includes a screenshot/page/object-first LaTeX layout debugging protocol, with short pointers from camera-ready, figure review, and table review skills.
+- `submit-paper` and `table-results-review` now include a specific `wraptable` / `wrapfig` right-side object protocol: tune `[N]`, avoid nested floating `table`, use compact inline caption/label handling, and adjust width/font/spacing locally.
 - `latex-layout-issue-bundler` now creates `.agent/layout-issues/` bundles so PDF layout problems can be handed to agents without manual screenshots.
 
 ## Top Open Risks
@@ -40,6 +41,7 @@
 - `ACT-007`: Keep README visual panels aligned with renamed `asset/` files.
 - `ACT-008`: Use `asset/README.md` as the entry point before changing public diagram assets.
 - `ACT-009`: Use `latex-layout-issue-bundler` before screenshot-based LaTeX layout debugging when a rendered PDF is available.
+- `ACT-010`: Reuse wraptable/wrapfig right-side object guidance during local paper layout tuning.
 
 ## Needs Verification Next Session
 
@@ -50,4 +52,4 @@
 
 ## Next Step
 
-- Commit, push, and reinstall after adding `latex-layout-issue-bundler`.
+- Commit, push, and reinstall after updating paper layout skills.

@@ -41,6 +41,7 @@ Pair this skill with:
 - Numeric provenance matters. Record where values came from, how they were aggregated, how they were rounded, and whether they were manually edited.
 - A strong table caption states the setup, comparison, metric, key parameter, and takeaway without becoming a full experiment report.
 - When a table causes paper layout trouble, first localize the affected page and table source. Prefer local table/prose/placement fixes over global float spacing or paragraph settings; route broader submission-layout debugging to `submit-paper`.
+- Wrapped right-side tables are layout objects, not normal floating tables. Do not nest a regular `table` float inside `wraptable`; use an inline block with local caption/label handling, then tune wrap line count, width, font size, `\tabcolsep`, and small local `\vspace` by visual iteration.
 
 ## Step 1 - Recover Table Context
 
@@ -134,6 +135,7 @@ Check:
 - appendix tables do not hide essential comparisons
 - caption, label, row/column names, and paper callout match the table source
 - table placement does not rely on fragile wrap behavior near a page boundary; `[H]` still may leave vertical skips, so fix local whitespace in or around the table before changing global settings
+- for `wraptable` layouts, optional line count `[N]`, width, caption height, font size, and `\tabcolsep` are documented as local layout choices rather than unexplained magic constants
 
 Flag any issue that could cause a reviewer to misread the result.
 

@@ -46,6 +46,28 @@ Avoid broad edits that make unrelated pages worse.
    - `wraptable` and `wrapfigure` often fail at the bottom of a page or before a forced page break.
    - If text flows strangely, a table is cut, or a large blank appears, move the insertion point or add `\Needspace{...}` before the object.
    - Prefer a normal float when wrap behavior is unstable.
+   - Use `wraptable` / `wrapfigure` for a deliberate "right-side object with left-side prose wrapping" layout, not as an automatic float optimizer.
+   - The optional line count in `\begin{wraptable}[N]{r}{<width>}` is a primary tuning parameter. If `N` is too large, blank space can remain below the object; if too small, prose can return to full width too early and collide visually. Iterate `N` by one line at a time, such as `16` to `17`, before making larger structural changes.
+   - Do not put a normal floating `table` environment inside `wraptable`. A regular `table` will float and cannot stably live inside right-side wrapped text. When table numbering is needed, use an inline block pattern: manually `\refstepcounter{table}`, write the caption/label locally, then place the `tabular` content inside `wraptable`.
+   - Tune width, font size, and column spacing together. For dense right-side tables, prefer local combinations such as `\footnotesize`, `tabular*{\linewidth}`, and a smaller `\tabcolsep` so the table fills the wrapped column without overflow.
+   - Caption height strongly affects visual balance. A long standard caption can make the table feel top-heavy and taller than the surrounding prose. Prefer a compact inline caption or shorter caption text when the table is used as a wrapped object.
+   - Treat `\vspace` around wrapped objects as fine alignment only. Small values such as `0.2em` or `0.3\baselineskip` can correct bottom gaps or visual alignment; large moves usually create new page-flow problems.
+   - A stable right-side wrap table in a single-column paper often has this local shape:
+
+     ```tex
+     \begin{wraptable}[N]{r}{0.58\textwidth}
+     \vspace{...}
+     % optional manual \refstepcounter{table}, compact caption, and \label
+     \footnotesize
+     \setlength{\tabcolsep}{...}
+     \begin{tabular*}{\linewidth}{...}
+       ...
+     \end{tabular*}
+     \vspace{...}
+     \end{wraptable}
+     ```
+
+   - The parameters that usually need repeated visual iteration are `[N]`, top `\vspace`, bottom `\vspace`, internal font size, table width, and `\tabcolsep`.
 
 4. `[H]` does not eliminate all vertical whitespace.
    - Even when a table is forced in place, the `table` environment can still add vertical skips.
