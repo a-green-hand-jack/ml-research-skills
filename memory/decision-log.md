@@ -71,3 +71,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `asset/`, README.md, AGENTS.md, CLAUDE.md, `skills/project-init/SKILL.md`, `memory/evidence-board.md`.
 - Revisit when: source prompts, editable diagrams, or an automated image optimization pipeline is added.
 - Certainty: observed
+
+## DEC-008 - Use Risk-Tiered Commit Paths With Sidecar Precommit Classification
+
+- Date: 2026-05-06
+- Decision: Split commit/push closeout into Fast Path, Skill Path, Code Path, and Risk Path, and allow a read-only Spark sidecar to classify non-trivial diffs before the main agent commits.
+- Why: Routine text or memory changes should not pay the latency cost of full smoke tests, full skill reinstall, or complete Git risk orientation. Sidecar classification can reduce main-agent decision time while keeping commit, push, reinstall, and final judgment with the main agent.
+- Alternatives considered: always run the full validation and reinstall workflow; let sidecars perform commit/push directly.
+- Affects: `skills/safe-git-ops/`, `skills/sidecar-task-runner/`, README.md, AGENTS.md, CLAUDE.md, `memory/project.yaml`.
+- Revisit when: sidecar classification is slower than direct inspection or misses meaningful high-risk changes.
+- Certainty: user-stated

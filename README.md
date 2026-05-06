@@ -767,7 +767,8 @@ The most important feedback loops are:
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
 - **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, `token-usage-auditor`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
-- **Sidecar execution layer**: `sidecar-task-runner` gives the main agent a repo-local protocol for fast one-shot Codex sidecars that draft proposals, pre-review changes, scan docs, or triage logs while leaving final decisions with the main agent.
+- **Sidecar execution layer**: `sidecar-task-runner` gives the main agent a repo-local protocol for fast one-shot Codex sidecars that draft proposals, pre-review changes, scan docs, triage logs, or classify precommit risk paths while leaving final decisions with the main agent.
+- **Fast closeout loop**: `safe-git-ops` uses Fast / Skill / Code / Risk paths so small text changes avoid full smoke tests and full reinstall, while `sidecar-task-runner` can run a read-only `precommit-classifier` sidecar to recommend the minimal validation and reinstall scope.
 - **Token telemetry to project management**: `token-usage-auditor` reads local Codex, Codex sidecar, and Claude Code logs or metadata to summarize attention allocation, fresh token burn, cache reuse, and high-friction sessions without copying raw prompts into project memory.
 
 ### 0. Project Memory and Coordination

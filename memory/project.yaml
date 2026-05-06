@@ -21,7 +21,33 @@ memory_policy:
   notes: "Public memory records durable workflow decisions and artifact pointers. Raw agent transcripts, local machine facts, and private session logs stay outside the repo."
 
 toolchain_gates:
-  policy: check-before-mutate
+  policy: risk-tiered-check-before-mutate
+  commit_paths:
+    fast:
+      use_for: "small text, README, paper prose, memory, comments, or narrow docs changes"
+      commands:
+        - "git status --short"
+        - "git diff --check"
+        - "git diff --cached --stat"
+      reinstall: false
+    skill:
+      use_for: "installed skill behavior without executable helper script changes"
+      commands:
+        - "python3 scripts/validate_skills.py"
+        - "git diff --check"
+      reinstall: "target changed skills when practical"
+    code:
+      use_for: "helper scripts, tests, validators, executable templates, lockfiles, or CI/config changes"
+      commands:
+        - "python3 scripts/validate_skills.py"
+        - "git diff --check"
+        - "targeted unit tests for changed helpers"
+      reinstall: "target changed skills after push when skill behavior changes"
+    risk:
+      use_for: "merge/rebase/cherry-pick, branch/worktree ambiguity, destructive actions, release/tag/publication, security/privacy-sensitive changes, or unclear broad scope"
+      commands:
+        - "full safe-git-ops orientation and failure-mode protocol"
+      reinstall: "case-specific"
   root:
     skill_schema_check:
       command: "python3 scripts/validate_skills.py"
@@ -52,6 +78,9 @@ toolchain_gates:
     default_sandbox: read-only
     artifact_root: .agent/sidecars
     commit_sidecar_artifacts: false
+    precommit_classifier:
+      preset: precommit-classifier
+      purpose: "classify current diff as Fast Path, Skill Path, Code Path, or Risk Path and recommend minimal validation/reinstall scope"
 
 github_project:
   enabled: false
@@ -93,11 +122,11 @@ components:
     status: active
 
 id_counters:
-  claim: 7
-  evidence: 9
+  claim: 8
+  evidence: 10
   risk: 5
-  action: 10
-  decision: 7
+  action: 11
+  decision: 8
   provenance: 5
   handoff: 3
   visibility: 1

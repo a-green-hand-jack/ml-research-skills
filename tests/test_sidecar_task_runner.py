@@ -55,6 +55,40 @@ class SidecarTaskRunnerSmokeTest(unittest.TestCase):
             self.assertEqual(model["sandbox"], "read-only")
             self.assertEqual(model["phase"], "maintenance")
 
+    def test_prepares_precommit_classifier_preset(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "repo"
+            repo.mkdir()
+            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True, text=True)
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--repo",
+                    str(repo),
+                    "--task-id",
+                    "precommit-check",
+                    "--title",
+                    "Precommit classifier",
+                    "--phase",
+                    "maintenance",
+                    "--task-type",
+                    "audit",
+                    "--preset",
+                    "precommit-classifier",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            prompt = (repo / ".agent/sidecars/precommit-check/prompt.md").read_text(encoding="utf-8")
+            self.assertIn("# Precommit Classifier Sidecar", prompt)
+            self.assertIn("Fast Path", prompt)
+            self.assertIn("Skill Path", prompt)
+            self.assertIn("Do not commit", prompt)
+
 
 if __name__ == "__main__":
     unittest.main()

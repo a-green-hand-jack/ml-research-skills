@@ -15,12 +15,14 @@ Help the user perform common Git operations without confusing sandbox failures, 
 ├── SKILL.md
 └── references/
     ├── failure-modes.md
+    ├── commit-paths.md
     └── worktrees.md
 ```
 
 ## Progressive Loading
 
 - Always read `references/failure-modes.md`
+- Read `references/commit-paths.md` when the user asks to commit, push, speed up closeout, or choose validation/reinstall scope
 - Read `references/worktrees.md` when the repo uses `git worktree`, when `.git` points to another directory, or when the user mentions multiple worktrees
 
 ## Core Behavior
@@ -30,6 +32,8 @@ Help the user perform common Git operations without confusing sandbox failures, 
 - Treat worktrees as a special case because they may write shared Git metadata outside the visible working directory
 - Ask before destructive operations such as `reset --hard`, `checkout --`, deleting branches, or dropping stashes
 - Prefer non-interactive Git commands
+- Use risk-tiered commit paths so low-risk text/docs changes do not pay the cost of full validation, full smoke tests, or full skill reinstall
+- Use `sidecar-task-runner` precommit classification for non-trivial closeouts when it can run read-only and reduce main-agent decision time
 - When a write operation is blocked by the sandbox, explain that clearly and request escalation instead of guessing about conflicts
 - When a network Git operation fails, distinguish network/sandbox access from authentication, Git remote, or repository problems before asking the user to change credentials
 - Bias toward early activation: if the user reports a Git failure in vague language, assume this skill should own the diagnosis before any state-changing command runs
@@ -105,7 +109,7 @@ For `inspect`, run the command directly if sandbox rules allow it.
 
 For `network_inspect`, expect sandboxed runtimes to block DNS or outbound connections unless network permission is granted.
 
-For `safe_write`, do a preflight check first.
+For `safe_write`, do a preflight check first. For commit/push closeouts, classify the change as Fast Path, Skill Path, Code Path, or Risk Path using `references/commit-paths.md`, then run the smallest validation set that matches the path.
 
 For `destructive_write`, require explicit user confirmation before executing.
 
@@ -118,6 +122,8 @@ git status --short
 git branch --show-current
 git rev-parse --short HEAD
 ```
+
+For ordinary commit/push closeout, avoid full orientation unless Risk Path applies. A Fast Path closeout may use only `git status --short`, `git diff --check`, explicit `git add <files>`, and `git diff --cached --stat` before commit.
 
 For `cherry-pick`, `merge`, or `rebase`, also inspect the target commit or branch first:
 

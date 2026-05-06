@@ -241,7 +241,7 @@ ml-research-skills/
 | `project-init` | Create a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, toolchain gates, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or project-aware component worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, and camera-ready paper versions |
-| `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, and mechanical proposals can be delegated without giving away main-agent control |
+| `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, precommit path classification, and mechanical proposals can be delegated without giving away main-agent control |
 | `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles using one-shot Codex/Claude Code reviewer sessions so core implementations can be audited without sharing the writer's chat context |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
@@ -274,7 +274,7 @@ ml-research-skills/
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
 | `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
-| `safe-git-ops` | Perform common Git operations safely with better worktree and sandbox failure diagnosis |
+| `safe-git-ops` | Perform common Git operations safely with better worktree, sandbox failure, and risk-tiered commit/push path diagnosis |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, and SSH/HPC/RunAI server workflows |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project, including source formatting, local layout debugging, source hygiene, and the configured compile backend without recording one user's local TeX availability |

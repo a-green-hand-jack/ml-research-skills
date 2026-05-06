@@ -14,6 +14,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-008 | done | agent | root-docs | Add a visual asset index and agent maintenance rules for diagram updates. | DEC-007, FIG-001 | Use `asset/README.md` before adding, replacing, or renaming public diagrams. |  | 2026-05-06 |
 | ACT-009 | done | agent | paper-skills | Add `latex-layout-issue-bundler` to generate reproducible PDF page/crop/source/log bundles for LaTeX layout debugging. | CLM-007, EVD-008 | Use before manual screenshot-based layout debugging. |  | 2026-05-06 |
 | ACT-010 | done | agent | paper-skills | Encode wraptable/wrapfig right-side object layout lessons into LaTeX layout and table review guidance. | CLM-006, EVD-009 | Reuse during right-side wrapped table/algorithm layout tuning. |  | 2026-05-06 |
+| ACT-011 | done | agent | git-workflow | Add risk-tiered commit paths and a sidecar precommit classifier to speed routine commit/push closeout. | DEC-008, CLM-008, EVD-010 | Use Fast Path for small text/docs changes and sidecar classification for non-trivial closeouts. |  | 2026-05-06 |
 
 ## Blocked Actions
 

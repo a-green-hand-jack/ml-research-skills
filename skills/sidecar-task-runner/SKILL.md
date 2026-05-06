@@ -13,6 +13,8 @@ Use this skill to run bounded helper tasks from a main agent without sharing the
 ```text
 <installed-skill-dir>/
 ├── SKILL.md
+├── templates/
+│   └── precommit-classifier.md
 └── scripts/
     └── prepare_sidecar_task.py
 ```
@@ -68,6 +70,19 @@ python3 <installed-skill-dir>/scripts/prepare_sidecar_task.py \
 
 If no prompt file exists, pass `--prompt "<task instructions>"`.
 
+For a fast precommit classification sidecar, use the bundled preset:
+
+```bash
+python3 <installed-skill-dir>/scripts/prepare_sidecar_task.py \
+  --repo . \
+  --title "Precommit classifier" \
+  --phase maintenance \
+  --task-type audit \
+  --preset precommit-classifier \
+  --input "git status --short" \
+  --input "git diff"
+```
+
 ## Run Codex Spark
 
 For a read-only sidecar:
@@ -112,6 +127,7 @@ Keep prompts narrow. If the task needs several independent analyses, create sepa
 Good Spark sidecar tasks:
 
 - first-pass code review before a strong review
+- precommit path classification: Fast Path, Skill Path, Code Path, or Risk Path
 - git milestone proposal from recent commits and docs
 - README / AGENTS / CLAUDE consistency scan
 - test-gap scan after a focused implementation
@@ -127,6 +143,17 @@ Use the main agent or a stronger fresh reviewer for:
 - security, privacy, or data-governance decisions
 - large refactors with unclear blast radius
 - final paper positioning, rebuttal strategy, or submission judgment
+
+## Precommit Classifier Contract
+
+Use the `precommit-classifier` preset when a commit/push closeout would otherwise be slowed down by deciding which gates to run. The sidecar inspects only read-only Git state and affected public repo files, then recommends:
+
+- the commit path: Fast Path, Skill Path, Code Path, or Risk Path
+- the minimal validation commands
+- whether reinstall is needed
+- whether reinstall can be limited to specific changed skills
+
+The main agent must still stage files, commit, push, reinstall, and report the outcome. A sidecar must not perform external or irreversible actions.
 
 ## Token Telemetry
 

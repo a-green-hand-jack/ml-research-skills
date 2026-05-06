@@ -1,4 +1,4 @@
 interface:
   display_name: "Sidecar Task Runner"
-  short_description: "Run bounded one-shot Codex sidecar tasks."
-  default_prompt: "Create a sidecar task bundle, run a one-shot Codex Spark sidecar if useful, and record the output under .agent/sidecars/."
+  short_description: "Run bounded one-shot Codex sidecar tasks, including precommit path classification."
+  default_prompt: "Create a sidecar task bundle, run a one-shot Codex Spark sidecar if useful, and record the output under .agent/sidecars/. For commit closeout, use the precommit-classifier preset to recommend Fast / Skill / Code / Risk path, minimal validation, and reinstall scope."

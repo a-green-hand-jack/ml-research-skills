@@ -7,7 +7,7 @@
 - Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, and now repo-native project memory.
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, and clear public/private boundaries.
 - Current phase: `maintenance`.
-- Active gate: keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before commit/push.
+- Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
 - Last updated: 2026-05-06.
 
 ## Latest Reliable State
@@ -23,6 +23,7 @@
 - `submit-paper` now includes a screenshot/page/object-first LaTeX layout debugging protocol, with short pointers from camera-ready, figure review, and table review skills.
 - `submit-paper` and `table-results-review` now include a specific `wraptable` / `wrapfig` right-side object protocol: tune `[N]`, avoid nested floating `table`, use compact inline caption/label handling, and adjust width/font/spacing locally.
 - `latex-layout-issue-bundler` now creates `.agent/layout-issues/` bundles so PDF layout problems can be handed to agents without manual screenshots.
+- `safe-git-ops` now uses Fast / Skill / Code / Risk commit paths, and `sidecar-task-runner` has a read-only `precommit-classifier` preset to recommend minimal validation and reinstall scope.
 
 ## Top Open Risks
 
@@ -42,6 +43,7 @@
 - `ACT-008`: Use `asset/README.md` as the entry point before changing public diagram assets.
 - `ACT-009`: Use `latex-layout-issue-bundler` before screenshot-based LaTeX layout debugging when a rendered PDF is available.
 - `ACT-010`: Reuse wraptable/wrapfig right-side object guidance during local paper layout tuning.
+- `ACT-011`: Use sidecar-assisted risk-tiered commit closeout to avoid full validation/reinstall on low-risk changes.
 
 ## Needs Verification Next Session
 
@@ -52,4 +54,4 @@
 
 ## Next Step
 
-- Commit, push, and reinstall after updating paper layout skills.
+- Commit, push, and targeted reinstall after adding sidecar-assisted fast commit closeout.

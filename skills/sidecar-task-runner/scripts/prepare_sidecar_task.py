@@ -22,6 +22,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--task-type", default="audit", help="Task type label.")
     parser.add_argument("--model", default="gpt-5.3-codex-spark", help="Sidecar model id.")
     parser.add_argument("--sandbox", default="read-only", choices=("read-only", "workspace-write"))
+    parser.add_argument(
+        "--preset",
+        choices=("precommit-classifier",),
+        help="Use a bundled prompt preset when --prompt and --prompt-file are omitted.",
+    )
     parser.add_argument("--prompt", help="Prompt text.")
     parser.add_argument("--prompt-file", help="Read prompt text from this file.")
     parser.add_argument(
@@ -64,6 +69,9 @@ def default_task_id(title: str) -> str:
 
 
 def read_prompt(args: argparse.Namespace, repo: Path) -> str:
+    prompt_sources = sum(bool(item) for item in (args.prompt_file, args.prompt, args.preset))
+    if prompt_sources > 1:
+        raise ValueError("Use only one of --prompt-file, --prompt, or --preset.")
     if args.prompt_file:
         path = Path(args.prompt_file)
         if not path.is_absolute():
@@ -71,6 +79,10 @@ def read_prompt(args: argparse.Namespace, repo: Path) -> str:
         return path.read_text(encoding="utf-8").strip() + "\n"
     if args.prompt:
         return args.prompt.strip() + "\n"
+    if args.preset == "precommit-classifier":
+        skill_dir = Path(__file__).resolve().parents[1]
+        path = skill_dir / "templates" / "precommit-classifier.md"
+        return path.read_text(encoding="utf-8").strip() + "\n"
     return (
         f"# Sidecar Task: {args.title}\n\n"
         "TODO: Replace this with a bounded task prompt before launching the sidecar.\n"
