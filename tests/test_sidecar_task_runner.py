@@ -89,6 +89,43 @@ class SidecarTaskRunnerSmokeTest(unittest.TestCase):
             self.assertIn("Skill Path", prompt)
             self.assertIn("Do not commit", prompt)
 
+    def test_prepares_personalization_scanner_preset(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp) / "repo"
+            repo.mkdir()
+            subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True, text=True)
+
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--repo",
+                    str(repo),
+                    "--task-id",
+                    "personalization-scan",
+                    "--title",
+                    "Personalization scan",
+                    "--phase",
+                    "maintenance",
+                    "--task-type",
+                    "audit",
+                    "--preset",
+                    "personalization-scanner",
+                    "--input",
+                    "memory/current-status.md",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            prompt = (repo / ".agent/sidecars/personalization-scan/prompt.md").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("# Personalization Scanner Sidecar", prompt)
+            self.assertIn("Recommended Writeback", prompt)
+            self.assertIn("Do not ask the user questions", prompt)
+
 
 if __name__ == "__main__":
     unittest.main()

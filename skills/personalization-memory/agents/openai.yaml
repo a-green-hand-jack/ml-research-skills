@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personalization Memory"
+  short_description: "Turn trajectories and repeated preferences into private or project memory."
+  default_prompt: "Scan recent artifacts or trajectory summaries for reusable preferences, classify their scope, and write safe personalization memory without interrupting the user."

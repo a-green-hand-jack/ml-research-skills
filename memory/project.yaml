@@ -81,6 +81,9 @@ toolchain_gates:
     precommit_classifier:
       preset: precommit-classifier
       purpose: "classify current diff as Fast Path, Skill Path, Code Path, or Risk Path and recommend minimal validation/reinstall scope"
+    personalization_scanner:
+      preset: personalization-scanner
+      purpose: "scan sanitized trajectories, sidecar artifacts, diffs, and memory for reusable preferences without asking the user or copying raw logs"
 
 github_project:
   enabled: false
@@ -122,12 +125,12 @@ components:
     status: active
 
 id_counters:
-  claim: 10
-  evidence: 12
-  risk: 5
-  action: 13
-  decision: 10
-  provenance: 5
+  claim: 11
+  evidence: 13
+  risk: 6
+  action: 14
+  decision: 11
+  provenance: 6
   handoff: 3
   visibility: 1
   gate: 4

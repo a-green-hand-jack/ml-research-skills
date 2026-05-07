@@ -190,7 +190,13 @@ ml-research-skills/
     ├── sidecar-task-runner/
     │   ├── SKILL.md
     │   ├── agents/
+    │   ├── templates/
     │   └── scripts/
+    ├── personalization-memory/
+    │   ├── SKILL.md
+    │   ├── agents/
+    │   ├── references/
+    │   └── templates/
     ├── code-reviewer/
     │   ├── SKILL.md
     │   ├── agents/
@@ -242,6 +248,7 @@ ml-research-skills/
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or project-aware component worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, and camera-ready paper versions |
 | `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, precommit path classification, and mechanical proposals can be delegated without giving away main-agent control |
+| `personalization-memory` | Scan trajectories, sidecar artifacts, logs, and repeated corrections for reusable preferences, then write safe private or project memory without interrupting the user |
 | `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles using one-shot Codex/Claude Code reviewer sessions so core implementations can be audited without sharing the writer's chat context |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |

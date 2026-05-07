@@ -101,3 +101,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/paper-writing-memory-manager/`, `skills/paper-writing-assistant/`, `skills/paper-writing-contract-planner/`, `skills/paper-draft-consistency-editor/`, README.md, AGENTS.md, CLAUDE.md.
 - Revisit when: layer labels become overhead without improving edit safety.
 - Certainty: user-stated
+
+## DEC-011 - Use Low-Cost Trajectory Scans For Personalization Writeback
+
+- Date: 2026-05-07
+- Decision: Add a `personalization-memory` skill and a `sidecar-task-runner` `personalization-scanner` preset so low-cost sidecars can scan sanitized trajectories, logs, diffs, sidecar artifacts, and project memory for reusable preferences.
+- Why: The user does not want main agents to interrupt the workflow with memory questions. Many durable preferences emerge from repeated corrections and interaction traces, so the system should propose scoped writeback automatically while keeping raw logs private.
+- Alternatives considered: ask the user before every preference update; let the main agent manually inspect all trajectories; write raw transcripts into project memory.
+- Affects: `skills/personalization-memory/`, `skills/sidecar-task-runner/`, README.md, AGENTS.md, CLAUDE.md, `memory/`.
+- Revisit when: personalization scans are too noisy, too expensive, or create privacy risk.
+- Certainty: user-stated

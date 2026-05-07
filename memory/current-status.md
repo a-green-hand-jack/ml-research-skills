@@ -4,16 +4,17 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, and now repo-native project memory.
-- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, and clear public/private boundaries.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, and automatic personalization writeback.
+- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
 - Last updated: 2026-05-07.
 
 ## Latest Reliable State
 
-- 51 skills are present and installable.
+- 52 skills are present and installable.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
+- `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
 - `code-reviewer` supports Spark pre-review plus strong isolated review.
 - `token-usage-auditor` supports Codex, Claude Code, and repo-local sidecar metadata.
 - `add-git-tag` can use read-only sidecar proposal generation while preserving human gates for tag creation and push.
@@ -33,6 +34,7 @@
 - `RSK-002`: Sidecar output could be over-trusted for high-risk design or final review decisions.
 - `RSK-003`: Private local facts or agent session logs could leak into public shared memory.
 - `RSK-004`: Memory could become stale if not updated after skill behavior changes.
+- `RSK-006`: Automatic personalization scans could over-promote noisy or private trajectory details if scope and confidence gates are ignored.
 
 ## Active Actions
 
@@ -48,6 +50,7 @@
 - `ACT-011`: Use sidecar-assisted risk-tiered commit closeout to avoid full validation/reinstall on low-risk changes.
 - `ACT-012`: Use visual-style and plot-style contracts before generating or reviewing paper figures.
 - `ACT-013`: Use active writing layer and protected invariants before nontrivial paper prose edits.
+- `ACT-014`: Use personalization scans after substantial sessions to extract candidate preferences without interrupting the user.
 
 ## Needs Verification Next Session
 
@@ -58,4 +61,4 @@
 
 ## Next Step
 
-- Commit, push, and targeted reinstall after adding layered writing contracts.
+- Commit, push, and targeted reinstall after adding automatic personalization writeback.

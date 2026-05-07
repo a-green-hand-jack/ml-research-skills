@@ -24,7 +24,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--sandbox", default="read-only", choices=("read-only", "workspace-write"))
     parser.add_argument(
         "--preset",
-        choices=("precommit-classifier",),
+        choices=("precommit-classifier", "personalization-scanner"),
         help="Use a bundled prompt preset when --prompt and --prompt-file are omitted.",
     )
     parser.add_argument("--prompt", help="Prompt text.")
@@ -82,6 +82,10 @@ def read_prompt(args: argparse.Namespace, repo: Path) -> str:
     if args.preset == "precommit-classifier":
         skill_dir = Path(__file__).resolve().parents[1]
         path = skill_dir / "templates" / "precommit-classifier.md"
+        return path.read_text(encoding="utf-8").strip() + "\n"
+    if args.preset == "personalization-scanner":
+        skill_dir = Path(__file__).resolve().parents[1]
+        path = skill_dir / "templates" / "personalization-scanner.md"
         return path.read_text(encoding="utf-8").strip() + "\n"
     return (
         f"# Sidecar Task: {args.title}\n\n"

@@ -79,6 +79,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
 | `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, and mechanical proposals can be delegated without giving away main-agent control |
+| `personalization-memory` | Scan trajectories, sidecar artifacts, logs, and repeated corrections for reusable preferences, then write safe private or project memory without interrupting the user |
 | `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles using one-shot Codex/Claude Code reviewer sessions so core implementations can be audited without sharing the writer's chat context |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
@@ -726,6 +727,7 @@ flowchart TD
         AU[advisor-update-writer]
         SDB[research-slide-deck-builder<br/>slides/decks + deck-index]
         SIDE[sidecar-task-runner]
+        PERS[personalization-memory]
         DOC[update-docs]
         TAG[add-git-tag]
         TL[work-timeline-planner]
@@ -740,6 +742,9 @@ flowchart TD
         SIDE --> DOC
         SIDE --> TAG
         SIDE --> TOK
+        SIDE --> PERS
+        PERS --> DOC
+        PERS --> SSA
         TL --> AU
         TOK --> TL
         TOK --> AU
@@ -769,6 +774,7 @@ The most important feedback loops are:
 - **Project board to local memory**: GitHub Projects can track public/collaborative issues and PRs across root, code, paper, and slides repos; root `memory/` remains the durable research state for claims, evidence, risks, decisions, and worktree policies.
 - **Maintenance across the whole cycle**: `update-docs`, `add-git-tag`, `work-timeline-planner`, `token-usage-auditor`, and `advisor-update-writer` are recurring skills, not only end-of-project tasks.
 - **Sidecar execution layer**: `sidecar-task-runner` gives the main agent a repo-local protocol for fast one-shot Codex sidecars that draft proposals, pre-review changes, scan docs, triage logs, or classify precommit risk paths while leaving final decisions with the main agent.
+- **Automatic personalization loop**: `personalization-memory` uses sanitized trajectories, logs, sidecar artifacts, diffs, and project memory to produce candidate preferences without interrupting the user. Low-cost sidecars can scan the traces; the main agent writes only derived, privacy-safe rules to private or project memory.
 - **Fast closeout loop**: `safe-git-ops` uses Fast / Skill / Code / Risk paths so small text changes avoid full smoke tests and full reinstall, while `sidecar-task-runner` can run a read-only `precommit-classifier` sidecar to recommend the minimal validation and reinstall scope.
 - **Token telemetry to project management**: `token-usage-auditor` reads local Codex, Codex sidecar, and Claude Code logs or metadata to summarize attention allocation, fresh token burn, cache reuse, and high-friction sessions without copying raw prompts into project memory.
 
@@ -802,6 +808,7 @@ Use these skills when starting the project control root, creating or connecting 
 | **init-python-project** | Scaffold or enhance the code repo with ML architecture, `uv`/`ruff`/`mypy`/`pytest`/`pre-commit` gates, `docs/results/`, `docs/reports/`, `docs/runs/`, and remote workflow scaffolding |
 | **new-workspace** | Create a branch or component worktree, defaulting to `code-worktrees/` for code branches and `paper-worktrees/` for paper versions when applicable |
 | **sidecar-task-runner** | Run bounded one-shot Codex sidecar tasks for fast scans, pre-reviews, milestone proposals, and other low/medium-risk helper work |
+| **personalization-memory** | Convert trajectories and repeated user corrections into scoped private, project, or public-skill-candidate preferences without asking during the main workflow |
 | **code-reviewer** | Create fresh-context review bundles and launch one-shot Codex/Claude Code reviewer sessions for core algorithm or production-code changes before merge |
 | **remote-project-control** | Coordinate local editing, Git remote sync, and server execution on SSH/HPC environments |
 
@@ -877,6 +884,7 @@ Use these skills to keep the project understandable, publishable, and easy to ha
 | **skill-system-auditor** | Audit the skill collection itself for lifecycle, routing, memory, documentation, and validation consistency |
 | **work-timeline-planner** | Summarize past work or plan future work from git history, docs, and notes |
 | **sidecar-task-runner** | Delegate bounded scans, drafts, pre-reviews, and mechanical proposals to a one-shot Codex sidecar while preserving main-agent ownership |
+| **personalization-memory** | Run low-cost trajectory scans and write safe derived preferences to the correct memory layer |
 | **token-usage-auditor** | Summarize Codex, Codex sidecar, and Claude Code token burn as project attention, cost, cache reuse, and yield telemetry |
 | **add-git-tag** | Mark a milestone with an annotated git tag, optionally using a read-only sidecar to draft the milestone message |
 
@@ -1079,45 +1087,46 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 5. project-init       -> create the project control root, memory, root docs, component repos, and code/paper worktree policy
 6. new-workspace      -> isolate a code feature, experiment, baseline, paper venue version, arXiv release, or camera-ready edit
 7. sidecar-task-runner -> delegate bounded scans, drafts, pre-reviews, and mechanical proposals when useful
-8. remote-project-control -> recover project memory and align local, Git remote, and server state
-9. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
-10. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
-11. run-experiment     -> launch locally or on SLURM / RunAI
-12. result-diagnosis -> diagnose surprising/negative results and decide the next action
-13. project-sync       -> record results in paper/sections/daily_experiments.tex
-14. experiment-report-writer -> turn experiment evidence into a structured report
-15. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
-16. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
-17. paper-result-asset-builder -> inventory CSV results and build paper-facing tables/figures with provenance
-18. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
-19. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
-20. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
-21. paper-evidence-gap-miner -> mine existing CSVs/logs/reports/assets to fill claim gaps before new compute
-22. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
-23. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-24. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
-25. paper-writing-memory-manager -> maintain section status, dependency map, style decisions, stale locations, and open writing threads
-26. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
-27. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
-28. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
-29. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
-30. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
-31. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
-32. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
-33. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
-34. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-35. citation-coverage-audit -> find missing classic, close, and concurrent citations
-36. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-37. submit-paper    -> run a readiness check before a deadline
-38. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-39. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-40. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-41. release-code    -> prepare the public code release when needed
-42. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-43. token-usage-auditor -> audit Codex, Codex sidecar, and Claude Code token burn and project attention
-44. update-docs     -> refresh docs after meaningful code changes
-45. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-46. add-git-tag     -> mark a milestone
+8. personalization-memory -> scan trajectories and repeated corrections into private or project preferences when useful
+9. remote-project-control -> recover project memory and align local, Git remote, and server state
+10. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
+11. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
+12. run-experiment     -> launch locally or on SLURM / RunAI
+13. result-diagnosis -> diagnose surprising/negative results and decide the next action
+14. project-sync       -> record results in paper/sections/daily_experiments.tex
+15. experiment-report-writer -> turn experiment evidence into a structured report
+16. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
+17. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
+18. paper-result-asset-builder -> inventory CSV results and build paper-facing tables/figures with provenance
+19. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
+20. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
+21. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
+22. paper-evidence-gap-miner -> mine existing CSVs/logs/reports/assets to fill claim gaps before new compute
+23. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
+24. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+25. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
+26. paper-writing-memory-manager -> maintain section status, dependency map, style decisions, stale locations, and open writing threads
+27. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
+28. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
+29. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
+30. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
+31. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
+32. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
+33. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
+34. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
+35. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+36. citation-coverage-audit -> find missing classic, close, and concurrent citations
+37. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+38. submit-paper    -> run a readiness check before a deadline
+39. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+40. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+41. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+42. release-code    -> prepare the public code release when needed
+43. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+44. token-usage-auditor -> audit Codex, Codex sidecar, and Claude Code token burn and project attention
+45. update-docs     -> refresh docs after meaningful code changes
+46. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+47. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides

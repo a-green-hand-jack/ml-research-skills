@@ -14,7 +14,8 @@ Use this skill to run bounded helper tasks from a main agent without sharing the
 <installed-skill-dir>/
 ├── SKILL.md
 ├── templates/
-│   └── precommit-classifier.md
+│   ├── precommit-classifier.md
+│   └── personalization-scanner.md
 └── scripts/
     └── prepare_sidecar_task.py
 ```
@@ -83,6 +84,19 @@ python3 <installed-skill-dir>/scripts/prepare_sidecar_task.py \
   --input "git diff"
 ```
 
+For a personalization scan that extracts reusable preferences from sanitized artifacts without asking the user:
+
+```bash
+python3 <installed-skill-dir>/scripts/prepare_sidecar_task.py \
+  --repo . \
+  --title "Personalization scan" \
+  --phase maintenance \
+  --task-type audit \
+  --preset personalization-scanner \
+  --input "memory/current-status.md" \
+  --input ".agent/sidecars/*/decision.md"
+```
+
 ## Run Codex Spark
 
 For a read-only sidecar:
@@ -128,6 +142,7 @@ Good Spark sidecar tasks:
 
 - first-pass code review before a strong review
 - precommit path classification: Fast Path, Skill Path, Code Path, or Risk Path
+- personalization scans over trajectories, sidecar artifacts, diffs, and memory to propose reusable preferences
 - git milestone proposal from recent commits and docs
 - README / AGENTS / CLAUDE consistency scan
 - test-gap scan after a focused implementation
@@ -154,6 +169,12 @@ Use the `precommit-classifier` preset when a commit/push closeout would otherwis
 - whether reinstall can be limited to specific changed skills
 
 The main agent must still stage files, commit, push, reinstall, and report the outcome. A sidecar must not perform external or irreversible actions.
+
+## Personalization Scanner Contract
+
+Use the `personalization-scanner` preset when a main agent wants low-cost automatic memory writeback candidates from trajectories or repo artifacts. The sidecar may inspect only explicitly listed inputs and returns candidate preferences with scope, confidence, evidence, suggested target, and privacy notes.
+
+The main agent must still decide what to write, keep private facts out of public repo memory, and perform any project-memory or skill-repo edits. The sidecar must not ask the user, quote raw logs, or promote public skill rules by itself.
 
 ## Token Telemetry
 

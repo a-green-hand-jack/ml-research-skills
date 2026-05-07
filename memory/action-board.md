@@ -17,6 +17,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-011 | done | agent | git-workflow | Add risk-tiered commit paths and a sidecar precommit classifier to speed routine commit/push closeout. | DEC-008, CLM-008, EVD-010 | Use Fast Path for small text/docs changes and sidecar classification for non-trivial closeouts. |  | 2026-05-06 |
 | ACT-012 | done | agent | paper-skills | Add evolvable style memory and plot-style contract templates for paper figures. | DEC-009, CLM-009, EVD-011 | Use `visual-style.md`, optional `style-lessons.md`, and `plot_style.yaml` before generating or reviewing paper figures. |  | 2026-05-06 |
 | ACT-013 | done | agent | writing-skills | Add layered writing contracts and style-memory promotion for paper drafting and consistency checks. | DEC-010, CLM-010, EVD-012 | Use active layer + protected invariants before nontrivial writing edits. |  | 2026-05-07 |
+| ACT-014 | done | agent | personalization | Add automatic personalization writeback protocol and a low-cost sidecar scanner preset. | DEC-011, CLM-011, EVD-013, RSK-006 | Use `personalization-memory` plus `personalization-scanner` after substantial sessions or repeated user corrections. |  | 2026-05-07 |
 
 ## Blocked Actions
 

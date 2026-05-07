@@ -9,6 +9,7 @@ Track risks that could break the skill system, project memory, release process, 
 | RSK-003 | source-visibility | open | high | low | Private local facts, raw prompts, or session logs could leak into public repo memory. | CLM-001, CLM-004 | Keep `.agent/sidecars/` local, avoid raw transcripts, use private local memory for machine facts. | ACT-001 | observed | 2026-05-05 |
 | RSK-004 | maintenance | open | medium | medium | Project memory could become stale if agents update skills but forget writeback. | CLM-001 | Use `research-project-memory` closeout/writeback after meaningful changes. | ACT-001 | inferred | 2026-05-05 |
 | RSK-005 | evaluation | open | medium | medium | More skills may get scripts without matching smoke tests or realistic end-to-end validation. | CLM-005 | Add focused tests for helper scripts and run end-to-end install checks after behavior changes. | ACT-005 | inferred | 2026-05-05 |
+| RSK-006 | personalization | open | medium | medium | Automatic trajectory scans may over-promote one-off corrections, noisy inferred preferences, or private details into durable memory. | CLM-011 | Use scope, confidence, privacy, and promotion gates; keep raw logs out of public memory; require main-agent review before writeback. | ACT-014 | inferred | 2026-05-07 |
 
 ## Accepted Risks
 
