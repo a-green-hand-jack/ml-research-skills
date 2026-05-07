@@ -37,6 +37,9 @@ Write the smallest durable update that will help the next session. Do not turn m
 
 - `research-idea-validator`: write decisions, early risks, and next actions.
 - `literature-review-sprint`: write closest-work risks, citation/evidence pointers, and positioning decisions.
+- `reference-library-manager`: write stable reference-library state to `reference/.agent/`; summarize only durable reference-system changes in project memory.
+- `reference-reading-summarizer`: write paper cards under `reference/cards/` with provenance and confidence; do not copy raw PDF text into project memory.
+- `reference-project-synthesizer`: write project-use notes under `reference/project-use/` and promote only durable implications into claim, evidence, risk, action, provenance, paper-writing, or code benchmark memory.
 - `algorithm-design-planner`: write method assumptions, design decisions, linked claims, and expected ablations.
 - `experiment-design-planner`: write planned evidence, experiment families, controls, and falsification actions.
 - `baseline-selection-audit`: write must-have baseline decisions, fairness risks, planned comparison evidence, and run/justify actions.

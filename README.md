@@ -71,6 +71,9 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `research-project-memory` | Initialize and maintain hierarchical project memory across claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviews, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
+| `reference-library-manager` | Index and monitor project reference PDFs under `reference/`, tracking metadata gaps, duplicates, reading status, cards, and project-use notes |
+| `reference-reading-summarizer` | Read project reference papers into structured paper cards for writing, method, theory, benchmark, baseline, risk, or citation-support extraction |
+| `reference-project-synthesizer` | Connect paper cards to project claims, risks, baselines, benchmarks, experiments, writing contracts, citation placement, and memory writeback |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `latex-layout-issue-bundler` | Create repo-local PDF page, crop, source-snippet, compile-log, and prompt bundles for page-specific LaTeX layout debugging without manual screenshots |
@@ -160,6 +163,16 @@ A full project is a control root with independent component repositories:
 ├── code/                   # independent Python/ML code repo
 ├── code-worktrees/          # sibling worktrees for code repo branches
 ├── paper-worktrees/         # sibling worktrees for paper venue/arXiv/camera-ready versions
+├── reference/              # project-local PDFs, cards, reading status, and project-use notes
+│   ├── papers/
+│   ├── cards/
+│   ├── project-use/
+│   ├── notes/
+│   ├── summaries/
+│   └── .agent/
+│       ├── reference-index.md
+│       ├── reading-status.md
+│       └── runs/
 ├── slides/                 # optional independent multi-deck slides repo
 │   ├── slides.md            # optional active/default deck or template staging file
 │   ├── decks/               # stable advisor/lab/result/rebuttal/conference decks
@@ -180,6 +193,7 @@ Root ownership rules:
 - Do not put experiment outputs directly under the root. Runnable code, run records, results, and logs belong under `code/` or a code worktree.
 - Do not create paper version folders inside `paper/`. Venue submissions, arXiv releases, and camera-ready versions belong under `paper-worktrees/`.
 - Do not treat `slides/slides.md` as the whole presentation history. Stable meeting/talk decks belong under `slides/decks/`, with deck registry memory in `slides/.agent/deck-index.md`.
+- Raw reference PDFs and reading trajectories belong under `reference/`, but project memory should link to paper cards and project-use notes rather than copying raw PDF text.
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
 - Root `memory/` also owns the system-level protocols: claim lifecycle, evidence provenance, cross-module handoffs, and the project phase dashboard.
 - Root `memory/source-visibility-board.md` tracks which paper source surfaces are agent-private, author-visible, submission-visible, arXiv/public, camera-ready, or publisher/artifact-visible.
@@ -203,6 +217,7 @@ Primary skills by root area:
 | Root setup | `PROJECT.md`, paired root `AGENTS.md`/`CLAUDE.md`, component repos, root docs | **project-init**, **research-project-memory** |
 | Root memory | claims, evidence, provenance, risks, actions, handoffs, phase dashboard, source visibility, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
+| Reference library | PDFs, paper cards, reading status, project-use notes | **reference-library-manager**, **reference-reading-summarizer**, **reference-project-synthesizer** |
 | Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
 | Cloud coordination | GitHub Project board, repo issues, PRs, public task status | **project-init**, **remote-project-control**, **safe-git-ops** |
 
@@ -622,9 +637,13 @@ flowchart TD
     subgraph A[Idea, Literature, and Method Design]
         I[research-idea-validator]
         L[literature-review-sprint]
+        RLM[reference-library-manager]
+        RRS[reference-reading-summarizer]
+        RPS[reference-project-synthesizer]
         D[algorithm-design-planner]
         P[paper-positioning-planner]
-        I --> L --> D --> P
+        I --> L --> RLM --> RRS --> RPS --> D --> P
+        RPS --> P
     end
 
     subgraph B[Project Control Root and Component Repos]
@@ -794,6 +813,9 @@ Use these skills when deciding whether an idea is worth pursuing and how it shou
 |---|---|
 | **research-idea-validator** | Judge a rough idea with the FIVE+C framework and choose pursue, revise, park, or kill |
 | **literature-review-sprint** | Map canonical, closest, and recent work so novelty, baselines, gaps, and positioning are clear |
+| **reference-library-manager** | Index project-local PDFs under `reference/` and track metadata gaps, duplicates, reading status, paper cards, and project-use notes |
+| **reference-reading-summarizer** | Read references into structured cards under `reference/cards/` using purpose-specific modes and model tiers |
+| **reference-project-synthesizer** | Convert cards into claim, risk, baseline, benchmark, experiment, writing, citation, and memory implications |
 | **algorithm-design-planner** | Convert a promising idea into a concrete method, objective, architecture, or inference design |
 
 ### 2. Project Control Root and Component Repos
@@ -1083,50 +1105,53 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 1. research-project-memory -> initialize or recover hierarchical project memory and feedback-loop state
 2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
 3. literature-review-sprint -> map canonical, closest, and recent work before locking project positioning
-4. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
-5. project-init       -> create the project control root, memory, root docs, component repos, and code/paper worktree policy
-6. new-workspace      -> isolate a code feature, experiment, baseline, paper venue version, arXiv release, or camera-ready edit
-7. sidecar-task-runner -> delegate bounded scans, drafts, pre-reviews, and mechanical proposals when useful
-8. personalization-memory -> scan trajectories and repeated corrections into private or project preferences when useful
-9. remote-project-control -> recover project memory and align local, Git remote, and server state
-10. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
-11. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
-12. run-experiment     -> launch locally or on SLURM / RunAI
-13. result-diagnosis -> diagnose surprising/negative results and decide the next action
-14. project-sync       -> record results in paper/sections/daily_experiments.tex
-15. experiment-report-writer -> turn experiment evidence into a structured report
-16. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
-17. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
-18. paper-result-asset-builder -> inventory CSV results and build paper-facing tables/figures with provenance
-19. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
-20. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
-21. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
-22. paper-evidence-gap-miner -> mine existing CSVs/logs/reports/assets to fill claim gaps before new compute
-23. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
-24. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-25. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
-26. paper-writing-memory-manager -> maintain section status, dependency map, style decisions, stale locations, and open writing threads
-27. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
-28. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
-29. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
-30. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
-31. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
-32. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
-33. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
-34. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
-35. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-36. citation-coverage-audit -> find missing classic, close, and concurrent citations
-37. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-38. submit-paper    -> run a readiness check before a deadline
-39. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-40. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-41. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-42. release-code    -> prepare the public code release when needed
-43. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-44. token-usage-auditor -> audit Codex, Codex sidecar, and Claude Code token burn and project attention
-45. update-docs     -> refresh docs after meaningful code changes
-46. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-47. add-git-tag     -> mark a milestone
+4. reference-library-manager -> index project-local PDFs and track reading status
+5. reference-reading-summarizer -> create structured paper cards from references
+6. reference-project-synthesizer -> connect cards to claims, risks, baselines, benchmarks, writing, and memory
+7. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
+8. project-init       -> create the project control root, memory, root docs, component repos, and code/paper worktree policy
+9. new-workspace      -> isolate a code feature, experiment, baseline, paper venue version, arXiv release, or camera-ready edit
+10. sidecar-task-runner -> delegate bounded scans, drafts, pre-reviews, and mechanical proposals when useful
+11. personalization-memory -> scan trajectories and repeated corrections into private or project preferences when useful
+12. remote-project-control -> recover project memory and align local, Git remote, and server state
+13. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
+14. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
+15. run-experiment     -> launch locally or on SLURM / RunAI
+16. result-diagnosis -> diagnose surprising/negative results and decide the next action
+17. project-sync       -> record results in paper/sections/daily_experiments.tex
+18. experiment-report-writer -> turn experiment evidence into a structured report
+19. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
+20. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
+21. paper-result-asset-builder -> inventory CSV results and build paper-facing tables/figures with provenance
+22. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
+23. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
+24. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
+25. paper-evidence-gap-miner -> mine existing CSVs/logs/reports/assets to fill claim gaps before new compute
+26. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
+27. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+28. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
+29. paper-writing-memory-manager -> maintain section status, dependency map, style decisions, stale locations, and open writing threads
+30. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
+31. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
+32. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
+33. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
+34. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
+35. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
+36. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
+37. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
+38. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+39. citation-coverage-audit -> find missing classic, close, and concurrent citations
+40. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+41. submit-paper    -> run a readiness check before a deadline
+42. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+43. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+44. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+45. release-code    -> prepare the public code release when needed
+46. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+47. token-usage-auditor -> audit Codex, Codex sidecar, and Claude Code token burn and project attention
+48. update-docs     -> refresh docs after meaningful code changes
+49. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+50. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -1154,6 +1179,14 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Paper taxonomy and read/skim/defer prioritization based on project decision value
 - Closest-work, baseline, evaluation, method, and positioning implications before algorithm or experiment design
 - Project-memory writeback for literature-driven decisions, risks, actions, claim revisions, and planned evidence
+
+## What The Reference Skills Provide
+
+- `reference-library-manager`: deterministic project-local PDF scanning, index/status files, metadata gaps, duplicate checks, and card/project-use path scaffolding under `reference/`
+- `reference-reading-summarizer`: purpose-specific reading modes for skim, writing, method, theory, benchmark, baseline, risk, and deep-read cards with model-tier routing and provenance
+- `reference-project-synthesizer`: project-use notes that connect paper cards to claims, risks, baselines, benchmarks, experiments, writing contracts, citation placement, and memory writeback
+- A trajectory policy where raw PDF extraction and reading runs stay in `reference/.agent/runs/`, while cards and project-use notes become the durable compressed artifacts
+- A cost-control rule: cheap models read many references into cards; stronger models decide when a card changes project claims, baselines, benchmarks, or positioning
 
 ## What `algorithm-design-planner` Provides
 

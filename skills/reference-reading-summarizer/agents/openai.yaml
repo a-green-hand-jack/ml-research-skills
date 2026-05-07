@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reference Reading Summarizer"
+  short_description: "Read reference papers into structured paper cards."
+  default_prompt: "Read this project reference paper in the requested mode and create a copyright-safe paper card with provenance, confidence, role labels, and extracted assets."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reference Project Synthesizer"
+  short_description: "Connect paper cards to project claims, risks, baselines, experiments, and writing."
+  default_prompt: "Read the paper card and project memory, then write a project-use note and update durable memory links for claims, risks, baselines, benchmarks, writing, citations, or actions."

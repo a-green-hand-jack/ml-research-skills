@@ -4,17 +4,18 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, and automatic personalization writeback.
-- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, and clear public/private boundaries.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, and project-local reference management.
+- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, reference cards, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
-- Last updated: 2026-05-07.
+- Last updated: 2026-05-08.
 
 ## Latest Reliable State
 
-- 52 skills are present and installable.
+- 55 skills are present and installable.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
+- `reference-library-manager`, `reference-reading-summarizer`, and `reference-project-synthesizer` split project-local PDFs into library state, paper cards, and project-use notes.
 - `code-reviewer` supports Spark pre-review plus strong isolated review.
 - `token-usage-auditor` supports Codex, Claude Code, and repo-local sidecar metadata.
 - `add-git-tag` can use read-only sidecar proposal generation while preserving human gates for tag creation and push.
@@ -35,6 +36,7 @@
 - `RSK-003`: Private local facts or agent session logs could leak into public shared memory.
 - `RSK-004`: Memory could become stale if not updated after skill behavior changes.
 - `RSK-006`: Automatic personalization scans could over-promote noisy or private trajectory details if scope and confidence gates are ignored.
+- `RSK-007`: Raw PDFs or reading trajectories could leak copyrighted/private text into public project memory if reference cards are not used as the compression layer.
 
 ## Active Actions
 
@@ -51,6 +53,7 @@
 - `ACT-012`: Use visual-style and plot-style contracts before generating or reviewing paper figures.
 - `ACT-013`: Use active writing layer and protected invariants before nontrivial paper prose edits.
 - `ACT-014`: Use personalization scans after substantial sessions to extract candidate preferences without interrupting the user.
+- `ACT-015`: Use the reference skill trio to turn `reference/` PDFs into cards and project-use notes before project-memory writeback.
 
 ## Needs Verification Next Session
 
@@ -61,4 +64,4 @@
 
 ## Next Step
 
-- Commit, push, and targeted reinstall after adding automatic personalization writeback.
+- Commit, push, and targeted reinstall after adding the project reference library skill trio.

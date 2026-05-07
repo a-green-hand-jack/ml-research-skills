@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reference Library Manager"
+  short_description: "Index and monitor project reference PDFs."
+  default_prompt: "Scan the project reference folder, update the reference index and reading status, and report new PDFs, duplicates, metadata gaps, and next reading actions."

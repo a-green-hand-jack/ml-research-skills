@@ -111,3 +111,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/personalization-memory/`, `skills/sidecar-task-runner/`, README.md, AGENTS.md, CLAUDE.md, `memory/`.
 - Revisit when: personalization scans are too noisy, too expensive, or create privacy risk.
 - Certainty: user-stated
+
+## DEC-012 - Split Project References Into Library, Reading, And Project-Synthesis Layers
+
+- Date: 2026-05-08
+- Decision: Add three reference skills: `reference-library-manager` for project-local PDF/index/status management, `reference-reading-summarizer` for paper cards, and `reference-project-synthesizer` for connecting cards to claims, risks, baselines, benchmarks, writing, citations, and project memory.
+- Why: Project references serve different roles: writing exemplars, method/theory sources, benchmark sources, baselines, citation support, and reviewer-risk evidence. Splitting management, reading, and project interaction keeps context smaller and allows cheaper models for low-risk scans while preserving stronger reasoning for project-changing implications.
+- Alternatives considered: keep reference work inside `literature-review-sprint`; create one monolithic PDF-reading skill.
+- Affects: `skills/reference-library-manager/`, `skills/reference-reading-summarizer/`, `skills/reference-project-synthesizer/`, README.md, AGENTS.md, CLAUDE.md, `skills/project-init/`, `memory/`.
+- Revisit when: paper cards become too heavy or agents fail to route from cards into project memory.
+- Certainty: user-stated
