@@ -107,6 +107,34 @@ Flag:
 - notation changes between setup and method
 - baseline abbreviation is introduced more than once or never defined
 
+## Writing Layer Consistency
+
+Check whether each edit or requested pass has the right layer:
+
+- `layout`: page/line/float pressure only
+- `surface-fluency`: grammar, rhythm, and local flow
+- `argument`: claim order, gap/insight/evidence path, contribution framing
+- `technical-consistency`: method names, notation, metrics, datasets, baselines, labels
+- `style-consistency`: tone, claim-strength habits, sentence density, venue voice
+- `venue-adaptation`: target-conference expectations and section emphasis
+- `final-polish`: small defects after structure is stable
+
+Flag:
+
+- layout edits that weaken, strengthen, or redirect claims
+- fluency edits that remove caveats or experimental conditions
+- polish edits that introduce new terms, claims, or evidence dependencies
+- argument edits that do not update the writing contract or evidence map
+- terminology edits that do not update notation/style memory
+- venue-adaptation edits that silently reposition the paper
+
+Fix:
+
+- reclassify the edit at the correct layer
+- restore protected invariants
+- mark dependent sections stale when a higher-layer change affects them
+- record repeated style issues as lessons, preferences, or project contracts
+
 ## Related Work and Novelty Boundary
 
 Check:

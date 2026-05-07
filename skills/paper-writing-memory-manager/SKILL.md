@@ -30,12 +30,14 @@ Do not use this skill to write the prose itself. Use `paper-writing-assistant` a
 ├── references/
 │   ├── memory-schema.md
 │   ├── update-protocol.md
+│   ├── writing-layers.md
 │   └── impact-propagation.md
 └── templates/
     ├── writing-state.md
     ├── section-ledger.md
     ├── dependency-map.md
     ├── edit-impact-log.md
+    ├── writing-style.md
     ├── style-and-terminology.md
     ├── open-writing-threads.md
     └── session-notes.md
@@ -44,9 +46,11 @@ Do not use this skill to write the prose itself. Use `paper-writing-assistant` a
 ## Progressive Loading
 
 - Always read `references/memory-schema.md` and `references/update-protocol.md`.
+- Read `references/writing-layers.md` before nontrivial prose edits, style/terminology changes, layout-motivated rewrites, venue adaptation, or final polish.
 - Read `references/impact-propagation.md` when a claim, result, table, figure, caption, title, abstract, or limitation changes.
 - Use templates when initializing missing files under `paper/.agent/writing-memory/`.
-- Read `paper/.agent/writing-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/result-asset-provenance.md`, `paper/.agent/provisional-results.md`, and `paper/.agent/consistency-report.md` when present.
+- Use `templates/writing-style.md` when initializing `paper/.agent/writing-style.md`.
+- Read `paper/.agent/writing-contract.md`, `paper/.agent/writing-style.md`, `paper/.agent/writing-style-lessons.md`, `paper/.agent/notation-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/evidence-completion-plan.md`, `paper/.agent/result-asset-provenance.md`, `paper/.agent/provisional-results.md`, and `paper/.agent/consistency-report.md` when present.
 - Read root `memory/claim-board.md`, `memory/evidence-board.md`, `memory/provenance-board.md`, `memory/handoff-board.md`, and `memory/phase-dashboard.md` when present and the writing change affects project-level state.
 - Read target draft files only as needed for the requested section, paragraph, caption, table, or figure.
 
@@ -58,6 +62,8 @@ Do not use this skill to write the prose itself. Use `paper-writing-assistant` a
 - Writing memory is agent-private. If the active paper branch is Overleaf/coauthor-visible, anonymous-submission, arXiv/public, or camera-ready public source, ensure `.agent/` is ignored/untracked or use an `agent-private` paper worktree/root memory instead.
 - Section status should distinguish `stable`, `draft`, `stale`, `blocked`, `missing`, and `needs-review`.
 - Style and terminology decisions are part of writing memory because they affect future edits.
+- Writing edits should declare their active layer: `layout`, `surface-fluency`, `argument`, `technical-consistency`, `style-consistency`, `venue-adaptation`, or `final-polish`.
+- Writing style should evolve as memory: record one-off lessons, promote repeated preferences into project contracts, and only then generalize them into reusable skill rules.
 - Do not duplicate full paper text or long experiment reports. Store pointers, locations, IDs, and concise decisions.
 - Every substantial writing action should leave a small memory trace: what changed, why, what it affects, and what remains open.
 - If a writing change affects project-level claim lifecycle, evidence provenance, phase gates, or cross-module work, summarize that impact in root `memory/` through `research-project-memory` rather than hiding it in paper-local memory.
@@ -89,6 +95,7 @@ Initialize missing files from `templates/`:
 - `dependency-map.md`
 - `edit-impact-log.md`
 - `style-and-terminology.md`
+- `writing-style.md` when a paper-wide style contract is useful
 - `open-writing-threads.md`
 - `session-notes.md`
 
@@ -124,6 +131,7 @@ For any writing action, update:
 - `section-ledger.md`: status, claim roles, evidence dependencies, figures/tables, stale paragraphs, next action
 - `dependency-map.md`: claim/result/evidence/asset IDs to paper locations
 - `style-and-terminology.md`: new or changed terms, method names, caption style, claim-strength rules
+- `paper/.agent/writing-style.md` or `writing-memory/style-and-terminology.md`: active writing layer decisions, style lessons, user preferences, protected invariants, and project contracts
 - `open-writing-threads.md`: unresolved writing questions and blockers
 - `edit-impact-log.md`: semantic change and affected locations
 - `session-notes.md`: what happened in the current session
@@ -201,6 +209,7 @@ Before finalizing:
 - section statuses reflect current draft reality
 - stale locations are explicitly marked after evidence or claim changes
 - style and terminology decisions are recorded
+- nontrivial edits have an active writing layer and protected invariants recorded
 - open writing threads have next actions
 - project-level handoffs are created when writing needs evidence, assets, diagnosis, new compute, or consistency review
 - other skills know what to do next

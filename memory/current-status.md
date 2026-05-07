@@ -8,7 +8,7 @@
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
-- Last updated: 2026-05-06.
+- Last updated: 2026-05-07.
 
 ## Latest Reliable State
 
@@ -25,6 +25,7 @@
 - `latex-layout-issue-bundler` now creates `.agent/layout-issues/` bundles so PDF layout problems can be handed to agents without manual screenshots.
 - `safe-git-ops` now uses Fast / Skill / Code / Risk commit paths, and `sidecar-task-runner` has a read-only `precommit-classifier` preset to recommend minimal validation and reinstall scope.
 - `figure-results-review` and `paper-result-asset-builder` now support evolvable style memory: lessons can become preferences, project contracts, and eventually reusable skill rules.
+- Writing skills now treat paper editing as layered work: layout, fluency, argument, technical consistency, style consistency, venue adaptation, and final polish each have different permissions and protected invariants.
 
 ## Top Open Risks
 
@@ -46,6 +47,7 @@
 - `ACT-010`: Reuse wraptable/wrapfig right-side object guidance during local paper layout tuning.
 - `ACT-011`: Use sidecar-assisted risk-tiered commit closeout to avoid full validation/reinstall on low-risk changes.
 - `ACT-012`: Use visual-style and plot-style contracts before generating or reviewing paper figures.
+- `ACT-013`: Use active writing layer and protected invariants before nontrivial paper prose edits.
 
 ## Needs Verification Next Session
 
@@ -56,4 +58,4 @@
 
 ## Next Step
 
-- Commit, push, and targeted reinstall after adding paper visual style memory.
+- Commit, push, and targeted reinstall after adding layered writing contracts.

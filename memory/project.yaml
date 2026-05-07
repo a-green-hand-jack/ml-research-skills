@@ -10,7 +10,7 @@ project:
   target_milestone: "Sidecar-orchestrated skill workflows and self-maintaining project memory."
   status: active
   certainty: observed
-  last_updated: "2026-05-06"
+  last_updated: "2026-05-07"
 
 memory_policy:
   commit_shared_memory: true
@@ -122,11 +122,11 @@ components:
     status: active
 
 id_counters:
-  claim: 9
-  evidence: 11
+  claim: 10
+  evidence: 12
   risk: 5
-  action: 12
-  decision: 9
+  action: 13
+  decision: 10
   provenance: 5
   handoff: 3
   visibility: 1

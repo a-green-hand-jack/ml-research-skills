@@ -15,6 +15,7 @@ Use this skill for:
 - contribution bullet to experiment mapping
 - claim strength drift across sections
 - terminology, method name, dataset name, baseline name, metric name, and notation consistency
+- writing-layer consistency: layout, fluency, argument, technical consistency, style consistency, venue adaptation, and polish edits stay within their intended permissions
 - figure/table/caption/main-text alignment
 - result prose that no longer matches updated numbers
 - unresolved `PROVISIONAL-RESULT` or `PR-###` placeholders
@@ -41,7 +42,7 @@ Do not use this skill to decide the paper's positioning from scratch. Use `paper
 - Read `references/edit-protocol.md` before editing paper source.
 - Use `templates/consistency-report.md` for substantial reports.
 - Read `paper/.agent/writing-contract.md` when present.
-- Read `paper/.agent/writing-memory/`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/provisional-results.md`, and root `memory/claim-board.md` / `memory/evidence-board.md` when present.
+- Read `paper/.agent/writing-memory/`, `paper/.agent/writing-style.md`, `paper/.agent/writing-style-lessons.md`, `paper/.agent/notation-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/provisional-results.md`, and root `memory/claim-board.md` / `memory/evidence-board.md` when present.
 - Read figure/table maps or visual-style files when checking figures and tables.
 
 ## Core Principles
@@ -121,6 +122,9 @@ Check:
 - Are provisional placeholders still present?
 - Does related work define the same novelty boundary as intro contributions?
 - Do limitations narrow exactly the right claims?
+- Do layout, fluency, or polish edits accidentally change claim strength, notation, evidence scope, or venue positioning?
+- Do argument or venue-adaptation edits update the writing contract or mark dependent sections stale?
+- Do style-consistency edits follow `writing-style.md` or record a new lesson/preference?
 
 Classify each issue:
 
@@ -140,6 +144,7 @@ For each issue, choose:
 - `contract-update`: needs `paper-writing-contract-planner`
 - `evidence-update`: needs `paper-evidence-board`
 - `writing-memory-update`: needs `paper-writing-memory-manager` to record dependency conflicts, stale locations, or closed threads
+- `style-memory-update`: needs `paper-writing-memory-manager` to record a writing-layer lesson, preference, project contract, protected invariant, or notation rule
 - `experiment-action`: needs `experiment-design-planner`
 - `diagnosis`: needs `result-diagnosis`
 - `leave-note`: intentional inconsistency or unresolved decision

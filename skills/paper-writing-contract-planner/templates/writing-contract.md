@@ -73,6 +73,18 @@ Status values: filled, user-stated, planned, running, provisional, missing, cont
 - Efficiency/result scope policy:
 - Provisional result policy:
 
+## Writing Layer Contract
+
+| Layer | Allowed edits | Protected invariants | Memory writeback |
+|---|---|---|---|
+| layout | page fit, line breaks, local caption/callout compression | claim strength, notation, evidence interpretation | layout lesson if repeated |
+| surface-fluency | grammar, rhythm, local transitions | paragraph job, claim scope, caveats | style lesson if repeated |
+| argument | paragraph roles, claim/gap/insight/evidence order | evidence slots, forbidden claims | update contract and stale sections |
+| technical-consistency | terms, notation, metrics, datasets, baselines, labels | paper meaning and canonical definitions | update terminology/notation map |
+| style-consistency | tone, sentence density, claim-strength habits | technical meaning, evidence scope | update writing-style memory |
+| venue-adaptation | venue emphasis, section expectations, limitation tone | positioning unless explicitly updated | update contract if positioning changes |
+| final-polish | small visible defects after structure is stable | no new claims, terms, or evidence dependencies | usually none |
+
 ## Related Work Contract
 
 - Closest work groups:

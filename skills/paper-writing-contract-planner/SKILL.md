@@ -17,6 +17,7 @@ Use this skill for:
 - assigning jobs to figures, tables, captions, and result paragraphs
 - defining related-work boundaries and limitation policy
 - selecting exemplar patterns and writing style rules
+- defining writing-layer permissions for layout, fluency, argument, technical consistency, style consistency, venue adaptation, and final polish
 - forbidding unsupported claims, tone, or result language
 - creating or updating `paper/.agent/writing-contract.md`
 
@@ -40,7 +41,8 @@ Do not use this skill to write full paper prose. Use `paper-writing-assistant` a
 - Read `references/update-protocol.md` when updating an existing contract or when the draft/results changed.
 - Read `paper-writing-assistant/references/evidence-recipes.md` when available and the contract needs archetype-specific evidence slots.
 - Read `paper-writing-assistant/references/style-selection.md` and `paper-writing-assistant/references/exemplar-index.md` when venue/topic style or exemplar patterns matter.
-- Read or update `paper/.agent/writing-memory/` through `paper-writing-memory-manager` when the contract changes section order, paragraph roles, claim strength, style rules, or forbidden claims.
+- Read or update `paper/.agent/writing-memory/` through `paper-writing-memory-manager` when the contract changes section order, paragraph roles, claim strength, writing layers, style rules, notation rules, or forbidden claims.
+- Read `paper/.agent/writing-style.md`, `paper/.agent/notation-contract.md`, and `paper/.agent/writing-memory/style-and-terminology.md` when present.
 - Read `paper-positioning-planner` outputs when present, such as positioning reports, claim decisions, or narrative architecture.
 
 ## Core Principles
@@ -53,6 +55,7 @@ Do not use this skill to write full paper prose. Use `paper-writing-assistant` a
 - Missing evidence should become an explicit placeholder, action, narrowed claim, or forbidden claim.
 - The contract should be compact enough to stay useful while drafting.
 - Later writing should follow the contract unless new evidence changes the contract first.
+- Later writing should declare the active writing layer and protect the invariants assigned to that layer.
 
 ## Step 1 - Gather Inputs
 
@@ -122,6 +125,7 @@ Specify:
 - related-work boundary
 - limitation policy
 - provisional result policy
+- writing-layer policy: what layout, fluency, argument, technical-consistency, style-consistency, venue-adaptation, and final-polish edits may change
 - allowed tone and forbidden tone
 - terms, method names, dataset names, and baseline names to use consistently
 - exemplar patterns to borrow, if any
@@ -171,4 +175,5 @@ Before finalizing:
 - figure/table jobs are defined before prose polishing
 - related-work and limitation boundaries are explicit
 - unsupported claims and forbidden tones are listed
+- writing-layer permissions and protected invariants are explicit enough for later editors
 - output path and next writing action are clear

@@ -1,5 +1,17 @@
 # Style and Terminology
 
+## Writing Layers
+
+| Layer | Policy | Protected invariants | Notes |
+|---|---|---|---|
+| layout |  |  |  |
+| surface-fluency |  |  |  |
+| argument |  |  |  |
+| technical-consistency |  |  |  |
+| style-consistency |  |  |  |
+| venue-adaptation |  |  |  |
+| final-polish |  |  |  |
+
 ## Naming
 
 | Object | Canonical wording | Avoid | Notes |
@@ -31,3 +43,17 @@
 ## Notation Rules
 
 - 
+
+## Style Lessons
+
+### YYYY-MM-DD - <short issue>
+
+- Level: lesson | preference | project contract | reusable skill rule candidate
+- Layer:
+- Context:
+- Problem:
+- Fix:
+- Applies to:
+- Exceptions:
+- Promote when:
+- Certainty:

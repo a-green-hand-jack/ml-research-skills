@@ -91,17 +91,17 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `paper-evidence-board` | Maintain a paper-facing board aligning claims, evidence, figures, sections, reviewer risks, and next actions |
 | `paper-evidence-gap-miner` | Mine existing CSV results, logs, reports, and assets to fill claim evidence gaps before planning new compute |
 | `paper-result-asset-builder` | Build paper-facing tables, figures, wrappers, inventories, and provenance records from CSV experiment outputs |
-| `paper-writing-memory-manager` | Maintain dynamic writing memory across nonlinear drafting sessions, section status, dependencies, style decisions, edit impact, stale prose, and open writing threads |
+| `paper-writing-memory-manager` | Maintain dynamic writing memory across nonlinear drafting sessions, section status, dependencies, writing layers, style decisions, edit impact, stale prose, and open writing threads |
 | `paper-positioning-planner` | Decide the paper's primary contribution, claim scope, archetype, target audience, novelty framing, and claims to avoid before venue-specific writing |
 | `conference-writing-adapter` | Adapt an ML paper's structure, positioning, and paragraph-level writing to a target conference using venue exemplars and reusable writing memory |
 | `abstract-title-contribution-writer` | Draft and revise titles, abstracts, and contribution lists so the paper's top-level promise matches venue, positioning, claims, and evidence |
 | `experiment-story-writer` | Turn experiment tables, figures, ablations, mixed results, and provisional metrics into claim-aware results prose |
 | `limitations-scope-writer` | Plan, draft, and revise limitations, scope, failure cases, ethics, broader impact, and conclusion caveats as claim-boundary control |
 | `method-section-explainer` | Plan, draft, and revise method sections for notation flow, module ordering, overview figures, algorithm boxes, design rationales, and appendix boundaries |
-| `paper-draft-consistency-editor` | Audit and edit a paper draft for internal consistency across title, abstract, intro, method, results, figures, tables, captions, terminology, limitations, and conclusion |
+| `paper-draft-consistency-editor` | Audit and edit a paper draft for internal consistency across title, abstract, intro, method, results, figures, tables, captions, terminology, writing layers, limitations, and conclusion |
 | `paper-introduction-argument-writer` | Plan, draft, and revise introductions as venue-aware argument chains with hook, gap, insight, method, evidence, and contribution paragraph roles |
-| `paper-writing-contract-planner` | Create or update a writing contract that locks paper archetype, section order, paragraph roles, claim evidence slots, figure/table jobs, and forbidden claims before drafting |
-| `paper-writing-assistant` | Draft and revise claim-aware paper prose, map archetypes to required evidence slots, use micro-patterns for captions and paragraph-level writing, and track provisional result placeholders until verified evidence arrives |
+| `paper-writing-contract-planner` | Create or update a writing contract that locks paper archetype, section order, paragraph roles, claim evidence slots, writing-layer permissions, figure/table jobs, and forbidden claims before drafting |
+| `paper-writing-assistant` | Draft and revise claim-aware paper prose, map archetypes to required evidence slots, use micro-patterns and writing-layer permissions, and track provisional result placeholders until verified evidence arrives |
 | `related-work-positioning-writer` | Plan, draft, and revise related work as novelty-boundary writing, grouping closest work and defining safe citation-backed boundary statements |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
@@ -1277,6 +1277,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A dynamic `paper/.agent/writing-memory/` state layer for nonlinear paper drafting across sessions
 - `writing-state.md`, `section-ledger.md`, `dependency-map.md`, `edit-impact-log.md`, `style-and-terminology.md`, `open-writing-threads.md`, and `session-notes.md`
 - A dependency map from claims, results, tables, figures, captions, terms, and placeholders to paper locations such as abstract sentences, intro paragraphs, result callouts, captions, limitations, and conclusion
+- Writing-layer contracts for layout, surface fluency, argument, technical consistency, style consistency, venue adaptation, and final polish so edits do not silently cross permission boundaries
+- A writing style memory ladder where lessons can become preferences, project contracts, and eventually reusable skill rules
 - Impact propagation rules that mark affected sections stale after claim, evidence, result, asset, caption, notation, related-work, limitation, or terminology changes
 - A writeback protocol for section-specific writers, `paper-writing-assistant`, `paper-evidence-board`, `paper-evidence-gap-miner`, `paper-result-asset-builder`, and `paper-draft-consistency-editor`
 - Session closeout memory so the next writing session can resume from the current focus, unresolved threads, stale locations, and recommended next action
@@ -1333,7 +1335,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - A durable `paper/.agent/writing-contract.md` that fixes the paper's archetype, section order, paragraph roles, claim/evidence slots, and writing rules before drafting
 - Contract schemas for method, theory-guided method, empirical study, benchmark/dataset, systems/tooling, analysis, application, negative-result, and hybrid papers
-- Figure/table job assignments, related-work boundaries, limitation policy, provisional-result policy, terminology rules, and forbidden claims
+- Figure/table job assignments, related-work boundaries, limitation policy, provisional-result policy, writing-layer permissions, terminology rules, and forbidden claims
 - Update and audit rules for revising the contract after new results, venue changes, reviewer risks, or claim changes
 - A handoff to `paper-writing-assistant` so later prose follows the contract instead of re-deciding the paper structure each time
 

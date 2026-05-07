@@ -16,6 +16,7 @@ Use this skill for:
 - adapting tone, structure, and paragraph flow to a target venue and paper positioning
 - writing figure captions, table captions, paragraph openings, paragraph closings, contribution bullets, transitions, and limitation language
 - keeping claims visible while editing individual sections
+- making layer-specific edits for layout, fluency, argument, technical consistency, style consistency, venue adaptation, or final polish
 - inserting clearly marked provisional results when experiments are not finished
 - replacing provisional placeholders with verified results later
 - maintaining a writing ledger of open placeholders, stale result prose, and claim wording decisions
@@ -26,6 +27,7 @@ Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-sim
 
 - Write as the author, not as a reviewer. The output should be usable paper prose or a concrete edit plan.
 - Preserve the paper's scientific claim. Improve clarity, emphasis, and interpretation without silently changing what the paper asserts.
+- Declare the active writing layer before nontrivial edits. Layout, fluency, argument, technical consistency, style consistency, venue adaptation, and final polish have different permissions.
 - Interpret results toward claims. Result prose should explain why the evidence supports, narrows, or complicates the claim.
 - Keep evidence status explicit. Verified results, user-stated results, inferred interpretation, and provisional placeholders must not be mixed.
 - Temporary results are allowed only as marked writing scaffolds. They must be searchable in the source and tracked in a ledger before final submission.
@@ -88,13 +90,14 @@ Read local project artifacts as needed:
 
 - `memory/claim-board.md`, `memory/evidence-board.md`, `memory/action-board.md`, and `paper/.agent/paper-evidence-board.md` for project truth
 - `paper/.agent/writing-memory/` for current writing state, section status, dependencies, style decisions, open threads, and edit-impact history
+- `paper/.agent/writing-style.md`, `paper/.agent/writing-style-lessons.md`, `paper/.agent/notation-contract.md`, and `paper/.agent/writing-memory/style-and-terminology.md` for writing layers, user preferences, protected invariants, terminology, and notation
 - `paper/.agent/evidence-completion-plan.md`, `paper/.agent/result-inventory.md`, and `paper/.agent/result-asset-provenance.md` when writing depends on CSV-derived result assets
 - `paper/.agent/provisional-results.md` for temporary result placeholders
 - `paper/.agent/paper-status.md` for active writing status
 - `paper/.agent/visual-style.md` and figure/table maps when result prose depends on figures or tables
 - target paper files such as `main.tex`, `paper.tex`, `sections/*.tex`, `figures/`, `tables/`, and appendix files
 
-Pair with `conference-writing-adapter` when target venue style or section structure is uncertain. Pair with `paper-writing-memory-manager` whenever a prose edit changes a claim, result interpretation, section status, caption, terminology, or open writing thread. Pair with `paper-evidence-board` when writing exposes claim/evidence drift. Pair with `paper-evidence-gap-miner` before asking for new experiments, because existing CSV results may already support the claim. Pair with `paper-result-asset-builder` when result prose needs a paper-facing table or figure generated from CSVs.
+Pair with `conference-writing-adapter` when target venue style or section structure is uncertain. Pair with `paper-writing-memory-manager` whenever a prose edit changes a claim, result interpretation, section status, caption, terminology, writing layer, style lesson, or open writing thread. Pair with `paper-evidence-board` when writing exposes claim/evidence drift. Pair with `paper-evidence-gap-miner` before asking for new experiments, because existing CSV results may already support the claim. Pair with `paper-result-asset-builder` when result prose needs a paper-facing table or figure generated from CSVs.
 
 ## Step 1 - Define the Writing Task
 
@@ -107,6 +110,7 @@ Identify:
 - available source: outline, notes, TeX files, result tables, figures, logs, or memory boards
 - whether temporary placeholders are allowed in this pass
 - micro-writing target, if any: paragraph opening, paragraph closing, caption, transition, result interpretation, contribution bullet, limitation, or related-work positioning
+- active writing layer, if known: `layout`, `surface-fluency`, `argument`, `technical-consistency`, `style-consistency`, `venue-adaptation`, or `final-polish`
 
 If the user asks to "help write" without more detail, default to:
 
@@ -132,6 +136,8 @@ Before writing substantial prose, extract:
 - Evidence recipe loaded:
 - Evidence slot status:
 - Tone/style target:
+- Active writing layer:
+- Protected invariants:
 - Exemplars loaded:
 - Section pattern loaded:
 - Micro-patterns loaded:
@@ -206,11 +212,13 @@ Apply the selected patterns to the user's paper rather than copying template wor
 For paragraphs:
 
 ```markdown
+- Active layer:
 - Paragraph job:
 - Claim supported:
 - Evidence used:
 - Reader question answered:
 - Risk if overclaimed:
+- Protected invariants:
 ```
 
 The final prose should not include this contract unless the user asks for an outline. Use it to keep writing disciplined.
@@ -247,6 +255,16 @@ Result interpretation should follow this pattern:
 5. state the boundary condition or limitation if needed
 
 Avoid empty claims such as "significantly improves performance" without saying where, against what, and why it matters.
+
+Layer permissions:
+
+- `layout`: shorten or reshape locally for page fit, but preserve claim strength, notation, and evidence interpretation.
+- `surface-fluency`: improve grammar and flow without changing paragraph job or claim scope.
+- `argument`: may reorder or reframe claims, but must check the evidence board and writing contract.
+- `technical-consistency`: may standardize names, notation, metrics, and labels, then mark dependent locations stale.
+- `style-consistency`: may align tone, rhythm, and claim-strength habits with `writing-style.md`.
+- `venue-adaptation`: may adjust emphasis for venue expectations, but positioning changes need the writing contract.
+- `final-polish`: only after structure is stable; avoid new claims, terminology, or evidence dependencies.
 
 ## Step 6 - Handle Missing Experiments While Writing
 
@@ -359,3 +377,4 @@ Before finalizing:
 - every provisional result has a `PR-###` marker and a ledger entry
 - no provisional text is disguised as final observed evidence
 - missing experiments have follow-up actions when project memory exists
+- nontrivial edits stay within the declared writing layer or are reclassified and written back to memory

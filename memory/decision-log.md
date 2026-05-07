@@ -91,3 +91,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/figure-results-review/`, `skills/paper-result-asset-builder/`, README.md, AGENTS.md, CLAUDE.md.
 - Revisit when: project-local style memories become noisy or are not actually read before figure generation.
 - Certainty: user-stated
+
+## DEC-010 - Treat Paper Writing As Layered Engineering
+
+- Date: 2026-05-07
+- Decision: Manage writing edits through explicit layers: layout, surface fluency, argument, technical consistency, style consistency, venue adaptation, and final polish.
+- Why: Paper edits often look local but can silently change claims, notation, evidence scope, venue positioning, or style. Naming the active layer and protected invariants makes later edits safer and easier to remember.
+- Alternatives considered: treat all writing changes as generic polish; rely only on full-draft consistency checks after the fact.
+- Affects: `skills/paper-writing-memory-manager/`, `skills/paper-writing-assistant/`, `skills/paper-writing-contract-planner/`, `skills/paper-draft-consistency-editor/`, README.md, AGENTS.md, CLAUDE.md.
+- Revisit when: layer labels become overhead without improving edit safety.
+- Certainty: user-stated

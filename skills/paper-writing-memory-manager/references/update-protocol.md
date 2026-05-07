@@ -10,6 +10,7 @@ Read:
 - relevant rows in `section-ledger.md`
 - relevant entries in `dependency-map.md`
 - relevant style rules in `style-and-terminology.md`
+- active writing layer policy in `writing-style.md` or `references/writing-layers.md`
 - active threads in `open-writing-threads.md`
 
 If these files do not exist, initialize them.
@@ -19,6 +20,8 @@ If these files do not exist, initialize them.
 Track:
 
 - changed paper location
+- active writing layer
+- protected invariants
 - claim or evidence involved
 - whether wording strength changed
 - whether a dependency was added or removed
@@ -66,6 +69,7 @@ Record a memory update for:
 - new table/figure/caption
 - section status change
 - terminology or notation decision
+- writing layer, style preference, or style lesson decision
 - limitation/scope change
 - evidence gap discovery or closure
 - placeholder added or resolved
@@ -83,6 +87,8 @@ If writing memory conflicts with `writing-contract.md`, decide whether:
 - the claim should be narrowed or cut
 
 If writing memory conflicts with current draft text, mark the relevant section `needs-review` and inspect before editing.
+
+If a layout, fluency, or polish edit changes claim strength, notation, evidence scope, or venue positioning, reclassify it as an argument or technical-consistency edit and update dependencies before finalizing.
 
 ## Output Shape
 

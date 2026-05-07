@@ -68,6 +68,7 @@ Purpose: durable writing conventions.
 
 Record:
 
+- active writing layer policies
 - method name and abbreviations
 - dataset, benchmark, baseline, and metric names
 - notation choices
@@ -76,6 +77,22 @@ Record:
 - venue tone
 - forbidden or downgraded wording
 - claim-strength policy
+- style lessons, preferences, and project contracts
+
+### `writing-style.md`
+
+Purpose: optional paper-wide style contract.
+
+Use when writing style is complex enough that `style-and-terminology.md` would become crowded.
+
+Record:
+
+- layer policy for layout, fluency, argument, technical consistency, style consistency, venue adaptation, and polish
+- protected invariants
+- voice and rhythm preferences
+- claim-strength wording
+- terminology and notation policy
+- lesson-to-contract promotion entries
 
 ### `open-writing-threads.md`
 
@@ -131,6 +148,8 @@ Use:
 - `method-term`
 - `notation`
 - `style-rule`
+- `writing-layer`
+- `style-lesson`
 - `limitation`
 - `placeholder`
 
