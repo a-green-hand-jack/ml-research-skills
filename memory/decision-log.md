@@ -121,3 +121,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/reference-library-manager/`, `skills/reference-reading-summarizer/`, `skills/reference-project-synthesizer/`, README.md, AGENTS.md, CLAUDE.md, `skills/project-init/`, `memory/`.
 - Revisit when: paper cards become too heavy or agents fail to route from cards into project memory.
 - Certainty: user-stated
+
+## DEC-013 - Generalize References Into Source-Centric Project Intake
+
+- Date: 2026-05-10
+- Decision: Extend the reference skill trio from paper/PDF handling to source-centric project knowledge intake, covering papers, collaborator documents, Markdown notes, BibTeX files, scripts, specs, and manually constructed source bundles.
+- Why: Project-relevant information often arrives as collaborator documents, initial idea folders, specs, scripts, notes, or mixed bundles rather than formal papers. Treating all of them as sources lets the system produce source cards and project-use notes before writing durable project memory.
+- Alternatives considered: create a separate source-management skill family; keep non-paper artifacts in ad hoc notes; force all upstream material into paper-card templates.
+- Affects: `skills/reference-library-manager/`, `skills/reference-reading-summarizer/`, `skills/reference-project-synthesizer/`, README.md, AGENTS.md, CLAUDE.md, `skills/project-init/`, `memory/`.
+- Revisit when: generic source cards become too broad or paper-specific workflows lose useful precision.
+- Certainty: user-stated

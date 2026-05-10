@@ -1,11 +1,12 @@
-# Project Use: <paper-id>
+# Project Use: <source-id>
 
 ## Source
 
-- Paper card:
+- Source card:
+- Source type:
 - Card confidence:
 - Reading mode:
-- Source PDF:
+- Raw source path:
 
 ## One-Line Project Relevance
 
@@ -24,19 +25,22 @@
 - Dataset/metric implication:
 - Fairness caveat:
 
-## Method Or Theory Links
+## Method, Theory, Or Implementation Links
 
 - Algorithm idea:
 - Assumption:
 - Implementation detail:
+- Script/config/API hint:
 - Theoretical implication:
 
-## Writing And Citation Links
+## Writing, Citation, Or Feedback Links
 
 - Paper section:
 - Citation role:
 - Writing pattern:
 - Suggested sentence/caption use:
+- Collaborator feedback/action:
+- Project spec/constraint:
 
 ## Risks And Actions
 

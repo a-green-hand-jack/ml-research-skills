@@ -256,9 +256,9 @@ ml-research-skills/
 | `research-project-memory` | Initialize and maintain hierarchical memory across claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviewer simulation, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision using novelty, feasibility, evidence, and reviewer-risk analysis |
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
-| `reference-library-manager` | Index and monitor project reference PDFs under `reference/`, tracking metadata gaps, duplicates, reading status, cards, and project-use notes |
-| `reference-reading-summarizer` | Read project reference papers into structured paper cards for writing, method, theory, benchmark, baseline, risk, or citation-support extraction |
-| `reference-project-synthesizer` | Connect paper cards to project claims, risks, baselines, benchmarks, experiments, writing contracts, citation placement, and memory writeback |
+| `reference-library-manager` | Index and monitor project reference sources under `reference/`, including papers, PDFs, Word docs, Markdown notes, BibTeX files, scripts, specs, and source bundles |
+| `reference-reading-summarizer` | Read project reference sources into structured source cards for writing, method, theory, benchmark, baseline, feedback, spec, implementation, risk, or citation-support extraction |
+| `reference-project-synthesizer` | Connect source cards to project claims, risks, baselines, benchmarks, experiments, implementation plans, writing contracts, citation placement, collaborator actions, and memory writeback |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
 | `latex-layout-issue-bundler` | Create reproducible `.agent/layout-issues/` bundles from PDF pages, crops, source snippets, and compile logs so agents can debug LaTeX layout without manual screenshots |

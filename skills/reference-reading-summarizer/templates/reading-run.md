@@ -1,7 +1,8 @@
 # Reference Reading Run: <run-id>
 
-- Paper ID:
-- Source PDF:
+- Source ID:
+- Source type:
+- Source path:
 - Reading mode:
 - Model tier:
 - Started:

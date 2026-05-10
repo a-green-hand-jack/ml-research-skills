@@ -71,9 +71,9 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `research-project-memory` | Initialize and maintain hierarchical project memory across claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, paper, code, worktrees, slides, reviews, and rebuttal |
 | `research-idea-validator` | Turn a rough research idea into a pursue/revise/park/kill decision with novelty, feasibility, evidence, and reviewer-risk analysis |
 | `literature-review-sprint` | Build a ranked literature map with canonical, closest, recent, baseline, and positioning implications for a topic or project direction |
-| `reference-library-manager` | Index and monitor project reference PDFs under `reference/`, tracking metadata gaps, duplicates, reading status, cards, and project-use notes |
-| `reference-reading-summarizer` | Read project reference papers into structured paper cards for writing, method, theory, benchmark, baseline, risk, or citation-support extraction |
-| `reference-project-synthesizer` | Connect paper cards to project claims, risks, baselines, benchmarks, experiments, writing contracts, citation placement, and memory writeback |
+| `reference-library-manager` | Index and monitor project reference sources under `reference/`, including papers, PDFs, Word docs, Markdown notes, BibTeX files, scripts, specs, and source bundles |
+| `reference-reading-summarizer` | Read project reference sources into structured source cards for writing, method, theory, benchmark, baseline, feedback, spec, implementation, risk, or citation-support extraction |
+| `reference-project-synthesizer` | Connect source cards to project claims, risks, baselines, benchmarks, experiments, implementation plans, writing contracts, citation placement, collaborator actions, and memory writeback |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `latex-layout-issue-bundler` | Create repo-local PDF page, crop, source-snippet, compile-log, and prompt bundles for page-specific LaTeX layout debugging without manual screenshots |
@@ -163,14 +163,17 @@ A full project is a control root with independent component repositories:
 ├── code/                   # independent Python/ML code repo
 ├── code-worktrees/          # sibling worktrees for code repo branches
 ├── paper-worktrees/         # sibling worktrees for paper venue/arXiv/camera-ready versions
-├── reference/              # project-local PDFs, cards, reading status, and project-use notes
+├── reference/              # project-local sources, cards, processing status, and project-use notes
+│   ├── sources/
 │   ├── papers/
 │   ├── cards/
 │   ├── project-use/
 │   ├── notes/
 │   ├── summaries/
 │   └── .agent/
+│       ├── source-index.md
 │       ├── reference-index.md
+│       ├── processing-status.md
 │       ├── reading-status.md
 │       └── runs/
 ├── slides/                 # optional independent multi-deck slides repo
@@ -193,7 +196,7 @@ Root ownership rules:
 - Do not put experiment outputs directly under the root. Runnable code, run records, results, and logs belong under `code/` or a code worktree.
 - Do not create paper version folders inside `paper/`. Venue submissions, arXiv releases, and camera-ready versions belong under `paper-worktrees/`.
 - Do not treat `slides/slides.md` as the whole presentation history. Stable meeting/talk decks belong under `slides/decks/`, with deck registry memory in `slides/.agent/deck-index.md`.
-- Raw reference PDFs and reading trajectories belong under `reference/`, but project memory should link to paper cards and project-use notes rather than copying raw PDF text.
+- Raw reference sources and reading trajectories belong under `reference/`, but project memory should link to source cards and project-use notes rather than copying raw source text.
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
 - Root `memory/` also owns the system-level protocols: claim lifecycle, evidence provenance, cross-module handoffs, and the project phase dashboard.
 - Root `memory/source-visibility-board.md` tracks which paper source surfaces are agent-private, author-visible, submission-visible, arXiv/public, camera-ready, or publisher/artifact-visible.
@@ -217,7 +220,7 @@ Primary skills by root area:
 | Root setup | `PROJECT.md`, paired root `AGENTS.md`/`CLAUDE.md`, component repos, root docs | **project-init**, **research-project-memory** |
 | Root memory | claims, evidence, provenance, risks, actions, handoffs, phase dashboard, source visibility, decisions, component index | **research-project-memory**, **paper-evidence-board**, **project-sync** |
 | Root planning docs | designs, experiment plans, audits, updates, timelines | **algorithm-design-planner**, **experiment-design-planner**, **advisor-update-writer**, **work-timeline-planner** |
-| Reference library | PDFs, paper cards, reading status, project-use notes | **reference-library-manager**, **reference-reading-summarizer**, **reference-project-synthesizer** |
+| Reference library | papers, collaborator docs, Markdown notes, specs, scripts, bundles, source cards, processing status, project-use notes | **reference-library-manager**, **reference-reading-summarizer**, **reference-project-synthesizer** |
 | Git and worktree policy | component remotes, code worktrees, paper worktrees, milestone tags | **safe-git-ops**, **new-workspace**, **add-git-tag** |
 | Cloud coordination | GitHub Project board, repo issues, PRs, public task status | **project-init**, **remote-project-control**, **safe-git-ops** |
 
@@ -813,9 +816,9 @@ Use these skills when deciding whether an idea is worth pursuing and how it shou
 |---|---|
 | **research-idea-validator** | Judge a rough idea with the FIVE+C framework and choose pursue, revise, park, or kill |
 | **literature-review-sprint** | Map canonical, closest, and recent work so novelty, baselines, gaps, and positioning are clear |
-| **reference-library-manager** | Index project-local PDFs under `reference/` and track metadata gaps, duplicates, reading status, paper cards, and project-use notes |
-| **reference-reading-summarizer** | Read references into structured cards under `reference/cards/` using purpose-specific modes and model tiers |
-| **reference-project-synthesizer** | Convert cards into claim, risk, baseline, benchmark, experiment, writing, citation, and memory implications |
+| **reference-library-manager** | Index project-local sources under `reference/` and track metadata gaps, duplicates, processing status, source cards, and project-use notes |
+| **reference-reading-summarizer** | Read references into structured source cards under `reference/cards/` using purpose-specific modes and model tiers |
+| **reference-project-synthesizer** | Convert source cards into claim, risk, baseline, benchmark, experiment, implementation, writing, citation, collaborator-action, and memory implications |
 | **algorithm-design-planner** | Convert a promising idea into a concrete method, objective, architecture, or inference design |
 
 ### 2. Project Control Root and Component Repos
@@ -1105,9 +1108,9 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 1. research-project-memory -> initialize or recover hierarchical project memory and feedback-loop state
 2. research-idea-validator -> decide whether a rough idea should be pursued, revised, parked, or killed
 3. literature-review-sprint -> map canonical, closest, and recent work before locking project positioning
-4. reference-library-manager -> index project-local PDFs and track reading status
-5. reference-reading-summarizer -> create structured paper cards from references
-6. reference-project-synthesizer -> connect cards to claims, risks, baselines, benchmarks, writing, and memory
+4. reference-library-manager -> index project-local sources and track processing status
+5. reference-reading-summarizer -> create structured source cards from references
+6. reference-project-synthesizer -> connect cards to claims, risks, baselines, benchmarks, implementation, writing, collaborator actions, and memory
 7. algorithm-design-planner -> turn the idea into a concrete method/objective/architecture design
 8. project-init       -> create the project control root, memory, root docs, component repos, and code/paper worktree policy
 9. new-workspace      -> isolate a code feature, experiment, baseline, paper venue version, arXiv release, or camera-ready edit
@@ -1182,10 +1185,10 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 ## What The Reference Skills Provide
 
-- `reference-library-manager`: deterministic project-local PDF scanning, index/status files, metadata gaps, duplicate checks, and card/project-use path scaffolding under `reference/`
-- `reference-reading-summarizer`: purpose-specific reading modes for skim, writing, method, theory, benchmark, baseline, risk, and deep-read cards with model-tier routing and provenance
-- `reference-project-synthesizer`: project-use notes that connect paper cards to claims, risks, baselines, benchmarks, experiments, writing contracts, citation placement, and memory writeback
-- A trajectory policy where raw PDF extraction and reading runs stay in `reference/.agent/runs/`, while cards and project-use notes become the durable compressed artifacts
+- `reference-library-manager`: deterministic project-local source scanning, index/status files, metadata gaps, duplicate checks, and card/project-use path scaffolding under `reference/`
+- `reference-reading-summarizer`: purpose-specific reading modes for skim, writing, method, theory, benchmark, baseline, feedback, spec, bundle, implementation-hints, project-seed, risk, and deep-read cards with model-tier routing and provenance
+- `reference-project-synthesizer`: project-use notes that connect source cards to claims, risks, baselines, benchmarks, experiments, implementation plans, writing contracts, citation placement, collaborator actions, and memory writeback
+- A trajectory policy where raw source extraction and reading runs stay in `reference/.agent/runs/`, while cards and project-use notes become the durable compressed artifacts
 - A cost-control rule: cheap models read many references into cards; stronger models decide when a card changes project claims, baselines, benchmarks, or positioning
 
 ## What `algorithm-design-planner` Provides

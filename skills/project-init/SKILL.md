@@ -47,7 +47,7 @@ Default shape:
 ├── code/                  # independent Python/ML git repo
 ├── code-worktrees/         # sibling worktree root for code repo branches
 ├── paper-worktrees/        # sibling worktree root for paper venue/arXiv/camera-ready versions
-├── reference/             # project-local PDFs, cards, reading state, and project-use notes
+├── reference/             # project-local sources, cards, processing state, and project-use notes
 ├── slides/                # optional independent git repo
 ├── reviewer/              # reviewer simulation state
 ├── rebuttal/              # real review and response state
@@ -82,7 +82,7 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 - The code component owns algorithm implementation, experiment execution, run records, result reports, server execution state, and code worktrees.
 - Code worktrees should not be nested inside `code/` by default. Use the sibling root `code-worktrees/` so Git, IDEs, search tools, and agents do not confuse worktrees with normal source files.
 - The paper component owns paper source, venue templates, submission modes, arXiv/public-source cleanup, camera-ready revisions, and paper worktrees.
-- The reference component owns project-local PDFs, paper cards, reading state, project-use notes, and reference-to-project handoffs.
+- The reference component owns project-local sources (papers, collaborator docs, notes, specs, scripts, bundles), source cards, processing state, project-use notes, and source-to-project handoffs.
 - Paper worktrees should not be nested inside `paper/` by default. Use the sibling root `paper-worktrees/` for venue retargeting, arXiv releases, rebuttal paper edits, and camera-ready branches.
 - Paper source visibility is independent of venue. If `paper/main` is linked to Overleaf or visible to coauthors, treat it as `author-visible`, not private; keep agent-private files out of that branch.
 - Project memory stores durable cross-component state; root `docs/` stores project-level design and planning artifacts; code docs store code-side implementation, run, and result details.
@@ -101,7 +101,7 @@ Ask for these fields in one message:
    - paper repo: create new, connect existing, or skip for now
    - code repo: create new, connect existing, or skip for now
    - slides repo: create new, connect existing, or skip
-   - reference library: create `reference/`, connect existing PDF folder, or skip
+   - reference library: create `reference/`, connect existing PDF/source folder, connect an initial source bundle, or skip
    - reviewer/rebuttal/artifact state dirs: create now or later
 5. Git policy:
    - root control-plane git repo: yes/no
@@ -140,6 +140,7 @@ Create:
 ├── docs/audits/
 ├── docs/timelines/
 ├── reference/.agent/runs/
+├── reference/sources/
 ├── reference/cards/
 ├── reference/project-use/
 ├── reference/notes/
@@ -462,7 +463,7 @@ Agents should start from this directory for cross-component work. Component repo
 | code | `code/` | independent repo | implementation, experiments, code-side evidence |
 | code worktrees | `code-worktrees/` | linked worktrees of code repo | isolated experiments, baselines, rebuttal fixes |
 | paper worktrees | `paper-worktrees/` | linked worktrees of paper repo | venue submissions, arXiv releases, camera-ready versions |
-| reference | `reference/` | root state dir or optional repo | project-local PDFs, paper cards, reading status, and project-use notes |
+| reference | `reference/` | root state dir or optional repo | project-local sources, source cards, processing status, and project-use notes |
 | slides | `slides/` | optional independent repo | talks and advisor/lab presentations |
 | reviewer | `reviewer/` | root state dir | simulated reviews and pre-submission risk |
 | rebuttal | `rebuttal/` | root state dir | real reviews, responses, promised revisions |
@@ -492,7 +493,7 @@ Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktre
 - `docs/overview.md` gives the current human-readable project overview.
 - `docs/designs/` stores staged method and system design documents.
 - `docs/experiments/` stores cross-component experiment plans before they become code-side run records.
-- `reference/` stores project-local PDFs, cards, reading status, and project-use notes; raw reading trajectories under `reference/.agent/runs/` are local/private by default.
+- `reference/` stores project-local sources, cards, processing status, and project-use notes; raw reading trajectories under `reference/.agent/runs/` are local/private by default.
 - `code/docs/results/`, `code/docs/reports/`, and `code/docs/runs/` store code-side evidence and run provenance.
 - Detailed paper prose belongs in `paper/`; detailed implementation docs belong in `code/`.
 
@@ -513,7 +514,7 @@ Recommended views: `Roadmap`, `Board`, `Experiments`, `Paper`, `Risks`, `Worktre
 - advisor/lab updates live in `docs/updates/`
 - consistency or readiness audits live in `docs/audits/`
 - retrospective or forward-looking schedules live in `docs/timelines/`
-- reference cards live in `reference/cards/` and project implications live in `reference/project-use/`; raw PDF text and raw reading trajectories should not be promoted into public memory
+- reference source cards live in `reference/cards/` and project implications live in `reference/project-use/`; raw source text and raw reading trajectories should not be promoted into public memory
 - when algorithm or experiment plans change, update both the relevant root `docs/` artifact and the matching `memory/` boards; update `code/docs/` only when code-side run details, implementation notes, or result evidence change
 
 ## Worktree Policy

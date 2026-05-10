@@ -1,5 +1,7 @@
 # Paper Card: <paper-id>
 
+Paper cards are a specialized source-card subtype for research papers. Prefer `source-card.md` for non-paper sources.
+
 ## Metadata
 
 - Title:
@@ -8,6 +10,7 @@
 - Venue:
 - DOI/arXiv/URL:
 - Source PDF:
+- Source type: paper-or-pdf
 - Citation key:
 
 ## Reading Setup
