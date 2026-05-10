@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memory Publication Auditor"
+  short_description: "Audit private memory for publishable patterns."
+  default_prompt: "Scan private skills or memory for publication candidates, classify content as private-only, redactable, publishable, reusable-pattern, or needs-human-review, and produce a conservative audit report before drafting public artifacts."

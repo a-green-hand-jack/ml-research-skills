@@ -131,3 +131,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/reference-library-manager/`, `skills/reference-reading-summarizer/`, `skills/reference-project-synthesizer/`, README.md, AGENTS.md, CLAUDE.md, `skills/project-init/`, `memory/`.
 - Revisit when: generic source cards become too broad or paper-specific workflows lose useful precision.
 - Certainty: user-stated
+
+## DEC-014 - Add A Private-To-Public Memory Publication Audit Layer
+
+- Date: 2026-05-10
+- Decision: Add `memory-publication-auditor` to scan private skills, memories, notes, and logs before turning them into public skills, docs, templates, or reusable patterns.
+- Why: Some personalized or private operational memory contains generalizable engineering methods, but raw memory also contains accounts, paths, hosts, IPs, collaborator context, unpublished project details, and trajectories that must not be copied into public artifacts.
+- Alternatives considered: manually inspect private memories ad hoc; extend `personalization-memory`; create public skills directly from private notes without an audit stage.
+- Affects: `skills/memory-publication-auditor/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_memory_publication_auditor.py`, `memory/`.
+- Revisit when: deterministic scanner findings are too noisy or miss common private patterns.
+- Certainty: user-stated

@@ -4,17 +4,18 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, and project-local source/reference management.
-- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, and clear public/private boundaries.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, and private-to-public knowledge audits.
+- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
 - Last updated: 2026-05-10.
 
 ## Latest Reliable State
 
-- 55 skills are present and installable.
+- 56 skills are present and installable after adding `memory-publication-auditor`.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
+- `memory-publication-auditor` audits private skills, memories, notes, or logs before converting them into public skills, docs, templates, or reusable patterns.
 - `reference-library-manager`, `reference-reading-summarizer`, and `reference-project-synthesizer` now treat papers, collaborator docs, Markdown notes, BibTeX files, scripts, specs, and source bundles as project sources that become source cards and project-use notes.
 - `code-reviewer` supports Spark pre-review plus strong isolated review.
 - `token-usage-auditor` supports Codex, Claude Code, and repo-local sidecar metadata.
@@ -37,6 +38,7 @@
 - `RSK-004`: Memory could become stale if not updated after skill behavior changes.
 - `RSK-006`: Automatic personalization scans could over-promote noisy or private trajectory details if scope and confidence gates are ignored.
 - `RSK-007`: Raw sources or reading trajectories could leak copyrighted/private text into public project memory if source cards are not used as the compression layer.
+- `RSK-008`: Private memory publication audits could accidentally reproduce sensitive evidence if reports are not redacted and local/private by default.
 
 ## Active Actions
 
@@ -55,6 +57,7 @@
 - `ACT-014`: Use personalization scans after substantial sessions to extract candidate preferences without interrupting the user.
 - `ACT-015`: Use the reference skill trio to turn `reference/` sources into cards and project-use notes before project-memory writeback.
 - `ACT-016`: Keep the generalized source-centric reference workflow compatible with old paper/PDF projects while supporting initial project seed bundles.
+- `ACT-017`: Use `memory-publication-auditor` before extracting public skills or docs from private memories, private skills, notes, or operational logs.
 
 ## Needs Verification Next Session
 
