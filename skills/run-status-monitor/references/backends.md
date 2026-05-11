@@ -14,6 +14,17 @@ runs:
 
 This lets Codex approve one stable command prefix instead of many backend-specific SSH or scheduler commands.
 
+For SSH-backed projects, prefer user-level wrappers:
+
+```yaml
+runs:
+  train-smoke:
+    backend: command
+    status_command: "remote-bash epfl-haas /path/to/project scripts/ops/status_train_smoke.sh"
+```
+
+The project wrapper owns loops, `$variables`, `find`, `awk`, and path-specific logic. The status monitor only reads the short summary it emits.
+
 ## Backend Types
 
 | Backend | Use for | Required fields |

@@ -36,7 +36,7 @@ Do not paste long scheduler output or training logs into chat. Probe, compress, 
 
 - Raw logs stay in their original location or private `.agent/` run artifacts.
 - The main agent reads only a short generated status artifact.
-- Prefer project/private wrapper commands for server-specific probes.
+- Prefer project/private wrapper commands for server-specific probes. For SSH-backed status checks, prefer `remote-cmd` for simple commands and `remote-bash` for project scripts or any command containing loops, `$variables`, command substitution, pipes, globs, `find`, or `awk`.
 - Use `sidecar-task-runner` only when summarizing noisy status output would otherwise consume main context.
 - If a run appears failed, stale, or scientifically surprising, route to `result-diagnosis` after creating the status artifact.
 

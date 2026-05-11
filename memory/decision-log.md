@@ -151,3 +151,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/run-status-monitor/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_run_status_monitor.py`, `memory/`.
 - Revisit when: run configs become too project-specific or ETA extraction is frequently misleading.
 - Certainty: user-stated
+
+## DEC-016 - Add User-Level SSH Command Wrappers
+
+- Date: 2026-05-12
+- Decision: Add `remote-cmd` and `remote-bash` helper scripts plus SSH quoting guidance to `remote-project-control`.
+- Why: Agents were still composing complex SSH double-quoted one-liners where local shells could expand remote variables such as `$d` before the command reached the server. A stable user/project wrapper pattern makes simple commands argv-style and moves complex logic into project scripts.
+- Alternatives considered: rely on agents remembering single-quote rules; keep writing ad hoc SSH one-liners; disable approval prompts broadly.
+- Affects: `skills/remote-project-control/`, `skills/run-status-monitor/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_remote_command_wrappers.py`, private local workstation memory.
+- Revisit when: wrappers are too restrictive for common scheduler commands or agents misuse `remote-cmd` for shell pipelines.
+- Certainty: user-stated

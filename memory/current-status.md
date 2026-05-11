@@ -4,16 +4,17 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, and context-safe run monitoring.
-- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, and clear public/private boundaries.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, context-safe run monitoring, and safer SSH wrapper protocols.
+- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, SSH wrapper guardrails, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
-- Last updated: 2026-05-11.
+- Last updated: 2026-05-12.
 
 ## Latest Reliable State
 
 - 57 skills are present and installable after adding `run-status-monitor`.
 - `run-status-monitor` probes local logs/processes, project wrapper commands, SLURM, and RunAI to produce short `docs/ops/runs/<run-id>-status.md` artifacts without copying raw logs or scheduler output into chat.
+- `remote-project-control` now ships `remote-cmd` and `remote-bash` helper scripts plus SSH quoting guidance so agents avoid fragile double-quoted one-liners that expand remote variables locally.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
 - `memory-publication-auditor` audits private skills, memories, notes, or logs before converting them into public skills, docs, templates, or reusable patterns.
@@ -41,6 +42,7 @@
 - `RSK-007`: Raw sources or reading trajectories could leak copyrighted/private text into public project memory if source cards are not used as the compression layer.
 - `RSK-008`: Private memory publication audits could accidentally reproduce sensitive evidence if reports are not redacted and local/private by default.
 - `RSK-009`: Run-status monitors could leak raw logs or overstate ETA if probe artifacts are not kept short and uncertainty-aware.
+- `RSK-010`: SSH wrappers can hide shell semantics if agents use `remote-cmd` for commands that actually require shell pipelines or variable expansion.
 
 ## Active Actions
 
@@ -61,6 +63,7 @@
 - `ACT-016`: Keep the generalized source-centric reference workflow compatible with old paper/PDF projects while supporting initial project seed bundles.
 - `ACT-017`: Use `memory-publication-auditor` before extracting public skills or docs from private memories, private skills, notes, or operational logs.
 - `ACT-018`: Use `run-status-monitor` for lightweight active-run questions before pulling raw logs into the main agent context.
+- `ACT-019`: Use `remote-cmd` for simple server commands and `remote-bash` plus project `scripts/ops/` wrappers for complex SSH logic.
 
 ## Needs Verification Next Session
 
@@ -71,4 +74,4 @@
 
 ## Next Step
 
-- Next substantial experiment-status checks should preserve the status-artifact compression boundary and avoid putting raw logs or scheduler dumps into the main conversation.
+- Next substantial server checks should preserve the wrapper boundary: simple argv commands through `remote-cmd`, shell logic through project scripts called by `remote-bash`, and status summaries through `run-status-monitor`.

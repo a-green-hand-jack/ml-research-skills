@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  remote-bash [--dry-run] <ssh-alias> <remote-dir> <remote-script> [-- args...]
+  remote-bash --upload [--dry-run] <ssh-alias> <remote-dir> <local-script|-> [-- args...]
+
+Run shell logic on a server after cd'ing into <remote-dir>.
+
+Default mode executes a script that already exists on the server, usually a
+project wrapper such as scripts/ops/status.sh.
+
+--upload streams a local script file, or stdin when <local-script> is "-", to
+the server and runs it with bash -s. This prevents the local shell from
+expanding remote variables inside the script body.
+USAGE
+}
+
+dry_run=0
+upload=0
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dry-run)
+      dry_run=1
+      shift
+      ;;
+    --upload)
+      upload=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [[ $# -lt 3 ]]; then
+  usage >&2
+  exit 2
+fi
+
+host=$1
+remote_dir=$2
+script=$3
+shift 3
+
+if [[ "${1:-}" == "--" ]]; then
+  shift
+fi
+
+shell_quote() {
+  printf '%q' "$1"
+}
+
+arg_string=""
+for arg in "$@"; do
+  arg_string+=" $(shell_quote "$arg")"
+done
+
+if [[ "$upload" -eq 1 ]]; then
+  remote_command="cd $(shell_quote "$remote_dir") && exec bash -s --${arg_string}"
+  if [[ "$dry_run" -eq 1 ]]; then
+    if [[ "$script" == "-" ]]; then
+      printf 'ssh %s %s < stdin\n' "$(shell_quote "$host")" "$(shell_quote "$remote_command")"
+    else
+      printf 'ssh %s %s < %s\n' "$(shell_quote "$host")" "$(shell_quote "$remote_command")" "$(shell_quote "$script")"
+    fi
+    exit 0
+  fi
+
+  if [[ "$script" == "-" ]]; then
+    exec ssh "$host" "$remote_command"
+  fi
+
+  if [[ ! -f "$script" ]]; then
+    echo "remote-bash: local script not found: $script" >&2
+    exit 2
+  fi
+  exec ssh "$host" "$remote_command" < "$script"
+fi
+
+remote_command="cd $(shell_quote "$remote_dir") && exec bash $(shell_quote "$script")${arg_string}"
+
+if [[ "$dry_run" -eq 1 ]]; then
+  printf 'ssh %s %s\n' "$(shell_quote "$host")" "$(shell_quote "$remote_command")"
+  exit 0
+fi
+
+exec ssh "$host" "$remote_command"

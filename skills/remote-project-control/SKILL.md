@@ -25,7 +25,11 @@ Pair this skill with `research-project-memory` when server execution state shoul
 ├── SKILL.md
 ├── references/
 │   ├── memory-model.md
-│   └── operations.md
+│   ├── operations.md
+│   └── ssh-command-wrappers.md
+├── scripts/
+│   ├── remote-cmd
+│   └── remote-bash
 ├── template_manifest.json
 └── templates/
     ├── infra/remote-projects.yaml
@@ -38,6 +42,7 @@ Pair this skill with `research-project-memory` when server execution state shoul
 
 - Always read `references/memory-model.md`
 - Read `references/operations.md` when the user wants to inspect, sync, run, monitor, or fetch artifacts
+- Read `references/ssh-command-wrappers.md` before composing SSH commands that include loops, shell variables, command substitution, pipes, globs, `find`, `awk`, or multi-line logic
 - Use `templates/` as the source of truth when bootstrapping memory files into the target project
 - If the repo has `memory/`, summarize verified server execution facts into `research-project-memory` boards without duplicating the server manifest.
 
@@ -53,6 +58,7 @@ Pair this skill with `research-project-memory` when server execution state shoul
 - Treat GitHub/GitLab API network access as separate from authentication: in sandboxed agent runtimes, `gh` may fail to reach `api.github.com` unless the command is rerun with network permission
 - Treat GitHub Projects as GitHub API operations, not Git remotes. `gh project ...` needs a token with the `project` scope; refresh it with `gh auth refresh -s project` before project-board commands when the scope is missing.
 - In project-control-root layouts, inspect root and component repos separately; `<ProjectName>/` and `<ProjectName>/code/` may be independent Git repos with different remotes and permissions
+- Avoid complex SSH double-quoted one-liners. Use project/user wrappers for repeated server commands; use `remote-cmd` for simple argv-style commands and `remote-bash` for project scripts or uploaded scripts.
 
 ## Memory Files
 
@@ -138,6 +144,13 @@ For the chosen server, verify the server-side repo and git state using the confi
 
 ```bash
 ssh <ssh-alias> "cd <remote-repo-root> && pwd && git branch --show-current && git rev-parse --short HEAD && git status --short"
+```
+
+For repeated checks, prefer the safer wrapper equivalent:
+
+```bash
+remote-cmd <ssh-alias> <remote-repo-root> -- git status --short
+remote-bash <ssh-alias> <remote-repo-root> scripts/ops/status.sh
 ```
 
 If the request involves job submission or monitoring, also verify the scheduler tool and relevant log or output paths on the server.

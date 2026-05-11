@@ -1245,6 +1245,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - A repo-native memory model for projects developed locally, synced through Git remotes such as GitHub/GitLab, and executed on SSH/HPC/RunAI servers
 - Shared and private memory files for Git remote mappings, server mappings, working status, and local overrides
 - Safe orchestration for inspect, Git remote setup, sync, server job submission, monitoring, and artifact lookup
+- User-level SSH command wrappers: `remote-cmd` for simple argv-style commands and `remote-bash` for project scripts or uploaded scripts, avoiding local-shell expansion of remote variables such as `$d`
 - GitHub CLI guardrails: check `gh auth status` with network access before `gh repo create`, `gh repo view`, `gh repo fork`, or `gh project ...`; distinguish `api.github.com` network/sandbox failures from real auth failures; refresh `project` scope before GitHub Projects commands; keep project-root and component-repo remotes separate
 - Network guardrails for sandboxed agents: classify DNS, timeout, and host/API connection failures from `gh`, networked `git`, `ssh`, `curl`, package managers, or scheduler APIs as network/sandbox access until retried with network permission
 - A clean handoff layer between project memory and `run-experiment`

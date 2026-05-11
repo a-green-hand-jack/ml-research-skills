@@ -229,6 +229,7 @@ ml-research-skills/
     ├── remote-project-control/
     │   ├── SKILL.md
     │   ├── references/
+    │   ├── scripts/
     │   ├── template_manifest.json
     │   └── templates/
     ├── release-code/

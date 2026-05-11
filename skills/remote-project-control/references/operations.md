@@ -43,6 +43,13 @@ Preferred server update pattern:
 ssh <ssh-alias> "cd <remote-repo-root> && git fetch --all --prune && git pull --ff-only <remote-name> <branch>"
 ```
 
+If user-level wrappers are available, prefer the argv-safe equivalent:
+
+```bash
+remote-cmd <ssh-alias> <remote-repo-root> -- git fetch --all --prune
+remote-cmd <ssh-alias> <remote-repo-root> -- git pull --ff-only <remote-name> <branch>
+```
+
 Stop and ask the user instead of forcing through if:
 
 - the server repo is dirty
@@ -132,6 +139,12 @@ When wrapping a command, prefer this structure:
 ssh <ssh-alias> "cd <remote-repo-root> && <env-activation> && <submit-command>"
 ```
 
+When the command contains loops, `$variables`, command substitution, pipes, globs, `find`, `awk`, or more than one short shell clause, do not expand the one-liner. Create or reuse a project wrapper under `scripts/ops/` and run:
+
+```bash
+remote-bash <ssh-alias> <remote-repo-root> scripts/ops/<job-or-status-wrapper>.sh
+```
+
 If the project policy says server runs require git sync first, enforce that order.
 
 ## Interactive Session
@@ -149,6 +162,14 @@ Keep the environment and repo root explicit in the command sequence. Do not assu
 ## Monitor
 
 Goal: inspect the state of running or recent jobs and follow logs.
+
+Before composing ad hoc SSH status commands, check whether `run-status-monitor` or a project wrapper can answer the question with a short artifact. Prefer:
+
+```bash
+remote-bash <ssh-alias> <remote-repo-root> scripts/ops/status_run.sh
+```
+
+over fragile long SSH one-liners.
 
 For SLURM-like setups, common commands are:
 
