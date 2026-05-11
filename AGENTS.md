@@ -242,6 +242,12 @@ ml-research-skills/
     │   ├── SKILL.md
     │   ├── environments.yaml
     │   └── templates/
+    ├── run-status-monitor/
+    │   ├── SKILL.md
+    │   ├── agents/
+    │   ├── references/
+    │   ├── scripts/
+    │   └── templates/
     ├── submit-paper/
     │   ├── SKILL.md
     │   └── scripts/
@@ -266,6 +272,7 @@ ml-research-skills/
 | `project-init` | Create a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, toolchain gates, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `daily_experiments.tex` |
 | `new-workspace` | Create a Git branch or project-aware component worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, and camera-ready paper versions |
+| `run-status-monitor` | Probe local, server, SLURM, RunAI, or wrapper-backed experiment status and write short progress artifacts without copying raw logs into chat |
 | `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, precommit path classification, and mechanical proposals can be delegated without giving away main-agent control |
 | `personalization-memory` | Scan trajectories, sidecar artifacts, logs, and repeated corrections for reusable preferences, then write safe private or project memory without interrupting the user |
 | `memory-publication-auditor` | Audit private skills, memories, notes, or logs before turning them into public skills, docs, templates, or reusable patterns |

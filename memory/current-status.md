@@ -4,15 +4,16 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, and private-to-public knowledge audits.
-- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, and clear public/private boundaries.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, and context-safe run monitoring.
+- Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
-- Last updated: 2026-05-10.
+- Last updated: 2026-05-11.
 
 ## Latest Reliable State
 
-- 56 skills are present and installable after adding `memory-publication-auditor`.
+- 57 skills are present and installable after adding `run-status-monitor`.
+- `run-status-monitor` probes local logs/processes, project wrapper commands, SLURM, and RunAI to produce short `docs/ops/runs/<run-id>-status.md` artifacts without copying raw logs or scheduler output into chat.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
 - `memory-publication-auditor` audits private skills, memories, notes, or logs before converting them into public skills, docs, templates, or reusable patterns.
@@ -39,6 +40,7 @@
 - `RSK-006`: Automatic personalization scans could over-promote noisy or private trajectory details if scope and confidence gates are ignored.
 - `RSK-007`: Raw sources or reading trajectories could leak copyrighted/private text into public project memory if source cards are not used as the compression layer.
 - `RSK-008`: Private memory publication audits could accidentally reproduce sensitive evidence if reports are not redacted and local/private by default.
+- `RSK-009`: Run-status monitors could leak raw logs or overstate ETA if probe artifacts are not kept short and uncertainty-aware.
 
 ## Active Actions
 
@@ -58,6 +60,7 @@
 - `ACT-015`: Use the reference skill trio to turn `reference/` sources into cards and project-use notes before project-memory writeback.
 - `ACT-016`: Keep the generalized source-centric reference workflow compatible with old paper/PDF projects while supporting initial project seed bundles.
 - `ACT-017`: Use `memory-publication-auditor` before extracting public skills or docs from private memories, private skills, notes, or operational logs.
+- `ACT-018`: Use `run-status-monitor` for lightweight active-run questions before pulling raw logs into the main agent context.
 
 ## Needs Verification Next Session
 
@@ -68,4 +71,4 @@
 
 ## Next Step
 
-- Next substantial changes should preserve the source-card compression boundary and avoid putting raw collaborator/source text into public memory.
+- Next substantial experiment-status checks should preserve the status-artifact compression boundary and avoid putting raw logs or scheduler dumps into the main conversation.

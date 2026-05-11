@@ -81,6 +81,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, optional GitHub Project board linkage, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
+| `run-status-monitor` | Probe local, server, SLURM, RunAI, or wrapper-backed experiment status and write short progress artifacts without copying raw logs into chat |
 | `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, and mechanical proposals can be delegated without giving away main-agent control |
 | `personalization-memory` | Scan trajectories, sidecar artifacts, logs, and repeated corrections for reusable preferences, then write safe private or project memory without interrupting the user |
 | `memory-publication-auditor` | Audit private skills, memories, notes, or logs before turning them into public skills, docs, templates, or reusable patterns |
@@ -847,6 +848,7 @@ Use these skills while producing the evidence that will support the paper:
 | **experiment-design-planner** | Design hypotheses, baselines, ablations, controls, metrics, and stop conditions before running |
 | **baseline-selection-audit** | Convert claims and literature into must-have, should-have, optional, and excluded baselines with fairness rules |
 | **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
+| **run-status-monitor** | Probe running jobs and write short progress/status artifacts without copying raw logs into chat |
 | **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **advisor-update-writer** | Convert current progress, evidence, risks, and blockers into decision-oriented advisor or lab updates |
@@ -936,6 +938,7 @@ For the person running experiments, collecting evidence, and making results repr
 | **experiment-design-planner** | Convert a claim into a runnable experiment matrix with controls and decision rules |
 | **baseline-selection-audit** | Decide which baselines must be run, how to make them fair, and which exclusions are defensible |
 | **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
+| **run-status-monitor** | Answer lightweight "where is this run now?" questions from local logs, processes, server wrappers, SLURM, or RunAI |
 | **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
 | **advisor-update-writer** | Summarize experiment progress, blockers, and decision requests for advisors or collaborators |
@@ -1121,41 +1124,42 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 13. experiment-design-planner -> design baselines, ablations, metrics, and stop conditions
 14. baseline-selection-audit -> verify must-have baselines, fairness, and reviewer-proof comparisons
 15. run-experiment     -> launch locally or on SLURM / RunAI
-16. result-diagnosis -> diagnose surprising/negative results and decide the next action
-17. project-sync       -> record results in paper/sections/daily_experiments.tex
-18. experiment-report-writer -> turn experiment evidence into a structured report
-19. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
-20. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
-21. paper-result-asset-builder -> inventory CSV results and build paper-facing tables/figures with provenance
-22. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
-23. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
-24. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
-25. paper-evidence-gap-miner -> mine existing CSVs/logs/reports/assets to fill claim gaps before new compute
-26. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
-27. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
-28. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
-29. paper-writing-memory-manager -> maintain section status, dependency map, style decisions, stale locations, and open writing threads
-30. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
-31. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
-32. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
-33. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
-34. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
-35. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
-36. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
-37. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
-38. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
-39. citation-coverage-audit -> find missing classic, close, and concurrent citations
-40. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
-41. submit-paper    -> run a readiness check before a deadline
-42. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
-43. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
-44. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
-45. release-code    -> prepare the public code release when needed
-46. work-timeline-planner -> summarize recent work or draft the next-phase timeline
-47. token-usage-auditor -> audit Codex, Codex sidecar, and Claude Code token burn and project attention
-48. update-docs     -> refresh docs after meaningful code changes
-49. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
-50. add-git-tag     -> mark a milestone
+16. run-status-monitor -> probe running experiments and write short status artifacts without raw-log context pollution
+17. result-diagnosis -> diagnose surprising/negative results and decide the next action
+18. project-sync       -> record results in paper/sections/daily_experiments.tex
+19. experiment-report-writer -> turn experiment evidence into a structured report
+20. advisor-update-writer -> summarize progress, blockers, and decisions for an advisor or lab
+21. research-slide-deck-builder -> create or update a stable deck under slides/decks/ with the external progress-slides template and deck-index memory
+22. paper-result-asset-builder -> inventory CSV results and build paper-facing tables/figures with provenance
+23. figure-results-review -> audit figures, captions, visual style, uncertainty, and claim support
+24. table-results-review -> audit tables, captions, row/column semantics, numeric provenance, and claim support
+25. paper-evidence-board -> align claims, evidence, figures, tables, visual style, sections, risks, and actions
+26. paper-evidence-gap-miner -> mine existing CSVs/logs/reports/assets to fill claim gaps before new compute
+27. paper-positioning-planner -> decide paper archetype, primary claim, audience, and claims to avoid
+28. conference-writing-adapter -> reshape the paper for a target venue's reviewer expectations
+29. paper-writing-contract-planner -> lock section recipes, claim/evidence slots, figure/table jobs, and forbidden claims
+30. paper-writing-memory-manager -> maintain section status, dependency map, style decisions, stale locations, and open writing threads
+31. abstract-title-contribution-writer -> write title, abstract, and contribution bullets as the top-level claim/evidence contract
+32. paper-introduction-argument-writer -> build the introduction argument chain from problem to gap, insight, method, evidence, and contributions
+33. method-section-explainer -> make notation, modules, objectives, algorithm boxes, and rationale readable
+34. experiment-story-writer -> turn figures, tables, ablations, and mixed results into claim-aware results prose
+35. related-work-positioning-writer -> group closest work and write safe novelty-boundary paragraphs
+36. limitations-scope-writer -> write limitations, scope, failure cases, ethics, and conclusion caveats as claim boundaries
+37. paper-writing-assistant -> integrate section plans into claim-aware paper prose and track provisional result placeholders
+38. paper-draft-consistency-editor -> align title, abstract, intro, method, results, figures, tables, terminology, limitations, and conclusion
+39. paper-reviewer-simulator -> simulate venue reviewers and rank likely rejection risks
+40. citation-coverage-audit -> find missing classic, close, and concurrent citations
+41. citation-audit  -> verify citations, BibTeX metadata, and LaTeX references before submission
+42. submit-paper    -> run a readiness check before a deadline
+43. rebuttal-strategist -> analyze real reviews and draft strategic rebuttals
+44. camera-ready-finalizer -> finalize accepted paper, promises, metadata, supplement, and release handoff
+45. artifact-evaluation-prep -> prepare reviewer-facing artifact instructions, smoke tests, and manifests
+46. release-code    -> prepare the public code release when needed
+47. work-timeline-planner -> summarize recent work or draft the next-phase timeline
+48. token-usage-auditor -> audit Codex, Codex sidecar, and Claude Code token burn and project attention
+49. update-docs     -> refresh docs after meaningful code changes
+50. skill-system-auditor -> audit the skill collection for lifecycle and routing consistency
+51. add-git-tag     -> mark a milestone
 ```
 
 ## What `research-project-memory` Provides
@@ -1516,6 +1520,14 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
   - `ibex` (KAUST SLURM)
   - `uw` (placeholder SLURM profile to customize)
   - `runai` (EPFL RunAI / Kubernetes)
+
+## What `run-status-monitor` Provides
+
+- A lightweight probe layer for "where is this experiment now?" questions during long runs
+- Config-driven backends for local logs, local PIDs, wrapper commands, SLURM, and RunAI
+- Short `docs/ops/runs/<run-id>-status.md` artifacts with state, progress, latest metrics, ETA, risk, and raw-context policy
+- Regex-based progress and metric extraction without copying raw logs into chat
+- A handoff boundary: stable summaries can route to `experiment-report-writer`, while failures or surprising metrics route to `result-diagnosis`
 
 ## What `submit-paper` Checks
 

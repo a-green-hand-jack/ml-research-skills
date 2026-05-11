@@ -1,0 +1,4 @@
+interface:
+  display_name: "Run Status Monitor"
+  short_description: "Summarize experiment progress without raw logs."
+  default_prompt: "Probe this experiment run using the project run-status config, write a short status artifact, and answer only with state, progress, latest metrics, ETA, risk, and artifact path."

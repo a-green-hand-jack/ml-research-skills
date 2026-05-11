@@ -141,3 +141,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/memory-publication-auditor/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_memory_publication_auditor.py`, `memory/`.
 - Revisit when: deterministic scanner findings are too noisy or miss common private patterns.
 - Certainty: user-stated
+
+## DEC-015 - Add Context-Safe Active Run Monitoring
+
+- Date: 2026-05-11
+- Decision: Add `run-status-monitor` to answer active experiment status questions through short status artifacts rather than raw logs or scheduler dumps.
+- Why: During long local, SSH, SLURM, or RunAI experiments, the user often needs progress, intermediate metrics, and ETA without polluting the main coding context. A dedicated probe skill can compress operational state into `docs/ops/runs/<run-id>-status.md` and route failures or surprising metrics to diagnosis.
+- Alternatives considered: let the main agent inspect raw logs directly; keep monitoring inside `run-experiment`; rely on manual server checks.
+- Affects: `skills/run-status-monitor/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_run_status_monitor.py`, `memory/`.
+- Revisit when: run configs become too project-specific or ETA extraction is frequently misleading.
+- Certainty: user-stated

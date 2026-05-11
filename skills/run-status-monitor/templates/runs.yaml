@@ -1,0 +1,25 @@
+# Run status monitor config.
+# Keep this file under `.agent/run-status/runs.yaml` if it contains private hosts,
+# paths, scheduler IDs, or wrapper commands.
+
+runs:
+  example-local:
+    backend: local-log
+    log: outputs/example/train.log
+    status_artifact: docs/ops/runs/example-local-status.md
+    tail_lines: 120
+    started_at: "YYYY-MM-DDTHH:MM:SS"
+    progress_patterns:
+      epoch: "epoch (?P<current>\\d+)/(?P<total>\\d+)"
+    metric_patterns:
+      val_loss: "val_loss[=: ]+(?P<value>[0-9.eE+-]+)"
+
+  example-wrapper:
+    backend: command
+    status_command: "project-status example-wrapper"
+    logs_command: "project-tail example-wrapper --lines 120"
+    status_artifact: docs/ops/runs/example-wrapper-status.md
+    progress_patterns:
+      epoch: "epoch (?P<current>\\d+)/(?P<total>\\d+)"
+    metric_patterns:
+      score: "score[=: ]+(?P<value>[0-9.eE+-]+)"

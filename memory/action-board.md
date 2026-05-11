@@ -21,6 +21,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-015 | done | agent | references | Add three-layer project reference infrastructure for PDF indexing, paper cards, and project-use synthesis. | DEC-012, CLM-012, EVD-014, RSK-007 | Use `reference-library-manager`, `reference-reading-summarizer`, and `reference-project-synthesizer` when a project has `reference/` PDFs. |  | 2026-05-08 |
 | ACT-016 | done | agent | references | Generalize the reference skill trio from paper/PDF management to source-centric project knowledge intake. | DEC-013, CLM-013, EVD-015, RSK-007 | Keep compatibility with old paper/PDF projects while supporting collaborator docs, Markdown notes, BibTeX, scripts, specs, and source bundles. |  | 2026-05-10 |
 | ACT-017 | done | agent | publication | Add a private-to-public memory publication auditor for safe extraction of reusable public knowledge from private skills and memories. | DEC-014, CLM-014, EVD-016, RSK-008 | Use before drafting public skills or docs from private operational memory. |  | 2026-05-10 |
+| ACT-018 | done | agent | experiments | Add context-safe run status monitoring for active local, server, SLURM, RunAI, and wrapper-backed experiments. | DEC-015, CLM-015, EVD-017, RSK-009 | Use before answering lightweight active-run questions with raw logs or scheduler dumps. |  | 2026-05-11 |
 
 ## Blocked Actions
 
