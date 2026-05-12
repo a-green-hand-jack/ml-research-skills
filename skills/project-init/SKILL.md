@@ -315,7 +315,8 @@ They should stay semantically aligned. Prefer either mirrored content or a short
 The root guidance must state:
 
 - agents start from `<ProjectName>/` unless a task is explicitly component-local
-- use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component repos
+- use `git -C code ...`, `git -C paper ...`, and `git -C slides ...` for component-repo inspection and repo-local commands
+- for routine final branch pushes after preflight, use `project-push <repo> <remote> <branch>` instead of raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or shell-wrapped push variants
 - code worktrees live under `code-worktrees/` by default
 - paper worktrees live under `paper-worktrees/` by default for venue, arXiv, and camera-ready versions
 - paper source visibility tiers are `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, and `publisher-artifact`

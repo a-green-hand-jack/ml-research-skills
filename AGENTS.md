@@ -30,6 +30,18 @@ npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -s r
 
 These files are primarily agent instructions and templates, not an application with automated runtime tests.
 
+## Git Closeout Policy
+
+For Git commits, pushes, branch operations, worktrees, merge/rebase/cherry-pick, lock-file errors, or sandbox/network Git failures, use `safe-git-ops`.
+
+For routine branch pushes after preflight has identified the repo, remote, and branch, use:
+
+```bash
+project-push <repo> <remote> <branch>
+```
+
+Do not use raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or shell-wrapped push variants for routine closeout unless `project-push` is unavailable. `git -C <repo> ...` is still fine for inspection and non-push repo-local commands.
+
 ## Current Repository Structure
 
 ```text
@@ -310,7 +322,7 @@ ml-research-skills/
 | `citation-audit` | Run a pre-submission audit of LaTeX citation keys, BibTeX entries, metadata, citation claims, labels, and references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports with Gantt-style visualizations from git history, docs, notes, and user context |
 | `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
-| `safe-git-ops` | Perform common Git operations safely with better worktree, sandbox failure, and risk-tiered commit/push path diagnosis |
+| `safe-git-ops` | Perform common Git operations safely with better worktree, sandbox failure, risk-tiered commit paths, and stable `project-push` closeout |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, SSH/HPC/RunAI workflows, and SSH wrapper usage |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands |
 | `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project, including source formatting, local layout debugging, source hygiene, and the configured compile backend without recording one user's local TeX availability |

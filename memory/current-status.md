@@ -4,11 +4,11 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, context-safe run monitoring, earlier SSH wrapper routing, and stable Git push wrappers.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, context-safe run monitoring, earlier SSH wrapper routing, and stable Git push wrappers surfaced in root/project guidance.
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, SSH wrapper routing/templates, stable push wrappers, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
-- Last updated: 2026-05-12.
+- Last updated: 2026-05-13.
 
 ## Latest Reliable State
 
@@ -16,7 +16,7 @@
 - `run-status-monitor` probes local logs/processes, project wrapper commands, SLURM, and RunAI to produce short `docs/ops/runs/<run-id>-status.md` artifacts without copying raw logs or scheduler output into chat.
 - `remote-project-control` now ships `remote-cmd` and `remote-bash` helper scripts plus SSH quoting guidance so agents avoid fragile double-quoted one-liners that expand remote variables locally.
 - `remote-project-control` routing metadata and generated project templates now explicitly mention raw SSH one-liners, SSH quoting issues, `remote-cmd`, and `remote-bash`, because wrapper scripts alone did not reliably stop stale sessions from composing fragile SSH commands.
-- `safe-git-ops` now ships `project-push` so routine network pushes use one stable command shape instead of drifting among equivalent `git push` variants.
+- `safe-git-ops` now ships `project-push` so routine network pushes use one stable command shape instead of drifting among equivalent `git push` variants; root `AGENTS.md`/`CLAUDE.md`, README project-structure guidance, `project-init`, and `init-python-project` templates now surface the same rule outside the skill body.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
 - `memory-publication-auditor` audits private skills, memories, notes, or logs before converting them into public skills, docs, templates, or reusable patterns.
@@ -80,4 +80,4 @@
 
 ## Next Step
 
-- Next substantial closeouts should preserve stable command shapes: `project-push` for Git pushes, `remote-cmd` for simple server commands, `remote-bash` for server shell logic, and `run-status-monitor` for active run summaries. Existing open sessions should reread `remote-project-control/SKILL.md` plus `references/ssh-command-wrappers.md` if they keep using raw SSH.
+- Next substantial closeouts should preserve stable command shapes: `project-push` for Git pushes, `remote-cmd` for simple server commands, `remote-bash` for server shell logic, and `run-status-monitor` for active run summaries. Existing open sessions should reread `safe-git-ops/SKILL.md` plus `references/commit-paths.md` if they keep using raw Git push forms, and reread `remote-project-control/SKILL.md` plus `references/ssh-command-wrappers.md` if they keep using raw SSH.

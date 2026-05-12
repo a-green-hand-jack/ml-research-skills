@@ -30,6 +30,7 @@ This project uses a strict layered structure. Dependencies flow one way only.
 - For server commands, use `remote-cmd <ssh-alias> <remote-repo-root> -- <command> [args...]` for simple argv-style commands.
 - For loops, `$variables`, command substitution, pipes, globs, `find`, `awk`, or multi-line shell logic on a server, create or reuse a project wrapper under `scripts/ops/` and call it with `remote-bash <ssh-alias> <remote-repo-root> scripts/ops/<wrapper>.sh`.
 - Do not compose complex SSH double-quoted one-liners; the local shell can expand remote variables before the command reaches the server.
+- For routine final branch pushes after preflight, use `project-push <repo> <remote> <branch>` instead of raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or shell-wrapped push variants.
 
 ## Development Principles
 

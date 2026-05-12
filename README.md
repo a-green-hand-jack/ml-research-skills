@@ -195,7 +195,7 @@ A full project is a control root with independent component repositories:
 Root ownership rules:
 
 - `<ProjectName>/` is the coordination layer. It stores project memory, cross-component plans, and handoffs.
-- `paper/`, `code/`, and `slides/` are component repos. Use `git -C paper ...`, `git -C code ...`, and `git -C slides ...`.
+- `paper/`, `code/`, and `slides/` are component repos. Use `git -C paper ...`, `git -C code ...`, and `git -C slides ...` for inspection and repo-local commands; for routine final branch pushes after preflight, use `project-push <repo> <remote> <branch>` instead of raw `git -C <repo> push`.
 - Do not put experiment outputs directly under the root. Runnable code, run records, results, and logs belong under `code/` or a code worktree.
 - Do not create paper version folders inside `paper/`. Venue submissions, arXiv releases, and camera-ready versions belong under `paper-worktrees/`.
 - Do not treat `slides/slides.md` as the whole presentation history. Stable meeting/talk decks belong under `slides/decks/`, with deck registry memory in `slides/.agent/deck-index.md`.

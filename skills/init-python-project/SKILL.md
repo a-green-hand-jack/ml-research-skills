@@ -259,7 +259,7 @@ If the user provided a GitHub URL, add `origin`, show `git remote -v`, and ask b
 ```bash
 git remote add origin <github-ssh-url>
 CURRENT_BRANCH="$(git branch --show-current)"
-git push -u origin "$CURRENT_BRANCH"
+project-push --set-upstream . origin "$CURRENT_BRANCH"
 ```
 
 ### Path B: Fork / Existing Project
@@ -354,4 +354,5 @@ Next steps:
 - Keep this `SKILL.md` focused on orchestration; the detailed file content should live in `templates/` and `references/`.
 - `experiments/` is runnable experiment logic, not a result archive. Raw outputs, checkpoints, logs, and wandb/tensorboard caches should stay in ignored paths or external storage, with small pointers in `docs/runs/`.
 - When this code repo belongs to a project control root, prefer sibling code worktrees under `<ProjectName>/code-worktrees/` instead of nested worktrees inside `code/`.
+- For routine final branch pushes after preflight, use `project-push <repo> <remote> <branch>` rather than raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or shell-wrapped push variants.
 - When this code repo belongs to a project control root, record toolchain gate commands in root `memory/project.yaml` and component guidance. Gate status is stale unless verified in the current branch/worktree.

@@ -24,6 +24,18 @@ npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -s r
 
 All files are instruction documents for AI agents — not executable code. Skills are deployed to the target agent's global skill home, typically `~/.agents/skills/` for Codex and `~/.claude/skills/` for Claude Code.
 
+## Git Closeout Policy
+
+For Git commits, pushes, branch operations, worktrees, merge/rebase/cherry-pick, lock-file errors, or sandbox/network Git failures, use `safe-git-ops`.
+
+For routine branch pushes after preflight has identified the repo, remote, and branch, use:
+
+```bash
+project-push <repo> <remote> <branch>
+```
+
+Do not use raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or shell-wrapped push variants for routine closeout unless `project-push` is unavailable. `git -C <repo> ...` is still fine for inspection and non-push repo-local commands.
+
 ## Project Memory
 
 This repo has shared project memory in `memory/`. Before substantial maintenance, read `memory/current-status.md`; after durable skill-system decisions, update the smallest relevant board such as `decision-log.md`, `action-board.md`, `risk-board.md`, `claim-board.md`, or `phase-dashboard.md`. Local sidecar artifacts belong under `.agent/sidecars/` and are ignored by git.
@@ -122,7 +134,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `citation-audit` | Run a pre-submission audit of citation keys, BibTeX entries, metadata, citation claims, labels, and LaTeX references |
 | `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
 | `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
-| `safe-git-ops` | Perform common Git operations safely, especially around worktrees, sandboxed writes, and failure diagnosis |
+| `safe-git-ops` | Perform common Git operations safely, especially around worktrees, sandboxed writes, failure diagnosis, and stable `project-push` closeout |
 | `remote-project-control` | Recover project memory and coordinate safe local, Git remote, SSH/HPC/RunAI workflows, and SSH wrapper usage for a research repo |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
