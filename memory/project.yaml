@@ -125,12 +125,12 @@ components:
     status: active
 
 id_counters:
-  claim: 17
-  evidence: 19
-  risk: 11
-  action: 20
-  decision: 17
-  provenance: 12
+  claim: 18
+  evidence: 20
+  risk: 12
+  action: 21
+  decision: 18
+  provenance: 13
   handoff: 3
   visibility: 1
   gate: 4

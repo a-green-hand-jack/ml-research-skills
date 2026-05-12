@@ -27,3 +27,9 @@ Use this file for durable workflow decisions, not ephemeral runtime status.
 - Network-sensitive commands include `gh`, `git fetch/push/pull/ls-remote`, `ssh`, `curl`, package managers, and scheduler/API CLIs.
 - DNS failure, timeout, host unreachable, or API reachability failure in a sandboxed agent runtime should be classified as network/sandbox access until rerun with network permission.
 - Diagnose credentials, missing repositories, SSH key problems, or server configuration only after a network-enabled command reaches the target host/API.
+
+## SSH Wrapper Convention
+
+- Use `remote-cmd <ssh-alias> <remote-repo-root> -- <command> [args...]` for simple argv-style server commands.
+- Use `remote-bash <ssh-alias> <remote-repo-root> scripts/ops/<wrapper>.sh` for project scripts or any command that needs loops, `$variables`, command substitution, pipes, globs, `find`, `awk`, or multi-line shell logic.
+- Avoid complex SSH double-quoted one-liners because the local shell can expand remote variables before the command reaches the server.

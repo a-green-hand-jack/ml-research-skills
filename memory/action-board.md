@@ -24,6 +24,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-018 | done | agent | experiments | Add context-safe run status monitoring for active local, server, SLURM, RunAI, and wrapper-backed experiments. | DEC-015, CLM-015, EVD-017, RSK-009 | Use before answering lightweight active-run questions with raw logs or scheduler dumps. |  | 2026-05-11 |
 | ACT-019 | done | agent | remote-ops | Add user-level SSH wrapper guidance and helper scripts to avoid local-shell expansion in complex remote commands. | DEC-016, CLM-016, EVD-018, RSK-010 | Use `remote-cmd` for simple server commands and `remote-bash` for project scripts or uploaded scripts. |  | 2026-05-12 |
 | ACT-020 | done | agent | git-workflow | Add stable `project-push` wrapper for routine branch pushes after safe-git closeout preflight. | DEC-017, CLM-017, EVD-019, RSK-011 | Use `project-push <repo> <remote> <branch>` instead of ad hoc `git push` variants. |  | 2026-05-12 |
+| ACT-021 | done | agent | remote-ops | Push SSH wrapper policy into skill routing metadata and generated project guidance so raw SSH one-liner tasks activate the right protocol earlier. | DEC-018, CLM-018, EVD-020, RSK-012 | Use updated routing in new sessions; tell stale open sessions to reread the updated skill if they keep using raw SSH. |  | 2026-05-12 |
 
 ## Blocked Actions
 

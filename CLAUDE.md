@@ -123,7 +123,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `work-timeline-planner` | Build Markdown or HTML timeline reports from git history, docs, and notes for retrospective review or planning |
 | `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations safely, especially around worktrees, sandboxed writes, and failure diagnosis |
-| `remote-project-control` | Recover project memory and coordinate safe local, Git remote, and SSH/HPC/RunAI server workflows for a research repo |
+| `remote-project-control` | Recover project memory and coordinate safe local, Git remote, SSH/HPC/RunAI workflows, and SSH wrapper usage for a research repo |
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
 | `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, source formatting, local layout debugging, and compile-backend handoff |

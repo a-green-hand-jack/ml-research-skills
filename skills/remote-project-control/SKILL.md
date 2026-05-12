@@ -1,6 +1,6 @@
 ---
 name: remote-project-control
-description: Coordinate local, Git remote, and SSH/HPC/RunAI research projects. Use for server state, sync safety, job submission, interactive sessions, logs, and context recovery.
+description: Coordinate local, Git remote, and SSH/HPC/RunAI research projects. Use for server state, sync safety, job submission, interactive sessions, logs, artifact lookup, context recovery, raw SSH commands, remote shell one-liners, SSH quoting issues, remote-cmd, remote-bash, or avoiding local shell expansion of remote variables.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 

@@ -13,6 +13,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 - GitHub/GitLab CLI auth: unknown until checked
 - GitHub/GitLab API network access: unknown until checked
 - General network-sensitive commands: `gh`, `git fetch/push/ls-remote`, `ssh`, `curl`, package managers, and scheduler/API CLIs may require network permission in sandboxed agent runtimes
+- SSH wrapper policy: use `remote-cmd <ssh-alias> <remote-repo-root> -- <command> [args...]` for simple server commands; use `remote-bash <ssh-alias> <remote-repo-root> scripts/ops/<wrapper>.sh` for loops, `$variables`, command substitution, pipes, globs, `find`, `awk`, or multi-line logic
 
 ## Current Focus
 
@@ -35,6 +36,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 - Re-check `gh auth status` with network access before using GitHub API commands such as repo creation, repo view, or fork.
 - If `gh` reports `api.github.com` connection failure, treat it as network/sandbox access until rechecked with network permission.
 - If `git`, `ssh`, `curl`, package managers, or scheduler/API CLIs report DNS, timeout, or connection failures, recheck with network permission before diagnosing credentials, Git remotes, SSH keys, or server configuration.
+- Do not compose complex SSH double-quoted one-liners. If a command would contain shell control flow or remote variables, create or reuse a project wrapper under `scripts/ops/` and call it with `remote-bash`.
 
 ## Next Step
 

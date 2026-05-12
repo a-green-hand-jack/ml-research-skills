@@ -39,4 +39,6 @@ policies:
   checkpoints_remote_only: true
   require_clean_git_before_sync: true
   require_git_sync_before_remote_run: true
+  prefer_remote_cmd_for_simple_server_commands: true
+  prefer_remote_bash_for_complex_server_shell_logic: true
   forbid_destructive_git_on_remote_without_confirmation: true

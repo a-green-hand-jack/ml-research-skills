@@ -171,3 +171,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/safe-git-ops/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_project_push_wrapper.py`, private local workstation memory.
 - Revisit when: the wrapper does not reduce push approval churn or needs support for tags, force-with-lease, or non-branch refspecs.
 - Certainty: user-stated
+
+## DEC-018 - Move SSH Wrapper Policy Into Routing Metadata And Project Templates
+
+- Date: 2026-05-12
+- Decision: Strengthen `remote-project-control` routing metadata and generated project AGENTS/CLAUDE/ops templates so raw SSH one-liners, SSH quoting issues, and `remote-cmd`/`remote-bash` usage trigger the wrapper protocol before agents compose commands.
+- Why: Agents continued to use raw SSH double-quoted one-liners even after wrapper scripts existed, because an already-open session or weak skill description could miss the latest wrapper guidance.
+- Alternatives considered: rely on users to remind each session to reread the skill; only document the wrapper in `references/ssh-command-wrappers.md`; approve broad raw SSH command patterns.
+- Affects: `skills/remote-project-control/`, `skills/init-python-project/templates/common/`, README.md, AGENTS.md, CLAUDE.md.
+- Revisit when: agents still prefer raw SSH one-liners after reinstall and project-template refresh.
+- Certainty: user-stated

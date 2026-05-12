@@ -27,6 +27,9 @@ This project uses a strict layered structure. Dependencies flow one way only.
 - Keep `infra/remote-projects.yaml` updated if this project is controlled locally but executed remotely.
 - Treat `docs/ops/current-status.md` as working memory, not execution truth; re-check volatile remote state before acting.
 - Put private SSH aliases or machine-specific overrides in `.agent/local-overrides.yaml`, not in shared repo files.
+- For server commands, use `remote-cmd <ssh-alias> <remote-repo-root> -- <command> [args...]` for simple argv-style commands.
+- For loops, `$variables`, command substitution, pipes, globs, `find`, `awk`, or multi-line shell logic on a server, create or reuse a project wrapper under `scripts/ops/` and call it with `remote-bash <ssh-alias> <remote-repo-root> scripts/ops/<wrapper>.sh`.
+- Do not compose complex SSH double-quoted one-liners; the local shell can expand remote variables before the command reaches the server.
 
 ## Development Principles
 
