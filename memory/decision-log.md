@@ -211,3 +211,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/run-experiment/`, `skills/remote-project-control/`, `skills/run-status-monitor/`, private EPFL memory, private compute workflow preferences.
 - Revisit when: projects add explicit image prewarm jobs, node-family image-cache metadata, or per-project GPU compatibility matrices.
 - Certainty: user-stated
+
+## DEC-022 - Add Scheduler API Auth Circuit Breakers
+
+- Date: 2026-05-13
+- Decision: Add monitor circuit-breaker rules for scheduler API OAuth/session refresh failures.
+- Why: Repeated `describe`/`logs`/`list` retries after `invalid_grant` do not recover monitoring, waste context, and make the session uncomfortable. The agent should stop API probes after the first auth failure, use SSH filesystem or project-wrapper fallback, and record one login-refresh action.
+- Alternatives considered: keep retrying API commands; immediately interrupt the user for login; treat OAuth failures as job failure.
+- Affects: `skills/run-status-monitor/`, `skills/remote-project-control/`, private EPFL memory, private compute workflow preferences.
+- Revisit when: a stable non-interactive RunAI auth refresh mechanism exists.
+- Certainty: user-stated

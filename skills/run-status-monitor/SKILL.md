@@ -38,6 +38,7 @@ Do not paste long scheduler output or training logs into chat. Probe, compress, 
 - The main agent reads only a short generated status artifact.
 - Prefer project/private wrapper commands for server-specific probes. For SSH-backed status checks, prefer `remote-cmd` for simple commands and `remote-bash` for project scripts or any command containing loops, `$variables`, command substitution, pipes, globs, `find`, or `awk`.
 - Use `sidecar-task-runner` only when summarizing noisy status output would otherwise consume main context.
+- Use an authentication circuit breaker for scheduler/API probes. If a RunAI/Kubernetes/cluster API command reports OAuth/session refresh failure such as `invalid_grant`, stop retrying API probes in this turn, mark API monitoring blocked, and switch to filesystem/project-wrapper fallback when available.
 - If a run appears failed, stale, or scientifically surprising, route to `result-diagnosis` after creating the status artifact.
 - If a run is pending, distinguish scheduler/resource causes from code causes. Summarize whether the blocker appears to be pool/partition capacity, quota/fair-share, CPU/memory request, image pull, `ContainerCreating`, environment startup, or unknown, and recommend the smallest compatible next action.
 - If a run is spending time creating or syncing a new uv environment, report that as environment setup overhead. Check whether the job used an existing project/stage env or created a job-specific env, and flag avoidable env proliferation.
@@ -96,5 +97,6 @@ Escalate when:
 - the run is stuck in image pull or `ContainerCreating` long enough to consume the smoke/debug budget
 - metrics are surprising
 - logs show repeated exceptions, OOM, NaN, or checkpoint failures
+- scheduler/API auth is blocked and needs a single explicit login refresh action
 - ETA cannot be estimated because progress markers are absent
 - the probe command needs network/server approval

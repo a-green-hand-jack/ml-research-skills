@@ -203,6 +203,13 @@ For RunAI-like setups, common commands are:
 
 Use the configured `logs_root` when available instead of inventing paths.
 
+RunAI/OAuth circuit breaker:
+
+- If `runai`, a RunAI wrapper, or another scheduler API reports `invalid_grant`, failed token refresh, missing required client/session, or a browser verification prompt, classify it as API auth blockage.
+- Do not keep retrying `describe`, `logs`, or `list` in the same turn; it wastes context and will not inspect the job until login is refreshed.
+- Fall back to SSH filesystem checks, project status files, output summaries, or bounded `remote-bash` wrappers when possible.
+- Record one clear next action such as `runai login` / wrapper login, and avoid treating the auth failure as code failure or scheduler state.
+
 ## Artifacts
 
 Goal: find checkpoints, result files, or logs associated with the project.
