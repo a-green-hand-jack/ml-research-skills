@@ -24,7 +24,7 @@ git diff --check
 git add <explicit-files>
 git diff --cached --stat
 git commit -m "<message>"
-git push
+project-push . origin <current-branch>
 ```
 
 No default tests. No default reinstall.
@@ -46,7 +46,7 @@ git diff --check
 git add <explicit-files>
 git diff --cached --stat
 git commit -m "<message>"
-git push
+project-push . origin <current-branch>
 ```
 
 After push, reinstall only the changed skill names when practical:
@@ -76,7 +76,7 @@ python3 -m unittest -v <targeted-tests>
 git add <explicit-files>
 git diff --cached --stat
 git commit -m "<message>"
-git push
+project-push . origin <current-branch>
 ```
 
 Run full smoke tests only for shared infrastructure, runner, reviewer, telemetry, or validation changes.
@@ -108,6 +108,24 @@ The main agent keeps responsibility for:
 - reporting the result to the user
 
 Do not let a sidecar commit, push, tag, release, submit jobs, or publish issues.
+
+## Stable Push Shape
+
+For routine closeout pushes, use `project-push` after preflight has identified the repo, remote, and branch:
+
+```bash
+project-push <repo> <remote> <branch>
+```
+
+Examples:
+
+```bash
+project-push . origin main
+project-push code origin main
+project-push code-worktrees/feature-x origin feature-x
+```
+
+Avoid switching among equivalent command shapes such as `git push`, `git -C code push origin main`, `cd code && git push origin main`, and `bash -lc "git -C code push origin main"`. Persisted approval rules often match the command prefix, not the intent, so a stable wrapper reduces sandbox/network retries and token waste.
 
 Suggested preparation:
 

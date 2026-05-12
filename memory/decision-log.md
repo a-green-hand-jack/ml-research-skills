@@ -161,3 +161,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/remote-project-control/`, `skills/run-status-monitor/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_remote_command_wrappers.py`, private local workstation memory.
 - Revisit when: wrappers are too restrictive for common scheduler commands or agents misuse `remote-cmd` for shell pipelines.
 - Certainty: user-stated
+
+## DEC-017 - Add Stable Project Push Wrapper
+
+- Date: 2026-05-12
+- Decision: Add `project-push` to `safe-git-ops` and install it as a user-level private helper so routine closeout pushes use one stable command shape.
+- Why: Sandbox/network approval rules often match command prefixes rather than the user's intent. Agents were alternating among `git push`, `git -C <repo> push`, `cd <repo> && git push`, and shell-wrapped variants, causing repeated first-attempt network failures and wasting context.
+- Alternatives considered: keep asking for network approval after failures; rely on agents remembering a preferred `git -C` form; approve broad shell-wrapped commands.
+- Affects: `skills/safe-git-ops/`, README.md, AGENTS.md, CLAUDE.md, `tests/test_project_push_wrapper.py`, private local workstation memory.
+- Revisit when: the wrapper does not reduce push approval churn or needs support for tags, force-with-lease, or non-branch refspecs.
+- Certainty: user-stated

@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  project-push [--dry-run] [--set-upstream] <repo> [remote] [branch]
+
+Run a routine Git push through one stable command shape:
+  git -C <repo> push [--set-upstream] <remote> <branch>
+
+Use this after commit/push preflight has identified the target repo, remote,
+and branch. The wrapper avoids ad hoc variants such as `cd repo && git push`
+or shell-wrapped push commands that often miss persisted approval rules.
+USAGE
+}
+
+dry_run=0
+set_upstream=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --dry-run)
+      dry_run=1
+      shift
+      ;;
+    -u|--set-upstream)
+      set_upstream=1
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [[ $# -lt 1 || $# -gt 3 ]]; then
+  usage >&2
+  exit 2
+fi
+
+repo=$1
+remote=${2:-origin}
+branch=${3:-}
+
+if [[ ! -d "$repo" ]]; then
+  echo "project-push: repo directory not found: $repo" >&2
+  exit 2
+fi
+
+if ! git -C "$repo" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "project-push: not a git worktree: $repo" >&2
+  exit 2
+fi
+
+if [[ -z "$branch" ]]; then
+  branch=$(git -C "$repo" branch --show-current)
+fi
+
+if [[ -z "$branch" ]]; then
+  echo "project-push: branch is required for detached HEAD repos" >&2
+  exit 2
+fi
+
+cmd=(git -C "$repo" push)
+if [[ "$set_upstream" -eq 1 ]]; then
+  cmd+=(--set-upstream)
+fi
+cmd+=("$remote" "$branch")
+
+if [[ "$dry_run" -eq 1 ]]; then
+  printf '%q ' "${cmd[@]}"
+  printf '\n'
+  exit 0
+fi
+
+exec "${cmd[@]}"

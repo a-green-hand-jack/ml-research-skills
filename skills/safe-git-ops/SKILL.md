@@ -13,6 +13,8 @@ Help the user perform common Git operations without confusing sandbox failures, 
 ```text
 <installed-skill-dir>/
 ├── SKILL.md
+├── scripts/
+│   └── project-push
 └── references/
     ├── failure-modes.md
     ├── commit-paths.md
@@ -33,6 +35,7 @@ Help the user perform common Git operations without confusing sandbox failures, 
 - Ask before destructive operations such as `reset --hard`, `checkout --`, deleting branches, or dropping stashes
 - Prefer non-interactive Git commands
 - Use risk-tiered commit paths so low-risk text/docs changes do not pay the cost of full validation, full smoke tests, or full skill reinstall
+- For routine network pushes, prefer the stable wrapper `project-push <repo> <remote> <branch>` over ad hoc command shapes such as `cd repo && git push`, `bash -lc "git push"`, or changing between relative and absolute `git -C` forms.
 - Use `sidecar-task-runner` precommit classification for non-trivial closeouts when it can run read-only and reduce main-agent decision time
 - When a write operation is blocked by the sandbox, explain that clearly and request escalation instead of guessing about conflicts
 - When a network Git operation fails, distinguish network/sandbox access from authentication, Git remote, or repository problems before asking the user to change credentials
@@ -183,6 +186,14 @@ If a network Git command is important and fails because DNS, API, or host connec
 Use wording like:
 
 > This `git ls-remote` failure did not reach GitHub; it looks like sandboxed network access, not a missing repo or bad SSH key. I should rerun it with network permission before diagnosing credentials.
+
+For routine pushes after commit, use the stable wrapper shape:
+
+```bash
+project-push <repo> <remote> <branch>
+```
+
+Use the branch found during preflight. Do not rewrite the same push as `cd <repo> && git push`, `git -C <repo> push`, or a shell-wrapped variant unless the wrapper is unavailable.
 
 ## Step 6 — Worktree-Specific Rules
 

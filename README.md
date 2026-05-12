@@ -800,6 +800,7 @@ The most important feedback loops are:
 - **Sidecar execution layer**: `sidecar-task-runner` gives the main agent a repo-local protocol for fast one-shot Codex sidecars that draft proposals, pre-review changes, scan docs, triage logs, or classify precommit risk paths while leaving final decisions with the main agent.
 - **Automatic personalization loop**: `personalization-memory` uses sanitized trajectories, logs, sidecar artifacts, diffs, and project memory to produce candidate preferences without interrupting the user. Low-cost sidecars can scan the traces; the main agent writes only derived, privacy-safe rules to private or project memory.
 - **Fast closeout loop**: `safe-git-ops` uses Fast / Skill / Code / Risk paths so small text changes avoid full smoke tests and full reinstall, while `sidecar-task-runner` can run a read-only `precommit-classifier` sidecar to recommend the minimal validation and reinstall scope.
+- **Stable Git push shape**: `safe-git-ops` ships `project-push` so routine closeouts use one approval-friendly command shape instead of drifting among equivalent `git push` forms.
 - **Token telemetry to project management**: `token-usage-auditor` reads local Codex, Codex sidecar, and Claude Code logs or metadata to summarize attention allocation, fresh token burn, cache reuse, and high-friction sessions without copying raw prompts into project memory.
 
 ### 0. Project Memory and Coordination
@@ -922,7 +923,7 @@ Use this whenever a workflow touches non-trivial Git state:
 
 | Skill | Lifecycle role |
 |---|---|
-| **safe-git-ops** | Diagnose and perform Git operations safely, especially around worktrees, conflicts, sandboxed metadata writes, and networked Git commands |
+| **safe-git-ops** | Diagnose and perform Git operations safely, especially around worktrees, conflicts, sandboxed metadata writes, networked Git commands, and stable `project-push` closeout |
 
 ## Role-Based Categories
 

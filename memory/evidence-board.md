@@ -22,6 +22,7 @@ Track evidence for project-level skill-system claims.
 | EVD-016 | implementation | available | `memory-publication-auditor` scans private inputs for publication risks, redacts sensitive evidence in audit reports, classifies files as private-only/redactable/publishable/reusable-pattern, and has smoke test coverage. | `skills/memory-publication-auditor/`, `tests/test_memory_publication_auditor.py` | CLM-014 |  | PRV-009 | observed | 2026-05-10 |
 | EVD-017 | implementation | verified | `run-status-monitor` probes configured local logs, local processes, wrapper commands, SLURM, and RunAI into short status artifacts with progress, metrics, ETA, and risk summaries while omitting raw command output. | `skills/run-status-monitor/`, `tests/test_run_status_monitor.py` | CLM-015 |  | PRV-010 | observed | 2026-05-11 |
 | EVD-018 | implementation | verified | `remote-project-control` now includes `remote-cmd` and `remote-bash` scripts, SSH wrapper policy guidance, run-status integration notes, and dry-run smoke tests for quoted command generation. | `skills/remote-project-control/`, `skills/run-status-monitor/`, `tests/test_remote_command_wrappers.py` | CLM-016 |  | PRV-011 | observed | 2026-05-12 |
+| EVD-019 | implementation | verified | `safe-git-ops` now includes `project-push`, commit-path guidance for stable push closeout, private local installation notes, and smoke tests for dry-run output and repo validation. | `skills/safe-git-ops/`, `tests/test_project_push_wrapper.py` | CLM-017 |  | PRV-012 | observed | 2026-05-12 |
 
 ## Figures and Assets
 

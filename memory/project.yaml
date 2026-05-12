@@ -54,7 +54,7 @@ toolchain_gates:
       required: true
       mutates_files: false
     python_smoke_tests:
-      command: "python3 -m unittest -v tests.test_sidecar_task_runner tests.test_token_usage_auditor tests.test_code_reviewer_bundle tests.test_init_python_project_scaffold tests.test_latex_layout_issue_bundler tests.test_reference_library_manager tests.test_memory_publication_auditor tests.test_run_status_monitor tests.test_remote_command_wrappers"
+      command: "python3 -m unittest -v tests.test_sidecar_task_runner tests.test_token_usage_auditor tests.test_code_reviewer_bundle tests.test_init_python_project_scaffold tests.test_latex_layout_issue_bundler tests.test_reference_library_manager tests.test_memory_publication_auditor tests.test_run_status_monitor tests.test_remote_command_wrappers tests.test_project_push_wrapper"
       required: true
       mutates_files: false
     whitespace_check:
@@ -125,12 +125,12 @@ components:
     status: active
 
 id_counters:
-  claim: 16
-  evidence: 18
-  risk: 10
-  action: 19
-  decision: 16
-  provenance: 11
+  claim: 17
+  evidence: 19
+  risk: 11
+  action: 20
+  decision: 17
+  provenance: 12
   handoff: 3
   visibility: 1
   gate: 4

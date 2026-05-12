@@ -225,6 +225,7 @@ ml-research-skills/
     │   └── SKILL.md
     ├── safe-git-ops/
     │   ├── SKILL.md
+    │   ├── scripts/
     │   └── references/
     ├── remote-project-control/
     │   ├── SKILL.md
