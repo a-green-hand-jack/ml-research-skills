@@ -221,3 +221,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/run-status-monitor/`, `skills/remote-project-control/`, private EPFL memory, private compute workflow preferences.
 - Revisit when: a stable non-interactive RunAI auth refresh mechanism exists.
 - Certainty: user-stated
+
+## DEC-023 - Keep Experiment Progress Tracking Artifact-Bounded
+
+- Date: 2026-05-13
+- Decision: Strengthen `run-status-monitor` so repeated experiment progress tracking is handled by status artifacts, project wrappers, sidecars, or bounded background monitors rather than transcript-visible main-agent polling loops.
+- Why: Watching long experiments through the main agent wastes tokens, crowds the context window, and undermines the purpose of a dedicated run-status skill. The main agent should perform at most one bounded probe for an immediate answer, then read a compressed status artifact.
+- Alternatives considered: allow the main agent to keep using `sleep` plus repeated scheduler/log/filesystem checks; rely on informal reminders to use the monitor skill; require human manual checks only.
+- Affects: `skills/run-status-monitor/`, private compute workflow preferences.
+- Revisit when: project wrappers or sidecar monitors fail to provide enough detail for reliable run-state decisions.
+- Certainty: user-stated

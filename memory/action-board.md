@@ -29,6 +29,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-023 | done | agent | experiments | Add uv environment reuse rules for server experiments. | DEC-020, CLM-020, EVD-022, RSK-014 | Reuse project/stage envs by default; create job-specific uv envs only for dependency, isolation, or real sync-race reasons. |  | 2026-05-13 |
 | ACT-024 | done | agent | experiments | Add image-startup and GPU-generation compatibility checks for server smoke/debug routing. | DEC-021, CLM-021, EVD-023, RSK-015 | Treat long image pull / `ContainerCreating` as node-image overhead and avoid free-but-cold or incompatible pools for smoke by default. |  | 2026-05-13 |
 | ACT-025 | done | agent | monitoring | Add scheduler API auth circuit breaker to avoid repeated token-wasting monitor retries. | DEC-022, CLM-022, EVD-024, RSK-016 | On OAuth/session refresh failure, stop API probes, switch to filesystem fallback, and record one login-refresh action. |  | 2026-05-13 |
+| ACT-026 | done | agent | monitoring | Make experiment progress tracking artifact-bounded instead of main-agent polling. | DEC-023, CLM-023, EVD-025, RSK-017 | Use one bounded probe for immediate answers; use a status artifact, project wrapper, sidecar, or bounded background monitor for repeated checks. |  | 2026-05-13 |
 
 ## Blocked Actions
 

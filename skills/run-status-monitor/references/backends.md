@@ -79,3 +79,11 @@ ETA is heuristic. Treat it as operational guidance, not evidence.
 - Do not store full logs in `docs/`.
 - Keep raw captures under `.agent/run-status/raw/` only when needed and usually ignored.
 - Promote durable findings to `experiment-report-writer` or `result-diagnosis` only after the run reaches a meaningful checkpoint.
+
+## Polling Policy
+
+- The main agent should not be the long-lived observer for active experiments. Avoid transcript-visible loops such as repeated `sleep`, `describe`, `logs`, and filesystem checks unless the user explicitly asks for an inline live watch.
+- One bounded probe is enough for an immediate answer. If the answer is "still running; check later", schedule or run a bounded monitor that writes/updates the status artifact instead of keeping raw observations in the main context.
+- For multi-job or noisy runs, prefer a project wrapper that emits a compact state line per job plus paths to checkpoints/summaries. If interpretation is needed, use a sidecar task over bounded raw captures and have the main agent read only the sidecar/status artifact.
+- Choose check cadence from expected signal, not impatience: short intervals only while waiting for startup failures or first output, longer intervals during known long forward/backward phases, and no agent polling when no new artifact can plausibly appear before the next human-visible milestone.
+- The artifact should capture the next useful check condition, such as "first checkpoint exists", "summary file written", "scheduler terminal state", or "auth refreshed", so later agents can resume without replaying the polling history.

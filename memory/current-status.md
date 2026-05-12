@@ -4,7 +4,7 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, context-safe run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, server uv environment reuse, image/startup-aware resource routing, and scheduler auth circuit breakers.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, artifact-bounded run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, server uv environment reuse, image/startup-aware resource routing, and scheduler auth circuit breakers.
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, SSH wrapper routing/templates, stable push wrappers, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
@@ -21,6 +21,7 @@
 - Server experiment skills now treat Python environment creation as a cost: reuse project/stage uv environments by default, avoid deriving `UV_PROJECT_ENVIRONMENT` from each job name, and require a concrete dependency/isolation/sync-race reason for job-specific envs.
 - Server experiment skills now treat long image pulls, `ContainerCreating`, and GPU-generation/CUDA compatibility as scheduling inputs, so lower-wait pools are not chosen blindly for smoke/debug work.
 - `run-status-monitor` and `remote-project-control` now stop repeated scheduler API probes after OAuth/session refresh failure, switch to filesystem/project-wrapper fallback when available, and record one login-refresh action.
+- `run-status-monitor` now treats repeated progress tracking as artifact work: the main agent should not run long-lived `sleep`/poll/log-watch loops, and multi-check monitoring should be handled by a project wrapper, sidecar, or bounded background monitor that writes a short status artifact.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
 - `memory-publication-auditor` audits private skills, memories, notes, or logs before converting them into public skills, docs, templates, or reusable patterns.
@@ -48,6 +49,7 @@
 - `RSK-007`: Raw sources or reading trajectories could leak copyrighted/private text into public project memory if source cards are not used as the compression layer.
 - `RSK-008`: Private memory publication audits could accidentally reproduce sensitive evidence if reports are not redacted and local/private by default.
 - `RSK-009`: Run-status monitors could leak raw logs or overstate ETA if probe artifacts are not kept short and uncertainty-aware.
+- `RSK-017`: Main agents could still become long-lived run observers, wasting tokens and crowding the context window, if polling is not pushed into artifacts, wrappers, or sidecars.
 - `RSK-010`: SSH wrappers can hide shell semantics if agents use `remote-cmd` for commands that actually require shell pipelines or variable expansion.
 - `RSK-011`: Stable push wrappers could be used without ordinary preflight if agents treat them as replacing Git state checks.
 - `RSK-012`: Already-open sessions and existing project guidance may keep stale SSH habits until skills are reinstalled or reread.
@@ -78,6 +80,7 @@
 - `ACT-023`: Reuse project/stage uv environments by default for server jobs; create job-specific uv envs only for dependency, isolation, or real sync-race reasons.
 - `ACT-024`: Treat image pull / `ContainerCreating` and GPU-generation compatibility as smoke/debug routing inputs; avoid free-but-cold or incompatible pools.
 - `ACT-025`: Use scheduler API auth circuit breakers: stop repeated API probes after OAuth/session refresh failure and use filesystem fallback plus one login-refresh action.
+- `ACT-026`: Use artifact-bounded progress tracking: one bounded main-agent probe is acceptable, but repeated checks should update a short status artifact outside the main transcript.
 
 ## Needs Verification Next Session
 
@@ -88,4 +91,4 @@
 
 ## Next Step
 
-- Next substantial closeouts should preserve stable command shapes: `project-push` for Git pushes, `remote-cmd` for simple server commands, `remote-bash` for server shell logic, and `run-status-monitor` for active run summaries. Existing open sessions should reread `safe-git-ops/SKILL.md` plus `references/commit-paths.md` if they keep using raw Git push forms, and reread `remote-project-control/SKILL.md` plus `references/ssh-command-wrappers.md` if they keep using raw SSH.
+- Next substantial closeouts should preserve stable command shapes: `project-push` for Git pushes, `remote-cmd` for simple server commands, `remote-bash` for server shell logic, and `run-status-monitor` for active run summaries. Existing open sessions should reread `safe-git-ops/SKILL.md` plus `references/commit-paths.md` if they keep using raw Git push forms, reread `remote-project-control/SKILL.md` plus `references/ssh-command-wrappers.md` if they keep using raw SSH, and reread `run-status-monitor/SKILL.md` plus `references/backends.md` if they keep doing transcript-visible experiment polling.

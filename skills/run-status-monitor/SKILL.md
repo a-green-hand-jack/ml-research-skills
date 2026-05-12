@@ -36,8 +36,9 @@ Do not paste long scheduler output or training logs into chat. Probe, compress, 
 
 - Raw logs stay in their original location or private `.agent/` run artifacts.
 - The main agent reads only a short generated status artifact.
+- Do not run open-ended `sleep`/poll/log-watch loops in the main agent transcript. A single bounded probe is acceptable; repeated checks must be done through a status artifact, a project wrapper, or a sidecar/background monitor that writes a short artifact.
 - Prefer project/private wrapper commands for server-specific probes. For SSH-backed status checks, prefer `remote-cmd` for simple commands and `remote-bash` for project scripts or any command containing loops, `$variables`, command substitution, pipes, globs, `find`, or `awk`.
-- Use `sidecar-task-runner` only when summarizing noisy status output would otherwise consume main context.
+- Use `sidecar-task-runner` or a project-local monitor artifact when status tracking needs more than one check, noisy log interpretation, multiple jobs, or delayed follow-up. The sidecar/monitor should own polling and log compression; the main agent should read only its final short artifact.
 - Use an authentication circuit breaker for scheduler/API probes. If a RunAI/Kubernetes/cluster API command reports OAuth/session refresh failure such as `invalid_grant`, stop retrying API probes in this turn, mark API monitoring blocked, and switch to filesystem/project-wrapper fallback when available.
 - If a run appears failed, stale, or scientifically surprising, route to `result-diagnosis` after creating the status artifact.
 - If a run is pending, distinguish scheduler/resource causes from code causes. Summarize whether the blocker appears to be pool/partition capacity, quota/fair-share, CPU/memory request, image pull, `ContainerCreating`, environment startup, or unknown, and recommend the smallest compatible next action.
@@ -74,6 +75,13 @@ python3 <installed-skill-dir>/scripts/run_status_probe.py \
 5. If no config exists, create one from `templates/runs.yaml` with the minimum backend fields and ask only for missing run identity fields.
 6. Read only the generated `status_artifact`, not raw logs, before answering the user.
 7. Update `docs/ops/current-status.md` or project memory only when the status changes durable project state.
+
+For ongoing monitoring:
+
+1. Write a small monitor plan under `.agent/run-status/` or use a project wrapper that writes `docs/ops/runs/<run-id>-status.md`.
+2. If waiting is needed, keep it outside the main transcript as a bounded background/session task and have it overwrite the short status artifact.
+3. Return to the main agent with only the status artifact path and its compressed fields.
+4. Stop monitoring when the run reaches a terminal state, auth is blocked, or the next useful check is far enough away that a human reminder is cheaper than agent polling.
 
 ## Output Rules
 
