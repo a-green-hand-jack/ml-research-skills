@@ -6,7 +6,8 @@ This directory stores public visual panels used to explain the `ml-research-skil
 
 | File | Role | README placement | Notes |
 |---|---|---|---|
-| `system-overview.png` | Main system overview for the full skill collection. | Top of `README.md` | Use as the first visual entry point. |
+| `current-system-overview-2026-05-12.png` | Current main system overview for the full skill collection, including run monitoring, remote wrappers, publication audit, generalized references, and sidecar execution. | Top of `README.md` | Use as the first visual entry point for the current architecture. |
+| `system-overview.png` | Earlier main system overview for the full skill collection. | Additional visual panel | Keep as a stable historical overview unless superseded by a clearer dated panel. |
 | `project-anatomy.png` | Managed ML project structure, component repos, memory bus, and skill maintenance map. | `Project Anatomy` | Best panel for explaining the control-root layout. |
 | `tool-calling-loop.png` | Core execution loop: read memory, plan, call skill/tool, write memory, evaluate. | `Core Execution Loop` | Use when explaining how a single skill invocation works. |
 | `memory-project-bus.png` | Memory boards and object graph: claims, evidence, provenance, risks, actions, handoffs, phase, visibility. | `Memory System` | Use when explaining cross-session coordination. |

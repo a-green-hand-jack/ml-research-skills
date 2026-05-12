@@ -2,11 +2,12 @@
 
 Agent skills for the full ML research workflow: initializing paper and code repos, running experiments, syncing results, updating docs, checking paper readiness, preparing releases, and tagging milestones.
 
-![ML Research Skills System: Tool-Calling and Memory-Orchestrated Workflow](asset/system-overview.png)
+![ML Research Skills System: Current Overview](asset/current-system-overview-2026-05-12.png)
 
 Additional visual panels:
 
 - [Visual asset index](asset/README.md)
+- [Current system overview](asset/current-system-overview-2026-05-12.png)
 - [ML project anatomy](asset/project-anatomy.png)
 - [Tool-calling loop](asset/tool-calling-loop.png)
 - [Memory project bus](asset/memory-project-bus.png)

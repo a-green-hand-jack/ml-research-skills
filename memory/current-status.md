@@ -23,7 +23,7 @@
 - `code-reviewer` supports Spark pre-review plus strong isolated review.
 - `token-usage-auditor` supports Codex, Claude Code, and repo-local sidecar metadata.
 - `add-git-tag` can use read-only sidecar proposal generation while preserving human gates for tag creation and push.
-- `asset/` images are tracked with semantic file names; README embeds the system overview, execution loop, project anatomy, memory bus, workspace architecture, infra/audit layer, and detailed workflow panels.
+- `asset/` images are tracked with semantic file names; README embeds `current-system-overview-2026-05-12.png` as the current top-level overview, plus execution loop, project anatomy, memory bus, workspace architecture, infra/audit layer, and detailed workflow panels.
 - `asset/README.md` indexes each public diagram's role, README placement, and maintenance rules.
 - Local `.agent/sidecars/` artifacts are private/local and excluded from this repo's tracked files.
 - `submit-paper` now includes a screenshot/page/object-first LaTeX layout debugging protocol, with short pointers from camera-ready, figure review, and table review skills.
