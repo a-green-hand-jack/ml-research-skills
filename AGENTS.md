@@ -360,6 +360,7 @@ Guidelines:
 - Use `scripts/` for shell automation so the agent can run commands without embedding large shell blocks inline.
 - Use `templates/` for files the skill writes into user projects.
 - Write the `description` as a routing rule, not a title. Agents use it to decide when to activate the skill.
+- When a live session repeatedly misses an existing skill, promote the lesson into routing metadata, core contracts, references, templates, wrappers, and project memory; do not leave it only as chat history.
 - Keep examples and venue/tooling references aligned with the actual templates and scripts shipped in the same skill directory.
 
 ## Validation

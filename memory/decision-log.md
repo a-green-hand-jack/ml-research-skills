@@ -231,3 +231,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/run-status-monitor/`, private compute workflow preferences.
 - Revisit when: project wrappers or sidecar monitors fail to provide enough detail for reliable run-state decisions.
 - Certainty: user-stated
+
+## DEC-024 - Treat Repeated Agent Mistakes As Skill Hardening Inputs
+
+- Date: 2026-05-13
+- Decision: Add a reusable agent-regression hardening reference to `skill-system-auditor`.
+- Why: The recent Git, SSH, RunAI, uv, resource-selection, OAuth, and progress-monitoring fixes showed the same pattern: a skill or helper may exist but still fail in practice if routing triggers are too weak, rules are buried too deep, templates do not inherit them, or installed runtime copies are stale.
+- Alternatives considered: keep the lessons only in conversation and project memory; add ad hoc notes to each affected skill; create a separate new skill for regression hardening.
+- Affects: `skills/skill-system-auditor/`, `memory/`.
+- Revisit when: future regressions show the hardening ladder misses a common failure mode.
+- Certainty: user-stated

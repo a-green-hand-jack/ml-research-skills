@@ -4,7 +4,7 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, artifact-bounded run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, server uv environment reuse, image/startup-aware resource routing, and scheduler auth circuit breakers.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, artifact-bounded run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, server uv environment reuse, image/startup-aware resource routing, scheduler auth circuit breakers, and reusable agent-regression hardening guidance.
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, SSH wrapper routing/templates, stable push wrappers, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
@@ -22,6 +22,7 @@
 - Server experiment skills now treat long image pulls, `ContainerCreating`, and GPU-generation/CUDA compatibility as scheduling inputs, so lower-wait pools are not chosen blindly for smoke/debug work.
 - `run-status-monitor` and `remote-project-control` now stop repeated scheduler API probes after OAuth/session refresh failure, switch to filesystem/project-wrapper fallback when available, and record one login-refresh action.
 - `run-status-monitor` now treats repeated progress tracking as artifact work: the main agent should not run long-lived `sleep`/poll/log-watch loops, and multi-check monitoring should be handled by a project wrapper, sidecar, or bounded background monitor that writes a short status artifact.
+- `skill-system-auditor` now includes agent-regression hardening guidance: when a skill exists but agents keep regressing, promote the lesson into routing triggers, core contracts, references, templates, wrappers, memory, reinstall, and installed-copy checks.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
 - `memory-publication-auditor` audits private skills, memories, notes, or logs before converting them into public skills, docs, templates, or reusable patterns.
@@ -81,6 +82,7 @@
 - `ACT-024`: Treat image pull / `ContainerCreating` and GPU-generation compatibility as smoke/debug routing inputs; avoid free-but-cold or incompatible pools.
 - `ACT-025`: Use scheduler API auth circuit breakers: stop repeated API probes after OAuth/session refresh failure and use filesystem fallback plus one login-refresh action.
 - `ACT-026`: Use artifact-bounded progress tracking: one bounded main-agent probe is acceptable, but repeated checks should update a short status artifact outside the main transcript.
+- `ACT-027`: Use agent-regression hardening during skill maintenance: do not leave repeated mistakes as chat-only lessons or buried prose.
 
 ## Needs Verification Next Session
 

@@ -42,6 +42,8 @@ Check whether the collection covers:
 - Pair-with sections are current.
 - Stale "future" references are removed after implementation.
 - Feedback loops are represented, especially experiments <-> writing <-> review <-> rebuttal.
+- User-observed regressions are reflected in routing descriptions, not only buried in long references.
+- Common failure vocabulary that should trigger a skill appears in the relevant `description` or project guidance.
 
 ## Memory
 
@@ -49,6 +51,13 @@ Check whether the collection covers:
 - Memory writes are durable summaries, not transcripts.
 - Component memory paths are consistent.
 - Claim/evidence/risk/action IDs remain meaningful across stages.
+
+## Behavior Hardening
+
+- Repeated agent mistakes have explicit stop conditions and fallbacks.
+- Token-expensive loops are replaced with bounded artifacts, sidecars, wrappers, or project-local monitors.
+- Stable wrapper command shapes exist when sandbox approvals, shell quoting, or equivalent command drift caused repeated failures.
+- Runtime installation state is checked after skill behavior changes, not inferred from the repo diff alone.
 
 ## Validation
 

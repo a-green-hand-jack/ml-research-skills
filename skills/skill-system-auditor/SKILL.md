@@ -14,6 +14,7 @@ Use this skill when:
 - the user asks for a global consistency audit of a skill repository
 - newly added skills may have made README, AGENTS, CLAUDE, lifecycle categories, or role categories stale
 - cross-skill routing, pair-with guidance, or memory writeback expectations need alignment
+- user-observed agent regressions need to become stronger routing rules, execution contracts, templates, or validation checks
 - future-skill references, obsolete TODOs, or implemented-gap mentions need cleanup
 - helper paths, templates, frontmatter, or validation scripts need a maintenance pass
 - the user wants to decide what skills are missing next
@@ -35,12 +36,14 @@ Pair this skill with:
 └── references/
     ├── audit-rubric.md
     ├── doc-sync-map.md
+    ├── agent-regression-hardening.md
     └── report-template.md
 ```
 
 ## Progressive Loading
 
 - Always read `references/audit-rubric.md` and `references/doc-sync-map.md`.
+- Read `references/agent-regression-hardening.md` when an audit is triggered by repeated agent mistakes, stale open sessions, missed skill activation, token waste, command-shape drift, or workflow regressions.
 - Read `references/report-template.md` before writing an audit report.
 - If the repository has its own validation script or AGENTS instructions, read those before making edits.
 
@@ -52,6 +55,7 @@ Pair this skill with:
 - "Future skill" references should not name skills that already exist.
 - Memory writeback expectations should cover every skill that changes durable project state.
 - Keep fixes surgical. Do not rewrite mature skills just to make wording uniform.
+- Convert repeated agent mistakes into earlier triggers, harder contracts, concrete fallbacks, and inherited templates rather than only adding explanatory prose.
 - Validate locally before commit, push, or reinstall.
 
 ## Step 1 - Recover Repository Rules

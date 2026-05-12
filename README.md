@@ -1554,6 +1554,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - Global skill-collection audits for inventory, lifecycle coverage, role categories, routing, memory writeback, documentation drift, and stale future-skill references
 - A reusable process for deciding whether a missing capability is a real gap, covered by an existing skill, out of scope, or hardening work
+- Agent-regression hardening guidance for turning repeated live-session mistakes into earlier routing triggers, harder execution contracts, inherited templates, wrappers, memory writeback, reinstall, and installed-copy checks
 - Documentation sync checks across README, AGENTS, CLAUDE, memory protocols, and audit reports
 - Validation-first maintenance guidance before committing, pushing, or reinstalling the skill collection
 
