@@ -142,6 +142,14 @@ Resource-aware rule:
 - When a job is pending, inspect scheduler events to distinguish resource-pool capacity, quota/fair-share, CPU/memory request, image/env startup, and code failures before launching duplicates.
 - Do not store volatile queue snapshots as durable facts; record only the decision rationale and the monitor command or artifact.
 
+Environment reuse rule:
+
+- Treat virtualenv/uv environment creation as an operational cost, not a harmless default.
+- Reuse the configured project or stage environment when dependencies are unchanged.
+- Do not generate a new `UV_PROJECT_ENVIRONMENT` from each job name or smoke target.
+- Create a job-specific env only for dependency changes, incompatible stacks, destructive package tests, or real concurrent sync/race risk.
+- If the server repo has many env directories or slow uv startup, inspect the existing environment policy before submitting more jobs.
+
 When wrapping a command, prefer this structure:
 
 ```bash

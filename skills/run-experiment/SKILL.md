@@ -30,6 +30,7 @@ When launching on SLURM or RunAI, call it a server run rather than a remote run 
 - Separate smoke/debug jobs from formal jobs. For smoke tests, prefer the smallest compatible allocation that can validate code quickly; if a high-end pool is pending, use a compatible lower-wait pool when scientifically acceptable.
 - For formal jobs, do not silently downgrade resources in ways that change the experimental contract. Surface the tradeoff and preserve reproducibility.
 - Treat scheduler queue state as volatile. Verify it near submission time and record it as operational context, not durable evidence.
+- Treat Python environment creation as a cost. Reuse a project, shared, or stage-level environment by default; create a new job-specific uv environment only when dependencies changed, isolation is required, or concurrent sync/race risk is real.
 
 ## Skill Directory Layout
 
@@ -67,6 +68,17 @@ Ask the user **in a single message**:
 8. **Anything special?**: Extra env vars, array job, specific GPU type, PVC mounts (RunAI), etc.
 
 If `--env`, `--script`, `--name`, or `--gpus` were passed as arguments, pre-fill those answers.
+
+### 2.0 Python Environment Reuse Planning
+
+Before generating a job that uses uv or `UV_PROJECT_ENVIRONMENT`, choose the environment strategy deliberately:
+
+- Prefer the repo's documented `.venv`, shared RunAI env, or stage-level env when dependencies are unchanged.
+- Do not create a new uv env just because the job name, task subset, node-pool, or smoke target changed.
+- Use a job-specific uv env only for dependency changes, incompatible Python/CUDA stacks, destructive package experiments, or known concurrent `uv sync` races.
+- For smoke/debug jobs, skip `uv sync` when the chosen env is already known to be current; use `uv run --frozen` or the project's documented no-sync command when available.
+- If a sync is needed, keep it explicit in the generated script and say why the existing env cannot be reused.
+- For server runs, ensure env paths are on persistent storage; avoid pod-local envs that disappear or force rebuilds.
 
 ### 2.1 Resource-Aware Launch Planning
 
@@ -154,6 +166,8 @@ Fill in placeholders:
 | `{RUN_COMMAND}` | user-provided command |
 
 **Output path**: `jobs/<job-name>-runai.sh`
+
+For RunAI/uv jobs, include existing `UV_PROJECT_ENVIRONMENT`, `UV_PYTHON_INSTALL_DIR`, and cache settings only when they are part of the project policy or user-provided command. Do not invent a job-specific `UV_PROJECT_ENVIRONMENT` from the job name. If the command needs a new env, explain the reason in the script comments or run pointer.
 
 #### type: local
 

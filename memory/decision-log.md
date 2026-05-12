@@ -191,3 +191,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/run-experiment/`, `skills/remote-project-control/`, `skills/run-status-monitor/`, README.md, AGENTS.md, CLAUDE.md, private personalization memory.
 - Revisit when: resource-aware choices cause provenance confusion, resource downgrades affect formal results, or scheduler-specific guidance needs a public/private split.
 - Certainty: user-stated
+
+## DEC-020 - Prefer Reusing Server uv Environments
+
+- Date: 2026-05-13
+- Decision: Encode a default policy that server experiments reuse an existing project or stage uv environment instead of creating a new job-specific env for every smoke or run.
+- Why: On EPFL RunAI, job-specific uv envs can avoid sync races but add startup latency and clutter persistent storage. Agents were overusing new env creation during smoke runs when dependencies had not changed.
+- Alternatives considered: always create job-specific envs for isolation; always share one env even during dependency changes or concurrent syncs; leave env strategy to each generated command.
+- Affects: `skills/run-experiment/`, `skills/remote-project-control/`, `skills/run-status-monitor/`, private EPFL memory, private compute workflow preferences.
+- Revisit when: project dependency changes become frequent enough that stage-level env naming needs a stronger public template.
+- Certainty: user-stated

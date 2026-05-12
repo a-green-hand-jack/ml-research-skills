@@ -14,6 +14,7 @@ Terminology: local = local development machine; Git remote = GitHub/GitLab remot
 - GitHub/GitLab API network access: unknown until checked
 - General network-sensitive commands: `gh`, `git fetch/push/ls-remote`, `ssh`, `curl`, package managers, and scheduler/API CLIs may require network permission in sandboxed agent runtimes
 - SSH wrapper policy: use `remote-cmd <ssh-alias> <remote-repo-root> -- <command> [args...]` for simple server commands; use `remote-bash <ssh-alias> <remote-repo-root> scripts/ops/<wrapper>.sh` for loops, `$variables`, command substitution, pipes, globs, `find`, `awk`, or multi-line logic
+- Python environment policy: reuse the configured project or stage env by default; do not create a job-specific uv env unless dependencies changed, isolation is required, or a real concurrent sync/race risk exists
 
 ## Current Focus
 

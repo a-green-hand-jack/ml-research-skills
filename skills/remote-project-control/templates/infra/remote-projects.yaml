@@ -39,6 +39,20 @@ policies:
   checkpoints_remote_only: true
   require_clean_git_before_sync: true
   require_git_sync_before_remote_run: true
+  prefer_reusing_existing_python_env: true
+  avoid_job_specific_uv_env_by_default: true
   prefer_remote_cmd_for_simple_server_commands: true
   prefer_remote_bash_for_complex_server_shell_logic: true
   forbid_destructive_git_on_remote_without_confirmation: true
+
+environment_policy:
+  python_env_strategy: reuse-project-or-stage-env
+  uv_project_environment: fill-in-project-env-path-or-name
+  create_job_specific_uv_env_only_for:
+    - dependency changes
+    - incompatible Python/CUDA stacks
+    - destructive package experiments
+    - known concurrent uv sync races
+  notes:
+    - Do not derive a new UV_PROJECT_ENVIRONMENT from every job name or smoke target.
+    - Use persistent server storage for envs and caches.

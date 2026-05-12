@@ -40,6 +40,7 @@ Do not paste long scheduler output or training logs into chat. Probe, compress, 
 - Use `sidecar-task-runner` only when summarizing noisy status output would otherwise consume main context.
 - If a run appears failed, stale, or scientifically surprising, route to `result-diagnosis` after creating the status artifact.
 - If a run is pending, distinguish scheduler/resource causes from code causes. Summarize whether the blocker appears to be pool/partition capacity, quota/fair-share, CPU/memory request, image/env startup, or unknown, and recommend the smallest compatible next action.
+- If a run is spending time creating or syncing a new uv environment, report that as environment setup overhead. Check whether the job used an existing project/stage env or created a job-specific env, and flag avoidable env proliferation.
 
 ## Expected Project Layout
 
