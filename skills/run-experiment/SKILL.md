@@ -31,6 +31,7 @@ When launching on SLURM or RunAI, call it a server run rather than a remote run 
 - For formal jobs, do not silently downgrade resources in ways that change the experimental contract. Surface the tradeoff and preserve reproducibility.
 - Treat scheduler queue state as volatile. Verify it near submission time and record it as operational context, not durable evidence.
 - Treat Python environment creation as a cost. Reuse a project, shared, or stage-level environment by default; create a new job-specific uv environment only when dependencies changed, isolation is required, or concurrent sync/race risk is real.
+- Treat container image startup and GPU-generation compatibility as part of resource selection. A low-wait GPU pool is not useful if the image is cold on those nodes, the CUDA stack is incompatible, or the job spends the smoke budget in `ContainerCreating`.
 
 ## Skill Directory Layout
 
@@ -92,9 +93,10 @@ Then choose resources by matching need to availability:
 
 - Ask what GPU memory, GPU type, GPU count, walltime, CPU, memory, and interconnect assumptions are truly required.
 - Inspect current resource or queue state when practical through project/private wrappers, scheduler commands, or `run-status-monitor`.
-- Prefer lower-wait compatible resources for `smoke` and `debug` jobs, even if they are slower.
+- Prefer lower-wait compatible resources for `smoke` and `debug` jobs, even if they are slower, but only after checking image availability, CUDA/software compatibility, and expected startup overhead.
 - Prefer resource-matched and documented resources for `formal` jobs; do not change GPU class, precision assumptions, batch size, or distributed setup without recording the reason.
 - If an existing job is pending on a constrained pool, propose an independent low-cost smoke on another compatible pool only when it will not consume the formal job's evidence budget or confuse result provenance.
+- If a job remains in `ContainerCreating`, `ImagePullBackOff`, or an image-pull phase beyond the short smoke budget, classify it as node/image startup overhead rather than code failure. For smoke/debug jobs, prefer deleting or abandoning that attempt and rerouting to a compatible pool or node family with a warmer image/cache history.
 
 ### 3. Locate the project root
 

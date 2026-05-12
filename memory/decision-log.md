@@ -201,3 +201,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/run-experiment/`, `skills/remote-project-control/`, `skills/run-status-monitor/`, private EPFL memory, private compute workflow preferences.
 - Revisit when: project dependency changes become frequent enough that stage-level env naming needs a stronger public template.
 - Certainty: user-stated
+
+## DEC-021 - Treat Image Startup And GPU Generation As Scheduling Inputs
+
+- Date: 2026-05-13
+- Decision: Extend resource-aware experiment launch to consider container image startup, node image cache state, and GPU-generation/CUDA/software compatibility before rerouting smoke/debug jobs.
+- Why: A lower-wait or apparently available GPU pool can still be a poor smoke target if the image is cold on that node family, the pod stays in `ContainerCreating`, or the project stack is not compatible with that GPU generation.
+- Alternatives considered: choose any free compatible-memory GPU; wait indefinitely for `ContainerCreating`; treat image pull delays as code failures.
+- Affects: `skills/run-experiment/`, `skills/remote-project-control/`, `skills/run-status-monitor/`, private EPFL memory, private compute workflow preferences.
+- Revisit when: projects add explicit image prewarm jobs, node-family image-cache metadata, or per-project GPU compatibility matrices.
+- Certainty: user-stated

@@ -4,7 +4,7 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, context-safe run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, and server uv environment reuse.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, context-safe run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, server uv environment reuse, and image/startup-aware resource routing.
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, SSH wrapper routing/templates, stable push wrappers, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
@@ -19,6 +19,7 @@
 - `safe-git-ops` now ships `project-push` so routine network pushes use one stable command shape instead of drifting among equivalent `git push` variants; root `AGENTS.md`/`CLAUDE.md`, README project-structure guidance, `project-init`, and `init-python-project` templates now surface the same rule outside the skill body.
 - `run-experiment`, `remote-project-control`, and `run-status-monitor` now encode resource-aware launch: classify smoke/debug/formal work, inspect server resource and pending state when practical, use the fastest compatible allocation for smoke/debug, and preserve formal-job contracts.
 - Server experiment skills now treat Python environment creation as a cost: reuse project/stage uv environments by default, avoid deriving `UV_PROJECT_ENVIRONMENT` from each job name, and require a concrete dependency/isolation/sync-race reason for job-specific envs.
+- Server experiment skills now treat long image pulls, `ContainerCreating`, and GPU-generation/CUDA compatibility as scheduling inputs, so lower-wait pools are not chosen blindly for smoke/debug work.
 - `sidecar-task-runner` exists and was installed globally for Codex and Claude Code on 2026-05-05.
 - `personalization-memory` defines a non-interrupting preference writeback protocol, and `sidecar-task-runner` provides a `personalization-scanner` preset for low-cost candidate extraction.
 - `memory-publication-auditor` audits private skills, memories, notes, or logs before converting them into public skills, docs, templates, or reusable patterns.
@@ -74,6 +75,7 @@
 - `ACT-021`: Strengthen SSH wrapper routing and project templates, then reinstall changed skills.
 - `ACT-022`: Use resource-aware launch for experiments: choose low-wait compatible resources for smoke/debug, preserve formal job resource contracts, and diagnose pending jobs by scheduler/resource cause.
 - `ACT-023`: Reuse project/stage uv environments by default for server jobs; create job-specific uv envs only for dependency, isolation, or real sync-race reasons.
+- `ACT-024`: Treat image pull / `ContainerCreating` and GPU-generation compatibility as smoke/debug routing inputs; avoid free-but-cold or incompatible pools.
 
 ## Needs Verification Next Session
 

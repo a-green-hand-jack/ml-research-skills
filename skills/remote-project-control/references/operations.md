@@ -140,6 +140,8 @@ Resource-aware rule:
 - Experiment momentum is usually more important than waiting for an ideal but unnecessary resource. For smoke/debug jobs, prefer the fastest-starting compatible allocation that validates the codepath.
 - Formal jobs must preserve the intended experimental contract. If queue pressure suggests changing GPU class, memory, precision, batch size, seed plan, or distributed shape, surface the tradeoff and record the rationale instead of silently downgrading.
 - When a job is pending, inspect scheduler events to distinguish resource-pool capacity, quota/fair-share, CPU/memory request, image/env startup, and code failures before launching duplicates.
+- Treat image pull and `ContainerCreating` delays as resource/startup problems. A pool with free GPUs may still be a poor smoke target if the required image is cold on its nodes or the GPU generation is not compatible with the project's CUDA/software stack.
+- For smoke/debug jobs, rerouting away from a slow image-pull node is acceptable when outputs are isolated and the run is not paper-facing. For formal jobs, preserve the configured image and GPU class unless the user accepts a recorded change.
 - Do not store volatile queue snapshots as durable facts; record only the decision rationale and the monitor command or artifact.
 
 Environment reuse rule:

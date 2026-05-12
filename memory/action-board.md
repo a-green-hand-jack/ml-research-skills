@@ -27,6 +27,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-021 | done | agent | remote-ops | Push SSH wrapper policy into skill routing metadata and generated project guidance so raw SSH one-liner tasks activate the right protocol earlier. | DEC-018, CLM-018, EVD-020, RSK-012 | Use updated routing in new sessions; tell stale open sessions to reread the updated skill if they keep using raw SSH. |  | 2026-05-12 |
 | ACT-022 | done | agent | experiments | Add resource-aware launch and pending-resource diagnosis rules for server experiments. | DEC-019, CLM-019, EVD-021, RSK-013 | For smoke/debug jobs, inspect availability and choose the fastest compatible resource; for formal jobs, preserve the experimental contract. |  | 2026-05-13 |
 | ACT-023 | done | agent | experiments | Add uv environment reuse rules for server experiments. | DEC-020, CLM-020, EVD-022, RSK-014 | Reuse project/stage envs by default; create job-specific uv envs only for dependency, isolation, or real sync-race reasons. |  | 2026-05-13 |
+| ACT-024 | done | agent | experiments | Add image-startup and GPU-generation compatibility checks for server smoke/debug routing. | DEC-021, CLM-021, EVD-023, RSK-015 | Treat long image pull / `ContainerCreating` as node-image overhead and avoid free-but-cold or incompatible pools for smoke by default. |  | 2026-05-13 |
 
 ## Blocked Actions
 
