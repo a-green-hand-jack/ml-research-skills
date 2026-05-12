@@ -98,7 +98,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `project-init` | Initialize a research project control root with independent paper/code/slides repos, shared memory, optional GitHub Project board linkage, root project docs, root agent guidance, toolchain gates, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into `paper/sections/daily_experiments.tex` |
 | `new-workspace` | Create a git branch or project-aware component worktree for code experiments, paper venue versions, arXiv releases, and camera-ready paper versions |
-| `run-status-monitor` | Probe local, server, SLURM, RunAI, or wrapper-backed experiment status and write short progress artifacts without copying raw logs into chat |
+| `run-status-monitor` | Probe local, server, SLURM, RunAI, or wrapper-backed experiment status, including pending-resource diagnosis, and write short progress artifacts without copying raw logs into chat |
 | `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, and mechanical proposals can be delegated without giving away main-agent control |
 | `personalization-memory` | Scan trajectories, sidecar artifacts, logs, and repeated corrections for reusable preferences, then write safe private or project memory without interrupting the user |
 | `memory-publication-auditor` | Audit private skills, memories, notes, or logs before turning them into public skills, docs, templates, or reusable patterns |
@@ -139,7 +139,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `add-git-tag` | Create an annotated git milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs commit and surgically update affected documentation |
 | `submit-paper` | Pre-submission checklist for LaTeX papers: submission mode, mandatory sections, artifacts, anonymity, bibliography, source formatting, local layout debugging, and compile-backend handoff |
-| `run-experiment` | Submit an ML experiment to local, SLURM, or RunAI environments with reproducible job scripts in `jobs/` |
+| `run-experiment` | Submit an ML experiment to local, SLURM, or RunAI environments with reproducible job scripts in `jobs/` and resource-aware smoke/debug/formal planning |
 | `release-code` | Prepare and publish a research code repository for public release: security audit, generate README/LICENSE/CITATION.cff, tag version, create GitHub release |
 | `skill-system-auditor` | Audit the skill collection for inventory, lifecycle, routing, memory-writeback, documentation, and validation consistency |
 

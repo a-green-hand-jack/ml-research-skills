@@ -82,7 +82,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `project-init` | Set up a research project control root with independent paper/code/slides repos, shared memory, root project docs, optional GitHub Project board linkage, root agent guidance, and code/paper worktree policy |
 | `project-sync` | Sync experiment results from the code repo into the paper's `sections/daily_experiments.tex` log |
 | `new-workspace` | Create a Git branch or project-aware worktree for code experiments, baselines, rebuttal fixes, paper venue versions, arXiv releases, or camera-ready paper versions |
-| `run-status-monitor` | Probe local, server, SLURM, RunAI, or wrapper-backed experiment status and write short progress artifacts without copying raw logs into chat |
+| `run-status-monitor` | Probe local, server, SLURM, RunAI, or wrapper-backed experiment status, including pending-resource diagnosis, and write short progress artifacts without copying raw logs into chat |
 | `sidecar-task-runner` | Run bounded one-shot Codex sidecar tasks from repo-local prompt artifacts so fast scans, drafts, pre-reviews, and mechanical proposals can be delegated without giving away main-agent control |
 | `personalization-memory` | Scan trajectories, sidecar artifacts, logs, and repeated corrections for reusable preferences, then write safe private or project memory without interrupting the user |
 | `memory-publication-auditor` | Audit private skills, memories, notes, or logs before turning them into public skills, docs, templates, or reusable patterns |
@@ -120,7 +120,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `token-usage-auditor` | Audit project token usage from local Codex, Codex sidecar metadata, and Claude Code logs, separating total context, fresh token burn, cache reuse, sessions, and lifecycle interpretation |
 | `safe-git-ops` | Perform common Git operations with sandbox-aware failure handling and worktree-safe diagnostics |
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, SSH/HPC/RunAI workflows, and SSH wrapper usage for research repos |
-| `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands |
+| `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands with resource-aware smoke/debug/formal planning |
 | `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, source formatting, layout debugging, and configured compile-backend handoff |
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
@@ -793,6 +793,7 @@ The most important feedback loops are:
 
 - **Writing to results**: `paper-writing-contract-planner`, `experiment-story-writer`, `limitations-scope-writer`, `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, unsupported scope, or claim/evidence gap; `paper-evidence-gap-miner` first checks existing CSVs, logs, reports, and assets; only unresolved gaps route back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
+- **Resource-aware experiment launch**: `remote-project-control`, `run-experiment`, and `run-status-monitor` keep server resource state, queue pressure, and task class visible so smoke/debug runs use the fastest-starting compatible resource while formal jobs preserve the experimental contract.
 - **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; CSV result files become the preferred source for paper assets; `paper-result-asset-builder` turns reusable CSV evidence into paper-facing tables, figures, wrappers, inventories, and provenance records; `figure-results-review` and `table-results-review` check those assets; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-contract-planner` locks evidence slots and section jobs; `experiment-story-writer` turns verified or clearly provisional evidence into result narrative; `abstract-title-contribution-writer`, `paper-introduction-argument-writer`, `method-section-explainer`, `related-work-positioning-writer`, and `limitations-scope-writer` write the high-risk sections; `paper-writing-assistant` integrates claim-aware prose and placeholder tracking; `paper-draft-consistency-editor` checks that the whole draft still tells the same story.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
@@ -849,8 +850,8 @@ Use these skills while producing the evidence that will support the paper:
 |---|---|
 | **experiment-design-planner** | Design hypotheses, baselines, ablations, controls, metrics, and stop conditions before running |
 | **baseline-selection-audit** | Convert claims and literature into must-have, should-have, optional, and excluded baselines with fairness rules |
-| **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs |
-| **run-status-monitor** | Probe running jobs and write short progress/status artifacts without copying raw logs into chat |
+| **run-experiment** | Launch reproducible local, SLURM, or RunAI experiment jobs with resource-aware smoke/debug/formal planning |
+| **run-status-monitor** | Probe running jobs, diagnose pending-resource causes, and write short progress/status artifacts without copying raw logs into chat |
 | **result-diagnosis** | Diagnose unexpected or ambiguous results and decide the next project action |
 | **experiment-report-writer** | Turn logs, metrics, configs, tables, and figures into an interpretable report |
 | **advisor-update-writer** | Convert current progress, evidence, risks, and blockers into decision-oriented advisor or lab updates |
@@ -939,8 +940,8 @@ For the person running experiments, collecting evidence, and making results repr
 | **research-project-memory** | Track evidence, risks, actions, and worktree state across experiment feedback loops |
 | **experiment-design-planner** | Convert a claim into a runnable experiment matrix with controls and decision rules |
 | **baseline-selection-audit** | Decide which baselines must be run, how to make them fair, and which exclusions are defensible |
-| **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts |
-| **run-status-monitor** | Answer lightweight "where is this run now?" questions from local logs, processes, server wrappers, SLURM, or RunAI |
+| **run-experiment** | Launch local, SLURM, or RunAI experiments with reproducible job scripts and resource-aware smoke/debug/formal planning |
+| **run-status-monitor** | Answer lightweight "where is this run now?" questions from local logs, processes, server wrappers, SLURM, or RunAI, including pending-resource diagnosis |
 | **result-diagnosis** | Decide whether a result means debug, rerun, ablate, revise method, narrow claim, write, park, or kill |
 | **experiment-report-writer** | Turn raw logs, metrics, tables, and figures into readable experiment reports |
 | **advisor-update-writer** | Summarize experiment progress, blockers, and decision requests for advisors or collaborators |

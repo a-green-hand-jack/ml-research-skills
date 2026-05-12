@@ -129,9 +129,18 @@ Workflow:
 
 1. Verify the server repo and scheduler state
 2. Ensure the server repo is at the intended branch or commit
-3. Reuse an existing job script if one already fits
-4. If a new job script is needed, invoke `run-experiment` after the remote context is known
-5. Submit from the server repo root with the configured environment activation
+3. Classify the task as smoke, debug, or formal, then match the allocation to the task's real compute requirements
+4. Inspect current resource availability, queue/pending state, or scheduler events when practical before choosing a partition, node-pool, GPU class, or interactive allocation
+5. Reuse an existing job script if one already fits
+6. If a new job script is needed, invoke `run-experiment` after the remote context is known
+7. Submit from the server repo root with the configured environment activation
+
+Resource-aware rule:
+
+- Experiment momentum is usually more important than waiting for an ideal but unnecessary resource. For smoke/debug jobs, prefer the fastest-starting compatible allocation that validates the codepath.
+- Formal jobs must preserve the intended experimental contract. If queue pressure suggests changing GPU class, memory, precision, batch size, seed plan, or distributed shape, surface the tradeoff and record the rationale instead of silently downgrading.
+- When a job is pending, inspect scheduler events to distinguish resource-pool capacity, quota/fair-share, CPU/memory request, image/env startup, and code failures before launching duplicates.
+- Do not store volatile queue snapshots as durable facts; record only the decision rationale and the monitor command or artifact.
 
 When wrapping a command, prefer this structure:
 

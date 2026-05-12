@@ -43,6 +43,8 @@ The project wrapper owns loops, `$variables`, `find`, `awk`, and path-specific l
 - `slurm`: uses `squeue`/`sacct` and optional log tail. If `host` is set, the script runs those through SSH.
 - `runai`: prefer a private wrapper such as `epfl-runai`. Without a wrapper, the script builds `runai describe job` and `runai logs` commands.
 
+For pending jobs, include scheduler events or pending reasons when the backend can provide them. The status artifact should say whether the pending reason appears to be resource capacity, quota/fair-share, CPU or memory request, image/environment startup, or unknown. Do not treat a pending scheduler state as a code failure unless logs or events show the job actually started and failed.
+
 ## Progress And Metric Patterns
 
 Configure regexes with named groups:

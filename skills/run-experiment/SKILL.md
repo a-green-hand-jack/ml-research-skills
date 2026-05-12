@@ -13,6 +13,7 @@ Generates a **reproducible job script** in `jobs/` that is committed alongside t
 
 Pair this skill with `research-project-memory` when a launched job should be linked to a planned experiment, evidence item, worktree, or project action.
 Pair this skill with project toolchain gates when generated job scripts should be checked before launch. Use `shellcheck` and `shfmt` when available, but do not require the user to install them just to generate a draft script.
+Pair this skill with `remote-project-control` and `run-status-monitor` when server resources, queues, or pending jobs should influence the launch choice.
 
 Terminology:
 
@@ -21,6 +22,14 @@ Terminology:
 - `server`: SSH/HPC/RunAI execution environment such as `quest`, `ibex-vscode`, or `epfl-haas`
 
 When launching on SLURM or RunAI, call it a server run rather than a remote run unless referring to the Git remote.
+
+## Core Contract
+
+- Optimize for experiment momentum: before submitting server work, consider both current resource availability and the task's actual compute needs.
+- Do not default to the most powerful or most familiar GPU/partition/node-pool when a cheaper, less contended, or faster-starting compatible resource will answer the experimental question.
+- Separate smoke/debug jobs from formal jobs. For smoke tests, prefer the smallest compatible allocation that can validate code quickly; if a high-end pool is pending, use a compatible lower-wait pool when scientifically acceptable.
+- For formal jobs, do not silently downgrade resources in ways that change the experimental contract. Surface the tradeoff and preserve reproducibility.
+- Treat scheduler queue state as volatile. Verify it near submission time and record it as operational context, not durable evidence.
 
 ## Skill Directory Layout
 
@@ -58,6 +67,22 @@ Ask the user **in a single message**:
 8. **Anything special?**: Extra env vars, array job, specific GPU type, PVC mounts (RunAI), etc.
 
 If `--env`, `--script`, `--name`, or `--gpus` were passed as arguments, pre-fill those answers.
+
+### 2.1 Resource-Aware Launch Planning
+
+Before generating or submitting a server job, classify the task:
+
+- `smoke`: codepath validation, 1-4 step run, shape check, environment check, or tiny subset
+- `debug`: interactive diagnosis, short profiler run, OOM reproduction, or log inspection
+- `formal`: paper-facing training/eval, benchmark, ablation, seed sweep, or final metric run
+
+Then choose resources by matching need to availability:
+
+- Ask what GPU memory, GPU type, GPU count, walltime, CPU, memory, and interconnect assumptions are truly required.
+- Inspect current resource or queue state when practical through project/private wrappers, scheduler commands, or `run-status-monitor`.
+- Prefer lower-wait compatible resources for `smoke` and `debug` jobs, even if they are slower.
+- Prefer resource-matched and documented resources for `formal` jobs; do not change GPU class, precision assumptions, batch size, or distributed setup without recording the reason.
+- If an existing job is pending on a constrained pool, propose an independent low-cost smoke on another compatible pool only when it will not consume the formal job's evidence budget or confuse result provenance.
 
 ### 3. Locate the project root
 

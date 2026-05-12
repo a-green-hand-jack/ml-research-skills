@@ -181,3 +181,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/remote-project-control/`, `skills/init-python-project/templates/common/`, README.md, AGENTS.md, CLAUDE.md.
 - Revisit when: agents still prefer raw SSH one-liners after reinstall and project-template refresh.
 - Certainty: user-stated
+
+## DEC-019 - Add Resource-Aware Experiment Launch Policy
+
+- Date: 2026-05-13
+- Decision: Encode resource-aware experiment launch across `run-experiment`, `remote-project-control`, and `run-status-monitor`.
+- Why: For research velocity, agents should understand both available server resources and the task's actual compute needs. Smoke/debug jobs should use the easiest compatible compute that starts quickly, while formal jobs should preserve the intended experimental contract rather than silently changing resources.
+- Alternatives considered: always submit to the default or most powerful resource; always wait for an existing pending job; treat pending jobs as generic failures without scheduler-resource diagnosis.
+- Affects: `skills/run-experiment/`, `skills/remote-project-control/`, `skills/run-status-monitor/`, README.md, AGENTS.md, CLAUDE.md, private personalization memory.
+- Revisit when: resource-aware choices cause provenance confusion, resource downgrades affect formal results, or scheduler-specific guidance needs a public/private split.
+- Certainty: user-stated
