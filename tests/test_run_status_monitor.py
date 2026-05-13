@@ -59,6 +59,7 @@ class RunStatusMonitorSmokeTest(unittest.TestCase):
             self.assertIn("Run: train", proc.stdout)
             self.assertIn("- State: running", status)
             self.assertIn("- Progress: epoch=2/4", status)
+            self.assertIn("- Resources: unknown", status)
             self.assertIn("- Latest metrics: val_loss=0.80", status)
             self.assertIn("- Raw scheduler output and logs are not copied here.", status)
             self.assertNotIn("epoch 1/4", status)
@@ -74,9 +75,10 @@ class RunStatusMonitorSmokeTest(unittest.TestCase):
                         "runs": {
                             "wrapped": {
                                 "backend": "command",
-                                "status_command": f"{sys.executable} -c \"print('state running epoch 3/6 score=0.42')\"",
+                                "status_command": f"{sys.executable} -c \"print('state running epoch 3/6 active_gpus=1/4 score=0.42')\"",
                                 "status_artifact": str(output),
                                 "progress_patterns": {"epoch": r"epoch (?P<current>\d+)/(?P<total>\d+)"},
+                                "resource_patterns": {"gpu_active": r"active_gpus=(?P<value>\d+/\d+)"},
                                 "metric_patterns": {"score": r"score=(?P<value>[0-9.]+)"},
                             }
                         }
@@ -104,6 +106,7 @@ class RunStatusMonitorSmokeTest(unittest.TestCase):
             status = output.read_text(encoding="utf-8")
             self.assertIn("- State: running", status)
             self.assertIn("- Progress: epoch=3/6", status)
+            self.assertIn("- Resources: gpu_active=1/4", status)
             self.assertIn("- Latest metrics: score=0.42", status)
             self.assertIn("exit 0", status)
             self.assertNotIn("state running epoch 3/6", status)

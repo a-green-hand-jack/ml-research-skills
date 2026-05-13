@@ -32,6 +32,9 @@ When launching on SLURM or RunAI, call it a server run rather than a remote run 
 - Treat scheduler queue state as volatile. Verify it near submission time and record it as operational context, not durable evidence.
 - Treat Python environment creation as a cost. Reuse a project, shared, or stage-level environment by default; create a new job-specific uv environment only when dependencies changed, isolation is required, or concurrent sync/race risk is real.
 - Treat container image startup and GPU-generation compatibility as part of resource selection. A low-wait GPU pool is not useful if the image is cold on those nodes, the CUDA stack is incompatible, or the job spends the smoke budget in `ContainerCreating`.
+- Be utilization-aware, not only queue-aware. Before requesting multiple GPUs or occupying an allocated node, understand how the workload maps work to devices and whether the program will actually use the requested resources.
+- When a job consists of independent targets, seeds, prompts, structures, molecules, or shards, prefer an explicit parallelization plan such as a scheduler array, per-GPU worker pool, or target sharding over a single sequential loop that leaves devices idle.
+- After launch, use `run-status-monitor` or a project wrapper to check actual resource occupancy. If a job is running but underutilizes allocated GPUs, record that as an operational feedback item and update project memory/status with the next launch policy.
 
 ## Skill Directory Layout
 
@@ -97,6 +100,31 @@ Then choose resources by matching need to availability:
 - Prefer resource-matched and documented resources for `formal` jobs; do not change GPU class, precision assumptions, batch size, or distributed setup without recording the reason.
 - If an existing job is pending on a constrained pool, propose an independent low-cost smoke on another compatible pool only when it will not consume the formal job's evidence budget or confuse result provenance.
 - If a job remains in `ContainerCreating`, `ImagePullBackOff`, or an image-pull phase beyond the short smoke budget, classify it as node/image startup overhead rather than code failure. For smoke/debug jobs, prefer deleting or abandoning that attempt and rerouting to a compatible pool or node family with a warmer image/cache history.
+
+### 2.2 Workload And Utilization Planning
+
+Before choosing GPU count or node shape, identify the workload shape:
+
+- `single-device`: one process uses one GPU, and more GPUs will not help without code changes
+- `multi-gpu-native`: the command uses DDP, FSDP, tensor parallelism, data parallelism, or a framework launcher that binds all requested GPUs
+- `independent-targets`: targets, seeds, prompts, molecules, structures, folds, eval shards, or checkpoints can run independently
+- `pipeline`: stages have different resource needs and should not necessarily share one allocation shape
+
+Then align the launch shape:
+
+- For `single-device`, request one GPU unless using a node-local worker pool for multiple independent commands.
+- For `multi-gpu-native`, verify the launcher and binding mechanism, such as `torchrun --nproc_per_node`, `accelerate launch`, `srun`, `CUDA_VISIBLE_DEVICES`, or project-specific GPU assignment.
+- For `independent-targets`, prefer a scheduler array or per-GPU worker pool when target count and runtime justify parallelism. Ensure each worker has isolated output paths or lock-safe resume behavior.
+- For short independent targets, a node-local per-GPU worker pool can reduce scheduler overhead. For long targets, scheduler arrays are easier to retry and account for.
+- If the user asks for "use available GPUs" or "do not leave cards idle", inspect current allocations and active processes before launching, then choose a packing plan that avoids stealing resources from unrelated jobs.
+
+The generated run notes or job script comments should state:
+
+- requested resources
+- expected resources actually used by the program
+- workload shape and parallelization plan
+- output isolation or resume policy for parallel targets
+- follow-up monitor command or artifact path that will verify occupancy after launch
 
 ### 3. Locate the project root
 

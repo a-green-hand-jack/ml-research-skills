@@ -131,9 +131,10 @@ Workflow:
 2. Ensure the server repo is at the intended branch or commit
 3. Classify the task as smoke, debug, or formal, then match the allocation to the task's real compute requirements
 4. Inspect current resource availability, queue/pending state, or scheduler events when practical before choosing a partition, node-pool, GPU class, or interactive allocation
-5. Reuse an existing job script if one already fits
-6. If a new job script is needed, invoke `run-experiment` after the remote context is known
-7. Submit from the server repo root with the configured environment activation
+5. Inspect active job/resource occupancy when practical: which allocations already exist, which GPUs are idle or busy, and whether current jobs are using the resources they requested
+6. Reuse an existing job script if one already fits
+7. If a new job script is needed, invoke `run-experiment` after the remote context is known
+8. Submit from the server repo root with the configured environment activation
 
 Resource-aware rule:
 
@@ -143,6 +144,14 @@ Resource-aware rule:
 - Treat image pull and `ContainerCreating` delays as resource/startup problems. A pool with free GPUs may still be a poor smoke target if the required image is cold on its nodes or the GPU generation is not compatible with the project's CUDA/software stack.
 - For smoke/debug jobs, rerouting away from a slow image-pull node is acceptable when outputs are isolated and the run is not paper-facing. For formal jobs, preserve the configured image and GPU class unless the user accepts a recorded change.
 - Do not store volatile queue snapshots as durable facts; record only the decision rationale and the monitor command or artifact.
+
+Utilization-aware rule:
+
+- Treat resource inventory and job occupancy as different facts. Inventory says what GPUs/nodes exist or are allocated; occupancy says which processes are actually using them.
+- Before launching onto a multi-GPU allocation, determine whether the workload is single-device, multi-GPU-native, independent targets/seeds/shards, or a pipeline.
+- Do not request or occupy multiple GPUs for a sequential single-device command unless the plan is to run one worker per GPU or use a native multi-GPU launcher.
+- If current monitoring shows idle allocated GPUs, decide whether to pack compatible short jobs onto idle devices, release the allocation, or change the next job to a scheduler array/per-GPU worker pool.
+- Record underutilization lessons in project status memory: job name, observed allocation vs active use, likely cause, and next launch policy. Avoid copying raw `nvidia-smi` dumps into durable memory.
 
 Environment reuse rule:
 
@@ -195,6 +204,7 @@ For SLURM-like setups, common commands are:
 - `squeue -u $USER`
 - `sacct -j <jobid> --format=JobID,State,Elapsed,AllocGRES`
 - `tail -f <logs-root>/<job-name>/slurm-<jobid>.out`
+- node-level GPU occupancy through the project's status wrapper or a bounded `nvidia-smi --query-gpu=index,name,utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits`
 
 For RunAI-like setups, common commands are:
 
@@ -231,6 +241,7 @@ Update `docs/ops/current-status.md` with:
 - the branch or commit to resume from
 - what changed in this session
 - latest known job and where to monitor it
+- latest resource/job occupancy lesson when it changes the next launch policy
 - blockers or follow-up questions
 - the next concrete action
 

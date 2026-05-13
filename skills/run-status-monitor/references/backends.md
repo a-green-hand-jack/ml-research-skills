@@ -64,6 +64,9 @@ progress_patterns:
 metric_patterns:
   val_loss: "val_loss[=: ]+(?P<value>[0-9.eE+-]+)"
   accuracy: "acc(?:uracy)?[=: ]+(?P<value>[0-9.eE+-]+)"
+resource_patterns:
+  gpu_active: "active_gpus[=: ]+(?P<value>\\d+/\\d+)"
+  gpu_memory: "gpu_memory_gb[=: ]+(?P<value>[0-9.]+/[0-9.]+)"
 ```
 
 For ETA, the script needs:

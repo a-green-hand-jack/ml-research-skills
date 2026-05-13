@@ -4,6 +4,7 @@
 - Backend:
 - State:
 - Progress:
+- Resources:
 - Latest metrics:
 - Last update:
 - ETA:
@@ -19,6 +20,12 @@
 - Condition:
 - Suggested cadence:
 - Stop condition:
+
+## Feedback
+
+- Utilization:
+- Next launch policy:
+- Memory writeback:
 
 ## Raw Context Policy
 

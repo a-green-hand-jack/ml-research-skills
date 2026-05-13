@@ -241,3 +241,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/skill-system-auditor/`, `memory/`.
 - Revisit when: future regressions show the hardening ladder misses a common failure mode.
 - Certainty: user-stated
+
+## DEC-025 - Track Resource Inventory And Job Occupancy Separately
+
+- Date: 2026-05-13
+- Decision: Extend compute skills from resource-aware launch to utilization-aware feedback. Agents should know both what resources are available or allocated and how active jobs actually occupy those resources.
+- Why: A job can be `RUNNING` while only one GPU is active and other allocated GPUs are idle. Without workload-shape awareness, agents may submit sequential target loops to multi-GPU allocations, miss idle cards, or fail to update future launch policy.
+- Alternatives considered: rely on scheduler state alone; manually inspect GPU use without writing feedback; treat all running jobs as healthy until they finish.
+- Affects: `skills/run-experiment/`, `skills/run-status-monitor/`, `skills/remote-project-control/`, private compute workflow preferences, private Quest memory.
+- Revisit when: projects add standardized resource inventory wrappers or automated occupancy dashboards.
+- Certainty: user-stated

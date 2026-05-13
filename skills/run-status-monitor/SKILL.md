@@ -43,6 +43,8 @@ Do not paste long scheduler output or training logs into chat. Probe, compress, 
 - If a run appears failed, stale, or scientifically surprising, route to `result-diagnosis` after creating the status artifact.
 - If a run is pending, distinguish scheduler/resource causes from code causes. Summarize whether the blocker appears to be pool/partition capacity, quota/fair-share, CPU/memory request, image pull, `ContainerCreating`, environment startup, or unknown, and recommend the smallest compatible next action.
 - If a run is spending time creating or syncing a new uv environment, report that as environment setup overhead. Check whether the job used an existing project/stage env or created a job-specific env, and flag avoidable env proliferation.
+- Report resource occupancy when available: allocated GPU count, active GPU count, per-GPU utilization/memory, node/process ownership, and whether the observed usage matches the workload shape.
+- If a job is running normally but leaves allocated GPUs idle, mark it `underutilized` rather than simply healthy, and recommend the next launch shape: fewer GPUs, scheduler array, per-GPU worker pool, or native multi-GPU launcher.
 
 ## Expected Project Layout
 
@@ -91,6 +93,7 @@ Every user-facing answer should fit this shape:
 Run: <id>
 State: running | pending | succeeded | failed | stale | unknown
 Progress: <short>
+Resources: <allocated vs active GPUs, utilization, memory, or unknown>
 Latest metrics: <short>
 Last update: <time or unknown>
 ETA: <estimate or unknown>
@@ -107,4 +110,5 @@ Escalate when:
 - logs show repeated exceptions, OOM, NaN, or checkpoint failures
 - scheduler/API auth is blocked and needs a single explicit login refresh action
 - ETA cannot be estimated because progress markers are absent
+- allocated resources are idle or only partly used and the workload could be packed or sharded more effectively
 - the probe command needs network/server approval

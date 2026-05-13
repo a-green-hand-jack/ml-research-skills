@@ -4,7 +4,7 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, artifact-bounded run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, server uv environment reuse, image/startup-aware resource routing, scheduler auth circuit breakers, and reusable agent-regression hardening guidance.
+- Summary: The repository is in skill-system hardening mode, with sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, artifact-bounded run monitoring, earlier SSH wrapper routing, stable Git push wrappers surfaced in root/project guidance, resource-aware experiment launch, utilization-aware job/resource feedback, server uv environment reuse, image/startup-aware resource routing, scheduler auth circuit breakers, and reusable agent-regression hardening guidance.
 - Active milestone: make the skill collection self-maintaining through memory, sidecar task artifacts, validation gates, personalization scans, source cards, publication audits, run-status artifacts, SSH wrapper routing/templates, stable push wrappers, and clear public/private boundaries.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
@@ -20,6 +20,7 @@
 - `run-experiment`, `remote-project-control`, and `run-status-monitor` now encode resource-aware launch: classify smoke/debug/formal work, inspect server resource and pending state when practical, use the fastest compatible allocation for smoke/debug, and preserve formal-job contracts.
 - Server experiment skills now treat Python environment creation as a cost: reuse project/stage uv environments by default, avoid deriving `UV_PROJECT_ENVIRONMENT` from each job name, and require a concrete dependency/isolation/sync-race reason for job-specific envs.
 - Server experiment skills now treat long image pulls, `ContainerCreating`, and GPU-generation/CUDA compatibility as scheduling inputs, so lower-wait pools are not chosen blindly for smoke/debug work.
+- Server experiment skills now distinguish resource inventory from job occupancy: agents should understand available/allocated GPUs, workload parallelization shape, actual active GPU use, and write feedback when jobs underutilize requested resources.
 - `run-status-monitor` and `remote-project-control` now stop repeated scheduler API probes after OAuth/session refresh failure, switch to filesystem/project-wrapper fallback when available, and record one login-refresh action.
 - `run-status-monitor` now treats repeated progress tracking as artifact work: the main agent should not run long-lived `sleep`/poll/log-watch loops, and multi-check monitoring should be handled by a project wrapper, sidecar, or bounded background monitor that writes a short status artifact.
 - `skill-system-auditor` now includes agent-regression hardening guidance: when a skill exists but agents keep regressing, promote the lesson into routing triggers, core contracts, references, templates, wrappers, memory, reinstall, and installed-copy checks.
@@ -51,6 +52,7 @@
 - `RSK-008`: Private memory publication audits could accidentally reproduce sensitive evidence if reports are not redacted and local/private by default.
 - `RSK-009`: Run-status monitors could leak raw logs or overstate ETA if probe artifacts are not kept short and uncertainty-aware.
 - `RSK-017`: Main agents could still become long-lived run observers, wasting tokens and crowding the context window, if polling is not pushed into artifacts, wrappers, or sidecars.
+- `RSK-019`: Jobs can be running but underutilize allocated GPUs if agents do not model workload shape and actual resource occupancy.
 - `RSK-010`: SSH wrappers can hide shell semantics if agents use `remote-cmd` for commands that actually require shell pipelines or variable expansion.
 - `RSK-011`: Stable push wrappers could be used without ordinary preflight if agents treat them as replacing Git state checks.
 - `RSK-012`: Already-open sessions and existing project guidance may keep stale SSH habits until skills are reinstalled or reread.
@@ -83,6 +85,7 @@
 - `ACT-025`: Use scheduler API auth circuit breakers: stop repeated API probes after OAuth/session refresh failure and use filesystem fallback plus one login-refresh action.
 - `ACT-026`: Use artifact-bounded progress tracking: one bounded main-agent probe is acceptable, but repeated checks should update a short status artifact outside the main transcript.
 - `ACT-027`: Use agent-regression hardening during skill maintenance: do not leave repeated mistakes as chat-only lessons or buried prose.
+- `ACT-028`: Use utilization-aware resource feedback: track allocation vs active GPU use and update project status/memory when the next launch policy should change.
 
 ## Needs Verification Next Session
 

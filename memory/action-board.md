@@ -31,6 +31,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-025 | done | agent | monitoring | Add scheduler API auth circuit breaker to avoid repeated token-wasting monitor retries. | DEC-022, CLM-022, EVD-024, RSK-016 | On OAuth/session refresh failure, stop API probes, switch to filesystem fallback, and record one login-refresh action. |  | 2026-05-13 |
 | ACT-026 | done | agent | monitoring | Make experiment progress tracking artifact-bounded instead of main-agent polling. | DEC-023, CLM-023, EVD-025, RSK-017 | Use one bounded probe for immediate answers; use a status artifact, project wrapper, sidecar, or bounded background monitor for repeated checks. |  | 2026-05-13 |
 | ACT-027 | done | agent | skills | Add reusable agent-regression hardening guidance for skill maintenance. | DEC-024, CLM-024, EVD-026, RSK-018 | During audits, promote repeated mistakes into routing triggers, contracts, references, templates, wrappers, memory, reinstall, and installed-copy checks. |  | 2026-05-13 |
+| ACT-028 | done | agent | experiments | Add utilization-aware resource and job occupancy feedback rules. | DEC-025, CLM-025, EVD-027, RSK-019 | Before launch, model workload shape and resource inventory; after launch, report allocation vs active use and update project memory when underutilized. |  | 2026-05-13 |
 
 ## Blocked Actions
 

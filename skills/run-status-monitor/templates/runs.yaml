@@ -11,6 +11,8 @@ runs:
     started_at: "YYYY-MM-DDTHH:MM:SS"
     progress_patterns:
       epoch: "epoch (?P<current>\\d+)/(?P<total>\\d+)"
+    resource_patterns:
+      gpu_active: "active_gpus[=: ]+(?P<value>\\d+/\\d+)"
     metric_patterns:
       val_loss: "val_loss[=: ]+(?P<value>[0-9.eE+-]+)"
 
@@ -21,5 +23,7 @@ runs:
     status_artifact: docs/ops/runs/example-wrapper-status.md
     progress_patterns:
       epoch: "epoch (?P<current>\\d+)/(?P<total>\\d+)"
+    resource_patterns:
+      gpu_active: "active_gpus[=: ]+(?P<value>\\d+/\\d+)"
     metric_patterns:
       score: "score[=: ]+(?P<value>[0-9.eE+-]+)"

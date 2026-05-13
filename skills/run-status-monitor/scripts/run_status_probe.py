@@ -225,6 +225,7 @@ def write_status(
     backend: str,
     state: str,
     progress: dict[str, str],
+    resources: dict[str, str],
     metrics: dict[str, str],
     last_update: str,
     eta: str,
@@ -234,6 +235,7 @@ def write_status(
     output.parent.mkdir(parents=True, exist_ok=True)
     generated = datetime.now(timezone.utc).isoformat()
     progress_text = ", ".join(f"{k}={v}" for k, v in progress.items()) or "unknown"
+    resources_text = ", ".join(f"{k}={v}" for k, v in resources.items()) or "unknown"
     metrics_text = ", ".join(f"{k}={v}" for k, v in metrics.items()) or "none detected"
     lines = [
         f"# Run Status: {run_id}",
@@ -242,6 +244,7 @@ def write_status(
         f"- Backend: {backend}",
         f"- State: {state}",
         f"- Progress: {progress_text}",
+        f"- Resources: {resources_text}",
         f"- Latest metrics: {metrics_text}",
         f"- Last update: {last_update}",
         f"- ETA: {eta}",
@@ -305,13 +308,15 @@ def main() -> int:
         last_update = datetime.now(timezone.utc).isoformat()
 
     progress = newest_match(run.get("progress_patterns", {}) or {}, log_text)
+    resources = newest_match(run.get("resource_patterns", {}) or {}, log_text)
     metrics = newest_match(run.get("metric_patterns", {}) or {}, log_text)
     state, risk = infer_state(run, backend, log_text, command_results, pid_state)
     eta = estimate_eta(progress, run)
-    write_status(output, args.run, backend, state, progress, metrics, last_update, eta, risk, command_results)
+    write_status(output, args.run, backend, state, progress, resources, metrics, last_update, eta, risk, command_results)
     print(f"Run: {args.run}")
     print(f"State: {state}")
     print(f"Progress: {', '.join(f'{k}={v}' for k, v in progress.items()) or 'unknown'}")
+    print(f"Resources: {', '.join(f'{k}={v}' for k, v in resources.items()) or 'unknown'}")
     print(f"Latest metrics: {', '.join(f'{k}={v}' for k, v in metrics.items()) or 'none detected'}")
     print(f"ETA: {eta}")
     print(f"Artifact: {output}")

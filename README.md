@@ -793,7 +793,7 @@ The most important feedback loops are:
 
 - **Writing to results**: `paper-writing-contract-planner`, `experiment-story-writer`, `limitations-scope-writer`, `paper-writing-assistant`, `paper-evidence-board`, or `paper-reviewer-simulator` exposes a missing result, unsupported scope, or claim/evidence gap; `paper-evidence-gap-miner` first checks existing CSVs, logs, reports, and assets; only unresolved gaps route back to `experiment-design-planner`, `baseline-selection-audit`, or `run-experiment`.
 - **Results to project direction**: `result-diagnosis` can route a failed or surprising result back to `algorithm-design-planner` or `paper-positioning-planner`.
-- **Resource-aware experiment launch**: `remote-project-control`, `run-experiment`, and `run-status-monitor` keep server resource state, queue pressure, and task class visible so smoke/debug runs use the fastest-starting compatible resource while formal jobs preserve the experimental contract.
+- **Resource- and utilization-aware experiment launch**: `remote-project-control`, `run-experiment`, and `run-status-monitor` keep server resource state, queue pressure, task class, workload shape, and actual job occupancy visible so smoke/debug runs use the fastest-starting compatible resource, formal jobs preserve the experimental contract, and underutilized allocations feed back into the next launch policy.
 - **Code to paper**: `run-experiment` and `experiment-report-writer` create code-side evidence under `code/docs/`; CSV result files become the preferred source for paper assets; `paper-result-asset-builder` turns reusable CSV evidence into paper-facing tables, figures, wrappers, inventories, and provenance records; `figure-results-review` and `table-results-review` check those assets; `project-sync` and `paper-evidence-board` promote evidence into the paper; `paper-writing-contract-planner` locks evidence slots and section jobs; `experiment-story-writer` turns verified or clearly provisional evidence into result narrative; `abstract-title-contribution-writer`, `paper-introduction-argument-writer`, `method-section-explainer`, `related-work-positioning-writer`, and `limitations-scope-writer` write the high-risk sections; `paper-writing-assistant` integrates claim-aware prose and placeholder tracking; `paper-draft-consistency-editor` checks that the whole draft still tells the same story.
 - **Reviews to revisions**: `rebuttal-strategist` routes real review issues into new experiments, writing changes, or final camera-ready promises.
 - **Progress to slides**: `advisor-update-writer` or `experiment-report-writer` can route a stable update into `research-slide-deck-builder`, which writes stable decks under `slides/decks/`, updates `slides/.agent/deck-index.md`, and uses the external `progress-slides` template instead of duplicating slide scaffolds in this repo.
@@ -1519,6 +1519,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - Reproducible job templates under `jobs/` for local runs, SLURM clusters, and RunAI/Kubernetes
 - A shared `environments.yaml` registry for cluster-specific defaults
+- Resource and utilization planning that distinguishes smoke/debug/formal work, available inventory, actual job occupancy, and workload shapes such as single-device, native multi-GPU, independent targets, and pipelines
 - Built-in support for:
   - `local`
   - `ibex` (KAUST SLURM)
@@ -1529,8 +1530,8 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 
 - A lightweight probe layer for "where is this experiment now?" questions during long runs
 - Config-driven backends for local logs, local PIDs, wrapper commands, SLURM, and RunAI
-- Short `docs/ops/runs/<run-id>-status.md` artifacts with state, progress, latest metrics, ETA, risk, and raw-context policy
-- Regex-based progress and metric extraction without copying raw logs into chat
+- Short `docs/ops/runs/<run-id>-status.md` artifacts with state, progress, resources, latest metrics, ETA, risk, feedback, and raw-context policy
+- Regex-based progress, resource, and metric extraction without copying raw logs into chat
 - A handoff boundary: stable summaries can route to `experiment-report-writer`, while failures or surprising metrics route to `result-diagnosis`
 
 ## What `submit-paper` Checks
