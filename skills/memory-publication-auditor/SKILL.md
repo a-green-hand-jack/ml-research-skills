@@ -60,7 +60,7 @@ python3 <installed-skill-dir>/scripts/scan_publication_candidates.py \
    - already generic workflow -> mark publishable
 6. If drafting a public artifact, fill `templates/publication-candidate.md` and replace all private specifics with placeholders.
 7. Route next:
-   - public skill candidate -> `skill-creator`
+   - public skill candidate -> create manually or use `skill-system-auditor` to check collection fit before adding
    - docs/template candidate -> `update-docs`
    - private preference -> `personalization-memory`
    - source-visibility risk -> `research-project-memory`

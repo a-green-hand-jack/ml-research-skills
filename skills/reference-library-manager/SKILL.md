@@ -107,3 +107,4 @@ python3 <installed-skill-dir>/scripts/scan_reference_library.py --project-root .
 - Store stable summaries as source cards under `reference/cards/`.
 - Never paste long raw source text into memory or public docs.
 - Report only counts, major gaps, duplicates, and recommended next sources unless the user asks for detail.
+- Memory writeback: update `reference/.agent/processing-status.md` when sources are added, deduplicated, or change status. Project-level memory writeback (claim/evidence/risk boards) is handled by `reference-project-synthesizer` after synthesis, not by this skill.

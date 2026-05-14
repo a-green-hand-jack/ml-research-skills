@@ -16,7 +16,7 @@ Terminology used by this skill:
 
 The skill name is historical. In project memory and user-facing summaries, prefer `server` for SSH/HPC/RunAI execution environments and reserve `remote` for Git remotes unless quoting an existing field name.
 
-Pair this skill with `research-project-memory` when server execution state should be linked to project-level experiments, evidence, actions, or worktree status.
+Pair this skill with `research-project-memory` when server execution state should be linked to project-level experiments, evidence, actions, or worktree status. Pair with `run-status-monitor` after job submission when lightweight progress checks or artifact-bounded monitoring are needed without pulling raw logs into context.
 
 ## Skill Directory Layout
 

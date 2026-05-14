@@ -82,7 +82,7 @@ Escalate when the source is closest work, a core algorithm source, a theory sour
    - `decision.md`
 4. Extract only the needed text/pages/files. Prefer local tools; if unavailable, proceed from available metadata and mark limitations.
 5. Fill `templates/source-card.md` into `reference/cards/<source-id>.md`. For pure papers, `templates/paper-card.md` remains a compatible subtype.
-6. Update `reference/.agent/processing-status.md` from `unread` or `skimmed` to `carded` when appropriate; update `reading-status.md` if present for compatibility.
+6. Update `reference/.agent/processing-status.md` from `unread` or `skimmed` to `carded` when appropriate; update `reading-status.md` if present for compatibility. Memory writeback: this skill writes only to `reference/cards/` and `reference/.agent/`; project-level memory writeback (claim/evidence/risk boards) is the job of `reference-project-synthesizer` after synthesis.
 7. Route:
    - project implications needed -> `reference-project-synthesizer`
    - broad field map needed -> `literature-review-sprint`
