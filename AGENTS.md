@@ -200,6 +200,9 @@ ml-research-skills/
     │   ├── SKILL.md
     │   ├── references/
     │   └── templates/
+    ├── auto-paper-improvement-loop/
+    │   ├── SKILL.md
+    │   └── templates/
     ├── paper-writing-contract-planner/
     │   ├── SKILL.md
     │   ├── references/
@@ -345,6 +348,7 @@ ml-research-skills/
 | `method-section-explainer` | Plan, draft, and revise method sections for notation flow, module ordering, overview figures, algorithm boxes, design rationales, and appendix boundaries |
 | `paper-introduction-argument-writer` | Plan, draft, and revise introductions as venue-aware argument chains with hook, gap, insight, method, evidence, and contribution paragraph roles |
 | `paper-draft-consistency-editor` | Audit and edit a paper draft for internal consistency across title, abstract, intro, method, results, figures, tables, captions, terminology, writing layers, limitations, and conclusion |
+| `auto-paper-improvement-loop` | Run multi-round review-implement-recompile cycles on a paper draft with reviewer independence (fresh context per round), edit-whitelist gating, and crash-resumable state |
 | `paper-writing-contract-planner` | Create or update a writing contract that locks paper archetype, section order, paragraph roles, claim evidence slots, writing-layer permissions, figure/table jobs, and forbidden claims before drafting |
 | `paper-writing-assistant` | Draft and revise claim-aware paper prose, map archetypes to required evidence slots, use micro-patterns for captions and paragraph-level writing, and track provisional result placeholders until verified evidence arrives |
 | `related-work-positioning-writer` | Plan, draft, and revise related work as novelty-boundary writing, grouping closest work and defining safe citation-backed boundary statements |
