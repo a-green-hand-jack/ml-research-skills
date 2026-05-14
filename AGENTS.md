@@ -136,6 +136,9 @@ ml-research-skills/
     ├── result-diagnosis/
     │   ├── SKILL.md
     │   └── references/
+    ├── research-results-auditor/
+    │   ├── SKILL.md
+    │   └── references/
     ├── project-pivot-planner/
     │   └── SKILL.md
     ├── experiment-report-writer/
@@ -322,6 +325,7 @@ ml-research-skills/
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `statistical-analysis-planner` | Plan and report statistical rigor for ML results: significance tests, effect sizes, confidence intervals, seed variance analysis, and multiple-comparison corrections |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
+| `research-results-auditor` | Audit completed experiment results for scientific validity before locking claims: confound checking, claim-drift detection, protocol integrity, and inferential quality |
 | `project-pivot-planner` | Plan mid-project direction changes when consistent failures require scope narrowing, angle change, or kill decisions — distinct from per-experiment diagnosis |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `feedback-synthesizer` | Turn inbound advisor, collaborator, or reviewer feedback into structured claim updates, risk entries, action items, and experiment decisions |
