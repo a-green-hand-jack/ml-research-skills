@@ -1,0 +1,111 @@
+{
+  "_comment": "Routing eval prompts for ml-research-skills. Each entry has a prompt that SHOULD trigger the named skill and a list of skills it should NOT trigger instead. Used to detect routing regressions when skill descriptions are updated. Run manually or via a routing harness.",
+  "_format": "should_trigger: the skill the prompt is designed to activate. should_not_trigger: common confusable alternatives.",
+  "evals": [
+    {
+      "id": "RTE-001",
+      "prompt": "My training loss became NaN after 500 steps. How do I fix it?",
+      "should_trigger": "experiment-debugger",
+      "should_not_trigger": ["result-diagnosis", "research-results-auditor"],
+      "rationale": "NaN loss is an engineering failure, not a scientific result issue."
+    },
+    {
+      "id": "RTE-002",
+      "prompt": "My method outperforms the baseline by 2% but I'm worried reviewers will say this is just noise. How do I defend it?",
+      "should_trigger": "statistical-analysis-planner",
+      "should_not_trigger": ["result-diagnosis", "research-results-auditor", "paper-reviewer-simulator"],
+      "rationale": "Needs significance testing and effect size reporting, not result diagnosis."
+    },
+    {
+      "id": "RTE-003",
+      "prompt": "Before I write up my results, I want to check whether my ablation really proves component X is responsible for the gain.",
+      "should_trigger": "research-results-auditor",
+      "should_not_trigger": ["result-diagnosis", "statistical-analysis-planner", "paper-evidence-board"],
+      "rationale": "Ablation attribution is a confound/protocol audit, not a diagnosis of an anomaly."
+    },
+    {
+      "id": "RTE-004",
+      "prompt": "My experiment results are surprising — the baseline is winning on two out of three datasets. What should I do next?",
+      "should_trigger": "result-diagnosis",
+      "should_not_trigger": ["experiment-debugger", "research-results-auditor"],
+      "rationale": "Surprising but valid results need diagnosis of next action, not confound auditing."
+    },
+    {
+      "id": "RTE-005",
+      "prompt": "I need to preprocess my dataset, design train/val/test splits, and make sure there's no test set contamination.",
+      "should_trigger": "data-pipeline-manager",
+      "should_not_trigger": ["experiment-design-planner", "experiment-debugger"],
+      "rationale": "Data split design and contamination checking is data pipeline work."
+    },
+    {
+      "id": "RTE-006",
+      "prompt": "How many GPU hours will my ablation matrix cost? I have 8 variants to run.",
+      "should_trigger": "compute-budget-planner",
+      "should_not_trigger": ["experiment-design-planner", "run-experiment"],
+      "rationale": "Cost estimation before submission is compute budget planning."
+    },
+    {
+      "id": "RTE-007",
+      "prompt": "My advisor gave feedback that my novelty framing is weak and the baseline comparison isn't fair. How do I process this?",
+      "should_trigger": "feedback-synthesizer",
+      "should_not_trigger": ["advisor-update-writer", "rebuttal-strategist", "baseline-selection-audit"],
+      "rationale": "Inbound advisor feedback needs triage into claims/risks/actions before responding."
+    },
+    {
+      "id": "RTE-008",
+      "prompt": "I need to write the NeurIPS reproducibility checklist and structure my supplementary material.",
+      "should_trigger": "appendix-organizer",
+      "should_not_trigger": ["submit-paper", "model-card-writer", "paper-writing-assistant"],
+      "rationale": "Appendix structure and venue checklists are appendix organization work."
+    },
+    {
+      "id": "RTE-009",
+      "prompt": "After 3 rounds of experiments, my core claim still doesn't hold. Should I narrow the scope or change direction?",
+      "should_trigger": "project-pivot-planner",
+      "should_not_trigger": ["result-diagnosis", "research-idea-validator", "project-pivot-planner"],
+      "rationale": "Multi-cycle failure triggering direction change needs pivot planning, not per-experiment diagnosis."
+    },
+    {
+      "id": "RTE-010",
+      "prompt": "I'm releasing my model on HuggingFace and need to write a model card with known limitations and intended uses.",
+      "should_trigger": "model-card-writer",
+      "should_not_trigger": ["release-code", "artifact-evaluation-prep"],
+      "rationale": "Model card writing is a distinct documentation task from code release."
+    },
+    {
+      "id": "RTE-011",
+      "prompt": "I want to run 2 rounds of review-and-fix on my draft before submission, with each round using a fresh reviewer.",
+      "should_trigger": "auto-paper-improvement-loop",
+      "should_not_trigger": ["paper-draft-consistency-editor", "paper-reviewer-simulator"],
+      "rationale": "Multi-round review with fresh context and edit-whitelist is the improvement loop, not a single-pass consistency edit."
+    },
+    {
+      "id": "RTE-012",
+      "prompt": "I want to check whether my accuracy claim on ImageNet really means the model is robust to distribution shift.",
+      "should_trigger": "research-results-auditor",
+      "should_not_trigger": ["result-diagnosis", "statistical-analysis-planner"],
+      "rationale": "Benchmark→real-world generalization is a claim-drift audit."
+    },
+    {
+      "id": "RTE-013",
+      "prompt": "I want to compare 10 recent papers on my topic side by side — which ones are closest to my work and how do they differ?",
+      "should_trigger": "reference-corpus-analyzer",
+      "should_not_trigger": ["reference-reading-summarizer", "reference-project-synthesizer", "literature-review-sprint"],
+      "rationale": "Multi-paper comparison matrix with tiered depth is the comparison synthesizer, not per-paper cards."
+    },
+    {
+      "id": "RTE-014",
+      "prompt": "I just read three related papers. What do they mean for my project's claims and baselines?",
+      "should_trigger": "reference-project-synthesizer",
+      "should_not_trigger": ["reference-corpus-analyzer", "reference-reading-summarizer"],
+      "rationale": "Connecting existing source cards to project memory is the synthesizer, not the comparison matrix."
+    },
+    {
+      "id": "RTE-015",
+      "prompt": "My GPU job is stuck in ContainerCreating and I'm not sure if I should wait or resubmit.",
+      "should_trigger": "run-status-monitor",
+      "should_not_trigger": ["experiment-debugger", "run-experiment"],
+      "rationale": "Probing scheduler/container status is run monitoring, not experiment debugging."
+    }
+  ]
+}

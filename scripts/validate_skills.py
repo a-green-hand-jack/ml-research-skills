@@ -9,6 +9,7 @@ Checks:
 5. Template placeholders are well-formed.
 6. Top-level docs list the current skill inventory correctly.
 7. Python and shell helper scripts pass a basic syntax check.
+8. tests/routing-evals.json references only real skill names.
 """
 
 from __future__ import annotations
@@ -374,6 +375,28 @@ def validate_script_syntax() -> list[Issue]:
     return issues
 
 
+def validate_routing_evals(skill_names: set[str]) -> list[Issue]:
+    """Check that tests/routing-evals.json only references real skill names."""
+    evals_path = REPO_ROOT / "tests" / "routing-evals.json"
+    if not evals_path.exists():
+        return []
+    issues: list[Issue] = []
+    rel = str(evals_path.relative_to(REPO_ROOT))
+    try:
+        data = json.loads(evals_path.read_text())
+    except json.JSONDecodeError as exc:
+        return [Issue(rel, f"invalid JSON: {exc}")]
+    for entry in data.get("evals", []):
+        eid = entry.get("id", "?")
+        for field in ("should_trigger", "should_not_trigger"):
+            val = entry.get(field, [])
+            names = [val] if isinstance(val, str) else val
+            for name in names:
+                if name and name not in skill_names:
+                    issues.append(Issue(rel, f"{eid} {field} references unknown skill `{name}`"))
+    return issues
+
+
 def main() -> int:
     if not SKILLS_ROOT.exists():
         print(f"skills directory not found: {SKILLS_ROOT}", file=sys.stderr)
@@ -388,6 +411,7 @@ def main() -> int:
         all_issues.extend(validate_template_manifest(skill_dir))
     all_issues.extend(validate_doc_skill_tables(skill_names))
     all_issues.extend(validate_script_syntax())
+    all_issues.extend(validate_routing_evals(skill_names))
 
     if all_issues:
         for issue in all_issues:

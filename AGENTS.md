@@ -94,6 +94,9 @@ ml-research-skills/
     │   ├── agents/
     │   ├── references/
     │   └── templates/
+    ├── reference-corpus-analyzer/
+    │   ├── SKILL.md
+    │   └── templates/
     ├── algorithm-design-planner/
     │   ├── SKILL.md
     │   └── references/
@@ -309,6 +312,7 @@ ml-research-skills/
 | `reference-library-manager` | Index and monitor project reference sources under `reference/`, including papers, PDFs, Word docs, Markdown notes, BibTeX files, scripts, specs, and source bundles |
 | `reference-reading-summarizer` | Read project reference sources into structured source cards for writing, method, theory, benchmark, baseline, feedback, spec, implementation, risk, or citation-support extraction |
 | `reference-project-synthesizer` | Connect source cards to project claims, risks, baselines, benchmarks, experiments, implementation plans, writing contracts, citation placement, collaborator actions, and memory writeback |
+| `reference-corpus-analyzer` | Produce a multi-paper comparison matrix across a literature corpus with tiered read depth, closest-work ranking, gap identification, and trend analysis |
 | `algorithm-design-planner` | Turn a promising research idea into a concrete method design with formulation, mechanism, assumptions, ablations, and implementation handoff |
 | `init-latex-project` | Initialize a LaTeX paper project with venue-specific templates, macros, and downloaded style files |
 | `latex-layout-issue-bundler` | Create reproducible `.agent/layout-issues/` bundles from PDF pages, crops, source snippets, and compile logs so agents can debug LaTeX layout without manual screenshots |

@@ -75,6 +75,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `reference-library-manager` | Index and monitor project reference sources under `reference/`, including papers, PDFs, Word docs, Markdown notes, BibTeX files, scripts, specs, and source bundles |
 | `reference-reading-summarizer` | Read project reference sources into structured source cards for writing, method, theory, benchmark, baseline, feedback, spec, implementation, risk, or citation-support extraction |
 | `reference-project-synthesizer` | Connect source cards to project claims, risks, baselines, benchmarks, experiments, implementation plans, writing contracts, citation placement, collaborator actions, and memory writeback |
+| `reference-corpus-analyzer` | Produce a multi-paper comparison matrix across a literature corpus with tiered read depth, closest-work ranking, gap identification, and trend analysis |
 | `algorithm-design-planner` | Turn a promising idea into a concrete method design with formulation, mechanism, assumptions, failure modes, ablations, and implementation handoff |
 | `init-latex-project` | Scaffold a LaTeX academic paper project with venue-specific templates, macros, and official style files |
 | `latex-layout-issue-bundler` | Create repo-local PDF page, crop, source-snippet, compile-log, and prompt bundles for page-specific LaTeX layout debugging without manual screenshots |

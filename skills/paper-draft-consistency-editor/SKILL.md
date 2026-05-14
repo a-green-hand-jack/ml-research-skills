@@ -41,6 +41,7 @@ Do not use this skill to decide the paper's positioning from scratch. Use `paper
 - Always read `references/consistency-rules.md`.
 - Read `paper-writing-assistant/references/paper-quality-heuristics.md` when auditing broad paper quality, readability, evidence integrity, or whether the draft hides unfair comparisons.
 - Read `references/edit-protocol.md` before editing paper source.
+- Read `paper-writing-assistant/references/edit-whitelist-contract.md` when declaring a controlled rewrite pass with frozen and allowed operation types.
 - Use `templates/consistency-report.md` for substantial reports.
 - Read `paper/.agent/writing-contract.md` when present.
 - Read `paper/.agent/writing-memory/`, `paper/.agent/writing-style.md`, `paper/.agent/writing-style-lessons.md`, `paper/.agent/notation-contract.md`, `paper/.agent/paper-evidence-board.md`, `paper/.agent/provisional-results.md`, and root `memory/claim-board.md` / `memory/evidence-board.md` when present.

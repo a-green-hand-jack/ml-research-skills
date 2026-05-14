@@ -38,6 +38,7 @@ Pair this skill with:
 ## Progressive Loading
 
 - Read `templates/improvement-log.md` before starting a new loop.
+- Read `paper-writing-assistant/references/edit-whitelist-contract.md` to select or customize the edit whitelist preset for this loop.
 - Read `paper/.agent/writing-contract.md` when it exists to understand protected invariants.
 - Read `paper/.agent/PAPER_IMPROVEMENT_STATE.json` when resuming an interrupted loop.
 
