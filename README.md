@@ -92,6 +92,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `compute-budget-planner` | Estimate GPU compute costs before submitting ML experiments: size smoke tests, cost ablation matrices, find cheaper alternatives, and fit jobs to available resources |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
+| `statistical-analysis-planner` | Plan and report statistical rigor for ML results: significance tests, effect sizes, confidence intervals, seed variance analysis, and multiple-comparison corrections |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
 | `project-pivot-planner` | Plan mid-project direction changes when consistent failures require scope narrowing, angle change, or kill decisions — distinct from per-experiment diagnosis |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures, with setup, results, interpretation, limitations, and next steps |

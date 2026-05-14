@@ -108,6 +108,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `compute-budget-planner` | Estimate GPU compute costs before submitting ML experiments: size smoke tests, cost ablation matrices, find cheaper alternatives, and fit jobs to available resources |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
+| `statistical-analysis-planner` | Plan and report statistical rigor for ML results: significance tests, effect sizes, confidence intervals, seed variance analysis, and multiple-comparison corrections |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose debug/rerun/ablate/revise/narrow/write/park/kill decisions |
 | `project-pivot-planner` | Plan mid-project direction changes when consistent failures require scope narrowing, angle change, or kill decisions — distinct from per-experiment diagnosis |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
@@ -163,6 +164,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`compute-budget-planner`**: Use between experiment design and job submission to estimate GPU-hours, size smoke tests under 30 minutes, cost the ablation matrix with priorities, and identify cheaper alternatives. Writes `code/.agent/compute-budget.md`.
 - **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.
 - **`baseline-selection-audit`**: Use between literature review and experiment execution, or whenever a comparison table may be vulnerable. It classifies baselines as must-have/should-have/optional/not-comparable/citation-only and produces a fairness ledger plus reviewer-risk forecast.
+- **`statistical-analysis-planner`**: Use after results exist (or in planning mode before deciding how many seeds to run) to select significance tests, compute effect sizes and CIs, apply multiple-comparison corrections, and format variance-annotated result tables. Pair with `experiment-design-planner` for pre-run power analysis and `table-results-review` to verify reporting format.
 - **`result-diagnosis`**: Use after results are surprising, negative, unstable, or hard to interpret. It separates bugs, metric issues, baseline fairness, variance, mechanism failure, and claim mismatch before deciding the next action.
 - **`project-pivot-planner`**: Use when multiple result-diagnosis cycles have failed to recover the core claim, or when advisor/committee feedback consistently questions the project direction. It evaluates narrow/angle/new-direction/kill options, requires evidence for the decision, and updates all relevant memory boards.
 - **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
