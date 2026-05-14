@@ -33,7 +33,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-027 | done | agent | skills | Add reusable agent-regression hardening guidance for skill maintenance. | DEC-024, CLM-024, EVD-026, RSK-018 | During audits, promote repeated mistakes into routing triggers, contracts, references, templates, wrappers, memory, reinstall, and installed-copy checks. |  | 2026-05-13 |
 | ACT-028 | done | agent | experiments | Add utilization-aware resource and job occupancy feedback rules. | DEC-025, CLM-025, EVD-027, RSK-019 | Before launch, model workload shape and resource inventory; after launch, report allocation vs active use and update project memory when underutilized. |  | 2026-05-13 |
 
-| ACT-029 | todo | agent | skills | Fix `safe-git-ops` leading `"` bug in description and audit all skill descriptions for front-loaded trigger phrases and Codex 500-char compliance. | DEC-027, RSK-020 | Fix safe-git-ops first; then audit all 57 descriptions for front-loading and Codex byte limit. |  | 2026-05-14 |
+| ACT-029 | done | agent | skills | Fix `safe-git-ops` leading `"` bug and audit all 57 descriptions for front-loading and Codex 500-char compliance. Budget raised: Claude Code `skillListingBudgetFraction: 0.02`; Codex budget ~21k chars with 265k context. All descriptions ≤ 373 chars and front-loaded. | DEC-027, RSK-020 | Re-audit if skill count grows past ~80. |  | 2026-05-14 |
 
 ## Blocked Actions
 
