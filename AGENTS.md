@@ -118,6 +118,9 @@ ml-research-skills/
     ├── compute-budget-planner/
     │   ├── SKILL.md
     │   └── references/
+    ├── feedback-synthesizer/
+    │   ├── SKILL.md
+    │   └── templates/
     ├── experiment-design-planner/
     │   ├── SKILL.md
     │   └── references/
@@ -308,6 +311,7 @@ ml-research-skills/
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
+| `feedback-synthesizer` | Turn inbound advisor, collaborator, or reviewer feedback into structured claim updates, risk entries, action items, and experiment decisions |
 | `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates from evidence, risks, options, asks, and next actions |
 | `research-slide-deck-builder` | Design and write research slide decks for advisor, lab, progress, reading, proposal, and conference talks using the external `progress-slides` template |
 | `figure-results-review` | Review figure assets, LaTeX figure wrappers, plots, captions, visual descriptions, paper visual style, and evolving style-memory contracts for claim support and reviewer risk |
