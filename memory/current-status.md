@@ -4,9 +4,9 @@
 
 ## Current Focus
 
-- Summary: The repository is in skill-system hardening mode (57 skills complete, 8 new skills planned). Current hardening work covers sidecar execution, code-reviewer isolation, token telemetry, toolchain gates, repo-native project memory, automatic personalization writeback, project-local source/reference management, private-to-public knowledge audits, artifact-bounded run monitoring, earlier SSH wrapper routing, stable Git push wrappers, resource-aware experiment launch, utilization-aware job/resource feedback, server uv environment reuse, image/startup-aware resource routing, scheduler auth circuit breakers, and reusable agent-regression hardening guidance. Global consistency audit completed 2026-05-14; 8 new skills roadmapped (ACT-030–ACT-037).
-- Active milestone: expand lifecycle coverage with 8 new skills — `data-pipeline-manager`, `experiment-debugger`, `compute-budget-planner`, `feedback-synthesizer`, `appendix-organizer`, `project-pivot-planner`, `model-card-writer`, and statistical rigor guidance.
-- Current phase: `expansion`.
+- Summary: The repository is at 65 skills after implementing all 8 planned new skills (ACT-030–ACT-037). The expansion phase is complete. The collection now covers: data pipeline management, experiment engineering debugging, compute budget planning, inbound feedback synthesis, appendix organization, mid-project pivot planning, model card writing, and statistical analysis reporting — closing all major lifecycle gaps.
+- Active milestone: maintain 65-skill collection, keep validation passing, reinstall after skill changes.
+- Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
 - Last updated: 2026-05-14.
 
@@ -89,14 +89,14 @@
 - `ACT-027`: Use agent-regression hardening during skill maintenance: do not leave repeated mistakes as chat-only lessons or buried prose.
 - `ACT-028`: Use utilization-aware resource feedback: track allocation vs active GPU use and update project status/memory when the next launch policy should change.
 - `ACT-029`: Use public writing heuristics during paper skill work: classify the core sell, check logical strength/defensibility/confusion time/information density, and surface comparison-affecting protocol details before final prose.
-- `ACT-030` (todo): Implement `data-pipeline-manager` skill — fills the largest lifecycle gap (zero current data work coverage).
-- `ACT-031` (todo): Implement `experiment-debugger` skill — engineering failures distinct from scientific result issues.
-- `ACT-032` (todo): Implement `compute-budget-planner` skill — pre-experiment GPU-hour estimation and smoke-test sizing.
-- `ACT-033` (todo): Implement `feedback-synthesizer` skill — structured claim/risk/action items from inbound advisor/reviewer feedback.
-- `ACT-034` (todo): Implement `appendix-organizer` skill — supplementary material planning and NeurIPS/ICLR checklist sections.
-- `ACT-035` (todo): Implement `project-pivot-planner` skill — mid-project direction change framework.
-- `ACT-036` (todo): Implement `model-card-writer` skill — model cards, reproducibility checklists, venue-required materials.
-- `ACT-037` (todo): Decide scope for statistical rigor guidance — new `statistical-analysis-planner` vs enhancement to existing skills.
+- `ACT-030` (done): `data-pipeline-manager` — dataset acquisition, split design, quality audit, contamination check, versioning.
+- `ACT-031` (done): `experiment-debugger` — NaN/gradient, OOM, slow training, metric errors, repro failures.
+- `ACT-032` (done): `compute-budget-planner` — GPU-hour estimation, smoke test sizing, ablation costing.
+- `ACT-033` (done): `feedback-synthesizer` — inbound advisor/collaborator feedback → triaged claim/risk/action items.
+- `ACT-034` (done): `appendix-organizer` — appendix structure, claim boundaries, venue checklist filling.
+- `ACT-035` (done): `project-pivot-planner` — narrow/angle/new-direction/kill framework for mid-project failures.
+- `ACT-036` (done): `model-card-writer` — model cards, datasheets, reproducibility statements, artifact READMEs.
+- `ACT-037` (done): `statistical-analysis-planner` — significance tests, effect sizes, CIs, seed variance, multiple-comparison corrections.
 
 ## Planned Skills Roadmap (ACT-030–ACT-037)
 
