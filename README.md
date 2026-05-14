@@ -116,6 +116,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `related-work-positioning-writer` | Plan, draft, and revise related work as novelty-boundary writing, grouping closest work and defining safe citation-backed boundary statements |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
+| `appendix-organizer` | Plan and write appendix or supplementary material: structure sections, enforce main-paper claim boundaries, fill NeurIPS/ICLR/ICML reproducibility checklists, and align cross-references |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
 | `artifact-evaluation-prep` | Prepare artifact evaluation packages, reviewer-facing reproduction instructions, smoke tests, manifests, and claim-to-artifact maps |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |

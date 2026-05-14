@@ -132,6 +132,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `related-work-positioning-writer` | Plan, draft, and revise related work as novelty-boundary writing, grouping closest work and defining safe citation-backed boundary statements |
 | `paper-reviewer-simulator` | Simulate target-conference reviewers, predicted scores, likely reject reasons, meta-review, rebuttal risks, and a ranked pre-submission risk register |
 | `rebuttal-strategist` | Analyze real reviews, infer reviewer intent, plan rebuttal experiments, draft responses, and track promised revisions |
+| `appendix-organizer` | Plan and write appendix or supplementary material: structure sections, enforce main-paper claim boundaries, fill NeurIPS/ICLR/ICML reproducibility checklists, and align cross-references |
 | `camera-ready-finalizer` | Finalize an accepted paper by checking rebuttal promises, de-anonymization, final claims/evidence, supplement consistency, submission package, and release handoff |
 | `artifact-evaluation-prep` | Prepare artifact evaluation packages, reviewer-facing reproduction instructions, smoke tests, manifests, and claim-to-artifact maps |
 | `citation-coverage-audit` | Find missing classic, closest, benchmark, and recent concurrent citations before submission |
@@ -184,6 +185,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`related-work-positioning-writer`**: Use when related work needs closest-work grouping, novelty-boundary paragraphs, safe citation-backed wording, or an intro-vs-related-work split aligned with the paper's positioning.
 - **`paper-reviewer-simulator`**: Use before submission to simulate venue-specific reviewers, predict likely reject reasons, produce an area-chair style meta-review, and rank fixes by acceptance impact.
 - **`rebuttal-strategist`**: Use after real reviews arrive to parse OpenReview/reviewer comments, infer reviewer intent, decide which experiments or clarifications matter, draft rebuttals, and track promised revisions.
+- **`appendix-organizer`**: Use when main paper sections are mostly drafted and appendix structure needs to be decided. It assigns a job to each appendix section, enforces main-paper claim boundaries, fills venue checklists (NeurIPS/ICLR/ICML/ACL/CVPR), and audits cross-references. Use before `submit-paper` to ensure checklist items are answered.
 - **`camera-ready-finalizer`**: Use after acceptance to close rebuttal promises, de-anonymize, lock final claims against evidence, check supplement consistency, run final submission handoff, and route code/artifact/release tasks.
 - **`artifact-evaluation-prep`**: Use when an accepted or submitted paper needs an artifact evaluation package, reviewer quickstart, smoke tests, runtime envelope, data/checkpoint manifest, or claim-to-artifact map.
 - **`citation-coverage-audit`**: Use before submission to find missing foundational, closest, benchmark, and recent concurrent citations, then map each missing paper to an insertion point and novelty risk.
