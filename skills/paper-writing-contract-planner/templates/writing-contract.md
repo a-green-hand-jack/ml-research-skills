@@ -12,6 +12,7 @@
 - Primary audience:
 - Primary archetype:
 - Secondary archetype:
+- Dominant contribution type: insight | performance | capability | unresolved
 - Contract mode: create
 
 ## Paper Thesis
@@ -21,6 +22,14 @@
 - Closest-work boundary:
 - Claims to avoid:
 - Forbidden tone:
+
+## Quality Gates
+
+- Logical-strength rule:
+- Defensibility rule:
+- Confusion-time rule:
+- Information-density rule:
+- Evidence-integrity rule:
 
 ## Claim Contract
 
@@ -55,6 +64,8 @@
 | Slot | Required for | Status | Source artifact | Paper location | Action |
 |---|---|---|---|---|---|
 | main_comparison | CLM-001 | missing |  |  |  |
+
+Comparison-affecting evidence details to record when relevant: compute, data, training duration, tuning budget, model size, hardware, prompt, evaluation protocol, metric selection, seed/slice/dataset selection rule.
 
 Status values: filled, user-stated, planned, running, provisional, missing, contradicted, not-needed.
 

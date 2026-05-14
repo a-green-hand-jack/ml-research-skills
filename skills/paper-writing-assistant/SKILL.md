@@ -30,6 +30,8 @@ Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-sim
 - Declare the active writing layer before nontrivial edits. Layout, fluency, argument, technical consistency, style consistency, venue adaptation, and final polish have different permissions.
 - Interpret results toward claims. Result prose should explain why the evidence supports, narrows, or complicates the claim.
 - Keep evidence status explicit. Verified results, user-stated results, inferred interpretation, and provisional placeholders must not be mixed.
+- Prefer clarity over style: logical strength, defensibility, low confusion time, and information density matter more than elegant wording.
+- Do not let writing hide experimental advantages. Compute, data, training duration, tuning budget, model size, hardware, prompt, or protocol differences must be visible when they affect a comparison.
 - Temporary results are allowed only as marked writing scaffolds. They must be searchable in the source and tracked in a ledger before final submission.
 - If a needed experiment is missing, write the best current section while creating a placeholder and an action, instead of stopping all writing.
 - Prefer local draft files, project memory, and evidence artifacts over memory. Do not invent final numbers.
@@ -42,6 +44,7 @@ Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-sim
 ├── SKILL.md
 └── references/
     ├── style-selection.md
+    ├── paper-quality-heuristics.md
     ├── evidence-recipes.md
     ├── exemplar-index.md
     ├── exemplars/
@@ -64,6 +67,8 @@ Do not use this skill to review like a hostile reviewer. Use `paper-reviewer-sim
 ## Progressive Loading
 
 Always read `references/style-selection.md` before substantial drafting or revision.
+
+Read `references/paper-quality-heuristics.md` when writing or revising title/abstract/introduction/results/conclusion, when a draft feels unfocused, when polishing beyond grammar, or when checking whether prose hides weak evidence, confusing logic, or unfair comparisons.
 
 Read `references/evidence-recipes.md` when selecting paper structure, interpreting results, deciding whether a claim is supported, or handling missing experiments. Use it to map claims to must-have, should-have, optional, and blocker evidence slots.
 
@@ -134,6 +139,7 @@ Before writing substantial prose, extract:
 - Available evidence:
 - Missing evidence:
 - Evidence recipe loaded:
+- Paper quality heuristics loaded:
 - Evidence slot status:
 - Tone/style target:
 - Active writing layer:
@@ -204,6 +210,7 @@ Rules:
 - `planned`, `running`, or `missing` evidence requires provisional language, an action, or a narrowed claim.
 - `contradicted` evidence requires result diagnosis, claim narrowing, or a different paper positioning.
 - Missing blocker slots from the evidence recipe should prevent strong final claims.
+- Claims that depend on hidden compute, data, tuning, hardware, evaluation, or selection advantages must be rewritten with visible scope or routed to provenance/baseline audit before final prose.
 
 ## Step 5 - Write Claim-Aware Prose
 
@@ -222,6 +229,8 @@ For paragraphs:
 ```
 
 The final prose should not include this contract unless the user asks for an outline. Use it to keep writing disciplined.
+
+Apply the paper-quality gates from `references/paper-quality-heuristics.md`: check that transitions encode real logic, strong claims are defensible, concepts are explained near first use, and each paragraph carries enough useful information for its location in the paper.
 
 For figure captions:
 

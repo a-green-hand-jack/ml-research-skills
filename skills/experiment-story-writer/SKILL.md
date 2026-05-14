@@ -46,6 +46,7 @@ Do not use this skill to design new experiments from scratch. Use `paper-writing
 - The order of experiments should match the paper's contribution hierarchy.
 - Main results establish the claim; ablations explain why; diagnostics bound when; efficiency results explain cost; qualitative results make behavior concrete.
 - Every result paragraph should name the comparison, metric, setting, and conclusion.
+- Result prose should make comparison-affecting compute, data, training duration, tuning budget, hardware, evaluation protocol, and selection rules visible when they affect the claim.
 - Do not hide mixed results. Explain how they narrow, qualify, or motivate the claim.
 - Do not invent final numbers. Use marked provisional placeholders only as writing scaffolds.
 - If a result contradicts a claim, route to `result-diagnosis` or narrow the claim before writing strong prose.
@@ -63,6 +64,7 @@ Extract:
 - Tables:
 - Main metrics:
 - Baselines:
+- Comparison-affecting protocol details:
 - Ablations:
 - Verified results:
 - User-stated results:
@@ -121,6 +123,7 @@ For each paragraph:
 - close with the implication for the next experiment or paper claim
 
 Avoid listing numbers without interpretation.
+Avoid writing around unfairness or hidden advantages. If the result depends on extra compute, data reuse, tuning budget, seed/slice selection, metric choice, or different hardware, disclose the scope or route to `baseline-selection-audit` / `paper-evidence-board` before final result prose.
 
 ## Step 5 - Handle Provisional and Mixed Results
 

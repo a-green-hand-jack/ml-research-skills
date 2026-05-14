@@ -32,6 +32,7 @@ Pair this skill with:
 - `paper-reviewer-simulator` after positioning to stress-test the selected story
 - `conference-writing-adapter` after positioning to rewrite sections for the target venue
 - `research-project-memory` when positioning decisions should persist across sessions
+- `paper-writing-assistant` when public writing-quality heuristics should be applied during broad prose drafting or revision
 
 ## Skill Directory Layout
 
@@ -67,6 +68,7 @@ Pair this skill with:
 - The title, abstract, intro thesis, main figure, and result table should all sell the same core story.
 - Claims to avoid are as important as claims to emphasize.
 - A positioning decision should route concrete changes to writing, experiments, figures, or method design.
+- A memorable paper usually sells one dominant contribution type: insight, performance, or capability. If the story depends on many small tricks, reposition before polishing.
 
 ## Step 1 - Recover Project State
 
@@ -89,6 +91,14 @@ This paper sells [primary contribution] to [audience] by showing [evidence] agai
 ```
 
 If the sentence cannot be written, the likely decision is `revise-positioning`.
+
+Also classify the primary contribution pressure:
+
+- `insight`: the paper teaches a principle, phenomenon, mechanism, or failure mode
+- `performance`: the paper improves a measured outcome under a fair protocol
+- `capability`: the paper enables a new task, setting, scale, or workflow
+
+If none dominates, choose the most evidence-backed one and demote the others to secondary or supporting claims.
 
 ## Step 2 - Choose Paper Archetype
 

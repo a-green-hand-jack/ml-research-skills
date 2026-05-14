@@ -251,3 +251,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/run-experiment/`, `skills/run-status-monitor/`, `skills/remote-project-control/`, private compute workflow preferences, private Quest memory.
 - Revisit when: projects add standardized resource inventory wrappers or automated occupancy dashboards.
 - Certainty: user-stated
+
+## DEC-026 - Distill Public AI Paper Writing Advice Into Skill Heuristics
+
+- Date: 2026-05-14
+- Decision: Incorporate public lessons from hzwer/WritingAIPaper into paper-writing skills as original, workflow-oriented checks rather than copied prose.
+- Why: External writing experience is useful when it changes agent behavior: agents should classify the paper's core sell, write for readers rather than research chronology, audit readability, surface evidence-integrity details, and make figure/table interpretation easy to find.
+- Alternatives considered: leave the source as a one-off chat summary; add a standalone source note without routing it into skills; copy long excerpts into skills.
+- Affects: `skills/paper-writing-assistant/`, `skills/paper-positioning-planner/`, `skills/paper-writing-contract-planner/`, `skills/paper-introduction-argument-writer/`, `skills/paper-draft-consistency-editor/`, `skills/experiment-story-writer/`, `skills/figure-results-review/`, `skills/table-results-review/`, `memory/`.
+- Revisit when: writing skills become too broad, or future paper-writing sources suggest a more systematic shared writing-quality reference.
+- Certainty: observed

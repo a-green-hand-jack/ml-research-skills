@@ -40,6 +40,7 @@
 - `safe-git-ops` now uses Fast / Skill / Code / Risk commit paths, and `sidecar-task-runner` has a read-only `precommit-classifier` preset to recommend minimal validation and reinstall scope.
 - `figure-results-review` and `paper-result-asset-builder` now support evolvable style memory: lessons can become preferences, project contracts, and eventually reusable skill rules.
 - Writing skills now treat paper editing as layered work: layout, fluency, argument, technical consistency, style consistency, venue adaptation, and final polish each have different permissions and protected invariants.
+- Writing skills now include public AI-paper writing heuristics distilled from hzwer/WritingAIPaper: core idea as insight/performance/capability, reader-facing story over research chronology, readability gates, evidence-integrity checks, and figure/table proximity rules.
 
 ## Top Open Risks
 
@@ -86,6 +87,7 @@
 - `ACT-026`: Use artifact-bounded progress tracking: one bounded main-agent probe is acceptable, but repeated checks should update a short status artifact outside the main transcript.
 - `ACT-027`: Use agent-regression hardening during skill maintenance: do not leave repeated mistakes as chat-only lessons or buried prose.
 - `ACT-028`: Use utilization-aware resource feedback: track allocation vs active GPU use and update project status/memory when the next launch policy should change.
+- `ACT-029`: Use public writing heuristics during paper skill work: classify the core sell, check logical strength/defensibility/confusion time/information density, and surface comparison-affecting protocol details before final prose.
 
 ## Needs Verification Next Session
 

@@ -71,6 +71,7 @@ Pair this skill with:
 - Every plot should answer one reviewer question.
 - The main comparison should be visually and numerically easy to find.
 - Captions must state enough setup for the result to be interpreted without searching the paper.
+- Main-text callouts should tell the reader which visual comparison to inspect and why it matters.
 - Statistical uncertainty, seeds, and variance matter when the claim depends on small differences.
 - Compute, data, baseline, and protocol fairness must be visible when they affect interpretation.
 - Paper figures should share a deliberate visual language. Style choices are part of writing because they control what reviewers notice first.
@@ -170,6 +171,7 @@ Check:
 - whether color, markers, line styles, or hatching remain readable in grayscale
 - whether figure size works for one-column, two-column, slide, or appendix usage
 - whether captions and labels match the actual plotted data
+- whether the intended comparison path is visually obvious without requiring the reader to infer it from many panels or legends
 - whether figure wrapper width, cropping, subfigure order, and labels match the rendered asset and visual description
 - whether the wrapper creates local whitespace, page-bottom instability, or fragile wrap behavior that should be fixed near this figure rather than by global LaTeX tuning
 
@@ -214,6 +216,7 @@ Check:
 - data split and leakage risk
 - metric definition and averaging
 - baseline fairness and tuning budget
+- compute, hardware, model size, prompt, data, or selection differences that could make the visual comparison misleading if omitted
 - compute or speed reporting when efficiency is part of the claim
 - failure cases or negative results that should be shown
 - whether plotting parameters and experiment parameters are recoverable from the figure wrapper, caption, result report, logs, config, or paper text

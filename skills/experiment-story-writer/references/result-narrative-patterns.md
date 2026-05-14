@@ -21,6 +21,7 @@ Paragraph job:
 - "We first ask whether..."
 - "Table X shows..."
 - "This supports the claim that..."
+- "This comparison is fair because..." when compute, data, tuning, seeds, or protocol details affect interpretation.
 
 ## Benchmark Leaderboard Plus Analysis
 
@@ -38,6 +39,7 @@ Section order:
 Writing pressure:
 
 - Treat scores as evidence for benchmark usefulness, not only model ranking.
+- Make metric selection and slice selection visible so the benchmark does not look cherry-picked.
 
 ## Study Findings Sequence
 
@@ -55,6 +57,7 @@ Section order:
 Writing pressure:
 
 - Each subsection should read like an answer to a research question.
+- Each finding should state the controlled setup before interpreting the result.
 
 ## Mechanism-First Ablations
 
@@ -71,6 +74,7 @@ Section order:
 Writing pressure:
 
 - Do not treat ablations as an appendix dump. They should explain why the method works.
+- If a component is a hidden trick that materially changes performance, make it part of the ablation or provenance rather than burying it in implementation detail.
 
 ## Systems Performance Stack
 
@@ -88,6 +92,7 @@ Section order:
 Writing pressure:
 
 - Tie each number to the system design principle it validates.
+- Report hardware, batch size, model size, latency/throughput convention, and training/inference cost when those affect the claim.
 
 ## Diagnostic or Failure-Mode Sequence
 

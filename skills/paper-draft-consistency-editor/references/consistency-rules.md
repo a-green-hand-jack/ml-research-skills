@@ -6,6 +6,7 @@ Use this checklist to audit whether a paper draft tells one coherent story.
 
 Check:
 
+- The draft's dominant sell is clear: insight, performance, or capability.
 - Title promise matches abstract and introduction.
 - Abstract's main claim appears in the introduction thesis.
 - Introduction contribution bullets map to sections, figures, tables, theorem, artifact, or appendix evidence.
@@ -18,6 +19,7 @@ Common issues:
 - abstract claims broad generality but experiments cover one setting
 - introduction promises an ablation that results do not discuss
 - conclusion adds deployment or causal claims not supported earlier
+- the paper reads like a list of small tricks rather than one memorable idea
 
 ## Claim Strength Consistency
 
@@ -51,6 +53,7 @@ Flag:
 - table/figure without claim
 - stale result after updated experiments
 - provisional placeholder not tracked
+- comparison-affecting compute, data, training duration, tuning budget, hardware, prompt, evaluation, or selection rules missing from the visible evidence trail
 
 ## Result Consistency
 
@@ -77,6 +80,7 @@ For each figure/table:
 - Does the caption state the intended takeaway?
 - Does the main text callout match the caption?
 - Does the visual/table support the claim assigned in the writing contract?
+- Can a reader identify the intended comparison path without reverse-engineering the visual/table?
 - Are colors, markers, method labels, and abbreviations consistent?
 - Are appendix references and labels correct?
 
@@ -86,6 +90,25 @@ Flag:
 - main text overclaims beyond visual evidence
 - figure/table appears before the reader knows why it matters
 - table row/column semantics conflict with prose
+- caption lacks enough setup, metric direction, or takeaway for the figure/table to be interpreted independently
+
+## Readability Consistency
+
+Check:
+
+- transitions and connectives reflect the actual argument logic
+- terms are explained near first use
+- pronouns and "this/these/it" references are unambiguous
+- topic sentences reveal each paragraph's job
+- section openings do not spend space on generic background the target audience already knows
+- important interpretation appears close to the figure, table, method object, or claim it explains
+
+Flag:
+
+- causal language without causal evidence
+- long sentences where the referent changes mid-sentence
+- paragraphs whose first sentence hides the actual point
+- prose that sounds polished but does not increase defensibility or information density
 
 ## Terminology and Notation Consistency
 

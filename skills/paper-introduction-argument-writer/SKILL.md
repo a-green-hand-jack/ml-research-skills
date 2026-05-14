@@ -44,6 +44,7 @@ Do not use this skill for full-paper review. Use `paper-reviewer-simulator` for 
 
 - The introduction is a sales argument, not a literature survey.
 - Each paragraph needs one reader-facing job and one handoff sentence.
+- The introduction should reveal the paper's core idea early: insight, performance, or capability.
 - The gap must be specific enough to justify this paper, not the whole field.
 - The insight must explain why the proposed approach is plausible before details appear.
 - Result claims in the introduction must match evidence status.
@@ -63,6 +64,7 @@ Extract:
 - Primary claim:
 - Secondary claims:
 - Core problem:
+- Dominant contribution type: insight / performance / capability / unresolved
 - Closest prior limitation:
 - Key insight:
 - Proposed object:
@@ -123,6 +125,7 @@ For each paragraph:
 - use one main contrast, not several unrelated contrasts
 - end by pushing the reader to the next paragraph
 - avoid final-sounding claims when evidence is provisional
+- avoid connectives that imply causality, priority, or chronology unless the paragraph has actually established that relation
 
 ## Step 5 - Contribution Paragraph
 
@@ -134,6 +137,7 @@ Contribution bullets should answer:
 - What should the reader remember?
 
 Avoid contribution bullets that only restate section titles.
+Avoid contribution bullets that hide many small engineering tweaks behind a broad novelty claim; route to `paper-positioning-planner` if the core contribution cannot be expressed compactly.
 
 ## Step 6 - Final Checks
 

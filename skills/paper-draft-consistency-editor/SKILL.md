@@ -39,6 +39,7 @@ Do not use this skill to decide the paper's positioning from scratch. Use `paper
 ## Progressive Loading
 
 - Always read `references/consistency-rules.md`.
+- Read `paper-writing-assistant/references/paper-quality-heuristics.md` when auditing broad paper quality, readability, evidence integrity, or whether the draft hides unfair comparisons.
 - Read `references/edit-protocol.md` before editing paper source.
 - Use `templates/consistency-report.md` for substantial reports.
 - Read `paper/.agent/writing-contract.md` when present.
@@ -113,6 +114,7 @@ Read `references/consistency-rules.md`.
 Check:
 
 - Does the title promise match the abstract and intro thesis?
+- Is the dominant contribution type clear: insight, performance, or capability?
 - Do abstract results appear in the experiments/results section?
 - Do intro contribution bullets map to experiments, figures, tables, theorem, citation, or artifact evidence?
 - Are claim strengths consistent across abstract, intro, results, conclusion, and limitations?
@@ -123,6 +125,8 @@ Check:
 - Does related work define the same novelty boundary as intro contributions?
 - Do limitations narrow exactly the right claims?
 - Do layout, fluency, or polish edits accidentally change claim strength, notation, evidence scope, or venue positioning?
+- Do transitions, causal language, and contrast words reflect real argument logic rather than masking weak structure?
+- Are comparison-affecting compute, data, tuning, hardware, evaluation, and selection rules visible where claims need them?
 - Do argument or venue-adaptation edits update the writing contract or mark dependent sections stale?
 - Do style-consistency edits follow `writing-style.md` or record a new lesson/preference?
 

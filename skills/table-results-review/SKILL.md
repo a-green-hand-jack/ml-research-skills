@@ -37,6 +37,7 @@ Pair this skill with:
 - A table bundle has separate layers: standalone `.tex` source, table description, caption, main-text callout, and provenance.
 - Table description and table caption are different artifacts. Describe what the table reports before interpreting why it matters.
 - The reader's comparison path should be obvious from row/column grouping.
+- If the comparison path is not obvious, prefer repeated key baselines, grouped columns, or a short callout over forcing the reader to infer the intended comparison.
 - Bolding, underlining, arrows, missing values, and footnotes must have explicit rules.
 - Numeric provenance matters. Record where values came from, how they were aggregated, how they were rounded, and whether they were manually edited.
 - A strong table caption states the setup, comparison, metric, key parameter, and takeaway without becoming a full experiment report.
@@ -148,6 +149,7 @@ Check:
 - metric definition and aggregation
 - data split and leakage risk
 - baseline fairness and tuning budget
+- compute, hardware, model size, data, prompt, or selection differences that could change the interpretation of a comparison
 - compute or speed reporting when efficiency is part of the claim
 - table-generation parameters: source file, filtering, aggregation, sorting, rounding, bolding, missing-value convention, and manual edits
 

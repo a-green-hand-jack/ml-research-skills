@@ -41,6 +41,7 @@ Do not use this skill to write full paper prose. Use `paper-writing-assistant` a
 - Read `references/update-protocol.md` when updating an existing contract or when the draft/results changed.
 - Read `paper-writing-assistant/references/evidence-recipes.md` when available and the contract needs archetype-specific evidence slots.
 - Read `paper-writing-assistant/references/style-selection.md` and `paper-writing-assistant/references/exemplar-index.md` when venue/topic style or exemplar patterns matter.
+- Read `paper-writing-assistant/references/paper-quality-heuristics.md` when the contract needs quality gates for core idea, readability, evidence integrity, or figure/table interpretation.
 - Read or update `paper/.agent/writing-memory/` through `paper-writing-memory-manager` when the contract changes section order, paragraph roles, claim strength, writing layers, style rules, notation rules, or forbidden claims.
 - Read `paper/.agent/writing-style.md`, `paper/.agent/notation-contract.md`, and `paper/.agent/writing-memory/style-and-terminology.md` when present.
 - Read `paper-positioning-planner` outputs when present, such as positioning reports, claim decisions, or narrative architecture.
@@ -53,6 +54,8 @@ Do not use this skill to write full paper prose. Use `paper-writing-assistant` a
 - Every section needs a job. Every important paragraph needs a role.
 - Every main figure/table needs a paper job before captions are polished.
 - Missing evidence should become an explicit placeholder, action, narrowed claim, or forbidden claim.
+- The contract should identify the paper's dominant sell as insight, performance, or capability, then make every section support that sell.
+- The contract should make evidence-integrity risks visible: compute, data, training duration, tuning budget, hardware, prompt, evaluation, and selection rules belong in evidence slots when they affect comparisons.
 - The contract should be compact enough to stay useful while drafting.
 - Later writing should follow the contract unless new evidence changes the contract first.
 - Later writing should declare the active writing layer and protect the invariants assigned to that layer.
@@ -88,6 +91,7 @@ Choose:
 
 - primary archetype: method, theory-guided method, empirical study, benchmark/dataset, systems/tooling, analysis/diagnostic, application, negative result/limitation, or hybrid
 - target venue and audience
+- dominant contribution type: insight, performance, or capability
 - section order
 - per-section job
 - paragraph roles for introduction, method/setup, experiments/results, related work, and limitations
@@ -120,6 +124,7 @@ Specify:
 - title direction
 - abstract moves
 - intro paragraph recipe
+- readability gates: logical strength, defensibility, confusion-time reduction, and information density
 - main figure/table roles
 - result section order
 - related-work boundary
@@ -169,8 +174,10 @@ Route unresolved items:
 Before finalizing:
 
 - one primary archetype is selected
+- one dominant contribution type is recorded or explicitly marked unresolved
 - section order and paragraph roles are explicit
 - main claims have evidence slots and allowed strength
+- evidence-integrity fields cover comparison-affecting compute, data, tuning, hardware, evaluation, and selection rules
 - missing blocker evidence creates actions or narrowed claims
 - figure/table jobs are defined before prose polishing
 - related-work and limitation boundaries are explicit
