@@ -89,6 +89,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles using one-shot Codex/Claude Code reviewer sessions so core implementations can be audited without sharing the writer's chat context |
 | `data-pipeline-manager` | Manage ML dataset pipelines before training: acquire, preprocess, design train/val/test splits, audit data quality, check for contamination, and version datasets for reproducibility |
 | `experiment-debugger` | Debug ML experiment engineering failures: NaN/gradient issues, GPU OOM, slow training, data loading bugs, metric errors, and reproducibility failures — distinct from scientific result diagnosis |
+| `compute-budget-planner` | Estimate GPU compute costs before submitting ML experiments: size smoke tests, cost ablation matrices, find cheaper alternatives, and fit jobs to available resources |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and decide whether to debug, rerun, ablate, revise, narrow, write, park, or kill |
