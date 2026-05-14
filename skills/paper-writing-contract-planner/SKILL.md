@@ -23,6 +23,26 @@ Use this skill for:
 
 Do not use this skill to write full paper prose. Use `paper-writing-assistant` after the contract exists. Use `paper-writing-memory-manager` after creating or updating the contract so section status, dependencies, style rules, and open writing threads reflect the new agreement. Use `paper-positioning-planner` first if the primary contribution is still undecided. Use `paper-evidence-board` if the main task is a claim/evidence inventory. Use `experiment-design-planner` when missing evidence needs a runnable experiment plan.
 
+## Writing Phase Entry Point
+
+This is the recommended starting skill for the writing phase. Typical sequence:
+
+```
+paper-positioning-planner       ← decide what the paper sells (if not settled)
+paper-writing-contract-planner  ← lock archetype, section order, evidence slots  ← START HERE
+paper-writing-memory-manager    ← initialize section ledger and dependencies
+paper-writing-assistant         ← draft prose section by section
+  └─ paper-introduction-argument-writer   ← intro-specific argument chain
+  └─ method-section-explainer             ← method prose and notation
+  └─ experiment-story-writer              ← results prose from tables/figures
+  └─ related-work-positioning-writer      ← novelty-boundary related work
+  └─ limitations-scope-writer             ← limitations and scope caveats
+  └─ abstract-title-contribution-writer   ← abstract/title after sections exist
+paper-draft-consistency-editor  ← align all sections before submission
+```
+
+Skip `paper-positioning-planner` only if the paper archetype, primary claim, and venue are already settled. Run `paper-draft-consistency-editor` at least once before submitting.
+
 ## Skill Directory Layout
 
 ```text
@@ -160,7 +180,7 @@ When updating, preserve useful stable decisions and add a compact change note in
 Route unresolved items:
 
 - `paper-writing-assistant`: write or revise sections under the contract
-- `paper-writing-memory-manager`: initialize or update writing memory after contract creation or revision
+- `paper-writing-memory-manager`: initialize or update writing memory after contract creation or revision — record contract version, locked section order, evidence slots per claim, forbidden claims, writing-layer permissions, notation rules, and which sections are now unblocked for drafting
 - `paper-evidence-board`: synchronize claim/evidence/action IDs
 - `experiment-design-planner`: plan missing evidence slots
 - `baseline-selection-audit`: defend required baselines

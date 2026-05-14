@@ -89,7 +89,7 @@ Recommended outputs:
 - `memory/token_ledger/sessions.json` for structured session summaries
 - `memory/token_ledger/README.md` only if the project needs policy notes
 
-Do not commit copied raw transcript logs unless the user explicitly asks and privacy has been reviewed.
+Write to `memory/token_ledger/` only when: phase change, milestone tag, major experiment batch, or user explicitly asks for a usage record. One-off usage queries do not require writeback. Do not commit copied raw transcript logs unless the user explicitly asks and privacy has been reviewed.
 
 ## Report Framing
 

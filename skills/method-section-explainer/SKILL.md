@@ -157,4 +157,4 @@ Before finalizing:
 - overview figure, algorithm box, and text agree
 - results claims are not smuggled into the method section
 - appendix handoffs are explicit
-- notation, terminology, and method-section status are written back through `paper-writing-memory-manager`
+- notation, terminology, and method-section status are written back through `paper-writing-memory-manager` — record locked notation decisions, module/component naming, algorithm box present/absent, overview figure dependency, and which downstream sections (results, captions, appendix) depend on method terminology

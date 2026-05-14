@@ -76,7 +76,7 @@ python3 <installed-skill-dir>/scripts/run_status_probe.py \
 
 5. If no config exists, create one from `templates/runs.yaml` with the minimum backend fields and ask only for missing run identity fields.
 6. Read only the generated `status_artifact`, not raw logs, before answering the user.
-7. Update `docs/ops/current-status.md` or project memory only when the status changes durable project state.
+7. Update `docs/ops/current-status.md` or project memory only when the status changes durable project state — durable state includes: run completed with surprising or paper-facing metrics, confirmed failure with identified cause, resource occupancy pattern that should inform the next launch policy, or a new run ID that becomes the canonical reference for a claim or experiment.
 
 For ongoing monitoring:
 

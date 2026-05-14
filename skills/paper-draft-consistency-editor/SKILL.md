@@ -147,7 +147,7 @@ For each issue, choose:
 - `rewrite-request`: needs `paper-writing-assistant`
 - `contract-update`: needs `paper-writing-contract-planner`
 - `evidence-update`: needs `paper-evidence-board`
-- `writing-memory-update`: needs `paper-writing-memory-manager` to record dependency conflicts, stale locations, or closed threads
+- `writing-memory-update`: needs `paper-writing-memory-manager` to record dependency conflicts, stale locations, or closed threads — always write: sections audited, issues resolved, issues left open, and any protected invariants identified during this pass
 - `style-memory-update`: needs `paper-writing-memory-manager` to record a writing-layer lesson, preference, project contract, protected invariant, or notation rule
 - `experiment-action`: needs `experiment-design-planner`
 - `diagnosis`: needs `result-diagnosis`

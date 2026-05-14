@@ -143,5 +143,5 @@ Before finalizing:
 - result numbers match verified or explicitly provisional status
 - venue-required abstract constraints are respected when known
 - title does not oversell generality, novelty, or SOTA
-- top-level wording and dependency changes are recorded with `paper-writing-memory-manager`
+- top-level wording and dependency changes are recorded with `paper-writing-memory-manager` — record current title, abstract version, contribution bullet list, top-level claim wording, and which downstream sections (intro, contributions, conclusion) now depend on this wording
 - open issues are routed to `paper-evidence-board`, `paper-introduction-argument-writer`, or `paper-draft-consistency-editor`

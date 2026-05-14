@@ -173,4 +173,4 @@ The writer should update `fix-log.md` with:
 - tests rerun
 - items intentionally not fixed and why
 
-If review findings change the task scope or algorithm contract, update the project memory or design docs before continuing.
+If review findings change the task scope or algorithm contract, update the project memory or design docs before continuing — update `memory/claim-board.md` when correctness claims are affected, `memory/risk-board.md` for newly identified technical risks, and `memory/decision-log.md` when an algorithm contract or design decision changes as a result of review.

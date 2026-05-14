@@ -154,4 +154,4 @@ Before finalizing:
 - ethics/broader-impact text does not overpromise safeguards
 - future work is realistic and not used to cover missing required evidence
 - reviewer-risk follow-ups are explicit
-- scope and limitation changes are written back through `paper-writing-memory-manager`
+- scope and limitation changes are written back through `paper-writing-memory-manager` — record the limitation list, any claims that were narrowed or scoped, and which sections (abstract, intro, conclusion, contributions) must be checked for scope consistency

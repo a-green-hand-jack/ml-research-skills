@@ -174,7 +174,7 @@ The main agent must still stage files, commit, push, reinstall, and report the o
 
 Use the `personalization-scanner` preset when a main agent wants low-cost automatic memory writeback candidates from trajectories or repo artifacts. The sidecar may inspect only explicitly listed inputs and returns candidate preferences with scope, confidence, evidence, suggested target, and privacy notes.
 
-The main agent must still decide what to write, keep private facts out of public repo memory, and perform any project-memory or skill-repo edits. The sidecar must not ask the user, quote raw logs, or promote public skill rules by itself.
+The main agent must still decide what to write, keep private facts out of public repo memory, and perform any project-memory or skill-repo edits. The sidecar must not ask the user, quote raw logs, or promote public skill rules by itself. After accepting sidecar output, the main agent writes: accepted findings to the relevant memory board (claim/risk/action/decision), gate decision to `decision.md`, and sidecar token metadata stays in `.agent/sidecars/<task-id>/model.json` — not in project memory.
 
 ## Token Telemetry
 

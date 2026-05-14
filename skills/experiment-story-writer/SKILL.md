@@ -152,4 +152,4 @@ Before finalizing:
 - numbers match verified sources or are marked provisional
 - mixed results are scoped rather than hidden
 - missing blocker evidence is routed first to `paper-evidence-gap-miner`, then to `experiment-design-planner` only if existing CSV results cannot fill the gap
-- result-claim dependencies and stale locations are written back through `paper-writing-memory-manager`
+- result-claim dependencies and stale locations are written back through `paper-writing-memory-manager` — record which result paragraphs are drafted, which figures/tables are referenced, which claims now have prose support, and any provisional result placeholders in `paper/.agent/provisional-results.md`

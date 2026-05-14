@@ -71,11 +71,14 @@ Read `references/project-link-routing.md`.
    - project seed
    - reviewer-risk or novelty boundary
 4. Create or update `reference/project-use/<source-id>.md` from `templates/project-use-note.md`.
-5. Write only durable conclusions into project memory:
-   - claim/evidence/risk/action/provenance boards
-   - decision log or project current status
-   - paper writing contract or style memory
-   - code benchmark/baseline/implementation plan
+5. Write only durable conclusions into project memory — link-mode determines target:
+   - claim support/challenge → `memory/claim-board.md` + `memory/evidence-board.md`
+   - identified risk or blocker → `memory/risk-board.md` + `memory/action-board.md`
+   - baseline or benchmark → code-side `docs/experiments/` or `memory/evidence-board.md`
+   - implementation hint → code-side design doc or `memory/decision-log.md`
+   - writing exemplar or style pattern → `paper/.agent/writing-memory/` via `paper-writing-memory-manager`
+   - reviewer-risk or novelty framing → `memory/risk-board.md` or `paper/.agent/paper-evidence-board.md`
+   - provenance link → `memory/provenance-board.md`
 6. If the card is too weak, route back to `reference-reading-summarizer` with the required reading mode.
 
 ## Output Rules
