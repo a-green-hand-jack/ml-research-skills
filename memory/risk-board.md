@@ -24,6 +24,8 @@ Track risks that could break the skill system, project memory, release process, 
 | RSK-018 | maintenance | open | medium | medium | Lessons from repeated agent regressions may remain as chat-only corrections or buried prose, so future sessions repeat the same mistakes. | CLM-024 | Use the agent-regression hardening ladder during audits: route earlier, add hard contracts, inherit through templates, validate, reinstall, and verify installed copies. | ACT-027 | user-stated | 2026-05-13 |
 | RSK-019 | execution | open | high | medium | Experiments can hold more GPUs than they actually use when agents rely on scheduler `RUNNING` state but do not model workload parallelism or node-level GPU occupancy. | CLM-025 | Require workload-shape planning, node/process occupancy checks, underutilization reporting, and project memory feedback for the next launch policy. | ACT-028 | user-stated | 2026-05-13 |
 
+| RSK-020 | routing | open | medium | high | Skill listing budget (~8,000 chars) is exceeded by current 57-skill set (~12,225 chars); Claude Code and Codex both truncate or drop descriptions, weakening auto-routing for less-used skills. | CLM-005 | Front-load trigger phrases, keep descriptions ≤ 500 chars, use `when_to_use` for secondary conditions, set low-priority skills to `name-only` via `skillOverrides`. | ACT-029 | official-docs-verified | 2026-05-14 |
+
 ## Accepted Risks
 
 - Local sidecar artifacts remain outside git by default. This sacrifices shared replayability for privacy and repository hygiene.

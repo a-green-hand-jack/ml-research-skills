@@ -252,6 +252,25 @@ Use this file for durable project decisions and rationale, not transient status.
 - Revisit when: projects add standardized resource inventory wrappers or automated occupancy dashboards.
 - Certainty: user-stated
 
+## DEC-027 - Skill Description Limits Are Platform-Specific And Budget-Driven
+
+- Date: 2026-05-14
+- Decision: Treat skill `description` fields as budget-constrained routing signals, not free-form text.
+- Why: Official docs (code.claude.com/docs/en/skills and developers.openai.com/codex/skills) confirmed two separate constraints:
+  (1) **Per-skill cap**: Claude Code truncates `description` + `when_to_use` at **1,536 chars** combined (configurable via `maxSkillDescriptionChars`); Codex enforces a **500-char hard limit** validated in code (byte-counting bug: multi-byte chars like Chinese/Japanese hit the limit earlier than expected).
+  (2) **Global listing budget**: both platforms cap the total skill listing at roughly **8,000 chars** (Claude Code: 1% of context window, configurable via `skillListingBudgetFraction`; Codex: 2% of context window or 8,000 chars). When budget overflows, Claude Code drops descriptions for least-used skills first; Codex shortens all descriptions. This is why many skill descriptions appear truncated (`…`) in the system-reminder.
+  At 57 skills with ~12,225 total description chars, this repo exceeds the ~8,000 char global budget on both platforms.
+- Key rules derived:
+  - Front-load the trigger phrase and key use case; put fine-grained conditions later or in `when_to_use`.
+  - Keep descriptions ≤ 500 chars to avoid Codex hard limit and stay safe under Claude Code budget.
+  - The `when_to_use` frontmatter field can supplement `description` for routing without redundancy; both count toward the 1,536-char per-skill cap.
+  - Use `skillOverrides: { skill-name: "name-only" }` in Claude Code to free listing budget for lower-priority skills.
+  - Run `/doctor` in Claude Code to diagnose whether the budget is overflowing and which skills are affected.
+- Alternatives considered: assume longer descriptions are always better; ignore the budget and rely on direct `/skill-name` invocation.
+- Affects: all `skills/*/SKILL.md` description fields, `skills/safe-git-ops/SKILL.md` (leading `"` bug), README.md, CLAUDE.md.
+- Revisit when: Claude Code raises the default budget fraction or Codex fixes the byte-vs-character counting bug.
+- Certainty: official-docs-verified
+
 ## DEC-026 - Distill Public AI Paper Writing Advice Into Skill Heuristics
 
 - Date: 2026-05-14
