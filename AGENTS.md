@@ -108,6 +108,10 @@ ml-research-skills/
     │   └── SKILL.md
     ├── new-workspace/
     │   └── SKILL.md
+    ├── data-pipeline-manager/
+    │   ├── SKILL.md
+    │   ├── references/
+    │   └── templates/
     ├── experiment-design-planner/
     │   ├── SKILL.md
     │   └── references/
@@ -291,6 +295,7 @@ ml-research-skills/
 | `personalization-memory` | Scan trajectories, sidecar artifacts, logs, and repeated corrections for reusable preferences, then write safe private or project memory without interrupting the user |
 | `memory-publication-auditor` | Audit private skills, memories, notes, or logs before turning them into public skills, docs, templates, or reusable patterns |
 | `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles using one-shot Codex/Claude Code reviewer sessions so core implementations can be audited without sharing the writer's chat context |
+| `data-pipeline-manager` | Manage ML dataset pipelines before training: acquire, preprocess, design train/val/test splits, audit data quality, check for contamination, and version datasets for reproducibility |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
