@@ -128,6 +128,7 @@ Every skill invocation follows the same loop: read the current memory state, dec
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, SSH/HPC/RunAI workflows, and SSH wrapper usage for research repos |
 | `run-experiment` | Generate reproducible local, SLURM, or RunAI job scripts and submission commands with resource-aware smoke/debug/formal planning |
 | `submit-paper` | Run a pre-submission checklist for a LaTeX paper, including anonymity, mandatory sections, source formatting, layout debugging, and configured compile-backend handoff |
+| `model-card-writer` | Generate model cards, dataset datasheets, reproducibility statements, and artifact READMEs for model releases and venue-required documentation |
 | `release-code` | Prepare a research code repository for public release with audit, README/LICENSE/CITATION, tagging, and optional GitHub release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect changes since the last docs update and refresh only the affected documentation |

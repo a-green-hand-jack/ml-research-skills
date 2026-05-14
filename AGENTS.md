@@ -263,6 +263,9 @@ ml-research-skills/
     │   ├── scripts/
     │   ├── template_manifest.json
     │   └── templates/
+    ├── model-card-writer/
+    │   ├── SKILL.md
+    │   └── templates/
     ├── release-code/
     │   ├── SKILL.md
     │   ├── checklist.md
@@ -350,6 +353,7 @@ ml-research-skills/
 | `remote-project-control` | Recover project memory and safely coordinate local, Git remote, SSH/HPC/RunAI workflows, and SSH wrapper usage |
 | `run-experiment` | Generate reproducible local / SLURM / RunAI job scripts and submission commands with resource- and utilization-aware smoke/debug/formal planning |
 | `submit-paper` | Run a pre-submission readiness check for a LaTeX paper project, including source formatting, local layout debugging, source hygiene, and the configured compile backend without recording one user's local TeX availability |
+| `model-card-writer` | Generate model cards, dataset datasheets, reproducibility statements, and artifact READMEs for model releases and venue-required documentation |
 | `release-code` | Prepare and publish a research code repository for public release |
 | `add-git-tag` | Create an annotated milestone tag with achievements and next-phase plans |
 | `update-docs` | Detect code changes since the last docs update and refresh affected documentation |
