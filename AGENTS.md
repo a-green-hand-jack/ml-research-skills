@@ -133,6 +133,8 @@ ml-research-skills/
     ├── result-diagnosis/
     │   ├── SKILL.md
     │   └── references/
+    ├── project-pivot-planner/
+    │   └── SKILL.md
     ├── experiment-report-writer/
     │   ├── SKILL.md
     │   └── templates/
@@ -313,6 +315,7 @@ ml-research-skills/
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose the next project action |
+| `project-pivot-planner` | Plan mid-project direction changes when consistent failures require scope narrowing, angle change, or kill decisions — distinct from per-experiment diagnosis |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `feedback-synthesizer` | Turn inbound advisor, collaborator, or reviewer feedback into structured claim updates, risk entries, action items, and experiment decisions |
 | `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates from evidence, risks, options, asks, and next actions |

@@ -109,6 +109,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
 | `baseline-selection-audit` | Audit whether experimental baselines are necessary, fair, current, and reviewer-proof before running or writing comparisons |
 | `result-diagnosis` | Diagnose surprising, negative, unstable, or ambiguous experiment results and choose debug/rerun/ablate/revise/narrow/write/park/kill decisions |
+| `project-pivot-planner` | Plan mid-project direction changes when consistent failures require scope narrowing, angle change, or kill decisions — distinct from per-experiment diagnosis |
 | `experiment-report-writer` | Write structured experiment reports from notes, configs, logs, metrics, tables, and figures |
 | `feedback-synthesizer` | Turn inbound advisor, collaborator, or reviewer feedback into structured claim updates, risk entries, action items, and experiment decisions |
 | `advisor-update-writer` | Write decision-oriented advisor, mentor, lab meeting, or collaborator updates from evidence, risks, options, asks, and next actions |
@@ -162,6 +163,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 - **`experiment-design-planner`**: Use before `run-experiment` to turn a paper claim into hypotheses, baselines, ablations, metrics, controls, logging, and stop conditions.
 - **`baseline-selection-audit`**: Use between literature review and experiment execution, or whenever a comparison table may be vulnerable. It classifies baselines as must-have/should-have/optional/not-comparable/citation-only and produces a fairness ledger plus reviewer-risk forecast.
 - **`result-diagnosis`**: Use after results are surprising, negative, unstable, or hard to interpret. It separates bugs, metric issues, baseline fairness, variance, mechanism failure, and claim mismatch before deciding the next action.
+- **`project-pivot-planner`**: Use when multiple result-diagnosis cycles have failed to recover the core claim, or when advisor/committee feedback consistently questions the project direction. It evaluates narrow/angle/new-direction/kill options, requires evidence for the decision, and updates all relevant memory boards.
 - **`experiment-report-writer`**: Use after experiments have enough evidence to explain motivation, setup, metrics, figures, interpretation, limitations, and next steps in a shareable report.
 - **`feedback-synthesizer`**: Use after an advisor meeting, collaborator review, or informal pre-submission feedback arrives. It triages feedback into must-address/should-address/noted/disagree, links each item to claims/risks/actions/evidence in project memory, and saves a dated record in `memory/feedback/`. Use `rebuttal-strategist` instead when formal review decisions arrive.
 - **`advisor-update-writer`**: Use when project state needs to become a decision-oriented advisor email, weekly update, lab note, or collaborator status memo with explicit asks and actions.
