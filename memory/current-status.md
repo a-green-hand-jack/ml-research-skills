@@ -13,6 +13,7 @@
 ## Latest Reliable State
 
 - 57 skills are present and installable after adding `run-status-monitor`.
+- Skill listing budgets are confirmed sufficient on both platforms (DEC-027, RSK-020 mitigated): Claude Code raised to 2% of context window via `skillListingBudgetFraction: 0.02` in `~/.claude/settings.json` (~16k chars for 200k context); Codex gpt-5.5 has a 265k-token context → 2% budget ≈ 21k chars; both exceed current 57-skill total of ~12,225 chars. All descriptions are ≤ 373 chars and front-loaded, satisfying Codex's 500-char per-skill hard limit. Re-audit when skill count exceeds ~80.
 - `run-status-monitor` probes local logs/processes, project wrapper commands, SLURM, and RunAI to produce short `docs/ops/runs/<run-id>-status.md` artifacts without copying raw logs or scheduler output into chat.
 - `remote-project-control` now ships `remote-cmd` and `remote-bash` helper scripts plus SSH quoting guidance so agents avoid fragile double-quoted one-liners that expand remote variables locally.
 - `remote-project-control` routing metadata and generated project templates now explicitly mention raw SSH one-liners, SSH quoting issues, `remote-cmd`, and `remote-bash`, because wrapper scripts alone did not reliably stop stale sessions from composing fragile SSH commands.
