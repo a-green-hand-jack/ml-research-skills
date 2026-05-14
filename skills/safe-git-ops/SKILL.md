@@ -1,6 +1,6 @@
 ---
 name: safe-git-ops
-description: "Perform Git operations safely with sandbox-aware failure handling. Use for commit, push, merge, rebase, stash, worktree, conflicts, lock files, permission errors, or Git state diagnosis."
+description: Perform Git operations safely with sandbox-aware failure handling. Use for commit, push, merge, rebase, stash, worktree, conflicts, lock files, permission errors, or Git state diagnosis.
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---
 
