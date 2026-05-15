@@ -35,6 +35,7 @@ If `--git-common-dir` differs from `<show-toplevel>/.git`, the current directory
 | Project identity, target venue, component paths, memory policy | `memory/project.yaml` |
 | GitHub Project owner, title, URL, number, visibility, and sync policy | `memory/project.yaml`; optionally `memory/component-index.yaml` for linked repos |
 | Toolchain gate policy, required checks, formatter/linter/test command changes, or CI/PR check policy | `memory/project.yaml`; component guidance or worktree status for local overrides |
+| A project-specific agent rule is established, changed, or no longer applies (wrappers, server paths, scope rules, branch naming) | `memory/project-conventions.md` — add to Active, Suspend, or move to Expired with reason; then re-inline top 3 in `memory/BRIEFING.md` |
 | Current focus, active milestone, top blockers, next session entry point | `memory/current-status.md` |
 | Durable rationale for choosing a direction, baseline policy, venue, architecture, or workflow | `memory/decision-log.md` |
 | A paper or project claim is added, revised, supported, weakened, or cut | `memory/claim-board.md` |

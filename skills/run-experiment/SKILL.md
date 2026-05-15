@@ -319,6 +319,7 @@ If the repo has `memory/` or a worktree `.agent/worktree-status.md`, update only
 - `memory/handoff-board.md`: create a monitor/fetch/report handoff only when another module is expected to consume the run output
 - `memory/current-status.md`: record the latest known job and what must be checked next
 - `<worktree>/.agent/worktree-status.md`: link the run to the worktree purpose and exit condition
+- `memory/project-conventions.md`: if this session established a new stable compute convention (resource pool, partition name, job script location, smoke-test size limit, environment reuse policy), add it under `compute` category; if a convention is now obsolete (server decommissioned, pool renamed, policy changed), expire the row
 
 Do not store queue state, job success, or final metric values as durable facts unless they were verified in this session. Use `needs-verification` for monitor tasks.
 

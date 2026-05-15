@@ -227,6 +227,8 @@ Before finishing, update `docs/ops/current-status.md` whenever the session mater
 
 If a new stable practice was established, add a short entry to `docs/ops/decision-log.md`.
 
+If a new project-specific SSH/remote convention was established (e.g., a new wrapper alias, a server path, a RunAI pool, a scheduler flag), write it to `memory/project-conventions.md` under the `ssh` or `compute` category. When server infrastructure changes make a convention obsolete, move it to Expired with the reason.
+
 If the project has `memory/current-status.md`, update it with a concise cross-component pointer rather than copying the full remote status.
 
 ## Bootstrap Targets

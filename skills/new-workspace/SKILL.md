@@ -286,6 +286,7 @@ If project memory exists, also add a short pointer to:
 - `memory/source-visibility-board.md`: source visibility tier and cleanup gate for paper worktrees or visible branches
 - `memory/action-board.md`: next action for the worktree
 - `memory/current-status.md`: only if this is the active focus
+- `memory/project-conventions.md`: if this worktree introduces a new naming convention, branch policy, or worktree-scope rule that future agents must know, add it under `worktree` category
 
 The root registry and component worktree index are the cross-worktree memory surfaces. Do not rely on one worktree's leaf status file to tell future agents what other sibling branches or paper versions exist.
 

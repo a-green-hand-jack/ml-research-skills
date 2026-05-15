@@ -206,6 +206,10 @@ When the repo uses worktrees:
 
 Read `references/worktrees.md` for the detailed handling rules.
 
+## Step 6b — Register New Git Conventions
+
+When a new project-specific Git convention is established (e.g., a new `project-push` alias, a protected branch rule, a hook policy, a merge strategy), write it to `memory/project-conventions.md` under the `git` category. When a convention is no longer applicable (e.g., a branch was deleted, a hook was removed), move the row to Expired with a reason. Do not leave the convention file stale — an outdated row is as harmful as a missing one.
+
 ## Step 7 — Report Outcomes Precisely
 
 When you finish, report one of these outcomes clearly:

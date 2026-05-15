@@ -41,6 +41,12 @@ volatile-fields: git-state, job-queues, file-existence
 
 - {{RSK_ID}}: {{RISK_SUMMARY}}
 
+## Active Conventions (top 3 — full list → memory/project-conventions.md)
+
+<!-- Inline the highest-priority rules. Update when project-conventions.md changes. -->
+
+- {{PC_ID}}: {{CONVENTION_RULE_SHORT}}
+
 ## Full Memory
 
-`memory/current-status.md` · `memory/claim-board.md` · `memory/evidence-board.md` · `memory/action-board.md`
+`memory/current-status.md` · `memory/claim-board.md` · `memory/evidence-board.md` · `memory/action-board.md` · `memory/project-conventions.md`

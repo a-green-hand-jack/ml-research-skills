@@ -442,16 +442,18 @@ If **inside a code-worktree** (e.g. `<Project>/code-worktrees/<branch>/`):
 
 1. Read `.agent/worktree-status.md` in the current worktree — local purpose, latest in-progress result
 2. Read `<ProjectRoot>/memory/BRIEFING.md` — project-wide context
-3. Read `<ProjectRoot>/memory/hot-results.md` — confirmed project-level results
-4. Write in-progress results to **worktree `.agent/`**, not to `ProjectRoot/memory/`
-5. Graduate a result to `ProjectRoot/memory/hot-results.md` only when it is confirmed and directly changes a project claim
+3. Read `<ProjectRoot>/memory/project-conventions.md` — active rules for this project (wrappers, server paths, scope rules); treat Active rows as binding
+4. Read `<ProjectRoot>/memory/hot-results.md` — confirmed project-level results
+5. Write in-progress results to **worktree `.agent/`**, not to `ProjectRoot/memory/`
+6. Graduate a result to `ProjectRoot/memory/hot-results.md` only when it is confirmed and directly changes a project claim
 
 If **at the project root** (contains `memory/`):
 
 1. Read `memory/BRIEFING.md` first
-2. Read `memory/hot-results.md` before any experiment-related decision
-3. Read `memory/current-status.md` for full detail
-4. Re-verify volatile facts (git state, job queues, running processes)
+2. Read `memory/project-conventions.md` — active rules the agent must follow now
+3. Read `memory/hot-results.md` before any experiment-related decision
+4. Read `memory/current-status.md` for full detail
+5. Re-verify volatile facts (git state, job queues, running processes)
 
 At session end, regenerate `memory/BRIEFING.md` and update `memory/hot-results.md` only for confirmed, cross-component results. This ensures the next session starts with accurate state.
 

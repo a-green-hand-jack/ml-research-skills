@@ -22,9 +22,16 @@ Answer:
 
 Always update:
 
-- `memory/BRIEFING.md` — regenerate the ≤30-line snapshot from current state; this is the first file every new session reads
+- `memory/BRIEFING.md` — regenerate the ≤30-line snapshot; re-inline top 3 conventions from `memory/project-conventions.md`
 - `memory/current-status.md`
 - `memory/action-board.md`
+
+Review `memory/project-conventions.md` when:
+
+- the project phase changed (method lock-in → experiments → writing → submission → camera-ready)
+- infrastructure changed (new server, new pool, new wrapper, new branch policy)
+- a convention was violated repeatedly → strengthen the wording or promote to BRIEFING.md Critical Must-Know
+- a convention has not been relevant for the last 2 phases → consider Suspending or Expiring it
 
 Update `memory/hot-results.md` when:
 

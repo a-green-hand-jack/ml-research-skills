@@ -60,6 +60,7 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 ## Progressive Loading
 
 - **Always read `memory/BRIEFING.md` first** when resuming an existing project — it is the ≤30-line compact state snapshot that every session needs before acting.
+- **Always read `memory/project-conventions.md`** immediately after BRIEFING.md — it lists active rules the agent must follow in this specific project (wrappers, paths, server constraints, scope rules). Conventions change as the project evolves; treat Active rows as binding, Suspended as skipped, Expired as history-only.
 - Always read `references/memory-architecture.md`, `references/object-schemas.md`, and `references/writeback-protocol.md`.
 - Read `references/claim-lifecycle-protocol.md`, `references/evidence-provenance-protocol.md`, `references/phase-dashboard-protocol.md`, and `references/cross-module-handoff-contracts.md` when claims, evidence, project phase, paper writing, experiment planning, review, rebuttal, or cross-component handoffs are involved.
 - Read `references/paper-source-visibility-protocol.md` when paper branches, Overleaf/GitHub sync, collaborator-visible source, anonymous submission source, arXiv, camera-ready source packages, or paper worktree cleanup are involved.
@@ -171,6 +172,7 @@ If the user asks to initialize memory, or if memory is missing and the task depe
 - `templates/memory/source-visibility-board.md` -> `memory/source-visibility-board.md`
 - `templates/memory/BRIEFING.md` -> `memory/BRIEFING.md` — compact cross-session snapshot; update at every closeout
 - `templates/memory/hot-results.md` -> `memory/hot-results.md` — top experiment results; update when a key result arrives
+- `templates/memory/project-conventions.md` -> `memory/project-conventions.md` — living registry of project-specific agent rules; review at every major phase transition
 - `templates/component/component-status.md` -> `<component>/.agent/<component>-status.md`
 - `templates/component/worktree-index.md` -> `<component>/.agent/worktree-index.md` when the component uses worktrees
 - `templates/component/worktree-status.md` -> `<component-worktree>/.agent/worktree-status.md` when a code or paper worktree needs its own memory
@@ -215,8 +217,9 @@ Use this routing:
 - whole-project identity, target venue, component paths, memory policy -> `memory/project.yaml`
 - GitHub Project board owner, URL, number, scope, and sync policy -> `memory/project.yaml`
 - toolchain gate policy and default commands -> `memory/project.yaml`
-- ultra-compact cross-session snapshot (≤30 lines) -> `memory/BRIEFING.md` — update at **every** session closeout
+- ultra-compact cross-session snapshot (≤30 lines) -> `memory/BRIEFING.md` — update at **every** session closeout; re-inline top 3 conventions from project-conventions.md
 - top experiment results (≤20 lines, ≤7 entries) -> `memory/hot-results.md` — update when a key experiment result arrives
+- project-specific agent rules (active / suspended / expired) -> `memory/project-conventions.md` — add when a new convention is established by any skill; expire when infrastructure, scope, or project phase makes it obsolete; review at every major phase transition
 - current focus, active milestone, next session entry point -> `memory/current-status.md`
 - durable project decisions and why -> `memory/decision-log.md`
 - paper claims and their status -> `memory/claim-board.md`
