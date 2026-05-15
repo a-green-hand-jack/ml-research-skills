@@ -225,6 +225,7 @@ If the project uses `research-project-memory`, update:
 - `memory/action-board.md`: debug, rerun, ablation, method revision, writing, park, or kill actions
 - `memory/handoff-board.md`: create handoffs to method design, experiment design, paper evidence, or writing when diagnosis changes downstream work
 - `memory/phase-dashboard.md`: update the active gate when diagnosis advances evidence production or regresses the project to debugging, method revision, or claim narrowing
+- `memory/hot-results.md`: update the entry for this result if it is among the project's top 5–7; mark results that were invalidated, confirmed, or superseded so the digest stays accurate
 - `memory/decision-log.md`: durable decisions such as killing a claim, changing method, or narrowing scope
 - worktree `.agent/worktree-status.md`: latest result and exit condition if a branch/worktree is involved
 

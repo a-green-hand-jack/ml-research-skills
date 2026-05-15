@@ -20,10 +20,17 @@ Answer:
 
 ## Required Updates
 
-Usually update:
+Always update:
 
+- `memory/BRIEFING.md` — regenerate the ≤30-line snapshot from current state; this is the first file every new session reads
 - `memory/current-status.md`
 - `memory/action-board.md`
+
+Update `memory/hot-results.md` when:
+
+- a new experiment result arrived that ranks among the top 5–7 project results
+- a previously provisional result was confirmed or invalidated
+- a result that was critical is no longer relevant
 
 Update as needed:
 
@@ -37,6 +44,31 @@ Update as needed:
 - `memory/decision-log.md`
 - component `.agent/` status files
 - worktree `.agent/worktree-status.md`
+
+## BRIEFING.md Shape (≤30 lines)
+
+Regenerate at every closeout. Every new agent session reads this first.
+
+```markdown
+## Identity
+- Project: <name> | Phase: <phase> | Gate: <gate>
+- Target: <venue> | Deadline: <date-or-TBD>
+
+## Critical Must-Know
+- <1–3 facts an agent must not forget or act against>
+
+## Top Claims
+- CLM-###: <claim> — confirmed|provisional|evidence-needed
+
+## Hot Results  (→ full list in memory/hot-results.md)
+- Best: <metric> = <value> — <run-id> (<date>)
+
+## Open Actions (top 3)
+- ACT-###: <action> — <component>
+
+## Top Risks (top 2)
+- RSK-###: <risk>
+```
 
 ## Current Status Shape
 

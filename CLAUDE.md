@@ -38,7 +38,9 @@ Do not use raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or she
 
 ## Project Memory
 
-This repo has shared project memory in `memory/`. Before substantial maintenance, read `memory/current-status.md`; after durable skill-system decisions, update the smallest relevant board such as `decision-log.md`, `action-board.md`, `risk-board.md`, `claim-board.md`, or `phase-dashboard.md`. Local sidecar artifacts belong under `.agent/sidecars/` and are ignored by git.
+This repo has shared project memory in `memory/`. Before substantial maintenance, read `memory/BRIEFING.md` (the ≤30-line compact snapshot) first, then `memory/current-status.md` for detail. After durable skill-system decisions, update the smallest relevant board such as `decision-log.md`, `action-board.md`, `risk-board.md`, `claim-board.md`, or `phase-dashboard.md`. Local sidecar artifacts belong under `.agent/sidecars/` and are ignored by git.
+
+For ML research projects that use `research-project-memory`, agents should read `memory/BRIEFING.md` and `memory/hot-results.md` at the start of every session before any experiment or writing decision. These compact files prevent cross-session and in-session forgetting of critical project state and top results.
 
 ## Visual Assets
 
@@ -156,7 +158,7 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 ## Key Design Patterns
 
-- **`research-project-memory`**: Use as the project-level coordination layer. It maintains memory boards for claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, decisions, components, and worktrees so experiment, writing, review, and rebuttal feedback loops stay aligned.
+- **`research-project-memory`**: Use as the project-level coordination layer. It maintains memory boards for claim lifecycle, evidence provenance, source visibility, risks, actions, handoffs, phase dashboard, decisions, components, and worktrees so experiment, writing, review, and rebuttal feedback loops stay aligned. Two compact mandatory-read files anchor cross-session and in-session reliability: `memory/BRIEFING.md` (≤30-line project state snapshot, regenerated at every session closeout) and `memory/hot-results.md` (≤20-line top experiment results digest, updated whenever a key result arrives). Every agent session on a research project must read these two files before any experiment or writing decision.
 - **`research-idea-validator`**: Use at the start of a project or when a direction is uncertain. It applies the FIVE+C framework to decide pursue/revise/park/kill, then routes to literature review, algorithm design, experiment design, or project setup.
 - **`literature-review-sprint`**: Use before method lock-in or after novelty doubts arise. It builds a ranked map of canonical, closest, recent, baseline, and positioning-relevant papers, then converts the map into project decisions and memory updates.
 - **`reference-library-manager` / `reference-reading-summarizer` / `reference-project-synthesizer`**: Use for project-local `reference/` libraries. The manager answers "what sources do we have?", the summarizer answers "what does this source say?", and the synthesizer answers "what does it mean for this project?" Keep raw source text and reading trajectories local; commit source cards, project-use notes, and memory writeback only after summarization.

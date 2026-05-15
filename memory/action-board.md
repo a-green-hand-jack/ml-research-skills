@@ -44,6 +44,9 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-036 | done | agent | skills | Implement `model-card-writer`: model cards, datasheets, reproducibility statements, artifact READMEs. | — | Use before public release and for venue-required documentation. | — | 2026-05-14 |
 | ACT-037 | done | agent | skills | Implement `statistical-analysis-planner`: significance tests, effect sizes, CIs, seed variance, multiple-comparison corrections. Scope decision: new standalone skill. | — | Use after results exist; pair with `experiment-design-planner` for power analysis. | — | 2026-05-14 |
 
+| ACT-038 | done | agent | memory | Add `memory/BRIEFING.md` + `memory/hot-results.md` pattern to solve cross-session and in-session agent forgetting. Templates added to `research-project-memory`; closeout protocol updated; AGENTS/CLAUDE wired; `experiment-report-writer` and `result-diagnosis` now update hot-results. | RSK-004 | Reinstall updated skills. | — | 2026-05-15 |
+| ACT-039 | pending | agent | install | Reinstall all updated skills after memory-reliability changes. | ACT-038 | Run `npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -y` after push. | — | 2026-05-15 |
+
 ## Blocked Actions
 
 - None known as of 2026-05-05.

@@ -6,7 +6,7 @@ Guidance for AI coding agents working in this repository.
 
 This repo is **ml-research-skills** — a collection of agent skills for ML researchers. Each skill lives under `skills/<skill-name>/` as an instruction bundle centered on `SKILL.md`, with optional `references/`, `scripts/`, `templates/`, and `agents/` directories.
 
-The repo also has shared project memory under `memory/`. Start from `memory/current-status.md` before substantial maintenance work, and update the smallest relevant board after durable workflow, routing, validation, or architecture decisions. Keep local sidecar artifacts under `.agent/sidecars/`; they are ignored and should not be committed unless explicitly sanitized and requested.
+The repo also has shared project memory under `memory/`. **Before any substantial maintenance work, read `memory/BRIEFING.md`** (the ≤30-line compact snapshot) and `memory/current-status.md`. Update the smallest relevant board after durable workflow, routing, validation, or architecture decisions. Keep local sidecar artifacts under `.agent/sidecars/`; they are ignored and should not be committed unless explicitly sanitized and requested.
 
 Visual documentation assets live under `asset/`. Before adding, replacing, or renaming a figure, read `asset/README.md`; keep filenames semantic, update README links, and refresh the figure inventory in `memory/evidence-board.md` plus `memory/current-status.md` when the visual system changes materially.
 
@@ -428,6 +428,17 @@ Then validate changes by exercising the skill in the target agent runtime:
 1. Install the skill with `npx skills add`, such as `npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -s <skill-name> -y`
 2. Invoke it by describing a matching task
 3. Check that the generated instructions, scripts, and templates behave as intended
+
+## Session Start Protocol (for ML research projects using these skills)
+
+When an agent starts a new session inside a project that uses `research-project-memory`:
+
+1. **Read `memory/BRIEFING.md` first** — the ≤30-line compact project state. If missing, run `research-project-memory --bootstrap`.
+2. **Read `memory/hot-results.md`** before any experiment-related decision — the top current experiment results in ≤20 lines.
+3. Then read `memory/current-status.md` for full detail.
+4. Re-verify any volatile facts (git state, job queues, running processes) — BRIEFING.md is a snapshot, not live state.
+
+At session end, regenerate `memory/BRIEFING.md` and update `memory/hot-results.md` if a key result arrived. This ensures the next session starts with accurate state.
 
 ## Notes for Agents
 
