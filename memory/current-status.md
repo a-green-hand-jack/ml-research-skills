@@ -4,16 +4,19 @@
 
 ## Current Focus
 
-- Summary: The repository is at 65 skills after implementing all 8 planned new skills (ACT-030–ACT-037). The expansion phase is complete. The collection now covers: data pipeline management, experiment engineering debugging, compute budget planning, inbound feedback synthesis, appendix organization, mid-project pivot planning, model card writing, and statistical analysis reporting — closing all major lifecycle gaps.
-- Active milestone: maintain 65-skill collection, keep validation passing, reinstall after skill changes.
+- Summary: The repository is at 68 skills after implementing the ACT-030–ACT-037 expansion plus `research-results-auditor`, `auto-paper-improvement-loop`, and `reference-corpus-analyzer`. The expansion phase is complete; the current focus is maintenance, routing reliability, and memory consistency.
+- Active milestone: maintain 68-skill collection, keep validation passing, reinstall after skill changes.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
-- Last updated: 2026-05-14.
+- Last updated: 2026-05-16.
 
 ## Latest Reliable State
 
-- 57 skills are present and installable after adding `run-status-monitor`.
-- Skill listing budgets are confirmed sufficient on both platforms (DEC-027, RSK-020 mitigated): Claude Code raised to 2% of context window via `skillListingBudgetFraction: 0.02` in `~/.claude/settings.json` (~16k chars for 200k context); Codex gpt-5.5 has a 265k-token context → 2% budget ≈ 21k chars; both exceed current 57-skill total of ~12,225 chars. All descriptions are ≤ 373 chars and front-loaded, satisfying Codex's 500-char per-skill hard limit. Re-audit when skill count exceeds ~80.
+- 68 skills are present in `skills/`; `python3 scripts/validate_skills.py` passed on 2026-05-16.
+- Root startup memory now includes `memory/project-conventions.md` and `memory/hot-results.md`, closing the gap where templates existed but session-start protocol files were missing from `memory/`.
+- `memory/hot-results.md` is intentionally empty of experiment entries because this repository is a skill collection, not an experiment project.
+- 57 skills were present and installable after adding `run-status-monitor`; this historical count was superseded by the 68-skill state above.
+- Skill listing budgets were confirmed sufficient on both platforms at the then-current 57-skill audit point (DEC-027, RSK-020 mitigated): Claude Code raised to 2% of context window via `skillListingBudgetFraction: 0.02` in `~/.claude/settings.json` (~16k chars for 200k context); Codex gpt-5.5 has a 265k-token context → 2% budget ≈ 21k chars; both exceeded the 57-skill total of ~12,225 chars. All descriptions were ≤ 373 chars and front-loaded, satisfying Codex's 500-char per-skill hard limit. Re-audit when skill count exceeds ~80.
 - `run-status-monitor` probes local logs/processes, project wrapper commands, SLURM, and RunAI to produce short `docs/ops/runs/<run-id>-status.md` artifacts without copying raw logs or scheduler output into chat.
 - `remote-project-control` now ships `remote-cmd` and `remote-bash` helper scripts plus SSH quoting guidance so agents avoid fragile double-quoted one-liners that expand remote variables locally.
 - `remote-project-control` routing metadata and generated project templates now explicitly mention raw SSH one-liners, SSH quoting issues, `remote-cmd`, and `remote-bash`, because wrapper scripts alone did not reliably stop stale sessions from composing fragile SSH commands.
@@ -97,6 +100,7 @@
 - `ACT-035` (done): `project-pivot-planner` — narrow/angle/new-direction/kill framework for mid-project failures.
 - `ACT-036` (done): `model-card-writer` — model cards, datasheets, reproducibility statements, artifact READMEs.
 - `ACT-037` (done): `statistical-analysis-planner` — significance tests, effect sizes, CIs, seed variance, multiple-comparison corrections.
+- `ACT-040` (done): Materialize root `project-conventions.md` and `hot-results.md` so startup protocol reads real files, not just templates.
 
 ## Planned Skills Roadmap (ACT-030–ACT-037)
 
@@ -115,6 +119,7 @@
 
 - `git status --short --branch`
 - `python3 scripts/validate_skills.py`
+- Whether root `memory/project-conventions.md` conventions should be mirrored into README/AGENTS/CLAUDE beyond the existing startup protocol.
 - Relevant unit tests for any changed helper scripts.
 - Whether installed `~/.agents/skills/` and `~/.claude/skills/` copies need refresh after skill changes.
 

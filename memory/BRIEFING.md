@@ -21,6 +21,7 @@ volatile-fields: git-state, installed-skill-copies
 - Template placeholders must use `{{UPPER_SNAKE_CASE}}` — lowercase triggers a validator error.
 - Git closeout: use `project-push /Users/jieke/Projects/project-skills origin main` for routine pushes.
 - Skill descriptions are routing rules, not titles — Codex hard-limits 500 chars per skill.
+- Startup memory includes root `memory/project-conventions.md` and `memory/hot-results.md`; both paths must exist.
 
 ## Top Claims
 
@@ -31,6 +32,7 @@ volatile-fields: git-state, installed-skill-copies
 
 - ACT-038: Design and ship `memory/BRIEFING.md` + `hot-results.md` pattern to solve agent forgetting — `done` (this session)
 - ACT-039: Reinstall updated skills after memory-reliability changes — `pending`
+- ACT-040: Materialize root `project-conventions.md` and `hot-results.md` files — `done`
 
 ## Top Risks
 
@@ -39,4 +41,4 @@ volatile-fields: git-state, installed-skill-copies
 
 ## Full Memory
 
-`memory/current-status.md` · `memory/decision-log.md` · `memory/action-board.md` · `memory/risk-board.md`
+`memory/project-conventions.md` · `memory/hot-results.md` · `memory/current-status.md` · `memory/decision-log.md` · `memory/action-board.md` · `memory/risk-board.md`

@@ -120,13 +120,15 @@ Read in this order when in **worktree scope**:
 
 1. `.agent/worktree-status.md` in the current worktree — local state, purpose, latest result
 2. `<ProjectRoot>/memory/BRIEFING.md` — project-wide context
-3. `<ProjectRoot>/memory/hot-results.md` — confirmed project-level top results
+3. `<ProjectRoot>/memory/project-conventions.md` — active project rules
+4. `<ProjectRoot>/memory/hot-results.md` — confirmed project-level top results
 
 Read in this order when in **project-root scope**:
 
 1. `memory/BRIEFING.md`
-2. `memory/hot-results.md`
-3. `memory/current-status.md` when more detail is needed
+2. `memory/project-conventions.md`
+3. `memory/hot-results.md`
+4. `memory/current-status.md` when more detail is needed
 
 Then inspect likely memory files:
 
