@@ -44,6 +44,16 @@ Use this section for paper worktrees.
 - Source paths:
 - Certainty:
 
+## Local Hot Results
+
+<!-- In-progress results for this worktree. Do NOT copy to ProjectRoot/memory/hot-results.md until the result is confirmed and claim-changing. -->
+
+| # | Metric | Value | Run | Date | Status |
+|---|--------|-------|-----|------|--------|
+| 1 | | | | | provisional / confirmed / invalidated |
+
+**Graduate to project memory when:** result is confirmed AND directly changes a CLM-### claim status AND another component (paper/slides/review) needs it.
+
 ## Exit Condition
 
 - Decision: merge / continue / park / kill / unknown

@@ -91,13 +91,41 @@ This is a coordination skill. It does not replace `remote-project-control`, `exp
 - Mark certainty: `observed`, `user-stated`, `inferred`, `stale`, or `needs-verification`.
 - Write memory at the most specific layer that will help the next session.
 
-## Step 1 - Locate the Project and Existing Memory
+## Step 1 - Locate the Project and Detect Working Scope
 
-Detect the project root:
+**Scope detection is mandatory before any memory read or write.** Getting this wrong causes agent confusion about which level to write to.
 
 ```bash
-git rev-parse --show-toplevel 2>/dev/null || pwd
+git rev-parse --show-toplevel          # → current worktree root (may be a code-worktree, not project root)
+git rev-parse --git-dir                # → .git file or directory
+git rev-parse --git-common-dir         # → common .git dir; differs from --git-dir when inside a worktree
+git branch --show-current              # → active branch name
 ```
+
+Determine the scope:
+
+- **Project-root scope**: `--show-toplevel` points to the project control root (contains `memory/`). Write confirmed, cross-component results to `memory/`.
+- **Worktree scope**: `--show-toplevel` is a path like `<Project>/code-worktrees/<branch>/` and `--git-common-dir` points to a different `.git`. The current work is branch-scoped. In-progress results belong in `.agent/worktree-status.md` under the worktree root, **not** in `ProjectRoot/memory/`.
+
+When in worktree scope, locate the project root separately:
+
+```bash
+# From inside a worktree, the project root is usually 2–3 levels up
+# e.g. <Project>/code-worktrees/<branch>/ → project root is <Project>/
+# Confirm by checking for memory/ directory
+```
+
+Read in this order when in **worktree scope**:
+
+1. `.agent/worktree-status.md` in the current worktree — local state, purpose, latest result
+2. `<ProjectRoot>/memory/BRIEFING.md` — project-wide context
+3. `<ProjectRoot>/memory/hot-results.md` — confirmed project-level top results
+
+Read in this order when in **project-root scope**:
+
+1. `memory/BRIEFING.md`
+2. `memory/hot-results.md`
+3. `memory/current-status.md` when more detail is needed
 
 Then inspect likely memory files:
 

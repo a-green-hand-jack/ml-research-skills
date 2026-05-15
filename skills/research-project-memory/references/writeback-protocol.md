@@ -2,6 +2,32 @@
 
 Write the smallest durable update that will help the next session. Do not turn memory into a transcript.
 
+## Scope Routing (read before every write)
+
+The most common agent mistake is writing worktree-local state to `ProjectRoot/memory/`.
+
+| Current working scope | In-progress / intermediate writes | Confirmed / cross-component writes |
+|---|---|---|
+| **Worktree** (`code-worktrees/<branch>/`) | `<worktree>/.agent/worktree-status.md` — "Latest Reliable State" and "Hot Results" sections | Graduate to `ProjectRoot/memory/hot-results.md`, `evidence-board.md`, or `claim-board.md` **only** when the result confirms, weakens, or changes a project-level claim |
+| **Project root** (contains `memory/`) | `memory/current-status.md` | All boards in `memory/` |
+
+**Graduation rule** — a worktree result should be written to `ProjectRoot/memory/` only when:
+
+1. The result is confirmed (not provisional, not debugging in progress)
+2. It directly affects a tracked claim (`CLM-###`) or top risk (`RSK-###`)
+3. Another component (paper, slides, review) needs to act on it
+
+Everything else stays in the worktree's `.agent/` until it meets all three conditions.
+
+**Detecting worktree scope:**
+
+```bash
+git rev-parse --show-toplevel     # e.g. /proj/code-worktrees/exp-ablation
+git rev-parse --git-common-dir    # e.g. /proj/code/.git  ← differs → you are in a worktree
+```
+
+If `--git-common-dir` differs from `<show-toplevel>/.git`, the current directory is a worktree. Find the project root by traversing up from the common git dir or checking for `memory/`.
+
 ## Routing Table
 
 | New information | Write to |

@@ -40,7 +40,7 @@ Do not use raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or she
 
 This repo has shared project memory in `memory/`. Before substantial maintenance, read `memory/BRIEFING.md` (the ≤30-line compact snapshot) first, then `memory/current-status.md` for detail. After durable skill-system decisions, update the smallest relevant board such as `decision-log.md`, `action-board.md`, `risk-board.md`, `claim-board.md`, or `phase-dashboard.md`. Local sidecar artifacts belong under `.agent/sidecars/` and are ignored by git.
 
-For ML research projects that use `research-project-memory`, agents should read `memory/BRIEFING.md` and `memory/hot-results.md` at the start of every session before any experiment or writing decision. These compact files prevent cross-session and in-session forgetting of critical project state and top results.
+For ML research projects that use `research-project-memory`, agents must first detect their working scope (`git rev-parse --git-common-dir` vs `--show-toplevel`). If inside a **code-worktree**, read the worktree's `.agent/worktree-status.md` first, then `<ProjectRoot>/memory/BRIEFING.md` and `memory/hot-results.md`. Write in-progress experiment results to the worktree's `.agent/` only; graduate to `ProjectRoot/memory/` only when a result is confirmed and directly changes a project-level claim. This two-level separation prevents in-progress worktree state from polluting the project-wide memory.
 
 ## Visual Assets
 

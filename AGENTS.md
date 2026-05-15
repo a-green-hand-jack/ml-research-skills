@@ -431,14 +431,29 @@ Then validate changes by exercising the skill in the target agent runtime:
 
 ## Session Start Protocol (for ML research projects using these skills)
 
-When an agent starts a new session inside a project that uses `research-project-memory`:
+**Step 0 — Detect scope first** (before reading any memory):
 
-1. **Read `memory/BRIEFING.md` first** — the ≤30-line compact project state. If missing, run `research-project-memory --bootstrap`.
-2. **Read `memory/hot-results.md`** before any experiment-related decision — the top current experiment results in ≤20 lines.
-3. Then read `memory/current-status.md` for full detail.
-4. Re-verify any volatile facts (git state, job queues, running processes) — BRIEFING.md is a snapshot, not live state.
+```bash
+git rev-parse --show-toplevel    # is this a worktree or the project root?
+git rev-parse --git-common-dir   # if different from <show-toplevel>/.git → you are in a worktree
+```
 
-At session end, regenerate `memory/BRIEFING.md` and update `memory/hot-results.md` if a key result arrived. This ensures the next session starts with accurate state.
+If **inside a code-worktree** (e.g. `<Project>/code-worktrees/<branch>/`):
+
+1. Read `.agent/worktree-status.md` in the current worktree — local purpose, latest in-progress result
+2. Read `<ProjectRoot>/memory/BRIEFING.md` — project-wide context
+3. Read `<ProjectRoot>/memory/hot-results.md` — confirmed project-level results
+4. Write in-progress results to **worktree `.agent/`**, not to `ProjectRoot/memory/`
+5. Graduate a result to `ProjectRoot/memory/hot-results.md` only when it is confirmed and directly changes a project claim
+
+If **at the project root** (contains `memory/`):
+
+1. Read `memory/BRIEFING.md` first
+2. Read `memory/hot-results.md` before any experiment-related decision
+3. Read `memory/current-status.md` for full detail
+4. Re-verify volatile facts (git state, job queues, running processes)
+
+At session end, regenerate `memory/BRIEFING.md` and update `memory/hot-results.md` only for confirmed, cross-component results. This ensures the next session starts with accurate state.
 
 ## Notes for Agents
 
