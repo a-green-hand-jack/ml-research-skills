@@ -1,0 +1,150 @@
+schema: 1
+generated: "2026-05-18"
+project: ml-research-skills
+description: >
+  Machine-readable source of truth for P0/P1 project conventions.
+  Human-readable view: memory/project-conventions.md.
+  Update both together; run memory_bootstrap.py to confirm revision bump.
+
+facts:
+
+  - id: PC-001
+    type: convention
+    priority: P0
+    status: active
+    scope: project
+    owner_skill: research-project-memory
+    source_of_truth: memory/project-conventions.md#PC-001
+    text: >
+      Run scope detection before substantial memory work:
+      `git rev-parse --show-toplevel` and `git rev-parse --git-common-dir`.
+      If they differ, you are in a worktree.
+    applies_to:
+      - memory
+      - worktree
+      - any-skill-that-writes
+    read_triggers:
+      - session-start
+      - before-write
+      - before-memory-update
+    enforcement:
+      required_commands:
+        - "git rev-parse --git-common-dir"
+        - "git rev-parse --show-toplevel"
+
+  - id: PC-002
+    type: convention
+    priority: P0
+    status: active
+    scope: project
+    owner_skill: research-project-memory
+    source_of_truth: memory/project-conventions.md#PC-002
+    text: >
+      Read memory/BRIEFING.md, then memory/project-conventions.md, then
+      memory/hot-results.md before project-root maintenance decisions.
+      Do not load all boards at once.
+    applies_to:
+      - memory
+      - session-start
+      - any-project-decision
+    read_triggers:
+      - session-start
+      - before-plan
+      - before-commit
+    enforcement:
+      required_reads:
+        - memory/BRIEFING.md
+        - memory/project-conventions.md
+
+  - id: PC-003
+    type: convention
+    priority: P0
+    status: active
+    scope: project
+    owner_skill: skill-system-auditor
+    source_of_truth: memory/project-conventions.md#PC-003
+    text: >
+      Run `python3 scripts/validate_skills.py` (or `uv run python3 scripts/validate_skills.py`)
+      before committing any skill, template, helper, inventory, or memory protocol change.
+    applies_to:
+      - skill-change
+      - commit
+      - template-change
+      - memory-protocol-change
+    read_triggers:
+      - before-commit
+      - before-push
+    enforcement:
+      required_commands:
+        - "python3 scripts/validate_skills.py"
+      forbidden_if_failing:
+        - git commit
+
+  - id: PC-004
+    type: convention
+    priority: P0
+    status: active
+    scope: project
+    owner_skill: safe-git-ops
+    source_of_truth: memory/project-conventions.md#PC-004
+    text: >
+      Use `project-push /Users/jieke/Projects/project-skills origin main`
+      for routine pushes after safe-git preflight.
+      Never use raw git push variants for routine closeout.
+    applies_to:
+      - git
+      - push
+      - commit-closeout
+    read_triggers:
+      - push
+      - commit
+      - closeout
+    enforcement:
+      allowed_command_patterns:
+        - "^project-push "
+      forbidden_command_patterns:
+        - "\\bgit\\s+push\\b(?!.*project-push)"
+        - "git -C .* push"
+        - "cd .* && git push"
+        - "bash -lc \"git push\""
+
+  - id: PC-005
+    type: convention
+    priority: P0
+    status: active
+    scope: project
+    owner_skill: skill-system-auditor
+    source_of_truth: memory/project-conventions.md#PC-005
+    text: >
+      Keep skills/, README.md, AGENTS.md, CLAUDE.md, memory/, and installed
+      skill copies aligned after any skill behavior change.
+      Reinstall changed skills when routing metadata changes.
+    applies_to:
+      - skill-change
+      - routing-change
+      - maintenance
+    read_triggers:
+      - after-skill-edit
+      - before-push
+    enforcement:
+      required_when_skill_changed:
+        - "python3 scripts/validate_skills.py"
+        - "npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -y"
+
+  - id: PC-006
+    type: convention
+    priority: P1
+    status: active
+    scope: project
+    owner_skill: experiment-evidence-router
+    source_of_truth: memory/project-conventions.md
+    text: >
+      For ambiguous experiment/paper/ops tasks, route through domain routers
+      (experiment-evidence-router, project-ops-router, paper-writing-router,
+      discovery-router) before guessing leaf skills.
+    applies_to:
+      - routing
+      - skill-selection
+    read_triggers:
+      - ambiguous-task
+      - multi-bucket-task

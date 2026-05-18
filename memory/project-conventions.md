@@ -15,6 +15,8 @@ Last reviewed: 2026-05-16
 | PC-003 | Use `python3 scripts/validate_skills.py` before committing skill, template, helper, inventory, or memory protocol changes. | validation | 2026-05-05 | Current validator covers 68 skills and routing/template sanity checks. |
 | PC-004 | Use `project-push /Users/jieke/Projects/project-skills origin main` for routine pushes after safe-git preflight. | git | 2026-05-12 | Do not replace preflight with the wrapper; pass explicit repo, remote, and branch. |
 | PC-005 | Keep `skills/`, README.md, AGENTS.md, CLAUDE.md, `memory/`, and installed skill copies aligned after skill behavior changes. | maintenance | 2026-05-05 | Reinstall changed skills when runtime behavior or routing metadata changes. |
+| PC-006 | For ambiguous multi-bucket tasks, route through domain routers (experiment-evidence-router, project-ops-router, paper-writing-router, discovery-router) before guessing leaf skills. | routing | 2026-05-18 | Routers load contrastive-routing.md for confusable pairs. |
+| PC-007 | When adding or materially changing memory/fact-index.yaml or memory/project-conventions.md, increment the revision in memory/memory-revision.json. | memory | 2026-05-18 | Enables stale-session detection via `uv run scripts/memory_bootstrap.py --check-stale`. |
 
 ## Suspended
 

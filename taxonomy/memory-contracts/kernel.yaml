@@ -1,0 +1,38 @@
+name: kernel
+description: >
+  Always-apply memory contract for every session on any project using
+  ml-research-skills. Defines the minimum read set and scope detection
+  that must happen before any skill acts.
+
+applies_to:
+  - all-skills
+  - session-start
+
+always_read:
+  - memory/BRIEFING.md
+  - memory/project-conventions.md
+
+conditional_read:
+  - when: hot_results_exists
+    files:
+      - memory/hot-results.md
+  - when: inside_worktree
+    files:
+      - .agent/worktree-status.md
+
+verify_before_acting:
+  - scope-detection: "git rev-parse --git-common-dir && git rev-parse --show-toplevel"
+  - git-state: "git status --short --branch"
+
+required_facts:
+  - PC-001
+  - PC-002
+
+writeback:
+  session-close:
+    - memory/BRIEFING.md (regenerate if materially changed)
+    - memory/current-status.md (update phase, open actions)
+  new-convention:
+    - memory/project-conventions.md (add row)
+    - memory/fact-index.yaml (add fact)
+    - memory/memory-revision.json (increment revision)

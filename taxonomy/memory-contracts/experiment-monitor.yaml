@@ -1,0 +1,45 @@
+name: experiment-monitor
+description: >
+  Memory contract for the run-status-monitor skill. Ensures scope is
+  detected, volatile scheduler state is treated correctly, and progress
+  artifacts are written to the right location without polluting context.
+
+applies_to:
+  - run-status-monitor
+  - experiment-evidence-router
+
+task_tags:
+  - monitoring
+  - job-status
+  - remote
+
+always_read:
+  - memory/BRIEFING.md
+  - memory/project-conventions.md
+
+conditional_read:
+  - when: inside_worktree
+    files:
+      - .agent/worktree-status.md
+  - when: job_has_results
+    files:
+      - memory/hot-results.md
+
+verify_before_acting:
+  - scope-detection: "git rev-parse --git-common-dir && git rev-parse --show-toplevel"
+  - scheduler-state: "query fresh status — never act on cached job state from earlier in the session"
+
+required_facts:
+  - PC-001
+
+writeback:
+  status_artifact:
+    - docs/ops/runs/<run-id>-status.md
+  confirmed_completion:
+    - .agent/worktree-status.md (update run status)
+    - memory/hot-results.md (only if run produced a confirmed result)
+
+forbidden:
+  - copy raw scheduler logs or full job output into the main conversation context
+  - treat ContainerCreating or Pending as a definitive failure without checking events
+  - conflate run-status-monitor with experiment-debugger: status probing does not debug training failures

@@ -1,0 +1,55 @@
+name: result-interpretation
+description: >
+  Memory contract for result-diagnosis and research-results-auditor.
+  Ensures the agent has loaded active claims and evidence before
+  interpreting results, and writes decisions to the right boards.
+
+applies_to:
+  - result-diagnosis
+  - research-results-auditor
+  - experiment-evidence-router
+
+task_tags:
+  - result-interpretation
+  - claim-audit
+  - evidence
+
+always_read:
+  - memory/BRIEFING.md
+  - memory/project-conventions.md
+  - memory/hot-results.md
+
+conditional_read:
+  - when: inside_worktree
+    files:
+      - .agent/worktree-status.md
+  - when: paper_facing_claim
+    files:
+      - memory/claim-board.md
+      - memory/evidence-board.md
+  - when: auditing_protocol_or_confounds
+    files:
+      - memory/provenance-board.md
+
+verify_before_acting:
+  - scope-detection: "git rev-parse --git-common-dir && git rev-parse --show-toplevel"
+  - result-validity: "confirm the result is scientifically valid (not a crash/bug) before diagnosing"
+  - claim-alignment: "identify which project claim this result bears on before recommending action"
+
+required_facts:
+  - PC-001
+  - PC-002
+
+writeback:
+  diagnosis_decision:
+    - .agent/worktree-status.md (record decision: rerun/ablate/pivot/park/write)
+    - memory/action-board.md (if decision generates a new action)
+  claim_change:
+    - memory/claim-board.md (update claim status if result changes a claim)
+    - memory/evidence-board.md (update evidence strength)
+    - memory/risk-board.md (add reviewer risk if result is mixed)
+
+forbidden:
+  - route engineering failures (NaN/OOM/crash) through result-diagnosis — use experiment-debugger
+  - lock a claim into the paper before running research-results-auditor
+  - diagnose without identifying which claim the result bears on

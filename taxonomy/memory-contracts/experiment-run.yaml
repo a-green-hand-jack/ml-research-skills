@@ -1,0 +1,55 @@
+name: experiment-run
+description: >
+  Memory contract for the run-experiment skill. Enforces scope detection,
+  mandatory project memory reads, scheduler state verification, and
+  correct writeback paths before any job is submitted.
+
+applies_to:
+  - run-experiment
+  - experiment-evidence-router
+
+task_tags:
+  - experiment
+  - job-submission
+  - compute
+  - remote
+
+always_read:
+  - memory/BRIEFING.md
+  - memory/project-conventions.md
+  - memory/hot-results.md
+
+conditional_read:
+  - when: inside_worktree
+    files:
+      - .agent/worktree-status.md
+  - when: paper_facing_result_or_claim_change
+    files:
+      - memory/claim-board.md
+      - memory/evidence-board.md
+      - memory/provenance-board.md
+
+verify_before_acting:
+  - scope-detection: "git rev-parse --git-common-dir && git rev-parse --show-toplevel"
+  - git-state: "git status --short --branch"
+  - scheduler-state: "verify queue state near submission time — do not use cached session state"
+  - environment-state: "confirm Python env exists and deps are synced before generating job script"
+
+required_facts:
+  - PC-001
+  - PC-002
+
+writeback:
+  in_progress:
+    - .agent/worktree-status.md
+  confirmed_cross_component:
+    - memory/hot-results.md
+    - memory/evidence-board.md
+    - memory/provenance-board.md
+    - memory/action-board.md
+
+forbidden:
+  - write provisional worktree-only results into root memory/
+  - treat queue state as durable memory
+  - create job-specific uv environments without an explicit isolation reason
+  - submit to high-end GPU pool when a lower-wait pool answers the experimental question

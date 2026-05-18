@@ -16,11 +16,14 @@ volatile-fields: git-state, installed-skill-copies
 
 ## Critical Must-Know
 
-- **68 skills** as of 2026-05-15. All frontmatter, helper references, and doc-table entries must stay in sync.
+- **72 skills** as of 2026-05-18 (68 leaf/utility + 4 domain routers). All frontmatter, helper references, and doc-table entries must stay in sync.
+- **4 domain routers**: `experiment-evidence-router`, `project-ops-router`, `paper-writing-router`, `discovery-router` — route-only, no business logic.
 - Validation: `python3 scripts/validate_skills.py` — must pass before every commit.
 - Template placeholders must use `{{UPPER_SNAKE_CASE}}` — lowercase triggers a validator error.
 - Git closeout: use `project-push /Users/jieke/Projects/project-skills origin main` for routine pushes.
 - Skill descriptions are routing rules, not titles — Codex hard-limits 500 chars per skill.
+- Memory bootstrap: `uv run scripts/memory_bootstrap.py [--skill <name>]` — prints MUST READ / ACTIVE FACTS / DO NOT / WRITEBACK for any task.
+- Memory reliability: `memory/fact-index.yaml` (P0 facts), `memory/memory-revision.json` (stale detection), `taxonomy/memory-contracts/` (per-skill contracts).
 - Startup memory includes root `memory/project-conventions.md` and `memory/hot-results.md`; both paths must exist.
 
 ## Top Claims
