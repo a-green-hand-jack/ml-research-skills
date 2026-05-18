@@ -1,11 +1,24 @@
 ---
 name: run-experiment
-description: Run or submit ML experiments on local, SLURM HPC, or RunAI/Kubernetes. Use for training runs, ablations, job scripts, and compute submission commands.
+description: Use when launching or preparing a new ML experiment job — local, SLURM, or RunAI. Not for checking existing job status (use run-status-monitor). Not for NaN/OOM/crash debugging (use experiment-debugger). Not for computing costs before deciding to run (use compute-budget-planner).
 argument-hint: "[--env <local|ibex|uw|runai|...>] [--script <path>] [--name <job-name>] [--gpus <N>]"
 allowed-tools: Read, Write, Bash, Glob
 ---
 
 # Run Experiment
+
+## Before Acting — Mandatory
+
+1. **Detect scope**: run `git rev-parse --git-common-dir` and `git rev-parse --show-toplevel`. If they differ, you are inside a worktree — adjust write paths accordingly.
+2. **Read project memory** if `memory/BRIEFING.md` exists in the project root:
+   - `memory/BRIEFING.md` — compact project state snapshot
+   - `memory/project-conventions.md` — active conventions, wrappers, and forbidden commands for this project
+3. **If inside a worktree**: read `.agent/worktree-status.md` before writing anything. Write in-progress results there; do not write to root `memory/` until a result is confirmed.
+4. **Verify scheduler state near submission time**, not from cached session memory. Queue state is volatile.
+
+Skipping this step risks violating project-specific rules (compute wrappers, environment policies, scope constraints) that override the defaults below.
+
+---
 
 Submit an ML experiment to a compute environment — local machine, SLURM HPC (Ibex, UW, etc.), or RunAI/Kubernetes (EPFL).
 

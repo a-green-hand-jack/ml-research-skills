@@ -7,6 +7,20 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 # Research Project Memory
 
+## Before Acting — Mandatory
+
+1. **Detect scope first**: run `git rev-parse --git-common-dir` vs `--show-toplevel`. If they differ, you are in a worktree — use worktree-local paths for all writes until a result is confirmed.
+2. **Read in this order** if the files exist:
+   - `memory/BRIEFING.md` — compact project state snapshot (≤30 lines)
+   - `memory/project-conventions.md` — active project-specific rules, wrappers, and forbidden commands
+   - `memory/hot-results.md` — top confirmed experiment results
+   - `.agent/worktree-status.md` (if in a worktree)
+3. **Write-path rule**: in-progress experiment state belongs in `.agent/worktree-status.md`. Graduate to `memory/` only when a result is confirmed and directly changes a project-level claim.
+
+Do not read all memory boards at once. Load the minimal relevant boards for the current task.
+
+---
+
 Maintain project memory as a layered system, not a flat notes file. This skill gives agents a shared protocol for remembering what a research project is trying to prove, what evidence exists, what risks remain, and which component owns each next action.
 
 Use this skill when:

@@ -1,6 +1,6 @@
 ---
 name: experiment-debugger
-description: Debug ML experiment engineering failures before blaming the method. Use when training crashes, NaN/gradient issues, GPU OOM, slow data loading, wrong metrics, or reproducibility failures occur — distinct from scientific result diagnosis. Use result-diagnosis for surprising but valid results.
+description: Use when training has engineering failures — NaN/gradient issues, GPU OOM, slow data loading, wrong metrics, reproducibility failures. Not for checking job queue/status (use run-status-monitor). Not for valid-but-surprising scientific results (use result-diagnosis). Not for confound or claim audit before writing (use research-results-auditor).
 argument-hint: "[project-dir] [--run <run-id>] [--mode nan|oom|slow|metric|repro|crash]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

@@ -1,6 +1,6 @@
 ---
 name: paper-writing-assistant
-description: Draft and revise ML/AI paper prose as a claim-aware writing assistant. Use for section writing, result interpretation, venue-aware style, and provisional metrics.
+description: Use when writing or revising actual paper prose — sections, result narratives, venue-aware style, provisional metrics. Not for planning the writing contract before drafting (use paper-writing-contract-planner). Not for tracking section status or edit-state across drafting sessions (use paper-writing-memory-manager).
 argument-hint: "[paper-dir] [--venue <venue>] [--section <section>] [--mode draft|rewrite|revise|fill-placeholders]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

@@ -1,6 +1,6 @@
 ---
 name: run-status-monitor
-description: Monitor running experiments without polluting the main agent context. Use when the user asks where an experiment is, what intermediate results exist, whether a job is stuck, or how long it may take across local logs, local processes, SSH servers, SLURM, RunAI, tmux/nohup, or project-specific status wrappers.
+description: Use when probing the status of an existing job — queued, stuck, running, or finished — across local, SLURM, RunAI, or SSH. Not for launching new jobs (use run-experiment). Not for debugging NaN/OOM/engineering failures (use experiment-debugger). Not for interpreting valid but surprising results (use result-diagnosis).
 argument-hint: "[run-id] [--config .agent/run-status/runs.yaml] [--output docs/ops/runs/<run-id>-status.md]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

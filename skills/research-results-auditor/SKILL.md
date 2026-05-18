@@ -1,6 +1,6 @@
 ---
 name: research-results-auditor
-description: Audit completed ML experiment results for scientific validity before locking claims. Use when checking confounds, claim-drift, protocol integrity, or inferential quality before results enter the paper. Distinct from result-diagnosis (decides next action) and statistical-analysis-planner (test selection).
+description: Use when auditing completed results for confounds, claim-drift, protocol integrity, or attribution before locking claims into the paper. Not for deciding what to do after a surprising result (use result-diagnosis). Not for significance tests or effect sizes (use statistical-analysis-planner). Not for engineering failures (use experiment-debugger).
 argument-hint: "[project-dir] [--claim <claim-id>] [--mode full|confound|protocol|drift|inference]"
 allowed-tools: Read, Write, Edit, Bash, Glob
 ---

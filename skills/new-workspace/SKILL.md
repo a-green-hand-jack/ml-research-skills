@@ -6,6 +6,18 @@ allowed-tools: Read, Write, Bash, Glob
 
 # Create New Git Workspace
 
+## Before Acting — Mandatory
+
+1. **Detect current scope**: run `git rev-parse --git-common-dir` vs `--show-toplevel` to confirm which repo you are operating on. In a project-control-root layout, identify whether the target is the root repo, `code/`, or `paper/`.
+2. **Read project memory** if `memory/BRIEFING.md` exists:
+   - `memory/BRIEFING.md` — current phase and active worktrees
+   - `memory/project-conventions.md` — worktree naming policy and path conventions for this project
+3. **Check existing worktrees** with `git worktree list` before creating a new one to avoid name collisions or orphaned worktrees.
+
+Skipping step 2 risks placing the worktree in the wrong path or using a name that conflicts with an existing branch or worktree policy.
+
+---
+
 Create a branch or Git worktree without confusing project-level management with component-repo management.
 
 Use this skill for:

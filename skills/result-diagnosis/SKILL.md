@@ -1,6 +1,6 @@
 ---
 name: result-diagnosis
-description: Diagnose surprising or negative ML/AI results. Use when methods fail, metrics conflict, seeds vary, baselines win, plots look suspicious, or next action is unclear.
+description: Use when results are valid but surprising, negative, unstable, or ambiguous — to decide debug/rerun/ablate/revise/park. Not for engineering failures like NaN/OOM (use experiment-debugger). Not for confound or claim-drift audit before locking results into the paper (use research-results-auditor).
 argument-hint: "[project-dir] [--result <summary>] [--mode quick|full|debug|decision]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

@@ -6,6 +6,35 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 # Safe Git Ops
 
+## Before Acting — Mandatory
+
+1. **Detect scope**: run `git rev-parse --git-common-dir` vs `--show-toplevel`. If they differ, you are in a worktree — shared `.git` metadata is outside the working tree.
+2. **Read project memory** if `memory/BRIEFING.md` exists in the project root:
+   - `memory/BRIEFING.md` — compact project state snapshot
+   - `memory/project-conventions.md` — active conventions including any push wrappers or branch policies for this project
+3. **If inside a worktree**: read `.agent/worktree-status.md` before any write.
+
+## Forbidden Push Patterns
+
+**Never issue these directly:**
+
+```
+git push
+git -C <path> push
+cd <path> && git push
+bash -lc "git push"
+```
+
+**Always use instead:**
+
+```
+project-push <repo> <remote> <branch>
+```
+
+The `project-push` wrapper applies project-specific preflight and is the only safe network-push path for routine closeouts. Raw `git push` variants are only acceptable when `project-push` is explicitly unavailable and the user has confirmed it.
+
+---
+
 Help the user perform common Git operations without confusing sandbox failures, repository state issues, and real content conflicts.
 
 ## Skill Directory Layout

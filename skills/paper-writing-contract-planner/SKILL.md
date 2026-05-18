@@ -1,6 +1,6 @@
 ---
 name: paper-writing-contract-planner
-description: Create a paper writing contract before drafting. Use to lock venue, positioning, archetype, section order, paragraph roles, evidence slots, figure/table jobs, and forbidden claims.
+description: Use before drafting starts to lock venue, archetype, section order, paragraph roles, evidence slots, and forbidden claims. Not for writing actual prose (use paper-writing-assistant). Not for tracking section status during drafting (use paper-writing-memory-manager).
 argument-hint: "[paper-dir-or-project-root] [--venue <venue>] [--archetype <type>] [--mode create|update|audit]"
 allowed-tools: Read, Write, Edit, Bash, Glob, WebSearch, WebFetch
 ---

@@ -6,6 +6,19 @@ allowed-tools: Read, Write, Edit, Bash, Glob
 
 # Remote Project Control
 
+## Before Acting — Mandatory
+
+1. **Detect scope**: run `git rev-parse --git-common-dir` vs `--show-toplevel`. In a project-control-root layout, `<ProjectName>/` and `<ProjectName>/code/` are independent repos — inspect them separately.
+2. **Read project memory** if `memory/BRIEFING.md` exists in the project root:
+   - `memory/BRIEFING.md` — compact project state snapshot
+   - `memory/project-conventions.md` — active conventions including SSH wrappers, server paths, and scope constraints for this project
+3. **If inside a worktree**: read `.agent/worktree-status.md` first; write in-progress server state there, not into root `memory/`.
+4. **Treat volatile state (queue, server load, job status) as requiring fresh verification** — do not act on cached session memory for these values.
+
+Skipping this step risks using stale server state, wrong environment paths, or violating project-specific SSH wrapper conventions.
+
+---
+
 Help the user operate a project whose code is edited locally but actually runs on one or more servers over SSH. Establish project memory first, then coordinate safe local, Git remote, and server actions.
 
 Terminology used by this skill:
