@@ -1,0 +1,470 @@
+schema_version: "1.0"
+generated_at: "2026-05-18"
+description: >
+  Canonical taxonomy of all ml-research-skills skills.
+  Used by scripts/validate_skill_taxonomy.py for consistency checking.
+  role: router | leaf
+  domain: experiment | writing | discovery | ops | cross-cutting | routing
+  lifecycle_phase: idea | planning | data | execution | monitoring | debugging | analysis |
+                   drafting | editing | review | submission | release | memory | reporting |
+                   delegation | audit | communication | routing
+  primary_router: the domain router that routes to this skill (leaf skills only).
+  direct_from_root: true if ml-research-router routes here without going through a domain router.
+
+routers:
+  root: ml-research-router
+  domain:
+    - experiment-evidence-router
+    - paper-writing-router
+    - discovery-router
+    - project-ops-router
+
+skills:
+
+  # ── Routers ──────────────────────────────────────────────────────────────────
+
+  ml-research-router:
+    role: router
+    domain: routing
+    lifecycle_phase: routing
+
+  experiment-evidence-router:
+    role: router
+    domain: experiment
+    lifecycle_phase: routing
+
+  paper-writing-router:
+    role: router
+    domain: writing
+    lifecycle_phase: routing
+
+  discovery-router:
+    role: router
+    domain: discovery
+    lifecycle_phase: routing
+
+  project-ops-router:
+    role: router
+    domain: ops
+    lifecycle_phase: routing
+
+  # ── Experiment domain ─────────────────────────────────────────────────────────
+
+  run-experiment:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: execution
+    primary_router: experiment-evidence-router
+
+  run-status-monitor:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: monitoring
+    primary_router: experiment-evidence-router
+
+  experiment-debugger:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: debugging
+    primary_router: experiment-evidence-router
+
+  result-diagnosis:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: analysis
+    primary_router: experiment-evidence-router
+
+  research-results-auditor:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: analysis
+    primary_router: experiment-evidence-router
+
+  experiment-design-planner:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: planning
+    primary_router: experiment-evidence-router
+
+  baseline-selection-audit:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: planning
+    primary_router: experiment-evidence-router
+
+  compute-budget-planner:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: planning
+    primary_router: experiment-evidence-router
+
+  data-pipeline-manager:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: data
+    primary_router: experiment-evidence-router
+
+  statistical-analysis-planner:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: analysis
+    primary_router: experiment-evidence-router
+
+  project-pivot-planner:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: planning
+    primary_router: experiment-evidence-router
+
+  experiment-report-writer:
+    role: leaf
+    domain: experiment
+    lifecycle_phase: reporting
+    primary_router: experiment-evidence-router
+
+  # ── Writing domain ────────────────────────────────────────────────────────────
+
+  paper-writing-assistant:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  paper-writing-contract-planner:
+    role: leaf
+    domain: writing
+    lifecycle_phase: planning
+    primary_router: paper-writing-router
+
+  paper-writing-memory-manager:
+    role: leaf
+    domain: writing
+    lifecycle_phase: planning
+    primary_router: paper-writing-router
+
+  paper-positioning-planner:
+    role: leaf
+    domain: writing
+    lifecycle_phase: planning
+    primary_router: paper-writing-router
+
+  conference-writing-adapter:
+    role: leaf
+    domain: writing
+    lifecycle_phase: planning
+    primary_router: paper-writing-router
+
+  abstract-title-contribution-writer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  experiment-story-writer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  limitations-scope-writer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  method-section-explainer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  paper-introduction-argument-writer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  related-work-positioning-writer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  paper-draft-consistency-editor:
+    role: leaf
+    domain: writing
+    lifecycle_phase: editing
+    primary_router: paper-writing-router
+
+  auto-paper-improvement-loop:
+    role: leaf
+    domain: writing
+    lifecycle_phase: editing
+    primary_router: paper-writing-router
+
+  paper-reviewer-simulator:
+    role: leaf
+    domain: writing
+    lifecycle_phase: review
+    primary_router: paper-writing-router
+
+  rebuttal-strategist:
+    role: leaf
+    domain: writing
+    lifecycle_phase: review
+    primary_router: paper-writing-router
+    direct_from_root: true
+
+  appendix-organizer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: submission
+    primary_router: paper-writing-router
+
+  submit-paper:
+    role: leaf
+    domain: writing
+    lifecycle_phase: submission
+    primary_router: paper-writing-router
+
+  camera-ready-finalizer:
+    role: leaf
+    domain: writing
+    lifecycle_phase: release
+    primary_router: paper-writing-router
+
+  figure-results-review:
+    role: leaf
+    domain: writing
+    lifecycle_phase: review
+    primary_router: paper-writing-router
+
+  table-results-review:
+    role: leaf
+    domain: writing
+    lifecycle_phase: review
+    primary_router: paper-writing-router
+
+  paper-evidence-board:
+    role: leaf
+    domain: writing
+    lifecycle_phase: planning
+    primary_router: paper-writing-router
+
+  paper-evidence-gap-miner:
+    role: leaf
+    domain: writing
+    lifecycle_phase: planning
+    primary_router: paper-writing-router
+
+  paper-result-asset-builder:
+    role: leaf
+    domain: writing
+    lifecycle_phase: drafting
+    primary_router: paper-writing-router
+
+  citation-audit:
+    role: leaf
+    domain: writing
+    lifecycle_phase: submission
+    primary_router: paper-writing-router
+
+  latex-layout-issue-bundler:
+    role: leaf
+    domain: writing
+    lifecycle_phase: debugging
+    primary_router: paper-writing-router
+
+  init-latex-project:
+    role: leaf
+    domain: writing
+    lifecycle_phase: planning
+    primary_router: paper-writing-router
+
+  # ── Discovery domain ──────────────────────────────────────────────────────────
+
+  research-idea-validator:
+    role: leaf
+    domain: discovery
+    lifecycle_phase: idea
+    primary_router: discovery-router
+
+  literature-review-sprint:
+    role: leaf
+    domain: discovery
+    lifecycle_phase: planning
+    primary_router: discovery-router
+
+  reference-library-manager:
+    role: leaf
+    domain: discovery
+    lifecycle_phase: data
+    primary_router: discovery-router
+
+  reference-reading-summarizer:
+    role: leaf
+    domain: discovery
+    lifecycle_phase: data
+    primary_router: discovery-router
+
+  reference-project-synthesizer:
+    role: leaf
+    domain: discovery
+    lifecycle_phase: analysis
+    primary_router: discovery-router
+
+  reference-corpus-analyzer:
+    role: leaf
+    domain: discovery
+    lifecycle_phase: analysis
+    primary_router: discovery-router
+
+  algorithm-design-planner:
+    role: leaf
+    domain: discovery
+    lifecycle_phase: planning
+    primary_router: discovery-router
+    direct_from_root: true
+
+  # ── Ops domain ────────────────────────────────────────────────────────────────
+
+  safe-git-ops:
+    role: leaf
+    domain: ops
+    lifecycle_phase: execution
+    primary_router: project-ops-router
+
+  remote-project-control:
+    role: leaf
+    domain: ops
+    lifecycle_phase: execution
+    primary_router: project-ops-router
+
+  project-init:
+    role: leaf
+    domain: ops
+    lifecycle_phase: planning
+    primary_router: project-ops-router
+
+  project-sync:
+    role: leaf
+    domain: ops
+    lifecycle_phase: execution
+    primary_router: project-ops-router
+
+  new-workspace:
+    role: leaf
+    domain: ops
+    lifecycle_phase: planning
+    primary_router: project-ops-router
+
+  sidecar-task-runner:
+    role: leaf
+    domain: ops
+    lifecycle_phase: delegation
+    primary_router: project-ops-router
+
+  work-timeline-planner:
+    role: leaf
+    domain: ops
+    lifecycle_phase: reporting
+    primary_router: project-ops-router
+
+  token-usage-auditor:
+    role: leaf
+    domain: ops
+    lifecycle_phase: audit
+    primary_router: project-ops-router
+
+  add-git-tag:
+    role: leaf
+    domain: ops
+    lifecycle_phase: release
+    primary_router: project-ops-router
+
+  update-docs:
+    role: leaf
+    domain: ops
+    lifecycle_phase: execution
+    primary_router: project-ops-router
+
+  skill-system-auditor:
+    role: leaf
+    domain: ops
+    lifecycle_phase: audit
+    primary_router: project-ops-router
+
+  research-project-memory:
+    role: leaf
+    domain: ops
+    lifecycle_phase: memory
+    primary_router: project-ops-router
+
+  init-python-project:
+    role: leaf
+    domain: ops
+    lifecycle_phase: planning
+    primary_router: project-ops-router
+
+  # ── Cross-cutting ─────────────────────────────────────────────────────────────
+
+  feedback-synthesizer:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: analysis
+    direct_from_root: true
+
+  advisor-update-writer:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: communication
+    direct_from_root: true
+
+  research-slide-deck-builder:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: communication
+    direct_from_root: true
+
+  personalization-memory:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: memory
+    primary_router: project-ops-router
+
+  memory-publication-auditor:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: audit
+    primary_router: project-ops-router
+
+  code-reviewer:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: review
+    primary_router: project-ops-router
+
+  model-card-writer:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: release
+    direct_from_root: true
+
+  release-code:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: release
+    direct_from_root: true
+
+  artifact-evaluation-prep:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: release
+    direct_from_root: true
+
+  citation-coverage-audit:
+    role: leaf
+    domain: cross-cutting
+    lifecycle_phase: submission
+    primary_router: discovery-router
+    also_routed_from: paper-writing-router

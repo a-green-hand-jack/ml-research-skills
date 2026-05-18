@@ -148,3 +148,26 @@ facts:
     read_triggers:
       - ambiguous-task
       - multi-bucket-task
+
+  - id: PC-007
+    type: convention
+    priority: P0
+    status: active
+    scope: project
+    owner_skill: research-project-memory
+    source_of_truth: memory/project-conventions.md#PC-007
+    text: >
+      When adding or materially changing memory/fact-index.yaml or
+      memory/project-conventions.md, increment the revision in
+      memory/memory-revision.json. Enables stale-session detection via
+      `uv run scripts/memory_bootstrap.py --check-stale`.
+    applies_to:
+      - memory
+      - memory-protocol-change
+    read_triggers:
+      - before-commit
+      - after-fact-index-edit
+    enforcement:
+      required_when_changed:
+        - memory/fact-index.yaml
+        - memory/project-conventions.md

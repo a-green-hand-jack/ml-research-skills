@@ -161,6 +161,46 @@
       "should_trigger": "experiment-design-planner",
       "should_not_trigger": ["run-experiment", "baseline-selection-audit", "compute-budget-planner"],
       "rationale": "Designing ablations, metrics, and controls before running is experiment design, not job submission or budget planning."
+    },
+    {
+      "id": "RTE-021",
+      "prompt": "My advisor just gave me feedback saying the novelty is weak and the baselines are outdated. How should I respond?",
+      "expected_path": ["ml-research-router", "feedback-synthesizer"],
+      "should_trigger": "feedback-synthesizer",
+      "should_not_trigger": ["advisor-update-writer", "rebuttal-strategist", "baseline-selection-audit"],
+      "rationale": "Processing inbound advisor feedback is feedback-synthesizer, not writing an update back or running baseline audit."
+    },
+    {
+      "id": "RTE-022",
+      "prompt": "Reviews just came in from ICLR. Reviewer 2 says my method is just a special case of prior work. How do I respond?",
+      "expected_path": ["ml-research-router", "rebuttal-strategist"],
+      "should_trigger": "rebuttal-strategist",
+      "should_not_trigger": ["paper-writing-router", "paper-reviewer-simulator", "feedback-synthesizer"],
+      "rationale": "Real reviews requiring a point-by-point rebuttal are rebuttal-strategist; paper-reviewer-simulator is for pre-submission simulation."
+    },
+    {
+      "id": "RTE-023",
+      "prompt": "I'm not sure whether to run more experiments or start writing. The domain of my next task is unclear.",
+      "expected_path": ["ml-research-router"],
+      "should_trigger": "ml-research-router",
+      "should_not_trigger": ["experiment-evidence-router", "paper-writing-router"],
+      "rationale": "When the domain is genuinely ambiguous, the root router disambiguates rather than guessing a domain router."
+    },
+    {
+      "id": "RTE-024",
+      "prompt": "I need to create a progress slide deck for my advisor meeting next week.",
+      "expected_path": ["ml-research-router", "research-slide-deck-builder"],
+      "should_trigger": "research-slide-deck-builder",
+      "should_not_trigger": ["paper-writing-router", "advisor-update-writer", "paper-writing-assistant"],
+      "rationale": "Slide deck creation is a cross-cutting skill routed directly from the root router, not through paper-writing-router."
+    },
+    {
+      "id": "RTE-025",
+      "prompt": "I want to design the algorithm for my new method — formulate the mechanism, identify assumptions, and produce an implementation handoff.",
+      "expected_path": ["ml-research-router", "algorithm-design-planner"],
+      "should_trigger": "algorithm-design-planner",
+      "should_not_trigger": ["experiment-evidence-router", "experiment-design-planner", "discovery-router"],
+      "rationale": "Designing the method itself (formulation, mechanism) is algorithm-design-planner; experiment-design-planner is for planning experiments to test an already-designed method."
     }
   ]
 }
