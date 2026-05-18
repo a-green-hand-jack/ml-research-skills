@@ -4,15 +4,16 @@
 
 ## Current Focus
 
-- Summary: The repository is at 68 skills after implementing the ACT-030–ACT-037 expansion plus `research-results-auditor`, `auto-paper-improvement-loop`, and `reference-corpus-analyzer`. The expansion phase is complete; the current focus is maintenance, routing reliability, and memory consistency.
-- Active milestone: maintain 68-skill collection, keep validation passing, reinstall after skill changes.
+- Summary: The repository is at 73 skills (68 leaf/utility + 4 domain routers + 1 root router `ml-research-router`). A two-level hierarchical routing system was added in Batches 1–5: description boundary surgery, 5 routers, 25 routing evals with `expected_path`, memory reliability layer (fact-index, memory-revision, memory contracts, memory_bootstrap.py), skill-index.yaml, and validate_skill_taxonomy.py. Forbidden SSH Patterns blocks added to `remote-project-control` and all three private cluster skills.
+- Active milestone: maintain 73-skill collection, keep both validators passing, reinstall after skill changes.
 - Current phase: `maintenance`.
 - Active gate: choose the smallest safe commit path; keep README/AGENTS/CLAUDE, skill inventory, tests, and memory aligned before push when affected.
-- Last updated: 2026-05-16.
+- Last updated: 2026-05-18.
 
 ## Latest Reliable State
 
-- 68 skills are present in `skills/`; `python3 scripts/validate_skills.py` passed on 2026-05-16.
+- 73 skills are present in `skills/`; `python3 scripts/validate_skills.py` and `uv run scripts/validate_skill_taxonomy.py` both pass as of 2026-05-18.
+- Hierarchical routing system (Batches 1–5): 5 routers (ml-research-router root + 4 domain), negative-boundary descriptions on confusable leaf skills, 25 routing evals with `expected_path`, `taxonomy/skill-index.yaml` (role/domain/lifecycle taxonomy), `scripts/validate_skill_taxonomy.py` (5 taxonomy checks), memory reliability layer (fact-index.yaml, memory-revision.json rev 7, 4 memory contracts, memory_bootstrap.py with --check-stale). Forbidden SSH Patterns blocks added to `remote-project-control` and private cluster skills.
 - Root startup memory now includes `memory/project-conventions.md` and `memory/hot-results.md`, closing the gap where templates existed but session-start protocol files were missing from `memory/`.
 - `memory/hot-results.md` is intentionally empty of experiment entries because this repository is a skill collection, not an experiment project.
 - 57 skills were present and installable after adding `run-status-monitor`; this historical count was superseded by the 68-skill state above.

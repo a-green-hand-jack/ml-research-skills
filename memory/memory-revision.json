@@ -1,8 +1,8 @@
 {
   "_comment": "Increment revision whenever BRIEFING.md, fact-index.yaml, project-conventions.md, or hot-results.md changes materially. Agents use this to detect stale sessions.",
-  "revision": 7,
-  "updated_at": "2026-05-18T14:00:00+08:00",
-  "changelog": "Batch 5: ml-research-router (root router), taxonomy/skill-index.yaml, scripts/validate_skill_taxonomy.py; 73 skills total; PC-007 added to fact-index",
+  "revision": 8,
+  "updated_at": "2026-05-18T16:00:00+08:00",
+  "changelog": "Sync stale memory: current-status.md and project-conventions.md updated to 73-skill/5-router state; PC-003 updated to include validate_skill_taxonomy.py; Forbidden SSH Patterns added to remote-project-control and private cluster skills",
   "file_hashes": {
     "BRIEFING.md": "volatile",
     "fact-index.yaml": "2026-05-18",
