@@ -24,6 +24,7 @@
 - `safe-git-ops` now ships `project-push` so routine network pushes use one stable command shape instead of drifting among equivalent `git push` variants; root `AGENTS.md`/`CLAUDE.md`, README project-structure guidance, `project-init`, and `init-python-project` templates now surface the same rule outside the skill body.
 - `run-experiment`, `remote-project-control`, and `run-status-monitor` now encode resource-aware launch: classify smoke/debug/formal work, inspect server resource and pending state when practical, use the fastest compatible allocation for smoke/debug, and preserve formal-job contracts.
 - Server experiment skills now treat Python environment creation as a cost: reuse project/stage uv environments by default, avoid deriving `UV_PROJECT_ENVIRONMENT` from each job name, and require a concrete dependency/isolation/sync-race reason for job-specific envs.
+- Project-control-root code worktrees now share one uv environment by default: use absolute `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code` and `uv run` from the active worktree for `<ProjectRoot>/code/` and sibling `code-worktrees/*`; create stage/worktree envs only for dependency/stack changes, destructive package tests, or real concurrent sync risk.
 - Server experiment skills now treat long image pulls, `ContainerCreating`, and GPU-generation/CUDA compatibility as scheduling inputs, so lower-wait pools are not chosen blindly for smoke/debug work.
 - Server experiment skills now distinguish resource inventory from job occupancy: agents should understand available/allocated GPUs, workload parallelization shape, actual active GPU use, and write feedback when jobs underutilize requested resources.
 - `run-status-monitor` and `remote-project-control` now stop repeated scheduler API probes after OAuth/session refresh failure, switch to filesystem/project-wrapper fallback when available, and record one login-refresh action.
@@ -59,6 +60,7 @@
 - `RSK-009`: Run-status monitors could leak raw logs or overstate ETA if probe artifacts are not kept short and uncertainty-aware.
 - `RSK-017`: Main agents could still become long-lived run observers, wasting tokens and crowding the context window, if polling is not pushed into artifacts, wrappers, or sidecars.
 - `RSK-019`: Jobs can be running but underutilize allocated GPUs if agents do not model workload shape and actual resource occupancy.
+- `RSK-021`: Agents may run bare `uv sync` in sibling code worktrees and create one `.venv` per worktree instead of the shared project-code env.
 - `RSK-010`: SSH wrappers can hide shell semantics if agents use `remote-cmd` for commands that actually require shell pipelines or variable expansion.
 - `RSK-011`: Stable push wrappers could be used without ordinary preflight if agents treat them as replacing Git state checks.
 - `RSK-012`: Already-open sessions and existing project guidance may keep stale SSH habits until skills are reinstalled or reread.
@@ -92,6 +94,7 @@
 - `ACT-026`: Use artifact-bounded progress tracking: one bounded main-agent probe is acceptable, but repeated checks should update a short status artifact outside the main transcript.
 - `ACT-027`: Use agent-regression hardening during skill maintenance: do not leave repeated mistakes as chat-only lessons or buried prose.
 - `ACT-028`: Use utilization-aware resource feedback: track allocation vs active GPU use and update project status/memory when the next launch policy should change.
+- `ACT-041`: Use shared project-code uv envs for sibling worktrees: `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code` plus `uv run` from the active worktree by default, with recorded exceptions for dependency/stack changes or real sync risks.
 - `ACT-029`: Use public writing heuristics during paper skill work: classify the core sell, check logical strength/defensibility/confusion time/information density, and surface comparison-affecting protocol details before final prose.
 - `ACT-030` (done): `data-pipeline-manager` — dataset acquisition, split design, quality audit, contamination check, versioning.
 - `ACT-031` (done): `experiment-debugger` — NaN/gradient, OOM, slow training, metric errors, repro failures.

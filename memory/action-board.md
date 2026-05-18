@@ -47,6 +47,7 @@ Track concrete next tasks linked to claims, evidence, risks, components, or hand
 | ACT-038 | done | agent | memory | Add `memory/BRIEFING.md` + `memory/hot-results.md` pattern to solve cross-session and in-session agent forgetting. Templates added to `research-project-memory`; closeout protocol updated; AGENTS/CLAUDE wired; `experiment-report-writer` and `result-diagnosis` now update hot-results. | RSK-004 | Reinstall updated skills. | — | 2026-05-15 |
 | ACT-039 | pending | agent | install | Reinstall all updated skills after memory-reliability changes. | ACT-038 | Run `npx skills add a-green-hand-jack/ml-research-skills -g -a codex claude-code -y` after push. | — | 2026-05-15 |
 | ACT-040 | done | agent | memory | Materialize root `memory/project-conventions.md` and `memory/hot-results.md` so session-start protocol reads real files instead of missing paths. | ACT-038, RSK-004 | Keep both files updated during closeout; mirror top conventions into `memory/BRIEFING.md`. | — | 2026-05-16 |
+| ACT-041 | done | agent | python-env | Add shared project-code uv environment policy for sibling code worktrees. | DEC-028, RSK-021 | Reinstall updated skills so new sessions stop defaulting to per-worktree `.venv`; use `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code` plus `uv run` from active project worktrees. | — | 2026-05-18 |
 
 ## Blocked Actions
 

@@ -449,8 +449,9 @@ If **inside a code-worktree** (e.g. `<Project>/code-worktrees/<branch>/`):
 2. Read `<ProjectRoot>/memory/BRIEFING.md` — project-wide context
 3. Read `<ProjectRoot>/memory/project-conventions.md` — active rules for this project (wrappers, server paths, scope rules); treat Active rows as binding
 4. Read `<ProjectRoot>/memory/hot-results.md` — confirmed project-level results
-5. Write in-progress results to **worktree `.agent/`**, not to `ProjectRoot/memory/`
-6. Graduate a result to `ProjectRoot/memory/hot-results.md` only when it is confirmed and directly changes a project claim
+5. For Python work, use the shared code uv env by default: `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code`; run through `uv run` from the active worktree, and create a stage/worktree env only for dependency or stack changes with the reason recorded
+6. Write in-progress results to **worktree `.agent/`**, not to `ProjectRoot/memory/`
+7. Graduate a result to `ProjectRoot/memory/hot-results.md` only when it is confirmed and directly changes a project claim
 
 If **at the project root** (contains `memory/`):
 

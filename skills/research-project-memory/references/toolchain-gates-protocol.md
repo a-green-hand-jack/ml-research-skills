@@ -25,6 +25,15 @@ uv run pytest tests -v
 uv run pre-commit run --all-files
 ```
 
+For project-control-root layouts, `code/` and sibling `code-worktrees/*` should normally run those commands with an absolute shared env prefix:
+
+```text
+UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv sync
+UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run ...
+```
+
+Do not use a relative `UV_PROJECT_ENVIRONMENT` for cross-worktree sharing; uv resolves relative values against the active workspace root. Use a separate stage env only for dependency changes, incompatible Python/CUDA stacks, destructive package tests, or real concurrent sync risk, and record the exception in component guidance or worktree status.
+
 Use `ruff format` / `ruff check --fix` only after the user requests formatting/fixes or project policy requires them. If an existing repo already uses `black`, `isort`, `pyright`, `pre-commit`, or another checker, preserve the existing toolchain and record the actual commands instead of forcing the default scaffold policy.
 
 `pre-commit` is the preferred local gate runner when a repo has several file types. It can coordinate Python checks plus optional checks for:

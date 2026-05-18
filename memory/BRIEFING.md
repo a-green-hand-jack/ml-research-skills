@@ -26,6 +26,7 @@ volatile-fields: git-state, installed-skill-copies
 - Taxonomy validator: `uv run scripts/validate_skill_taxonomy.py` — checks router/leaf consistency, expected_path chains, memory contracts, and skill-index.yaml.
 - Memory reliability: `memory/fact-index.yaml` (P0 facts), `memory/memory-revision.json` (stale detection), `taxonomy/memory-contracts/` (per-skill contracts).
 - Startup memory includes root `memory/project-conventions.md` and `memory/hot-results.md`; both paths must exist.
+- Project-code worktrees share uv env by default: `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code` plus `uv run` from the active worktree; use stage envs only for dependency/stack/sync-risk exceptions.
 
 ## Top Claims
 
@@ -36,12 +37,13 @@ volatile-fields: git-state, installed-skill-copies
 
 - ACT-038: Design and ship `memory/BRIEFING.md` + `hot-results.md` pattern to solve agent forgetting — `done` (this session)
 - ACT-039: Reinstall updated skills after memory-reliability changes — `pending`
-- ACT-040: Materialize root `project-conventions.md` and `hot-results.md` files — `done`
+- ACT-041: Add shared project-code uv env policy for sibling worktrees — `done`
 
 ## Top Risks
 
 - RSK-001: Skill inventory drift between `skills/`, README, AGENTS, CLAUDE, and installed runtime copies
 - RSK-004: Memory could become stale if not updated after skill behavior changes
+- RSK-021: Agents may still run bare `uv sync` in a worktree until updated skills/templates are reinstalled or reread
 
 ## Full Memory
 

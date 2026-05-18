@@ -20,15 +20,16 @@ memory_policy:
 toolchain_gates:
   policy: check-before-mutate
   code:
-    environment_check: "uv sync"
-    format_check: "uv run ruff format --check src tests experiments scripts"
-    lint_check: "uv run ruff check src tests experiments scripts"
-    type_check: "uv run mypy src"
-    test_check: "uv run pytest tests -v"
-    local_gate_runner: "uv run pre-commit run --all-files"
+    shared_uv_environment: "{{PROJECT_ROOT}}/.uv-envs/code"
+    environment_check: "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv sync"
+    format_check: "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv run ruff format --check src tests experiments scripts"
+    lint_check: "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv run ruff check src tests experiments scripts"
+    type_check: "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv run mypy src"
+    test_check: "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv run pytest tests -v"
+    local_gate_runner: "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv run pre-commit run --all-files"
     mutate_only_when_requested:
-      - "uv run ruff format src tests experiments scripts"
-      - "uv run ruff check --fix src tests experiments scripts"
+      - "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv run ruff format src tests experiments scripts"
+      - "UV_PROJECT_ENVIRONMENT={{PROJECT_ROOT}}/.uv-envs/code uv run ruff check --fix src tests experiments scripts"
   optional_hygiene:
     secret_scan: "gitleaks dir --no-banner --redact ."
     shell_lint: "shellcheck jobs/*.sh scripts/*.sh"
@@ -77,6 +78,7 @@ components:
     memory_path: code/.agent
     worktree_index_path: code/.agent/worktree-index.md
     worktree_root: code-worktrees
+    shared_uv_environment: .uv-envs/code
     evidence_paths:
       results: code/docs/results
       reports: code/docs/reports

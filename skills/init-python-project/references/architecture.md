@@ -107,9 +107,20 @@ When this code repo is part of a project control root, prefer:
 ```text
 <ProjectName>/
 ├── code/
+├── .uv-envs/
 └── code-worktrees/
     ├── exp-<name>/
     └── rebuttal-<name>/
 ```
 
 Each code worktree should keep its own `.agent/worktree-status.md` and may use the same `docs/results/`, `docs/reports/`, and `docs/runs/` convention for branch-local evidence.
+
+By default, `code/` and `code-worktrees/*` should share one ignored uv environment:
+
+```bash
+export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
+```
+
+Use the absolute path before every `uv sync` and `uv run`. Do not rely on a relative `UV_PROJECT_ENVIRONMENT` here: uv resolves relative values against the active workspace root, so different worktrees can still create different environments. Use a separate stage env only when dependencies, Python/CUDA stack, destructive package tests, or real concurrent sync risk requires it.
+
+Run Python entry points through `uv run` from the active worktree. Avoid invoking the shared env's `bin/python` directly as a way to choose branch code; editable project metadata can point at the last worktree that synced the shared environment.

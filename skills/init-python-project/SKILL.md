@@ -210,6 +210,14 @@ Only create placeholders for directories that actually exist in the chosen proje
 
 #### 2A.6 Install and verify toolchain gates
 
+If this code repo is part of a project-control-root layout (`<ProjectName>/code/` with sibling `<ProjectName>/code-worktrees/`), use a shared project-code uv environment before running any `uv sync` or `uv run` command:
+
+```bash
+export UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code
+```
+
+Do not use a relative `UV_PROJECT_ENVIRONMENT` for this policy; uv resolves relative values against each active workspace root, so different worktrees can still fork into different environments. Run Python entry points through `uv run` from the active worktree rather than directly invoking the shared env's `bin/python`. Use a separate stage env only when dependencies, Python/CUDA stack, destructive package tests, or real concurrent sync risk requires it, and record that exception in worktree or project guidance.
+
 For ML projects:
 
 ```bash

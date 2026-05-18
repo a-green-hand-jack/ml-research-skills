@@ -216,6 +216,7 @@ A full project is a control root with independent component repositories:
 ├── code/                   # independent Python/ML code repo
 ├── code-worktrees/          # sibling worktrees for code repo branches
 ├── paper-worktrees/         # sibling worktrees for paper venue/arXiv/camera-ready versions
+├── .uv-envs/                # ignored shared uv envs for code repo/worktrees
 ├── reference/              # project-local sources, cards, processing status, and project-use notes
 │   ├── sources/
 │   ├── papers/
@@ -248,6 +249,8 @@ Root ownership rules:
 - `paper/`, `code/`, and `slides/` are component repos. Use `git -C paper ...`, `git -C code ...`, and `git -C slides ...` for inspection and repo-local commands; for routine final branch pushes after preflight, use `project-push <repo> <remote> <branch>` instead of raw `git -C <repo> push`.
 - Do not put experiment outputs directly under the root. Runnable code, run records, results, and logs belong under `code/` or a code worktree.
 - Do not create paper version folders inside `paper/`. Venue submissions, arXiv releases, and camera-ready versions belong under `paper-worktrees/`.
+- Do not let each code worktree create its own `.venv` by default. `code/` and `code-worktrees/*` should run uv with an absolute `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code`, with stage-specific envs only for dependency or stack changes.
+- When using that shared env, run Python through `uv run` from the active worktree rather than calling `.uv-envs/code/bin/python` directly to choose branch code.
 - Do not treat `slides/slides.md` as the whole presentation history. Stable meeting/talk decks belong under `slides/decks/`, with deck registry memory in `slides/.agent/deck-index.md`.
 - Raw reference sources and reading trajectories belong under `reference/`, but project memory should link to source cards and project-use notes rather than copying raw source text.
 - Root `memory/` stores durable summaries and links. It should point to detailed evidence rather than duplicate raw logs, full tables, or full paper prose.
@@ -368,6 +371,8 @@ Toolchain gates make project tools part of the lifecycle rather than optional ag
 Default code gates:
 
 ```bash
+# In project-control-root layouts, export first:
+# export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
 uv sync
 uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
@@ -377,6 +382,7 @@ uv run pre-commit run --all-files
 ```
 
 For non-ML or existing repos, omit paths that do not exist and preserve the repo's documented tools.
+For code worktrees, use the same absolute `UV_PROJECT_ENVIRONMENT` before every `uv run`; relative env paths are resolved against each worktree's workspace root and can still create separate environments.
 
 Use mutating code commands only after an explicit request or documented policy:
 
@@ -608,6 +614,8 @@ Code boundary rules:
 - `docs/results/`, `docs/reports/`, and `docs/runs/` are the stable code-side evidence layer. CSV files here are the preferred machine-readable result source for paper-facing tables and figures. Raw logs, checkpoints, tensorboard caches, wandb runs, and large outputs stay ignored or external.
 - `docs/ops/current-status.md` and `docs/ops/decision-log.md` are useful code-repo operational memory, but they are not a cross-worktree registry.
 - `code/.agent/worktree-index.md` is the code component's cross-worktree rollup. `code-worktrees/` holds isolated code branches outside `code/`; each worktree can have its own `.agent/worktree-status.md` and code-side evidence docs.
+- `code/` and `code-worktrees/*` share one uv environment by default via absolute `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code`. Record any dependency-stack exception in the worktree status.
+- Shared env commands should still be launched with `uv run` from the active worktree so the current checkout is the synced project.
 
 Primary skills in `code/`:
 
@@ -1291,7 +1299,7 @@ The remaining useful hardening is mostly evaluation rather than new lifecycle co
 - Project-aware code worktree placement under `<ProjectName>/code-worktrees/` when the repo is `<ProjectName>/code/`
 - Project-aware paper worktree placement under `<ProjectName>/paper-worktrees/` when the repo is `<ProjectName>/paper/`
 - Worktree-local `.agent/worktree-status.md` purpose, version policy, source visibility, cleanup requirements, and exit-condition memory
-- UV environment sync for code worktrees, IDE config copying, and optional shared-asset symlinks through `.worktree-links`
+- Shared project-code uv environment sync for code worktrees, IDE config copying, and optional shared-asset symlinks through `.worktree-links`
 
 ## What `remote-project-control` Provides
 

@@ -98,6 +98,8 @@ For new projects, make the gate commands explicit in `README.md`, `AGENTS.md`, a
 Default ML code gates:
 
 ```bash
+# In a project-control-root layout, export first:
+# export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
 uv sync
 uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
@@ -105,6 +107,8 @@ uv run mypy src
 uv run pytest tests -v
 uv run pre-commit run --all-files
 ```
+
+For `<ProjectName>/code/` plus sibling `code-worktrees/*`, use that absolute shared env path from every worktree. Do not set a relative `UV_PROJECT_ENVIRONMENT` for cross-worktree sharing; it resolves against the active workspace root.
 
 For non-ML projects, omit paths that do not exist. Use mutating commands only when requested or required:
 

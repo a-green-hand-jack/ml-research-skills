@@ -34,6 +34,8 @@ This project uses a strict four-layer structure. Dependencies flow one way only.
 - Do not compose complex SSH double-quoted one-liners; the local shell can expand remote variables before the command reaches the server.
 - If this repo is part of a project control root, prefer sibling code worktrees under `../code-worktrees/` rather than nested worktrees inside this repo.
 - Keep cross-worktree rollups in `.agent/worktree-index.md` when this repo uses sibling worktrees.
+- In a project control root, `code/` and sibling `code-worktrees/*` should share one uv environment. Before `uv sync` or `uv run`, export `UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code`. Do not use a relative env path for this policy, because uv resolves it against each worktree's workspace root.
+- Run Python entry points through `uv run` from the active worktree. Do not call the shared env's `bin/python` directly to select branch code.
 - For routine final branch pushes after preflight, use `project-push <repo> <remote> <branch>` instead of raw `git push`, `git -C <repo> push`, `cd <repo> && git push`, or shell-wrapped push variants.
 
 ## Toolchain Gates
@@ -41,6 +43,8 @@ This project uses a strict four-layer structure. Dependencies flow one way only.
 Default to check-before-mutate. Run non-mutating gates before commit, push, experiment submission, release, or artifact handoff:
 
 ```bash
+# In project-control-root layouts, export first:
+# export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
 uv sync
 uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts

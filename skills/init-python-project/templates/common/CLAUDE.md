@@ -40,12 +40,16 @@ This project uses a strict layered structure. Dependencies flow one way only.
 4. Update docs when structure or behavior changes.
 5. Use the `remote-project-control` skill before sync, remote submission, monitoring, or artifact inspection workflows.
 6. If this repo is part of a project control root, prefer sibling code worktrees under `../code-worktrees/` rather than nested worktrees inside this repo.
+7. In a project control root, `code/` and sibling `code-worktrees/*` should share one uv environment. Before `uv sync` or `uv run`, export `UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code`. Do not use a relative env path for this policy, because uv resolves it against each worktree's workspace root.
+8. Run Python entry points through `uv run` from the active worktree. Do not call the shared env's `bin/python` directly to select branch code.
 
 ## Toolchain Gates
 
 Default to check-before-mutate. Run non-mutating gates first:
 
 ```bash
+# In project-control-root layouts, export first:
+# export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
 uv sync
 uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts

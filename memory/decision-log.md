@@ -280,3 +280,13 @@ Use this file for durable project decisions and rationale, not transient status.
 - Affects: `skills/paper-writing-assistant/`, `skills/paper-positioning-planner/`, `skills/paper-writing-contract-planner/`, `skills/paper-introduction-argument-writer/`, `skills/paper-draft-consistency-editor/`, `skills/experiment-story-writer/`, `skills/figure-results-review/`, `skills/table-results-review/`, `memory/`.
 - Revisit when: writing skills become too broad, or future paper-writing sources suggest a more systematic shared writing-quality reference.
 - Certainty: observed
+
+## DEC-028 - Share uv Environments Across Code Worktrees
+
+- Date: 2026-05-18
+- Decision: In a project-control-root layout, `<ProjectName>/code/` and sibling `<ProjectName>/code-worktrees/*` should share one project-code uv environment by default via absolute `UV_PROJECT_ENVIRONMENT=<ProjectRoot>/.uv-envs/code`, with Python commands launched through `uv run` from the active worktree.
+- Why: Bare `uv sync` in each worktree makes uv create `.venv` relative to that worktree root. This duplicates dependency setup, wastes time, and can leave agents waiting on avoidable environment bootstraps when the dependency stack has not changed.
+- Alternatives considered: keep per-worktree `.venv` for maximum isolation; put the shared env under `code/.venv`; use a relative `UV_PROJECT_ENVIRONMENT`; rely on agents to remember the policy without templates.
+- Affects: `new-workspace`, `project-init`, `init-python-project`, `research-project-memory` templates/references, README.md, AGENTS.md, CLAUDE.md.
+- Revisit when: concurrent sync races become common enough to require automatic lockfile-hash stage env naming or a wrapper script.
+- Certainty: user-stated

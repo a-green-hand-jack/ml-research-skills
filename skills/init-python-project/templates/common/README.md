@@ -21,6 +21,8 @@ cd {{PROJECT_NAME}}
 2. Install dependencies:
 
 ```bash
+# If this repo is part of a project control root, export first:
+# export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
 uv sync
 uv pip install -e ".[dev]"
 uv pip install -e ".[dev,ml]"
@@ -79,6 +81,8 @@ uv run pytest tests -v
 Run non-mutating gates before commit, push, experiment submission, release, or artifact handoff:
 
 ```bash
+# If this repo is part of a project control root, export first:
+# export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
 uv sync
 uv run ruff format --check src tests experiments scripts
 uv run ruff check src tests experiments scripts
@@ -112,6 +116,18 @@ Use `experiments/` for runnable logic. Keep code-side evidence in:
 - `docs/runs/` for run IDs, config paths, commit hashes, remote output paths, and short metric summaries
 
 Raw outputs, checkpoints, logs, tensorboard caches, and wandb runs should stay in ignored paths or external storage.
+
+## Worktree uv Environment
+
+When this code repo lives under a project control root, `code/` and sibling `code-worktrees/*` should reuse the same uv environment:
+
+```bash
+export UV_PROJECT_ENVIRONMENT=<absolute-ProjectRoot>/.uv-envs/code
+```
+
+Use that before every `uv sync` and `uv run`. Use a separate stage env only for dependency changes, incompatible Python/CUDA stacks, destructive package tests, or real concurrent sync risk.
+
+Run Python entry points through `uv run` from the active worktree. Do not call the shared env's `bin/python` directly to choose branch code.
 
 ## Development
 

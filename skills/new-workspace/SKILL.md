@@ -48,7 +48,7 @@ Pair this skill with:
 - Paper worktrees should also record target venue/version, submission mode, template/style differences, cleanup requirements, and source-visibility assumptions.
 - Paper source visibility is independent of venue. A paper worktree may be `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, or `publisher-artifact`.
 - `experiments/` is runnable logic; stable result summaries belong in `docs/results/`, reports in `docs/reports/`, and run pointers in `docs/runs/`.
-- Code worktrees get their own `.venv/` after `uv sync`. Paper worktrees do not need a local TeX install by default; Overleaf/GitHub compile may be the source of truth.
+- Code worktrees under the same project-control root should reuse one shared code uv environment by default; paper worktrees do not need a local TeX install by default. Use a worktree-specific uv environment only for dependency changes, incompatible Python/CUDA stacks, destructive package tests, or a real concurrent sync/race risk.
 
 ## Step 1 - Classify the Target
 
@@ -257,11 +257,29 @@ Do not copy code-side `docs/results/`, `docs/reports/`, or `docs/runs/` conventi
 
 ## Step 8 - Sync Environment
 
-For code worktrees, if `pyproject.toml` exists in the worktree:
+For code worktrees, if `pyproject.toml` exists in the worktree, choose the uv environment path before running `uv sync`.
+
+Default for a project-control-root layout:
+
+```text
+<ProjectName>/.uv-envs/code
+```
+
+Run uv with an absolute `UV_PROJECT_ENVIRONMENT` pointing at that shared environment from both `<ProjectName>/code/` and `<ProjectName>/code-worktrees/*/`:
 
 ```bash
 cd <worktree-path>
-uv sync
+UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv sync
+```
+
+Do not use a relative `UV_PROJECT_ENVIRONMENT` for cross-worktree sharing; uv resolves relative values against the active workspace root, which can still produce different environments for different worktrees.
+
+Run commands from the active worktree with `uv run ...`. Do not treat `<absolute-project-root>/.uv-envs/code/bin/python` as a branch selector; a shared editable install can point at the last synced worktree if Python is invoked directly outside uv.
+
+If the branch changes dependencies, Python version, CUDA stack, or performs destructive package tests, create a named stage environment instead and record the reason:
+
+```bash
+UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code-<stage-or-lock-hash> uv sync
 ```
 
 If `uv sync` fails, report the error but do not delete the worktree. The user may still want to inspect or fix the branch.
@@ -287,6 +305,7 @@ Include:
 - expected difference from main branch
 - for paper worktrees: target venue/version, template/style differences, source cleanup policy, and public/private source assumptions
 - for paper worktrees: source visibility tier, audience, sync target, allowed/forbidden file policy, and cleanup gate
+- for code worktrees: uv environment path and whether it uses the shared project-code env or an exception-specific stage env
 - result/output paths
 - exit condition: merge, continue, park, or kill
 - next verification step
@@ -319,7 +338,7 @@ Memory:
 
 Next:
   cd <worktree-path>
-  <code: uv sync and run/edit the planned experiment>
+  <code: run uv with UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code, then run/edit the planned experiment>
   <paper: run submit-paper checks and sync to Overleaf/GitHub if needed>
 ```
 
@@ -358,4 +377,5 @@ If `.worktree-links` does not exist, offer to create:
 - paper version policy is recorded for paper worktrees
 - paper source visibility policy is recorded for paper worktrees, especially Overleaf/coauthor-visible and public-source branches
 - worktree memory records purpose and exit condition when relevant
+- code worktree uv policy points at the shared project-code environment or records a specific exception
 - project memory is updated only with durable pointers, not logs

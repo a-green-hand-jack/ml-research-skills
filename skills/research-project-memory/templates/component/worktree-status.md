@@ -37,6 +37,14 @@ Use this section for paper worktrees.
 - Cleanup required:
 - Compile workflow: local / Overleaf-GitHub / unknown
 
+## Code Environment Policy
+
+Use this section for code worktrees.
+
+- uv environment: shared-project-code / stage-specific / worktree-specific / unknown
+- `UV_PROJECT_ENVIRONMENT`:
+- Exception reason if not shared: dependency change / Python-CUDA stack / destructive package test / concurrent sync risk / other
+
 ## Latest Reliable State
 
 - Summary:

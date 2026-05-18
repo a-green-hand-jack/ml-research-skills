@@ -47,6 +47,7 @@ Default shape:
 ├── code/                  # independent Python/ML git repo
 ├── code-worktrees/         # sibling worktree root for code repo branches
 ├── paper-worktrees/        # sibling worktree root for paper venue/arXiv/camera-ready versions
+├── .uv-envs/               # ignored shared uv environments for code repo/worktrees
 ├── reference/             # project-local sources, cards, processing state, and project-use notes
 ├── slides/                # optional independent git repo
 ├── reviewer/              # reviewer simulation state
@@ -81,6 +82,7 @@ code/docs/runs/            # run registry, job pointers, config and commit point
 - `paper/`, `code/`, and `slides/` are component repos, not mere folders.
 - The code component owns algorithm implementation, experiment execution, run records, result reports, server execution state, and code worktrees.
 - Code worktrees should not be nested inside `code/` by default. Use the sibling root `code-worktrees/` so Git, IDEs, search tools, and agents do not confuse worktrees with normal source files.
+- Code worktrees under the same project should share one code uv environment by default, e.g. `<ProjectName>/.uv-envs/code`, invoked through absolute `UV_PROJECT_ENVIRONMENT` and `uv run` from the active worktree. Create a separate stage environment only when dependencies, Python/CUDA stack, destructive package testing, or real concurrent sync risk requires it.
 - The paper component owns paper source, venue templates, submission modes, arXiv/public-source cleanup, camera-ready revisions, and paper worktrees.
 - The reference component owns project-local sources (papers, collaborator docs, notes, specs, scripts, bundles), source cards, processing state, project-use notes, and source-to-project handoffs.
 - Paper worktrees should not be nested inside `paper/` by default. Use the sibling root `paper-worktrees/` for venue retargeting, arXiv releases, rebuttal paper edits, and camera-ready branches.
@@ -117,6 +119,7 @@ Ask for these fields in one message:
 6. Worktree policy:
    - default sibling root: `<ProjectName>/code-worktrees/`
    - default paper sibling root: `<ProjectName>/paper-worktrees/`
+   - shared code uv environment path: default `<ProjectName>/.uv-envs/code`
    - server worktree root, if different
    - branch naming conventions, if any
    - paper source visibility policy:
@@ -148,6 +151,7 @@ Create:
 ├── reviewer/.agent/
 ├── rebuttal/.agent/
 ├── artifact/.agent/
+├── .uv-envs/
 ├── code-worktrees/
 └── paper-worktrees/
 ```
@@ -160,6 +164,7 @@ If root Git is enabled, initialize it at `<ProjectName>/` and add a root `.gitig
 /paper/
 /code/
 /slides/
+/.uv-envs/
 /code-worktrees/
 /paper-worktrees/
 ```
@@ -220,6 +225,7 @@ components:
     path: code
     worktree_root: code-worktrees
     worktree_index_path: code/.agent/worktree-index.md
+    shared_uv_environment: .uv-envs/code
     owns:
       - algorithm implementation
       - experiment execution
@@ -255,15 +261,15 @@ Record default toolchain gates in `memory/project.yaml`:
 toolchain_gates:
   policy: check-before-mutate
   code:
-    environment_check: "uv sync"
-    format_check: "uv run ruff format --check src tests experiments scripts"
-    lint_check: "uv run ruff check src tests experiments scripts"
-    type_check: "uv run mypy src"
-    test_check: "uv run pytest tests -v"
-    local_gate_runner: "uv run pre-commit run --all-files"
+    environment_check: "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv sync"
+    format_check: "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run ruff format --check src tests experiments scripts"
+    lint_check: "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run ruff check src tests experiments scripts"
+    type_check: "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run mypy src"
+    test_check: "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run pytest tests -v"
+    local_gate_runner: "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run pre-commit run --all-files"
     mutate_only_when_requested:
-      - "uv run ruff format src tests experiments scripts"
-      - "uv run ruff check --fix src tests experiments scripts"
+      - "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run ruff format src tests experiments scripts"
+      - "UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code uv run ruff check --fix src tests experiments scripts"
   optional_hygiene:
     secret_scan: "gitleaks dir --no-banner --redact ."
     shell_lint: "shellcheck jobs/*.sh scripts/*.sh"
@@ -322,7 +328,7 @@ The root guidance must state:
 - paper source visibility tiers are `agent-private`, `author-visible`, `anonymous-submission`, `public-preprint`, `camera-ready-public`, and `publisher-artifact`
 - if `paper/main` syncs to Overleaf through GitHub, it is `author-visible`; do not put `.agent/`, `AGENTS.md`, `CLAUDE.md`, raw CSVs, internal result docs, plotting scripts, reviewer strategy, or private paths into that visible source
 - if `tex-fmt` is installed, paper formatting gates use `tex-fmt --check --nowrap --recursive .`; run `tex-fmt --nowrap --recursive .` only when formatting is requested and review the diff before push/submission
-- code gates use `uv sync`, `uv run ruff format --check`, `uv run ruff check`, `uv run mypy src`, `uv run pytest tests -v`, and `uv run pre-commit run --all-files` unless the code repo documents an existing alternative
+- code gates use `uv sync`, `uv run ruff format --check`, `uv run ruff check`, `uv run mypy src`, `uv run pytest tests -v`, and `uv run pre-commit run --all-files` with `UV_PROJECT_ENVIRONMENT` pointing at the shared project-code env unless the code repo documents an existing alternative
 - optional hygiene gates include `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, `taplo`, `yamllint`, and `lychee` when the relevant files and tools exist
 - mutating format/fix commands such as `ruff format`, `ruff check --fix`, `shfmt -w`, `nbstripout` without `--dry-run`, and `tex-fmt` format mode require an explicit request or documented project policy, followed by diff review
 - root `docs/` is for project-level overviews, staged method designs, cross-component experiment plans, audits, timelines, and handoffs
@@ -374,7 +380,7 @@ code/docs/reports/
 code/docs/runs/
 ```
 
-When initializing or connecting a code repo, record its toolchain gates in `code/AGENTS.md`, `code/CLAUDE.md`, and `memory/project.yaml`. Default new-code gates are `uv sync`, `uv run ruff format --check src tests experiments scripts`, `uv run ruff check src tests experiments scripts`, `uv run mypy src`, `uv run pytest tests -v`, and `uv run pre-commit run --all-files`. If an existing repo already has CI, `pre-commit`, `black`, `isort`, `pyright`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, or custom commands, preserve and document those commands.
+When initializing or connecting a code repo, record its toolchain gates in `code/AGENTS.md`, `code/CLAUDE.md`, and `memory/project.yaml`. In a project-control-root layout, default new-code gates should run with `UV_PROJECT_ENVIRONMENT=<absolute-project-root>/.uv-envs/code` so `code/` and `code-worktrees/*` share the same dependency environment. Bare `uv sync` is fine only for standalone code repos or repos that explicitly choose per-worktree environments. If an existing repo already has CI, `pre-commit`, `black`, `isort`, `pyright`, `gitleaks`, `shellcheck`, `shfmt`, `actionlint`, `nbstripout`, or custom commands, preserve and document those commands.
 
 If connecting an existing code repo, do not force a full scaffold. Add missing high-value memory/docs paths only after reporting gaps.
 

@@ -127,9 +127,9 @@ components:
 id_counters:
   claim: 25
   evidence: 27
-  risk: 20
-  action: 40
-  decision: 27
+  risk: 21
+  action: 41
+  decision: 28
   provenance: 16
   handoff: 3
   visibility: 1
