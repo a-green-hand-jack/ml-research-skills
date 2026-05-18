@@ -71,7 +71,23 @@ Pair this skill with `research-project-memory` when server execution state shoul
 - Treat GitHub/GitLab API network access as separate from authentication: in sandboxed agent runtimes, `gh` may fail to reach `api.github.com` unless the command is rerun with network permission
 - Treat GitHub Projects as GitHub API operations, not Git remotes. `gh project ...` needs a token with the `project` scope; refresh it with `gh auth refresh -s project` before project-board commands when the scope is missing.
 - In project-control-root layouts, inspect root and component repos separately; `<ProjectName>/` and `<ProjectName>/code/` may be independent Git repos with different remotes and permissions
-- Avoid complex SSH double-quoted one-liners. Use project/user wrappers for repeated server commands; use `remote-cmd` for simple argv-style commands and `remote-bash` for project scripts or uploaded scripts.
+- Use `remote-cmd` for simple argv-style server commands and `remote-bash` for scripts, loops, or anything with shell syntax. See **Forbidden SSH Patterns** below.
+
+## Forbidden SSH Patterns
+
+Never compose these directly in the transcript or agent command output:
+
+| Anti-pattern | Use instead |
+|---|---|
+| `ssh <alias> "cd <path> && <cmd>"` | `remote-cmd <alias> <repo> -- <cmd>` |
+| `ssh <alias> "<cmd> $VAR"` (shell variable) | `remote-cmd <alias> <repo> -- <args>` |
+| `ssh <alias> "<cmd> \| <cmd>"` (pipe / loop / find / awk) | `remote-bash <alias> <repo> <script>` |
+| `ssh <alias> "<cmd1> ; <cmd2>"` (chained) | `remote-bash <alias> <repo> <script>` |
+| `ssh A "ssh B '<nested cmd>'"` (nested one-liner) | project-local `scripts/ops/` wrapper called via `remote-bash` |
+
+**Exception**: single-word no-argument commands with no shell syntax are fine (`ssh <alias> "pwd"`, `ssh <alias> "hostname"`).
+
+**Why**: local shell expands `$VAR`, `~`, globs, and quotes before the SSH command is sent, silently corrupting the intended server-side command. Wrappers quote correctly and keep the transcript clean.
 
 ## Memory Files
 
