@@ -65,6 +65,40 @@ Every skill invocation follows the same loop: read the current memory state, dec
 
 ![Core Architecture: Tool-Calling Loop](asset/tool-calling-loop.png)
 
+## Hierarchical Routing
+
+With 73 skills, flat selection causes agents to confuse closely related skills (e.g., `experiment-debugger` vs `result-diagnosis` vs `research-results-auditor`). This collection uses a two-level router hierarchy to prevent misrouting.
+
+### Router tree
+
+```
+ml-research-router  (root — use when domain is unclear)
+├── experiment-evidence-router   run/debug/results/stats/pivot
+├── paper-writing-router         write/edit/submit/rebuttal/citation
+├── discovery-router             idea/survey/references/corpus/synthesis
+└── project-ops-router           git/memory/remote/workspace/review/timeline
+```
+
+Each router also routes directly to high-signal **cross-cutting** leaf skills:
+- `ml-research-router` → `feedback-synthesizer`, `advisor-update-writer`, `rebuttal-strategist`, `research-slide-deck-builder`, `model-card-writer`, `release-code`, `artifact-evaluation-prep`, `algorithm-design-planner`
+
+### Usage rule
+
+| Situation | What to invoke |
+|---|---|
+| Domain is obvious (e.g., "my job is stuck in queue") | Go directly to the domain router (`experiment-evidence-router`) |
+| Domain is unclear or task is cross-cutting | Start at `ml-research-router` |
+| Leaf skill is known with certainty | Go directly to the leaf skill |
+
+### What routers do and don't do
+
+- **Do**: classify the task, read `references/route-table.md`, select one child skill, hand off with a one-sentence reason.
+- **Don't**: solve the task directly, chain through multiple routers, or default to a catch-all leaf.
+
+### Routing evals
+
+`tests/routing-evals.json` contains 25 regression tests. Each specifies `expected_path` (the ideal router chain), `should_trigger` (the correct leaf), and `should_not_trigger` (common wrong choices). Run `uv run scripts/validate_skill_taxonomy.py` to verify structural consistency.
+
 ## Skills
 
 | Skill | What it does |
