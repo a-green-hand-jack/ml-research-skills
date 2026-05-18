@@ -326,6 +326,7 @@ ml-research-skills/
 | `memory-publication-auditor` | Audit private skills, memories, notes, or logs before turning them into public skills, docs, templates, or reusable patterns |
 | `code-reviewer` | Run fresh-context code reviews from `.agent/code-reviews/` bundles using one-shot Codex/Claude Code reviewer sessions so core implementations can be audited without sharing the writer's chat context |
 | `data-pipeline-manager` | Manage ML dataset pipelines before training: acquire, preprocess, design train/val/test splits, audit data quality, check for contamination, and version datasets for reproducibility |
+| `experiment-evidence-router` | Route experiment planning, execution, debugging, result interpretation, and evidence packaging tasks to the correct skill. Use instead of guessing between run-experiment, run-status-monitor, experiment-debugger, result-diagnosis, research-results-auditor, or statistical-analysis-planner |
 | `experiment-debugger` | Debug ML experiment engineering failures: NaN/gradient issues, GPU OOM, slow training, data loading bugs, metric errors, and reproducibility failures — distinct from scientific result diagnosis |
 | `compute-budget-planner` | Estimate GPU compute costs before submitting ML experiments: size smoke tests, cost ablation matrices, find cheaper alternatives, and fit jobs to available resources |
 | `experiment-design-planner` | Design hypothesis-driven experiments with baselines, ablations, metrics, controls, logging, and stop conditions before running |
